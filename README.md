@@ -1,4 +1,4 @@
 GeoMarket_Backend
 =================
 
-Backend för geomarket application
+Backend för geomarket application. Här kommer all magi ske.
