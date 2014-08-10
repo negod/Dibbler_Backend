@@ -17,6 +17,7 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -38,6 +39,7 @@ public class Movement extends Model {
 	private Long id;
 
 	@Constraints.Required
+	@NotNull
 	@Column(name = "SESSION_ID")
 	private int sessionId;
 

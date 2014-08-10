@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -32,10 +33,12 @@ public class SessionEvent extends Model {
 	private Long id;
 
 	@Constraints.Required
+	@NotNull
 	@Column(name = "SESSION_ID")
 	private int sessionId;
 
 	@Constraints.Required
+	@NotNull
 	@Column(name = "EVENT_ID")
 	private int eventId;
 	

@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -34,20 +36,26 @@ public class EventType extends Model {
 	@Constraints.Required
 	@Constraints.MinLength(1)
 	@Constraints.MaxLength(20)
+	@NotNull
+    @Size(min = 1, max = 20)
 	@Column(name = "NAME_ENG")
 	private String nameEng;
 
 	@Constraints.Required
 	@Constraints.MinLength(1)
 	@Constraints.MaxLength(100)
+	@NotNull
+    @Size(min = 1, max = 100)
 	@Column(name = "DESCRIPTION_ENG")
 	private String descriptionEng;
 
 	@Constraints.MaxLength(20)
+	@Size(max = 20)
 	@Column(name = "NAME_SWE")
 	private String nameSwe;
 
 	@Constraints.MaxLength(100)
+	@Size(max = 100)
 	@Column(name = "DESCRIPTION_SWE")
 	private String descriptionSwe;
 	

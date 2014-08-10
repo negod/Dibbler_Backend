@@ -10,6 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -32,26 +34,29 @@ public class EventText extends Model {
 	private Long id;
 
 	@Constraints.Required
-	@Constraints.MinLength(1)
 	@Constraints.MaxLength(20)
-	@Column(name = "HEADING_ENG")
-	private String headingEng;
-
-	@Constraints.MaxLength(20)
+	@Size(max = 20)
+	@NotNull
 	@Column(name = "HEADING_SWE")
 	private String headingSwe;
 
 	@Constraints.Required
 	@Constraints.MinLength(1)
 	@Constraints.MaxLength(200)
+	@Size(max = 200)
+	@Column(name = "BODY_SWE")
+	private String bodySwe;
+
+	@Constraints.MaxLength(200)
+	@Size(min = 1, max = 200)
 	@Column(name = "BODY_ENG")
 	private String bodyEng;
 
-	@Constraints.MaxLength(200)
-	@Column(name = "BODY_SWE")
-	private String bodySwe;
-	
-	
+	@Constraints.MaxLength(20)
+	@Size(min = 1, max = 20)
+	@Column(name = "HEADING_ENG")
+	private String headingEng;
+
 	public static Finder<Long, EventText> find = new Finder<Long, EventText>(
 			Long.class, EventText.class);
 

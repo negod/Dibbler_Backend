@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -32,24 +34,30 @@ public class Setting extends Model {
 	private Long id;
 	
 	@Constraints.Required
+	@NotNull
 	@Column(name = "USER_ID")
 	private int userId;
 	
 	@Constraints.Required
+	@NotNull
 	@Column(name = "MAP_AS_DEFAULT")
 	private boolean mapAsDefault;
 	
 	@Constraints.Required
+	@NotNull
 	@Column(name = "FOLLOWONTOP")
 	private boolean followontop;
 	
 	@Constraints.Required
+	@NotNull
 	@Column(name = "ALLOW_PUSH")
 	private boolean allowPush;
 	
 	@Constraints.Required
 	@Constraints.MinLength(1)
 	@Constraints.MaxLength(3)
+	@NotNull
+    @Size(min = 1, max = 3)
 	@Column(name = "LANGUAGE")
 	private String language;
 	

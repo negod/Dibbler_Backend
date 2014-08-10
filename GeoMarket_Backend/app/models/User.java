@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -35,12 +37,16 @@ public class User extends Model {
 	@Constraints.Required
 	@Constraints.MinLength(1)
 	@Constraints.MaxLength(40)
+	@NotNull
+    @Size(min = 1, max = 40)
 	@Column(name = "USERNAME")
 	private String username;
 
 	@Constraints.Required
 	@Constraints.MinLength(1)
 	@Constraints.MaxLength(60)
+	@NotNull
+    @Size(min = 1, max = 60)
 	@Column(name = "EMAIL")
 	private String email;
 

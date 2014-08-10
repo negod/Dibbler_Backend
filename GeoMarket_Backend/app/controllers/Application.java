@@ -4,7 +4,7 @@ import java.util.List;
 
 import models.Category;
 import models.Company;
-import models.CompanyUsers;
+import models.CompanyUser;
 import models.Event;
 import models.EventText;
 import models.EventType;
@@ -39,7 +39,7 @@ public class Application extends Controller {
 	}
 
 	public static Result getAllCompanyUsers() {
-		List<CompanyUsers> companyUsers = CompanyUsers.find.all();
+		List<CompanyUser> companyUsers = CompanyUser.find.all();
 		return ok(Json.toJson(companyUsers));
 	}
 

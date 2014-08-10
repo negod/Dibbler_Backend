@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -33,14 +35,17 @@ public class FollowerEvent extends Model {
 	private Long id;
 
 	@Constraints.Required
+	@NotNull
 	@Column(name = "EVENT_ID")
 	private int eventId;
 
 	@Constraints.Required
+	@NotNull
 	@Column(name = "COMPANY_USER_ID")
 	private int companyUserId;
 
 	@Constraints.MaxLength(40)
+	@Size(max = 40)
 	@Column(name = "QR_CODE")
 	private String qrCode;
 

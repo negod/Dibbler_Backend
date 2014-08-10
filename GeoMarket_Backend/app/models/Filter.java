@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -32,6 +33,7 @@ public class Filter extends Model {
 	private Long id;
 
 	@Constraints.Required
+	@NotNull
 	@Column(name = "USER_ID")
 	private int userId;
 
@@ -45,6 +47,7 @@ public class Filter extends Model {
 	private Integer eventTypeId;
 
 	@Constraints.Required
+	@NotNull
 	@Column(name = "ACTIVE")
 	private boolean active;
 

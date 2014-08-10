@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -34,10 +36,13 @@ public class Role extends Model {
 	@Constraints.Required
 	@Constraints.MinLength(1)
 	@Constraints.MaxLength(30)
+	@NotNull
+    @Size(min = 1, max = 30)
 	@Column(name = "ROLE")
 	private String role;
 	
 	@Constraints.MaxLength(100)
+	@Size(max = 100)
 	@Column(name = "DESCRIPTION")
 	private String description;
 	

@@ -23,7 +23,7 @@ import play.db.ebean.Model;
 
 @Entity
 @Table(name = "company_user")
-public class CompanyUsers extends Model {
+public class CompanyUser extends Model {
 
 	private static final long serialVersionUID = -4313563197369460798L;
 
@@ -45,7 +45,7 @@ public class CompanyUsers extends Model {
 	private String followerReq;
 	
 	
-	public static Finder<Long, CompanyUsers> find = new Finder<Long, CompanyUsers>(
-			Long.class, CompanyUsers.class);
+	public static Finder<Long, CompanyUser> find = new Finder<Long, CompanyUser>(
+			Long.class, CompanyUser.class);
 
 }

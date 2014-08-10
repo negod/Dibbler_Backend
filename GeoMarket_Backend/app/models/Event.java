@@ -4,7 +4,7 @@
  */
 package models;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,11 +12,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
-
-import com.avaje.ebean.annotation.CreatedTimestamp;
 
 /**
  * 
@@ -35,49 +37,58 @@ public class Event extends Model {
 	private Long id;
 
 	@Constraints.Required
+	@NotNull
 	@Column(name = "COMPANY_ID")
 	private int companyId;
 
 	@Constraints.Required
+	@NotNull
 	@Column(name = "CATEGORY_ID")
 	private int categoryId;
 
 	@Constraints.Required
+	@NotNull
 	@Column(name = "EVENT_TYPE_ID")
 	private int eventTypeId;
 
 	@Constraints.Required
+	@NotNull
 	@Column(name = "EVENT_TEXT_ID")
 	private int eventTextId;
 
 	@Constraints.Required
+	@NotNull
 	@Column(name = "STARTDATE")
-	@CreatedTimestamp
-	private Timestamp startdate;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date startdate;
 
 	@Constraints.Required
+	@NotNull
 	@Column(name = "ENDDATE")
-	@CreatedTimestamp
-	private Timestamp enddate;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date enddate;
 
 	@Constraints.MaxLength(120)
+	@Size(max = 120)
 	@Column(name = "IMAGE")
 	private String image;
 
 	@Constraints.Required
 	@Constraints.MinLength(1)
 	@Constraints.MaxLength(38)
+	@NotNull
+    @Size(min = 1, max = 38)
 	@Column(name = "QR_CODE")
 	private String qrCode;
 
 	@Constraints.Required
+	@NotNull
 	@Column(name = "QR_STAT")
 	private int qrStat;
 
 	@Column(name = "MAX_REDEEM")
 	private Integer maxRedeem;
-	
-	
+
 	public static Finder<Long, Event> find = new Finder<Long, Event>(
 			Long.class, Event.class);
 
