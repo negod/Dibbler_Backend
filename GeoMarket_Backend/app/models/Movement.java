@@ -8,16 +8,17 @@ package models;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -38,10 +39,8 @@ public class Movement extends Model {
 	@Column(name = "ID")
 	private Long id;
 
-	@Constraints.Required
-	@NotNull
-	@Column(name = "SESSION_ID")
-	private int sessionId;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Session session;
 
 	@Constraints.Required
 	@Column(name = "DATETIME")
@@ -52,7 +51,39 @@ public class Movement extends Model {
 	@Lob
 	@Column(name = "GEOM")
 	private byte[] geom;
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Session getSession() {
+		return session;
+	}
+
+	public void setSession(Session session) {
+		this.session = session;
+	}
+
+	public Date getDatetime() {
+		return datetime;
+	}
+
+	public void setDatetime(Date datetime) {
+		this.datetime = datetime;
+	}
+
+	public byte[] getGeom() {
+		return geom;
+	}
+
+	public void setGeom(byte[] geom) {
+		this.geom = geom;
+	}
+
 	public static Finder<Long, Movement> find = new Finder<Long, Movement>(
 			Long.class, Movement.class);
 

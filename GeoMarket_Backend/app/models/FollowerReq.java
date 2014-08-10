@@ -42,7 +42,7 @@ public class FollowerReq extends Model {
 	@Constraints.MinLength(1)
 	@Constraints.MaxLength(40)
 	@NotNull
-    @Size(min = 1, max = 40)
+	@Size(min = 1, max = 40)
 	@Column(name = "NAME_ENG")
 	private String nameEng;
 
@@ -50,7 +50,39 @@ public class FollowerReq extends Model {
 	@Size(max = 40)
 	@Column(name = "NAME_SWE")
 	private String nameSwe;
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public boolean isMandatory() {
+		return mandatory;
+	}
+
+	public void setMandatory(boolean mandatory) {
+		this.mandatory = mandatory;
+	}
+
+	public String getNameEng() {
+		return nameEng;
+	}
+
+	public void setNameEng(String nameEng) {
+		this.nameEng = nameEng;
+	}
+
+	public String getNameSwe() {
+		return nameSwe;
+	}
+
+	public void setNameSwe(String nameSwe) {
+		this.nameSwe = nameSwe;
+	}
+
 	public static Finder<Long, FollowerReq> find = new Finder<Long, FollowerReq>(
 			Long.class, FollowerReq.class);
 

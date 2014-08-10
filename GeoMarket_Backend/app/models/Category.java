@@ -27,10 +27,10 @@ public class Category extends Model {
 	@Id
 	@Column(name = "ID")
 	private Long id;
-	
+
 	@Column(name = "NAME_ENG")
 	private String nameEnglish;
-	
+
 	@Column(name = "NAME_SWE")
 	private String nameSwedish;
 

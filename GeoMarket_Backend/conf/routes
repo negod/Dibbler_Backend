@@ -2,10 +2,16 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Gets all categories
 
+# DEFAULT
 GET		/							controllers.Application.index()
 
+# EVENTS
+
+GET		/v1/events					controllers.v1.EventService.getEvents(lat: Int, lon: Int)
+
+
+# Get all of everything (Just test so see its working)
 GET     /categories                 controllers.Application.getAllCategories()
 GET     /companies                  controllers.Application.getAllCompanies()
 GET     /companyUsers               controllers.Application.getAllCompanyUsers()
@@ -18,10 +24,8 @@ GET     /followerReqs               controllers.Application.getAllFollowerReq()
 GET     /movements                  controllers.Application.getAllMovements()
 GET     /roles                      controllers.Application.getAllRoles()
 GET     /sessions                   controllers.Application.getAllSessions()
-GET     /sessionEvents              controllers.Application.getAllSettings()
 GET     /settings       	        controllers.Application.getAllSettings()
 GET     /users    		            controllers.Application.getAllUsers()
-GET     /userRoles                  controllers.Application.getAllUserRoles()
 
 
 # Map static resources from the /public folder to the /assets URL path

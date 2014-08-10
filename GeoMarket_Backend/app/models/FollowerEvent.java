@@ -51,7 +51,47 @@ public class FollowerEvent extends Model {
 
 	@Column(name = "REDEEMED")
 	private Boolean redeemed;
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public int getEventId() {
+		return eventId;
+	}
+
+	public void setEventId(int eventId) {
+		this.eventId = eventId;
+	}
+
+	public int getCompanyUserId() {
+		return companyUserId;
+	}
+
+	public void setCompanyUserId(int companyUserId) {
+		this.companyUserId = companyUserId;
+	}
+
+	public String getQrCode() {
+		return qrCode;
+	}
+
+	public void setQrCode(String qrCode) {
+		this.qrCode = qrCode;
+	}
+
+	public Boolean getRedeemed() {
+		return redeemed;
+	}
+
+	public void setRedeemed(Boolean redeemed) {
+		this.redeemed = redeemed;
+	}
+
 	public static Finder<Long, FollowerEvent> find = new Finder<Long, FollowerEvent>(
 			Long.class, FollowerEvent.class);
 

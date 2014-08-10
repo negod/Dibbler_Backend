@@ -37,7 +37,7 @@ public class EventType extends Model {
 	@Constraints.MinLength(1)
 	@Constraints.MaxLength(20)
 	@NotNull
-    @Size(min = 1, max = 20)
+	@Size(min = 1, max = 20)
 	@Column(name = "NAME_ENG")
 	private String nameEng;
 
@@ -45,7 +45,7 @@ public class EventType extends Model {
 	@Constraints.MinLength(1)
 	@Constraints.MaxLength(100)
 	@NotNull
-    @Size(min = 1, max = 100)
+	@Size(min = 1, max = 100)
 	@Column(name = "DESCRIPTION_ENG")
 	private String descriptionEng;
 
@@ -58,7 +58,47 @@ public class EventType extends Model {
 	@Size(max = 100)
 	@Column(name = "DESCRIPTION_SWE")
 	private String descriptionSwe;
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNameEng() {
+		return nameEng;
+	}
+
+	public void setNameEng(String nameEng) {
+		this.nameEng = nameEng;
+	}
+
+	public String getDescriptionEng() {
+		return descriptionEng;
+	}
+
+	public void setDescriptionEng(String descriptionEng) {
+		this.descriptionEng = descriptionEng;
+	}
+
+	public String getNameSwe() {
+		return nameSwe;
+	}
+
+	public void setNameSwe(String nameSwe) {
+		this.nameSwe = nameSwe;
+	}
+
+	public String getDescriptionSwe() {
+		return descriptionSwe;
+	}
+
+	public void setDescriptionSwe(String descriptionSwe) {
+		this.descriptionSwe = descriptionSwe;
+	}
+
 	public static Finder<Long, EventType> find = new Finder<Long, EventType>(
 			Long.class, EventType.class);
 

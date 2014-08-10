@@ -14,10 +14,8 @@ import models.FollowerReq;
 import models.Movement;
 import models.Role;
 import models.Session;
-import models.SessionEvent;
 import models.Setting;
 import models.User;
-import models.UserRole;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -87,12 +85,7 @@ public class Application extends Controller {
 		List<Session> sessions = Session.find.all();
 		return ok(Json.toJson(sessions));
 	}
-
-	public static Result getAllSessionEvents() {
-		List<SessionEvent> sessionEvents = SessionEvent.find.all();
-		return ok(Json.toJson(sessionEvents));
-	}
-
+	
 	public static Result getAllSettings() {
 		List<Setting> settings = Setting.find.all();
 		return ok(Json.toJson(settings));
@@ -103,9 +96,5 @@ public class Application extends Controller {
 		return ok(Json.toJson(users));
 	}
 
-	public static Result getAllUserRoles() {
-		List<UserRole> userRoles = UserRole.find.all();
-		return ok(Json.toJson(userRoles));
-	}
 
 }

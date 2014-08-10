@@ -57,6 +57,50 @@ public class EventText extends Model {
 	@Column(name = "HEADING_ENG")
 	private String headingEng;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getHeadingSwe() {
+		return headingSwe;
+	}
+
+	public void setHeadingSwe(String headingSwe) {
+		this.headingSwe = headingSwe;
+	}
+
+	public String getBodySwe() {
+		return bodySwe;
+	}
+
+	public void setBodySwe(String bodySwe) {
+		this.bodySwe = bodySwe;
+	}
+
+	public String getBodyEng() {
+		return bodyEng;
+	}
+
+	public void setBodyEng(String bodyEng) {
+		this.bodyEng = bodyEng;
+	}
+
+	public String getHeadingEng() {
+		return headingEng;
+	}
+
+	public void setHeadingEng(String headingEng) {
+		this.headingEng = headingEng;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	public static Finder<Long, EventText> find = new Finder<Long, EventText>(
 			Long.class, EventText.class);
 
