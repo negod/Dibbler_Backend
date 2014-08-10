@@ -4,45 +4,81 @@
  */
 package models;
 
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
+import com.avaje.ebean.annotation.CreatedTimestamp;
+
+/**
+ * 
+ * @author Joakikm Johansson (joakimjohansson@outlook.com)
+ */
+
+@Entity
+@Table(name = "event")
 public class Event extends Model {
+
+	private static final long serialVersionUID = -6426827362089475472L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
-	private Integer id;
-	@NotNull
+	private Long id;
+
+	@Constraints.Required
 	@Column(name = "COMPANY_ID")
 	private int companyId;
-	@NotNull
+
+	@Constraints.Required
 	@Column(name = "CATEGORY_ID")
 	private int categoryId;
-	@NotNull
+
+	@Constraints.Required
 	@Column(name = "EVENT_TYPE_ID")
 	private int eventTypeId;
-	@NotNull
+
+	@Constraints.Required
 	@Column(name = "EVENT_TEXT_ID")
 	private int eventTextId;
-	@NotNull
+
+	@Constraints.Required
 	@Column(name = "STARTDATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date startdate;
-	@NotNull
+	@CreatedTimestamp
+	private Timestamp startdate;
+
+	@Constraints.Required
 	@Column(name = "ENDDATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date enddate;
-	@Size(max = 120)
+	@CreatedTimestamp
+	private Timestamp enddate;
+
+	@Constraints.MaxLength(120)
 	@Column(name = "IMAGE")
 	private String image;
-	@NotNull
-	@Size(min = 1, max = 38)
+
+	@Constraints.Required
+	@Constraints.MinLength(1)
+	@Constraints.MaxLength(38)
 	@Column(name = "QR_CODE")
 	private String qrCode;
-	@NotNull
+
+	@Constraints.Required
 	@Column(name = "QR_STAT")
 	private int qrStat;
+
 	@Column(name = "MAX_REDEEM")
 	private Integer maxRedeem;
+	
+	
+	public static Finder<Long, Event> find = new Finder<Long, Event>(
+			Long.class, Event.class);
 
 }

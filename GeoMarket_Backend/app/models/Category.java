@@ -13,6 +13,11 @@ import javax.persistence.Table;
 
 import play.db.ebean.Model;
 
+/**
+ * 
+ * @author Joakikm Johansson (joakimjohansson@outlook.com)
+ */
+
 @Entity
 @Table(name = "category")
 public class Category extends Model {
@@ -22,8 +27,10 @@ public class Category extends Model {
 	@Id
 	@Column(name = "ID")
 	private Long id;
+	
 	@Column(name = "NAME_ENG")
 	private String nameEnglish;
+	
 	@Column(name = "NAME_SWE")
 	private String nameSwedish;
 

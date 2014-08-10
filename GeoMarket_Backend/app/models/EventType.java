@@ -5,27 +5,53 @@
  */
 package models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
+/**
+ * 
+ * @author Joakikm Johansson (joakimjohansson@outlook.com)
+ */
+
+@Entity
+@Table(name = "event_type")
 public class EventType extends Model {
 
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@NotNull
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
-	private Integer id;
-	@NotNull
-	@Size(min = 1, max = 20)
+	private Long id;
+
+	@Constraints.Required
+	@Constraints.MinLength(1)
+	@Constraints.MaxLength(20)
 	@Column(name = "NAME_ENG")
 	private String nameEng;
-	@NotNull
-	@Size(min = 1, max = 100)
+
+	@Constraints.Required
+	@Constraints.MinLength(1)
+	@Constraints.MaxLength(100)
 	@Column(name = "DESCRIPTION_ENG")
 	private String descriptionEng;
-	@Size(max = 20)
+
+	@Constraints.MaxLength(20)
 	@Column(name = "NAME_SWE")
 	private String nameSwe;
-	@Size(max = 100)
+
+	@Constraints.MaxLength(100)
 	@Column(name = "DESCRIPTION_SWE")
 	private String descriptionSwe;
+	
+	public static Finder<Long, EventType> find = new Finder<Long, EventType>(
+			Long.class, EventType.class);
 
 }

@@ -6,9 +6,11 @@
 package models;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -18,12 +20,16 @@ import play.db.ebean.Model;
 * @author Joakikm Johansson (joakimjohansson@outlook.com)
 */
 
+@Entity
+@Table(name = "setting")
 public class Setting extends Model {
+	
+	private static final long serialVersionUID = -4592697686166860695L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
-	private Integer id;
+	private Long id;
 	
 	@Constraints.Required
 	@Column(name = "USER_ID")
@@ -46,5 +52,8 @@ public class Setting extends Model {
 	@Constraints.MaxLength(3)
 	@Column(name = "LANGUAGE")
 	private String language;
+	
+	public static Finder<Long, Setting> find = new Finder<Long, Setting>(
+			Long.class, Setting.class);
 
 }

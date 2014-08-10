@@ -6,18 +6,40 @@
 
 package models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
+/**
+*
+* @author Joakikm Johansson (joakimjohansson@outlook.com)
+*/
+
+@Entity
+@Table(name = "session")
 public class Session extends Model {
 
+	private static final long serialVersionUID = 4977528395807182928L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
-	private Integer id;
+	private Long id;
+
 	@Column(name = "USER_ID")
 	private Integer userId;
-	@Size(max = 40)
+	
+	@Constraints.MaxLength(40)
 	@Column(name = "DEVICE_ID")
 	private String deviceId;
+	
+	public static Finder<Long, Session> find = new Finder<Long, Session>(
+			Long.class, Session.class);
 
 }
