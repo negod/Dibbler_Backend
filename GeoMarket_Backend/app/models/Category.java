@@ -1,3 +1,9 @@
+/**
+ * This conatins categories for the types of Events that
+ * is created and published. 
+ * Has linguistic support for English and Swedish but can be expanded
+ */
+
 package models;
 
 import javax.persistence.Column;

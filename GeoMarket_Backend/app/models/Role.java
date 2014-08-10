@@ -1,3 +1,8 @@
+/**
+ * Role has predefined roles that a user can have. 
+ * One user can have more tha one role.
+ */
+
 package models;
 
 import play.db.ebean.Model;

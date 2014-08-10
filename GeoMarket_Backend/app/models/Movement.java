@@ -1,3 +1,9 @@
+/**
+ * Movement saves the positions that are delivered
+ * together with a request. All movements corralates to a session.
+ * The corralation is because we eant to trace not registered users.
+ */
+
 package models;
 
 import play.db.ebean.Model;

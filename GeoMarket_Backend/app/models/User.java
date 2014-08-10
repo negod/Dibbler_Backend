@@ -1,15 +1,23 @@
+/**
+ * Contains information about our registered users.
+ * Table contains web and "native app" users.
+ * A user must have a role
+ */
+
 package models;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Size;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
+/**
+*
+* @author Joakikm Johansson (joakimjohansson@outlook.com)
+*/
 
 public class User extends Model {
 

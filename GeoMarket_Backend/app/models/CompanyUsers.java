@@ -1,8 +1,14 @@
+/**
+ * This is a relation between a Company and User.
+ * Every User/Role combination kan attach one or more companies.
+ * One UserRole is restricted to a specific company.
+ * One Person with different roles can have one company per role
+ */
 package models;
 
 import play.db.ebean.Model;
 
-public class CompanyUser extends Model {
+public class CompanyUsers extends Model {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

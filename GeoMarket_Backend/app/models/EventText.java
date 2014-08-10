@@ -1,3 +1,8 @@
+/**
+ * This contains the text for an event. 
+ * has linguistic support for Swedish and Englis but can be expanded.
+ * 
+ */
 package models;
 
 import play.db.ebean.Model;

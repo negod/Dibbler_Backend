@@ -1,3 +1,9 @@
+/**
+ * This is a relation between CompanyUser and Event.
+ * Is used when an explicit offer to the followers is created.
+ * In this case one FolloweEvent is created for each user.
+ * A QR code (GUID) can also be generated in theese cases
+ */
 package models;
 
 import play.db.ebean.Model;

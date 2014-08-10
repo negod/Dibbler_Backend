@@ -1,3 +1,8 @@
+/**
+ * This contains categories for the type of events that is 
+ * created and published. Har linguistic support for swedish and
+ * English but can expand.
+ */
 package models;
 
 import play.db.ebean.Model;

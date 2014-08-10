@@ -1,3 +1,9 @@
+/**
+ * Session keeps track on the users movements and which
+ * events that have been delivered to unregistered users.
+ * A session must have an ID but not a User (Registered User)
+ */
+
 package models;
 
 import play.db.ebean.Model;

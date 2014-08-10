@@ -1,3 +1,9 @@
+/**
+ * This contains information demands/wishes that a company
+ * can demand on a follower that wants to follow the company.
+ * For example loyalty programs. Has language support that can be extended
+ */
+
 package models;
 
 import play.db.ebean.Model;
