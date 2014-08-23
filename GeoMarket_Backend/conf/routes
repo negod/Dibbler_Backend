@@ -8,7 +8,7 @@ GET		/							controllers.Application.index()
 
 # EVENTS
 
-GET		/v1/events					controllers.v1.EventService.getEvents(lat: Int, lon: Int)
+GET		/v1/events					controllers.v1.EventService.getEvents(lat: Int, lon: Int, lang: String)
 
 
 # Get all of everything (Just test so see its working)

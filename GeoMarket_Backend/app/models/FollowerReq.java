@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 /**
@@ -34,19 +33,15 @@ public class FollowerReq extends Model {
 	@Column(name = "ID")
 	private Long id;
 
-	@Constraints.Required
+	@NotNull
 	@Column(name = "MANDATORY")
 	private boolean mandatory;
 
-	@Constraints.Required
-	@Constraints.MinLength(1)
-	@Constraints.MaxLength(40)
 	@NotNull
 	@Size(min = 1, max = 40)
 	@Column(name = "NAME_ENG")
 	private String nameEng;
 
-	@Constraints.MaxLength(40)
 	@Size(max = 40)
 	@Column(name = "NAME_SWE")
 	private String nameSwe;

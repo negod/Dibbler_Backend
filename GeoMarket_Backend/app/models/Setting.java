@@ -50,9 +50,6 @@ public class Setting extends Model {
 	@Column(name = "ALLOW_PUSH")
 	private boolean allowPush;
 
-	@Constraints.Required
-	@Constraints.MinLength(1)
-	@Constraints.MaxLength(3)
 	@NotNull
 	@Size(min = 1, max = 3)
 	@Column(name = "LANGUAGE")

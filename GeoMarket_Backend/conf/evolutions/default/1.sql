@@ -20,7 +20,7 @@ create table company (
   STATE                     varchar(20),
   COUNTRY                   varchar(3) not null,
   POSTALCODE                varchar(10) not null,
-  LOCATION                  longblob not null,
+  LOCATION                  longblob,
   parentcompany_ID          bigint,
   followe_request_ID        bigint,
   constraint pk_company primary key (ID))
@@ -37,6 +37,7 @@ create table company_user (
 
 create table event (
   ID                        bigint auto_increment not null,
+  external_id               varchar(255) not null,
   company_ID                bigint,
   category_ID               bigint,
   event_type_ID             bigint,
@@ -44,8 +45,7 @@ create table event (
   STARTDATE                 datetime not null,
   ENDDATE                   datetime not null,
   IMAGE                     varchar(120),
-  QR_CODE                   varchar(38) not null,
-  QR_STAT                   integer not null,
+  QR_CODE                   varchar(38),
   MAX_REDEEM                integer,
   constraint pk_event primary key (ID))
 ;
@@ -89,7 +89,7 @@ create table follower_event (
 
 create table follower_req (
   ID                        bigint auto_increment not null,
-  MANDATORY                 tinyint(1) default 0,
+  MANDATORY                 tinyint(1) default 0 not null,
   NAME_ENG                  varchar(40) not null,
   NAME_SWE                  varchar(40),
   constraint pk_follower_req primary key (ID))

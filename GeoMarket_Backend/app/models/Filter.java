@@ -16,7 +16,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 /**
@@ -35,7 +34,6 @@ public class Filter extends Model {
 	@Column(name = "ID")
 	private Long id;
 
-	@Constraints.Required
 	@NotNull
 	@ManyToOne
 	private User user;
@@ -52,7 +50,6 @@ public class Filter extends Model {
 	@OneToOne(cascade = CascadeType.ALL)
 	private EventType eventType;
 
-	@Constraints.Required
 	@NotNull
 	@Column(name = "ACTIVE")
 	private boolean active;

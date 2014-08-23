@@ -16,8 +16,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
-import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 /**
@@ -35,24 +33,21 @@ public class CompanyUser extends Model {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private Long id;
-	
+
 	@OneToOne
 	private User user;
-	
+
 	@OneToOne
 	private Role role;
 
-	@Constraints.Required
 	@NotNull
 	@Column(name = "COMPANY_ID")
 	private int companyId;
 
-	@Constraints.MaxLength(20)
 	@Size(max = 20)
 	@Column(name = "FOLLOWER_REQ")
 	private String followerReq;
-	
-	
+
 	public static Finder<Long, CompanyUser> find = new Finder<Long, CompanyUser>(
 			Long.class, CompanyUser.class);
 

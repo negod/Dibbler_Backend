@@ -7,6 +7,7 @@ package models;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,13 +17,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 /**
@@ -36,56 +37,53 @@ public class Event extends Model {
 
 	private static final long serialVersionUID = -6426827362089475472L;
 
+	@PrePersist
+	public void prePersist() {
+		externalId = UUID.randomUUID().toString();
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private Long id;
 
-	// @Column(name = "COMPANY_ID" )
+	@NotNull
+	private String externalId;
+
 	@OneToOne(cascade = CascadeType.ALL)
 	private Company company;
 
-	// @Column(name = "CATEGORY_ID")
 	@OneToOne(cascade = CascadeType.ALL)
 	private Category category;
 
-	// @Column(name = "EVENT_TYPE_ID")
 	@OneToOne(cascade = CascadeType.ALL)
 	private EventType eventType;
 
-	// @Column(name = "EVENT_TEXT_ID")
 	@OneToOne(cascade = CascadeType.ALL)
 	private EventText eventText;
 
-	@Constraints.Required
 	@NotNull
 	@Column(name = "STARTDATE")
 	@Temporal(TemporalType.DATE)
 	private Timestamp startdate;
 
-	@Constraints.Required
 	@NotNull
 	@Column(name = "ENDDATE")
 	@Temporal(TemporalType.DATE)
 	private Timestamp enddate;
 
-	@Constraints.MaxLength(120)
 	@Size(max = 120)
 	@Column(name = "IMAGE")
 	private String image;
 
-	@Constraints.Required
-	@Constraints.MinLength(1)
-	@Constraints.MaxLength(38)
-	@NotNull
+	// @NotNull
 	@Size(min = 1, max = 38)
 	@Column(name = "QR_CODE")
 	private String qrCode;
 
-	@Constraints.Required
-	@NotNull
-	@Column(name = "QR_STAT")
-	private int qrStat;
+	// @NotNull
+	// @Column(name = "QR_STAT")
+	// private int qrStat;
 
 	@Column(name = "MAX_REDEEM")
 	private Integer maxRedeem;
@@ -99,6 +97,14 @@ public class Event extends Model {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getExternalId() {
+		return externalId;
+	}
+
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
 	}
 
 	public Company getCompany() {
@@ -165,13 +171,11 @@ public class Event extends Model {
 		this.qrCode = qrCode;
 	}
 
-	public int getQrStat() {
-		return qrStat;
-	}
-
-	public void setQrStat(int qrStat) {
-		this.qrStat = qrStat;
-	}
+	/*
+	 * public int getQrStat() { return qrStat; }
+	 * 
+	 * public void setQrStat(int qrStat) { this.qrStat = qrStat; }
+	 */
 
 	public Integer getMaxRedeem() {
 		return maxRedeem;

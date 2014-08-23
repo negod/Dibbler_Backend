@@ -41,33 +41,21 @@ public class User extends Model {
 	@Column(name = "ID")
 	private Long id;
 
-	@Constraints.Required
-	@Constraints.MinLength(1)
-	@Constraints.MaxLength(40)
 	@NotNull
 	@Size(min = 1, max = 40)
 	@Column(name = "USERNAME")
 	private String username;
 
-	@Constraints.Required
-	@Constraints.MinLength(1)
-	@Constraints.MaxLength(60)
 	@NotNull
 	@Size(min = 1, max = 60)
 	@Column(name = "EMAIL")
 	private String email;
 
-	@Constraints.Required
-	@Constraints.MinLength(1)
-	@Constraints.MaxLength(128)
 	@NotNull
 	@Size(min = 1, max = 128)
 	@Column(name = "PASSWORD")
 	private String password;
 
-	@Constraints.Required
-	@Constraints.MinLength(1)
-	@Constraints.MaxLength(128)
 	@NotNull
 	@Size(min = 1, max = 128)
 	@Column(name = "SALT")
@@ -83,15 +71,11 @@ public class User extends Model {
 	@Column(name = "FACEBOOK_ID")
 	private String facebookId;
 
-	@Constraints.Required
-	@Constraints.MinLength(1)
-	@Constraints.MaxLength(1)
 	@NotNull
 	@Size(min = 1, max = 1)
 	@Column(name = "GENDER")
 	private String gender;
 
-	@Constraints.Required
 	@NotNull
 	@Column(name = "AGE")
 	private int age;
