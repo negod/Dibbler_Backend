@@ -1,5 +1,7 @@
 package dto;
 
+
+
 public class EventDto {
 
 	private static final long serialVersionUID = -6426827362089475472L;
@@ -9,7 +11,7 @@ public class EventDto {
 	private Long expires;
 	private String companyName;
 	private String eventType;
-	
+	private Point location;
 
 	public String getId() {
 		return id;
@@ -49,6 +51,14 @@ public class EventDto {
 
 	public void setEventType(String eventType) {
 		this.eventType = eventType;
+	}
+
+	public Point getLocation() {
+		return location;
+	}
+
+	public void setLocation(Point point) {
+		this.location = point;
 	}
 
 }

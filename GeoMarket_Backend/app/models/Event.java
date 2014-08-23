@@ -192,6 +192,7 @@ public class Event extends Model {
 	public void setSessions(List<Session> sessions) {
 		this.sessions = sessions;
 	}
+	
 
 	public static Finder<Long, Event> find = new Finder<Long, Event>(
 			Long.class, Event.class);

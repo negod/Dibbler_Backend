@@ -1,4 +1,4 @@
-package mapper;
+package mapper.event;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +41,9 @@ public class EventMapper {
 
 	private String getCorrectEventTypeText(EventType eventType, Language lang) {
 		switch (lang) {
-		case ENG:
+		case EN:
 			return eventType.getNameEng();
-		case SWE:
+		case SE:
 			return eventType.getNameSwe();
 		default:
 			return eventType.getDescriptionEng();
@@ -54,9 +54,9 @@ public class EventMapper {
 	private String getCorrectCategoryText(Category cat, Language lang) {
 
 		switch (lang) {
-		case ENG:
+		case EN:
 			return cat.getNameEnglish();
-		case SWE:
+		case SE:
 			return cat.getNameSwedish();
 		default:
 			return cat.getNameEnglish();

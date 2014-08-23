@@ -80,7 +80,6 @@ public class Company extends Model {
 	@Column(name = "LOCATION")
 	private byte[] location;
 
-	
 	@Column(name = "PARENTCOMPANY")
 	@OneToOne(cascade = CascadeType.ALL)
 	private Company parentcompany;
