@@ -1,0 +1,1 @@
+INSERT INTO `geomarket`.`event` (`company_ID`, `category_ID`, `event_type_ID`, `event_text_ID`, `STARTDATE`, `ENDDATE`) VALUES ('1', '1', '1', '1', '2014-01-01 09:00:00', '2014-12-20 20:20:00');
