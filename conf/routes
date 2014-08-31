@@ -7,13 +7,15 @@
 GET		/							controllers.Application.index()
 
 # EVENTS
-
 GET		/v1/events					controllers.v1.EventService.getEvents(lat: Double, lon: Double, radius: Int, lang: String)
 GET		/v1/event/:id				controllers.v1.EventService.getEventById(id: String, lang: String)
 
+#Categories
+GET     /categories                 controllers.v1.CategoryService.getAllCategories(lang: String)
+
 
 # Get all of everything (Just test so see its working)
-GET     /categories                 controllers.Application.getAllCategories()
+
 GET     /companies                  controllers.Application.getAllCompanies()
 GET     /companyUsers               controllers.Application.getAllCompanyUsers()
 GET     /events                     controllers.Application.getAllEvents()

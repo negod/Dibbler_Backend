@@ -18,8 +18,7 @@ public class EventService extends Controller {
 	public static Result getEvents(Double lat, Double lon, Integer radius,
 			String language) {
 
-		Logger.info("[GetEvents: lat =  " + lat + "  lon = " + lon
-				+ " language =  " + language + "]");
+		Logger.info("[GetEvents: lat =  " + lat + "  lon = " + lon	+ " language =  " + language + "]");
 		Language lang;
 		try {
 			lang = Language.valueOf(language);
@@ -30,8 +29,7 @@ public class EventService extends Controller {
 		List<Event> events = Event.find.all();
 
 		if (!events.isEmpty()) {
-			List<EventDto> eventDtos = EventMapper.getInstance().mapList(
-					events, lang);
+			List<EventDto> eventDtos = EventMapper.getInstance().mapToDtoList(events, lang);
 
 			eventDtos.get(0).setLocation(new Point(11.972394, 7.709976));
 			eventDtos.get(1).setLocation(new Point(11.972394, 57.709976));
@@ -44,8 +42,7 @@ public class EventService extends Controller {
 	}
 
 	public static Result getEventById(String id, String language) {
-		Logger.info("[GetEventById : id =  " + id + " language =  " + language
-				+ "]");
+		Logger.info("[GetEventById : id =  " + id + " language =  " + language	+ "]");
 
 		Language lang = Language.valueOf(language);
 		Event event = Event.find.where().like("external_id", id).findUnique();

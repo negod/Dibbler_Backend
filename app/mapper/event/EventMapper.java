@@ -1,15 +1,13 @@
 package mapper.event;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import mapper.GenericMapperLang;
 import models.Category;
 import models.Event;
 import models.EventType;
 import constants.Language;
 import dto.EventDto;
 
-public class EventMapper {
+public class EventMapper extends GenericMapperLang<Event, EventDto> {
 
 	private static final EventMapper instance = new EventMapper();
 
@@ -21,22 +19,21 @@ public class EventMapper {
 		return instance;
 	}
 
-	public List<EventDto> mapList(List<Event> entityList, Language lang) {
-		List<EventDto> dtoList = new ArrayList<EventDto>();
-		for (Event event : entityList) {
-			dtoList.add(entityToDto(event, lang));
-		}
-		return dtoList;
+	@Override
+	public EventDto mapToDto(Event entity, Language lang) {
+		EventDto dto = new EventDto();
+		dto.setCategory(getCorrectCategoryText(entity.getCategory(), lang));
+		dto.setCompanyName(entity.getCompany().getCompanyName());
+		dto.setExpires(entity.getEnddate().getTime());
+		dto.setEventType(getCorrectEventTypeText(entity.getEventType(), lang));
+		dto.setId(entity.getExternalId());
+		return dto;
 	}
 
-	public EventDto entityToDto(Event event, Language lang) {
-		EventDto dto = new EventDto();
-		dto.setCategory(getCorrectCategoryText(event.getCategory(), lang));
-		dto.setCompanyName(event.getCompany().getCompanyName());
-		dto.setExpires(event.getEnddate().getTime());
-		dto.setEventType(getCorrectEventTypeText(event.getEventType(), lang));
-		dto.setId(event.getExternalId());
-		return dto;
+	@Override
+	public Event mapToEntity(EventDto dto) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private String getCorrectEventTypeText(EventType eventType, Language lang) {
@@ -63,4 +60,5 @@ public class EventMapper {
 		}
 
 	}
+
 }
