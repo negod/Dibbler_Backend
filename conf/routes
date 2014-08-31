@@ -11,7 +11,7 @@ GET		/v1/events					controllers.v1.EventService.getEvents(lat: Double, lon: Doub
 GET		/v1/event/:id				controllers.v1.EventService.getEventById(id: String, lang: String)
 
 #Categories
-GET     /categories                 controllers.v1.CategoryService.getAllCategories(lang: String)
+GET     /v1/categories              controllers.v1.CategoryService.getAllCategories(lang: String)
 
 
 # Get all of everything (Just test so see its working)
