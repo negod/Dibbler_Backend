@@ -8,7 +8,7 @@ GET		/							controllers.Application.index()
 
 # EVENTS
 GET		/v1/events					controllers.v1.EventService.getEvents(lat: Double, lon: Double, radius: Int, lang: String)
-GET		/v1/event/:id				controllers.v1.EventService.getEventById(id: String, lang: String)
+GET		/v1/events/:id				controllers.v1.EventService.getEventById(id: String, lang: String)
 
 #Categories
 GET     /v1/categories              controllers.v1.CategoryService.getAllCategories(lang: String)
