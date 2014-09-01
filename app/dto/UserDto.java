@@ -50,7 +50,7 @@ public class UserDto {
 	@Override
 	public String toString() {
 		return "UserDto [username=" + username + ", email=" + email
-				+ ", password=" + password + ", gender=" + gender + ", age="
+				+ ", gender=" + gender + ", age="
 				+ age + "]";
 	}
 	
