@@ -13,6 +13,9 @@ GET		/v1/events/:id				controllers.v1.EventService.getEventById(id: String, lang
 #Categories
 GET     /v1/categories              controllers.v1.CategoryService.getAllCategories(lang: String)
 
+#Users
+POST	/v1/user					controllers.v1.UserService.insertUser
+
 
 # Get all of everything (Just test so see its working)
 

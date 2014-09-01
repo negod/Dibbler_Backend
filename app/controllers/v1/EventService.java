@@ -15,13 +15,12 @@ import dto.Point;
 
 public class EventService extends Controller {
 
-	public static Result getEvents(Double lat, Double lon, Integer radius,
-			String language) {
+	public static Result getEvents(Double lat, Double lon, Integer radius, String language) {
 
 		Logger.info("[GetEvents: lat =  " + lat + "  lon = " + lon	+ " language =  " + language + "]");
 		Language lang;
 		try {
-			lang = Language.valueOf(language);
+			lang = Language.valueOf(language.toUpperCase());
 		} catch (Exception e) {
 			return Results.noContent();
 		}
@@ -44,7 +43,7 @@ public class EventService extends Controller {
 	public static Result getEventById(String id, String language) {
 		Logger.info("[GetEventById : id =  " + id + " language =  " + language	+ "]");
 
-		Language lang = Language.valueOf(language);
+		Language lang = Language.valueOf(language.toUpperCase());
 		Event event = Event.find.where().like("external_id", id).findUnique();
 
 		if (event != null) {
