@@ -10,10 +10,26 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-/.settings
-/.project
-/.classpath
-/target
-/logs
-/.target
-/project/target
+
+java/logs
+java/project/project
+java/project/target
+java/target
+java/tmp
+java/.history
+java/dist
+java/.settings
+java/.project
+java/.classpath
+java/.target
+
+scala/logs
+scala/project/project
+scala/project/target
+scala/target
+scala/tmp
+scala/.history
+scala/dist
+scala/.classpath
+scala/.project
+scala/.settings
