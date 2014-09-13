@@ -14,8 +14,6 @@ import reactivemongo.api.gridfs.Implicits.DefaultReadFileReader
 import reactivemongo.api.collections.default.BSONCollection
 import reactivemongo.bson._
 
-import models.Article
-import models.Article._
 
 object Articles extends Controller with MongoController {
 
