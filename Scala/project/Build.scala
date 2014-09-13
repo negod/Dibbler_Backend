@@ -3,7 +3,7 @@ import Keys._
 
 object ApplicationBuild extends Build {
 
-  val appName = "mongo-app"
+  val appName = "GeoMarket_Backend"
   val appVersion = "1.0-SNAPSHOT"
 
   scalaVersion := "2.10.2"

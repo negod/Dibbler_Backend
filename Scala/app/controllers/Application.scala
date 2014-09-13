@@ -19,6 +19,7 @@ import models.Article._
 
 object Articles extends Controller with MongoController {
 
+  /*
   // get the collection 'articles'
   val collection = db[BSONCollection]("articles")
   // a GridFS store named 'attachments'
@@ -36,15 +37,13 @@ object Articles extends Controller with MongoController {
     // get a sort document (see getSort method for more information)
     val sort = getSort(request)
     // build a selection document with an empty query and a sort subdocument ('$orderby')
-    val query = BSONDocument(
-      "$orderby" -> sort,
-      "$query" -> BSONDocument())
+    val query = BSONDocument("$orderby" -> sort, "$query" -> BSONDocument())
+
     val activeSort = request.queryString.get("sort").flatMap(_.headOption).getOrElse("none")
     // the cursor of documents
     val found = collection.find(query).cursor[Article]
     // build (asynchronously) a list containing all the articles
-    found.collect[List]().map { articles =>
-      Ok(views.html.articles(articles, activeSort))
+    found.collect[List]().map { articles => Ok(views.html.articles(articles, activeSort))
     }.recover {
       case e =>
         e.printStackTrace()
@@ -81,13 +80,10 @@ object Articles extends Controller with MongoController {
   }
 
   def create = Action.async { implicit request =>
-    Article.form.bindFromRequest.fold(
-      errors => Future.successful(Ok(views.html.editArticle(None, errors, None))),
+    Article.form.bindFromRequest.fold(errors => Future.successful(Ok(views.html.editArticle(None, errors, None))),
       // if no error, then insert the article into the 'articles' collection
-      article =>
-        collection.insert(article.copy(creationDate = Some(new DateTime()), updateDate = Some(new DateTime()))).map(_ =>
-          Redirect(routes.Articles.index))
-    )
+      article => collection.insert(article.copy(creationDate = Some(new DateTime()), updateDate = Some(new DateTime()))).map(_ =>
+          Redirect(routes.Articles.index)))
   }
 
   def edit(id: String) = Action.async { implicit request =>
@@ -151,7 +147,7 @@ object Articles extends Controller with MongoController {
     val file = gridFS.find(BSONDocument("_id" -> new BSONObjectID(id)))
     request.getQueryString("inline") match {
       case Some("true") => serve(gridFS, file, CONTENT_DISPOSITION_INLINE)
-      case _            => serve(gridFS, file)
+      case _ => serve(gridFS, file)
     }
   }
 
@@ -171,5 +167,5 @@ object Articles extends Controller with MongoController {
       } yield order._1 -> BSONInteger(order._2)
       BSONDocument(sortBy)
     }
-  }
+  }*/
 }

@@ -10,7 +10,7 @@ import play.api.data.validation.Constraints._
 import reactivemongo.bson._
 
 case class Article(
-  id: Option[BSONObjectID],
+  /*id: Option[BSONObjectID],
   title: String,
   content: String,
   publisher: String,
@@ -41,10 +41,7 @@ object Article {
   }
   val form = Form(
     mapping(
-      "id" -> optional(of[String] verifying pattern(
-        """[a-fA-F0-9]{24}""".r,
-        "constraint.objectId",
-        "error.objectId")),
+      "id" -> optional(of[String] verifying pattern("""[a-fA-F0-9]{24}""".r, "constraint.objectId", "error.objectId")),
       "title" -> nonEmptyText,
       "content" -> text,
       "publisher" -> nonEmptyText,
@@ -66,4 +63,5 @@ object Article {
             article.creationDate.map(_.getMillis),
             article.updateDate.map(_.getMillis)))
       })
-}
+}*/
+)
