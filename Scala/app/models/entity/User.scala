@@ -11,27 +11,18 @@ import reactivemongo.bson.BSONObjectID
 import play.api.libs.functional.syntax._
 import play.modules.reactivemongo.json.BSONFormats._
 import models.constants.UserConst
+import models.BaseEntity
 
-
-case class User(
+case class User (
   username: String,
   email: String,
   password: String,
   gender: String,
-  age: Int,
-  creationDate: Option[DateTime],
-  updateDate: Option[DateTime])
+  age: Int) extends BaseEntity
 
 object User {
   
-  def apply(
-      username: String, 
-      email: String, 
-      password: String, 
-      gender: String, 
-      age: Int) = new User(username, email, password, gender, age, None, None )
-
-  implicit object UserEntityToBSONWriter extends BSONDocumentWriter[User] {
+   implicit object UserEntityToBSONWriter extends BSONDocumentWriter[User] {
     def write(user: User): BSONDocument =
       BSONDocument(
         UserConst.username -> user.username,
@@ -40,7 +31,7 @@ object User {
         UserConst.gender -> user.gender,
         UserConst.age -> user.age,
         UserConst.creationDate -> BSONDateTime(new DateTime().getMillis),
-        UserConst.updateDate -> BSONDateTime(new DateTime().getMillis))
+        UserConst.updatedDate -> BSONDateTime(new DateTime().getMillis))
   }
 
   implicit val jSonToUserEntity: Reads[User] = (
@@ -48,7 +39,6 @@ object User {
     (JsPath \ UserConst.email).read[String] and
     (JsPath \ UserConst.password).read[String] and
     (JsPath \ UserConst.gender).read[String] and
-    (JsPath \ UserConst.age).read[Int] 
-    )(User.apply(_:String,_:String,_:String,_:String,_:Int))
+    (JsPath \ UserConst.age).read[Int])(User.apply _)
 
 }

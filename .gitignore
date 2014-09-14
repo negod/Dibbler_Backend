@@ -33,3 +33,5 @@ scala/dist
 scala/.classpath
 scala/.project
 scala/.settings
+/JavaEE/Geomarket/target/
+/JavaEE/Geomarket/nb-configuration.xml

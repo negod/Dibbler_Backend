@@ -12,6 +12,7 @@ import models.constants.UserConst
 
 
 case class UserResponse(
+  extId: String,  
   username: String,
   email: String,
   gender: String,
@@ -20,6 +21,7 @@ case class UserResponse(
 object UserResponse {
 
   implicit val userResponseToJSon: Writes[UserResponse] = (
+    (JsPath \ UserConst.extId).write[String] and
     (JsPath \ UserConst.username).write[String] and
     (JsPath \ UserConst.email).write[String] and
     (JsPath \ UserConst.gender).write[String] and
@@ -27,6 +29,7 @@ object UserResponse {
 
   implicit object UserResponseBSONReader extends BSONDocumentReader[UserResponse] {
     def read(doc: BSONDocument): UserResponse = UserResponse(
+      doc.getAs[String](UserConst.extId).get, 
       doc.getAs[String](UserConst.username).get, 
       doc.getAs[String](UserConst.email).get, 
       doc.getAs[String](UserConst.gender).get,

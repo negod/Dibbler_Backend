@@ -1,12 +1,11 @@
 package models.constants
 
-object UserConst {
-  val id = "id";
+import models.BaseConstants
+
+object UserConst extends BaseConstants{
   val username = "username";
   val email = "email";
   val password = "password";
   val gender = "gender";
   val age = "age";
-  val creationDate = "creationDate";
-  val updateDate = "updateDate";
 }
