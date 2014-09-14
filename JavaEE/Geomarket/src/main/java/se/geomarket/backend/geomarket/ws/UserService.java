@@ -10,7 +10,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -57,8 +56,8 @@ public class UserService extends BaseWs<UserDto, User, UserDao> {
     }
 
     @Override
-    public User mapToEntity(User entity) {
-        return mapper.getEntityMapper().mapUserEntity(entity);
+    public User updateEntity(User entity, UserDto newDto) {
+        return mapper.getEntityMapper().mapUserEntity(entity, newDto);
     }
 
     @Override

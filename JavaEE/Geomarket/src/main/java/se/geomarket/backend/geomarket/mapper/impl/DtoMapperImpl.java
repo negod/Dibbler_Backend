@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.geomarket.backend.geomarket.mapper;
+package se.geomarket.backend.geomarket.mapper.impl;
 
 import javax.ejb.Stateless;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import se.geomarket.backend.geomarket.dto.UserDto;
 import se.geomarket.backend.geomarket.entity.User;
+import se.geomarket.backend.geomarket.mapper.DtoMapper;
 
 /**
  *

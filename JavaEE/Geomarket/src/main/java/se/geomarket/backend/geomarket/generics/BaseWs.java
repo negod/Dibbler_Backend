@@ -28,7 +28,7 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
 
     public abstract E mapToEntity(D dto);
 
-    public abstract E mapToEntity(E entity);
+    public abstract E updateEntity(E oldEntity, D newDto);
 
     public String insert(D data) {
         try {
@@ -63,8 +63,9 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
 
     public String update(D data) {
         try {
-            E entity = (E) getDao().getByExtId(data.getExtId());
-            getDao().update(mapToEntity(entity));
+            E oldEntity = (E) getDao().getByExtId(data.getExtId());
+            E newEntity = updateEntity(oldEntity, data);
+            getDao().update(newEntity);
             return "UPDATE SUCCESS!";
         } catch (Exception e) {
             return "UPDATE NOT SUCCESS";

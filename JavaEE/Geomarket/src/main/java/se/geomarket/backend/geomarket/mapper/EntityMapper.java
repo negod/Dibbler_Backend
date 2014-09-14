@@ -20,6 +20,6 @@ public interface EntityMapper {
     
     public User mapUserEntity(UserDto dto);
     
-    public User mapUserEntity(User dto);
+    public User mapUserEntity(User oldEntity, UserDto newDto);
     
 }

@@ -54,8 +54,8 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
     @Override
     public E getByExtId(String id) {
         try {
-            Query q = em.createNamedQuery("select d from " + entityClass.getSimpleName() + " where d.extId =:id", entityClass);
-            q.setParameter("id", id);
+            Query q = em.createNativeQuery("select * from " + entityClass.getSimpleName() + " where extId = ?", entityClass);
+            q.setParameter(1, id);
             return (E) q.getSingleResult();
         } catch (Exception e) {
             return null;
