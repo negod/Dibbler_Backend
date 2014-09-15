@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.eclipse.persistence.config.QueryHints;
 
 /**
  *
@@ -45,6 +46,7 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
         try {
             Query q = em.createNamedQuery("select d from " + entityClass.getSimpleName() + " where d.id =:id", entityClass);
             q.setParameter("id", id);
+            q.setHint(QueryHints.MAINTAIN_CACHE, false);
             return (E) q.getSingleResult();
         } catch (Exception e) {
             return null;

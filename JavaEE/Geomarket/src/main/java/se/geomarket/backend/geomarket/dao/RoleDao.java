@@ -4,19 +4,19 @@
  * and open the template in the editor.
  */
 
-package se.geomarket.backend.geomarket.mapper;
+package se.geomarket.backend.geomarket.dao;
 
 import javax.ejb.Local;
+import se.geomarket.backend.geomarket.generics.BaseDao;
+import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
+ * @param <E>
  */
+
 @Local
-public interface ObjectMapper {
-    
-    DtoMapper getDtoMapper();
-    
-    EntityMapper getEntityMapper();
+public interface RoleDao <E extends BaseEntity> extends BaseDao<E>{
     
 }

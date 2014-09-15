@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package se.geomarket.backend.geomarket.dao;
 
 import javax.ejb.Local;
@@ -15,6 +16,6 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
  * @param <E>
  */
 @Local
-public interface UserDao<E extends BaseEntity> extends BaseDao<E> {
+public interface CompanyDao<E extends BaseEntity> extends BaseDao<E>{
     
 }

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import se.geomarket.backend.geomarket.mapper.ObjectMapper;
 
 /**
  *
@@ -22,17 +21,11 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
 
     public abstract DAO getDao();
 
-    public abstract ObjectMapper getMapper();
-
-    public abstract D mapToDto(E entity);
-
-    public abstract E mapToEntity(D dto);
-
-    public abstract E updateEntity(E oldEntity, D newDto);
+    public abstract BaseMapper<D, E> getMapper();
 
     public String insert(D data) {
         try {
-            E entity = mapToEntity(data);
+            E entity = getMapper().mapFromDtoToEntity(data);
             entity.setCreatedDate(new Date());
             entity.setUpdatedDate(new Date());
             entity.setExtId(UUID.randomUUID().toString());
@@ -45,7 +38,7 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
 
     public D getById(String id) {
         try {
-            return mapToDto((E) getDao().getByExtId(id));
+            return getMapper().mapFromEntityToDto((E) getDao().getByExtId(id));
         } catch (Exception e) {
             return null;
         }
@@ -61,11 +54,11 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
         }
     }
 
-    public String update(D data) {
+    public String update(D data, String id) {
         try {
-            E oldEntity = (E) getDao().getByExtId(data.getExtId());
-            E newEntity = updateEntity(oldEntity, data);
-            getDao().update(newEntity);
+            E oldEntity = (E) getDao().getByExtId(id);
+            getMapper().updateEntityFromDto(oldEntity, data);
+            getDao().update(oldEntity);
             return "UPDATE SUCCESS!";
         } catch (Exception e) {
             return "UPDATE NOT SUCCESS";
@@ -77,7 +70,7 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
         try {
             List<E> entities = getDao().getAll();
             for (E entity : entities) {
-                dtos.add(mapToDto(entity));
+                dtos.add(getMapper().mapFromEntityToDto(entity));
             }
         } catch (Exception e) {
 

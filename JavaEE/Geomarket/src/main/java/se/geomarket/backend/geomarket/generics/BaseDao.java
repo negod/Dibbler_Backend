@@ -7,6 +7,7 @@
 package se.geomarket.backend.geomarket.generics;
 
 import java.util.List;
+import javax.ejb.Local;
 import javax.persistence.EntityManager;
 
 /**

@@ -4,11 +4,11 @@
  * and open the template in the editor.
  */
 
-package se.geomarket.backend.geomarket.mapper;
+package se.geomarket.backend.geomarket.dao;
 
 import javax.ejb.Local;
-import se.geomarket.backend.geomarket.dto.UserDto;
-import se.geomarket.backend.geomarket.entity.User;
+import se.geomarket.backend.geomarket.generics.BaseDao;
+import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
  *
@@ -16,8 +16,6 @@ import se.geomarket.backend.geomarket.entity.User;
  */
 
 @Local
-public interface DtoMapper {
-    
-    public UserDto mapUserDto(User entity);
+public interface NameTypeDao<E extends BaseEntity> extends BaseDao<E> {
     
 }

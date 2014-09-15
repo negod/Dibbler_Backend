@@ -37,6 +37,10 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(se.geomarket.backend.geomarket.generics.BaseWsService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.CompanyService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.MovementService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.RoleService.class);
         resources.add(se.geomarket.backend.geomarket.ws.UserService.class);
     }
     
