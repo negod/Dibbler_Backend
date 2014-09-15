@@ -9,7 +9,6 @@ import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import se.geomarket.backend.geomarket.dto.NameTypeDto;
 import se.geomarket.backend.geomarket.entity.NameType;
-import se.geomarket.backend.geomarket.entity.User;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 
 /**

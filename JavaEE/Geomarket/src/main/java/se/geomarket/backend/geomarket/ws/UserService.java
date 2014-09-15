@@ -78,12 +78,14 @@ public class UserService extends BaseWs<UserDto, User, UserDao> {
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
+    @Override
     public String update(UserDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
+    @Override
     public List<UserDto> getAll() {
         return super.getAll();
     }
