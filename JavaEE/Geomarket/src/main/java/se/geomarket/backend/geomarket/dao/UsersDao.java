@@ -15,6 +15,6 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
  * @param <E>
  */
 @Local
-public interface UserDao<E extends BaseEntity> extends BaseDao<E> {
+public interface UsersDao<E extends BaseEntity> extends BaseDao<E> {
     
 }

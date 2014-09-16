@@ -6,21 +6,26 @@
 package se.geomarket.backend.geomarket.generics;
 
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.eclipse.persistence.config.QueryHints;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  * @param <E>
  */
-public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
+public class BaseDaoBean<E extends BaseEntity> implements BaseDao<E> {
+
+    Logger logger = LoggerFactory.getLogger(BaseDaoBean.class);
 
     Class<E> entityClass;
 
-    public BaseDaoImpl(Class<E> entityClass) {
+    public BaseDaoBean(Class<E> entityClass) {
         this.entityClass = entityClass;
     }
 
@@ -37,7 +42,7 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
         try {
             getEntityManager().persist(entity);
         } catch (Exception e) {
-
+            logger.error("[ Failed to create " + entityClass.getSimpleName() + " ]");
         }
     }
 
@@ -49,6 +54,7 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
             q.setHint(QueryHints.MAINTAIN_CACHE, false);
             return (E) q.getSingleResult();
         } catch (Exception e) {
+            logger.error("[ Failed to get " + entityClass.getSimpleName() + " ] [  ByID: " + id + " ]");
             return null;
         }
     }
@@ -60,6 +66,7 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
             q.setParameter(1, id);
             return (E) q.getSingleResult();
         } catch (Exception e) {
+            logger.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ ByExtID: " + id + " ]");
             return null;
         }
     }
@@ -70,6 +77,7 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
             Query q = getEntityManager().createNamedQuery(query, entityClass);
             return q.getResultList();
         } catch (Exception e) {
+            logger.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By named query: " + query + " ]");
             return null;
         }
     }
@@ -80,6 +88,7 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
             Query q = getEntityManager().createNativeQuery(query, entityClass);
             return q.getResultList();
         } catch (Exception e) {
+            logger.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By native query: " + query + " ]");
             return null;
         }
     }
@@ -89,6 +98,7 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
         try {
             getEntityManager().remove(getEntityManager().merge(entity));
         } catch (Exception e) {
+            logger.error("[ Failed to delete " + entityClass.getSimpleName() + " ] [ Id: " + entity.getId() + " ]");
         }
     }
 
@@ -97,16 +107,17 @@ public class BaseDaoImpl<E extends BaseEntity> implements BaseDao<E> {
         try {
             getEntityManager().merge(entity);
         } catch (Exception e) {
+            logger.error("[ Failed to update " + entityClass.getSimpleName() + " ] [ Id: " + entity.getId() + " ]");
         }
     }
 
     @Override
     public List<E> getAll() {
         try {
-            System.out.println(entityClass.getSimpleName().toLowerCase());
             Query q = em.createQuery("select d from " + entityClass.getSimpleName() + " d", entityClass);
             return q.getResultList();
         } catch (Exception e) {
+            logger.error("[ Failed to get all from " + entityClass.getSimpleName() + " ]");
             return null;
         }
     }

@@ -12,7 +12,7 @@ import se.geomarket.backend.geomarket.generics.BaseDto;
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
-public class RoleDto extends BaseDto {
+public class RolesDto extends BaseDto {
     
     private String role;
     private String description;

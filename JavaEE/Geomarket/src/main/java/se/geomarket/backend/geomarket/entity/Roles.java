@@ -16,7 +16,7 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
  */
 
 @Entity
-public class Role extends BaseEntity{
+public class Roles extends BaseEntity{
     
     @Column
     private String role;

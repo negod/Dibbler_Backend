@@ -9,14 +9,14 @@ package se.geomarket.backend.geomarket.dao.bean;
 import javax.ejb.Stateless;
 import se.geomarket.backend.geomarket.dao.NameTypeDao;
 import se.geomarket.backend.geomarket.entity.NameType;
-import se.geomarket.backend.geomarket.generics.BaseDaoImpl;
+import se.geomarket.backend.geomarket.generics.BaseDaoBean;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Stateless
-public class NameTypeDaoBean extends BaseDaoImpl implements NameTypeDao{
+public class NameTypeDaoBean extends BaseDaoBean implements NameTypeDao{
 
     public NameTypeDaoBean() {
         super(NameType.class);

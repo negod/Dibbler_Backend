@@ -3,22 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package se.geomarket.backend.geomarket.dao.bean;
 
 import javax.ejb.Stateless;
-import se.geomarket.backend.geomarket.dao.UserDao;
-import se.geomarket.backend.geomarket.entity.User;
-import se.geomarket.backend.geomarket.generics.BaseDaoImpl;
+import se.geomarket.backend.geomarket.dao.RolesDao;
+import se.geomarket.backend.geomarket.entity.Roles;
+import se.geomarket.backend.geomarket.generics.BaseDaoBean;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
+
 @Stateless
-public class UserDaoBean extends BaseDaoImpl implements UserDao{
-
-    public UserDaoBean() {
-        super(User.class);
+public class RolesDaoBean extends BaseDaoBean implements RolesDao{
+    
+    public RolesDaoBean() {
+        super(Roles.class);
     }
-
+    
 }

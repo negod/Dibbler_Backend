@@ -19,12 +19,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
-import se.geomarket.backend.geomarket.dao.UserDao;
-import se.geomarket.backend.geomarket.dto.UserDto;
-import se.geomarket.backend.geomarket.entity.User;
+import se.geomarket.backend.geomarket.dao.UsersDao;
+import se.geomarket.backend.geomarket.dto.UsersDto;
+import se.geomarket.backend.geomarket.entity.Users;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
-import se.geomarket.backend.geomarket.mapper.UserMapper;
+import se.geomarket.backend.geomarket.mapper.UsersMapper;
 
 /**
  *
@@ -32,28 +32,28 @@ import se.geomarket.backend.geomarket.mapper.UserMapper;
  */
 @Stateless
 @Path("/users")
-public class UserService extends BaseWs<UserDto, User, UserDao> {
+public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
 
     @Context
     private UriInfo context;
     @EJB
-    private UserDao userDao;
+    private UsersDao userDao;
 
     @Override
-    public UserDao getDao() {
+    public UsersDao getDao() {
         return userDao;
     }
 
     @Override
-    public BaseMapper<UserDto, User> getMapper() {
-        return UserMapper.getInstance();
+    public BaseMapper<UsersDto, Users> getMapper() {
+        return UsersMapper.getInstance();
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public String insert(UserDto data) {
+    public String insert(UsersDto data) {
         return super.insert(data);
     }
 
@@ -62,7 +62,7 @@ public class UserService extends BaseWs<UserDto, User, UserDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public UserDto getById(@PathParam("id") String id) {
+    public UsersDto getById(@PathParam("id") String id) {
         return super.getById(id);
     }
 
@@ -79,14 +79,14 @@ public class UserService extends BaseWs<UserDto, User, UserDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public String update(UserDto data, @PathParam("id") String id) {
+    public String update(UsersDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public List<UserDto> getAll() {
+    public List<UsersDto> getAll() {
         return super.getAll();
     }
 

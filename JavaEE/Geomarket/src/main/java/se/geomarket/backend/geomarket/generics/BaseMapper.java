@@ -7,6 +7,8 @@ package se.geomarket.backend.geomarket.generics;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -16,6 +18,8 @@ import java.util.List;
  *
  */
 public abstract class BaseMapper<D extends BaseDto, E extends BaseEntity> {
+
+    public static final Logger logger = LoggerFactory.getLogger(BaseMapper.class);
 
     public List<E> mapToEntityList(List<D> dtoList) {
         List<E> entityList = new ArrayList<E>();

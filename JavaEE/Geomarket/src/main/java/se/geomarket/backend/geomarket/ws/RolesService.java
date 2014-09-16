@@ -17,12 +17,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import se.geomarket.backend.geomarket.dao.RoleDao;
-import se.geomarket.backend.geomarket.dto.RoleDto;
-import se.geomarket.backend.geomarket.entity.Role;
+import se.geomarket.backend.geomarket.dao.RolesDao;
+import se.geomarket.backend.geomarket.dto.RolesDto;
+import se.geomarket.backend.geomarket.entity.Roles;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
-import se.geomarket.backend.geomarket.mapper.RoleMapper;
+import se.geomarket.backend.geomarket.mapper.RolesMapper;
 
 /**
  *
@@ -30,26 +30,26 @@ import se.geomarket.backend.geomarket.mapper.RoleMapper;
  */
 @Stateless
 @Path("/roles")
-public class RoleService extends BaseWs<RoleDto, Role, RoleDao> {
+public class RolesService extends BaseWs<RolesDto, Roles, RolesDao> {
 
     @EJB
-    RoleDao roleDao;
+    RolesDao roleDao;
 
     @Override
-    public RoleDao getDao() {
+    public RolesDao getDao() {
         return roleDao;
     }
 
     @Override
-    public BaseMapper<RoleDto, Role> getMapper() {
-        return RoleMapper.getInstance();
+    public BaseMapper<RolesDto, Roles> getMapper() {
+        return RolesMapper.getInstance();
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public String insert(RoleDto data) {
+    public String insert(RolesDto data) {
         return super.insert(data);
     }
 
@@ -58,7 +58,7 @@ public class RoleService extends BaseWs<RoleDto, Role, RoleDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public RoleDto getById(@PathParam("id") String id) {
+    public RolesDto getById(@PathParam("id") String id) {
         return super.getById(id);
     }
 
@@ -75,14 +75,14 @@ public class RoleService extends BaseWs<RoleDto, Role, RoleDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public String update(RoleDto data, @PathParam("id") String id) {
+    public String update(RolesDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public List<RoleDto> getAll() {
+    public List<RolesDto> getAll() {
         return super.getAll();
     }
 

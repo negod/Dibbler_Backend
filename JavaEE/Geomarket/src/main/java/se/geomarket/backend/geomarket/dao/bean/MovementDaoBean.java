@@ -9,7 +9,7 @@ package se.geomarket.backend.geomarket.dao.bean;
 import javax.ejb.Stateless;
 import se.geomarket.backend.geomarket.dao.MovementDao;
 import se.geomarket.backend.geomarket.entity.Movement;
-import se.geomarket.backend.geomarket.generics.BaseDaoImpl;
+import se.geomarket.backend.geomarket.generics.BaseDaoBean;
 
 /**
  *
@@ -17,7 +17,7 @@ import se.geomarket.backend.geomarket.generics.BaseDaoImpl;
  */
 
 @Stateless
-public class MovementDaoBean extends BaseDaoImpl implements MovementDao{
+public class MovementDaoBean extends BaseDaoBean implements MovementDao{
     
     public MovementDaoBean() {
         super(Movement.class);

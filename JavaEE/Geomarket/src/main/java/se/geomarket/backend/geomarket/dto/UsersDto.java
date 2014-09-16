@@ -11,7 +11,7 @@ import se.geomarket.backend.geomarket.generics.BaseDto;
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
-public class UserDto extends BaseDto {
+public class UsersDto extends BaseDto {
 
     private String username;
     private String email;

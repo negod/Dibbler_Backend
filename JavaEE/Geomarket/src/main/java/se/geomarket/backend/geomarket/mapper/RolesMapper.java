@@ -8,42 +8,42 @@ package se.geomarket.backend.geomarket.mapper;
 
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
-import se.geomarket.backend.geomarket.dto.RoleDto;
-import se.geomarket.backend.geomarket.dto.UserDto;
-import se.geomarket.backend.geomarket.entity.Role;
+import se.geomarket.backend.geomarket.dto.RolesDto;
+import se.geomarket.backend.geomarket.dto.UsersDto;
+import se.geomarket.backend.geomarket.entity.Roles;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
-public class RoleMapper extends BaseMapper<RoleDto, Role>{
+public class RolesMapper extends BaseMapper<RolesDto, Roles>{
     
-    private static final RoleMapper INSTANCE = new RoleMapper();
+    private static final RolesMapper INSTANCE = new RolesMapper();
 
-    private RoleMapper() {
+    private RolesMapper() {
     }
 
-    public static RoleMapper getInstance() {
+    public static RolesMapper getInstance() {
         return INSTANCE;
     }
 
     @Override
-    public Role mapFromDtoToEntity(RoleDto dto) {
+    public Roles mapFromDtoToEntity(RolesDto dto) {
         Mapper mapper = new DozerBeanMapper();
-        Role destObject = mapper.map(dto, Role.class);
+        Roles destObject = mapper.map(dto, Roles.class);
         return destObject;
     }
 
     @Override
-    public RoleDto mapFromEntityToDto(Role entity) {
+    public RolesDto mapFromEntityToDto(Roles entity) {
         Mapper mapper = new DozerBeanMapper();
-        RoleDto destObject = mapper.map(entity, RoleDto.class);
+        RolesDto destObject = mapper.map(entity, RolesDto.class);
         return destObject;
     }
 
     @Override
-    public void updateEntityFromDto(Role entity, RoleDto dto) {
+    public void updateEntityFromDto(Roles entity, RolesDto dto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

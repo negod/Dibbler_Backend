@@ -42,8 +42,8 @@ public class ApplicationConfig extends Application {
         resources.add(se.geomarket.backend.geomarket.ws.MovementService.class);
         resources.add(se.geomarket.backend.geomarket.ws.NameService.class);
         resources.add(se.geomarket.backend.geomarket.ws.NameTypeService.class);
-        resources.add(se.geomarket.backend.geomarket.ws.RoleService.class);
-        resources.add(se.geomarket.backend.geomarket.ws.UserService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.RolesService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.UsersService.class);
     }
     
 }

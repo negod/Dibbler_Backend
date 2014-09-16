@@ -15,7 +15,7 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Entity
-public class User extends BaseEntity  {
+public class Users extends BaseEntity  {
     
     @Column
     private String username;

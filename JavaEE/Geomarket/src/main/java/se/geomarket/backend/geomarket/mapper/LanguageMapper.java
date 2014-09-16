@@ -8,9 +8,7 @@ package se.geomarket.backend.geomarket.mapper;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import se.geomarket.backend.geomarket.dto.LanguageDto;
-import se.geomarket.backend.geomarket.dto.UserDto;
 import se.geomarket.backend.geomarket.entity.Language;
-import se.geomarket.backend.geomarket.entity.User;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 
 /**

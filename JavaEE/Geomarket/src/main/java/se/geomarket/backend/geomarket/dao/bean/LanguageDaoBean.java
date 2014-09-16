@@ -9,14 +9,14 @@ package se.geomarket.backend.geomarket.dao.bean;
 import javax.ejb.Stateless;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
 import se.geomarket.backend.geomarket.entity.Language;
-import se.geomarket.backend.geomarket.generics.BaseDaoImpl;
+import se.geomarket.backend.geomarket.generics.BaseDaoBean;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Stateless
-public class LanguageDaoBean extends BaseDaoImpl implements LanguageDao{
+public class LanguageDaoBean extends BaseDaoBean implements LanguageDao{
     
     public LanguageDaoBean() {
         super(Language.class);
