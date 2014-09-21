@@ -26,13 +26,12 @@ public class BaseEntity implements Serializable {
     private long id;
     @Column
     private String extId;
-    /*@Column
-    @OneToOne(fetch = FetchType.LAZY)
-    private UserEntity updatedUser;
-    @Column
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="createdUser_id")
-    private UserEntity createdUser;*/
+    /*@JoinColumn(insertable = true, name = "updatedUser")
+     @ManyToOne(fetch = FetchType.LAZY)
+     private Users updatedUser;
+     @JoinColumn(insertable = true, name = "createdUser")
+     @ManyToOne(fetch = FetchType.LAZY)
+     private Users createdUser;*/
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date createdDate;
@@ -57,21 +56,20 @@ public class BaseEntity implements Serializable {
     }
 
     /*public UserEntity getUpdatedUser() {
-        return updatedUser;
-    }
+     return updatedUser;
+     }
 
-    public void setUpdatedUser(UserEntity updatedUser) {
-        this.updatedUser = updatedUser;
-    }
+     public void setUpdatedUser(UserEntity updatedUser) {
+     this.updatedUser = updatedUser;
+     }
 
-    public UserEntity getCreatedUser() {
-        return createdUser;
-    }
+     public UserEntity getCreatedUser() {
+     return createdUser;
+     }
 
-    public void setCreatedUser(UserEntity createdUser) {
-        this.createdUser = createdUser;
-    }*/
-
+     public void setCreatedUser(UserEntity createdUser) {
+     this.createdUser = createdUser;
+     }*/
     public Date getCreatedDate() {
         return createdDate;
     }

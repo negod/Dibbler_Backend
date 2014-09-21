@@ -3,32 +3,36 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package se.geomarket.backend.geomarket.entity;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
-
 @Entity
-public class Roles extends BaseEntity{
-    
+public class Roles extends BaseEntity {
+
     @Column
-    private String role;
+    private String roleName;
     @Column
     private String description;
 
-    public String getRole() {
-        return role;
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
+    private List<Users> users;
+
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     public String getDescription() {
@@ -38,7 +42,13 @@ public class Roles extends BaseEntity{
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    
-    
+
+    public List<Users> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<Users> users) {
+        this.users = users;
+    }
+
 }

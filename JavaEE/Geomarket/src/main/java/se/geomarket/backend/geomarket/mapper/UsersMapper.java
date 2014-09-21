@@ -49,6 +49,7 @@ public class UsersMapper extends BaseMapper<UsersDto, Users> {
         entity.setImageUrl(dto.getImageUrl());
         entity.setPassword(dto.getPassword());
         entity.setUsername(dto.getUsername());
+        entity.setActive(true);
         entity.setUpdatedDate(new Date());
     }
 

@@ -18,14 +18,7 @@ public class ApplicationConfig extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {
-        Set<Class<?>> resources = new java.util.HashSet<Class<?>>();
-        // following code can be used to customize Jersey 1.x JSON provider:
-        try {
-            Class jacksonProvider = Class.forName("org.codehaus.jackson.jaxrs.JacksonJsonProvider");
-            resources.add(jacksonProvider);
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(getClass().getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        Set<Class<?>> resources = new java.util.HashSet<>();
         addRestResourceClasses(resources);
         return resources;
     }
@@ -38,11 +31,12 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(se.geomarket.backend.geomarket.ws.CompanyService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.CompanyUsersService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.FilterService.class);
         resources.add(se.geomarket.backend.geomarket.ws.LanguageService.class);
         resources.add(se.geomarket.backend.geomarket.ws.MovementService.class);
-        resources.add(se.geomarket.backend.geomarket.ws.NameService.class);
-        resources.add(se.geomarket.backend.geomarket.ws.NameTypeService.class);
         resources.add(se.geomarket.backend.geomarket.ws.RolesService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.SettingService.class);
         resources.add(se.geomarket.backend.geomarket.ws.UsersService.class);
     }
     

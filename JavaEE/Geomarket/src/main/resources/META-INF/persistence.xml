@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-  <persistence-unit name="geomarket_PU" transaction-type="JTA">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <jta-data-source>jdbc/geomarket</jta-data-source>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <shared-cache-mode>NONE</shared-cache-mode>
-    <properties>
-      <property name="eclipselink.ddl-generation" value="create-tables"/>
-      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
-    </properties>
-  </persistence-unit>
+    <persistence-unit name="geomarket_PU" transaction-type="JTA">
+        <jta-data-source>java:/jdbc/geomarket</jta-data-source>
+        <class>se.geomarket.backend.geomarket.entity.Category</class>
+        <class>se.geomarket.backend.geomarket.entity.CategoryName</class>
+        <class>se.geomarket.backend.geomarket.entity.Company</class>
+        <class>se.geomarket.backend.geomarket.entity.CompanyUsers</class>
+        <class>se.geomarket.backend.geomarket.entity.Event</class>
+        <class>se.geomarket.backend.geomarket.entity.EventType</class>
+        <class>se.geomarket.backend.geomarket.entity.EventTypeName</class>
+        <class>se.geomarket.backend.geomarket.entity.Filter</class>
+        <class>se.geomarket.backend.geomarket.entity.Lang</class>
+        <class>se.geomarket.backend.geomarket.entity.Movement</class>
+        <class>se.geomarket.backend.geomarket.entity.Roles</class>
+        <class>se.geomarket.backend.geomarket.entity.Users</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <shared-cache-mode>NONE</shared-cache-mode>
+        <properties>
+            <!-- <property name="javax.persistence.schema-generation.create-source" value="database"/>
+            <property name="javax.persistence.schema-generation.create-script-source" value="META-INF/sql/create.sql"/>
+            <property name="javax.persistence.sql-load-script-source" value="META-INF/sql/data.sql"/>
+            <property name="javax.persistence.schema-generation.drop-source" value="script"/>
+            <property name="javax.persistence.schema-generation.drop-script-source" value="META-INF/sql/drop.sql"/> -->
+            <!-- <property name="hibernate.hbm2ddl.auto" value="update"/> -->
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <!-- <property name="hibernate.hbm2ddl.auto" value="create"/> -->
+            
+            
+            <property name="hibernate.dialect" value="org.hibernate.spatial.dialect.mysql.MySQLSpatialDialect"/>
+            <!-- <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/> -->
+            <!-- <property name="hibernate.dialect" value="org.hibernatespatial.mysql.MySQLSpatialInnoDBDialect"/> -->
+            <!-- <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLSpatialInnoDBDialect"/> -->
+            <!-- <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/> -->
+            <!-- <property name="javax.persistence.schema-generation.database.action" value="create"/> -->
+        </properties>
+    </persistence-unit>
 </persistence>

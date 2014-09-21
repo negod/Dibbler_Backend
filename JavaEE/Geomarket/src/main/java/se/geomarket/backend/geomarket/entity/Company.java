@@ -3,11 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package se.geomarket.backend.geomarket.entity;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
@@ -15,8 +20,8 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Entity
-public class Company extends BaseEntity{
-    
+public class Company extends BaseEntity {
+
     @Column
     private String idNr;
     @Column
@@ -35,6 +40,17 @@ public class Company extends BaseEntity{
     private Integer postalCode;
     @Column
     private String followerClaim;
+    @OneToOne
+    private Location location;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<CompanyUsers> companyUsers;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Event> events;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Filter filter;
 
     public String getIdNr() {
         return idNr;
@@ -107,8 +123,37 @@ public class Company extends BaseEntity{
     public void setFollowerClaim(String followerClaim) {
         this.followerClaim = followerClaim;
     }
-    
-    
-    
-    
+
+    public List<CompanyUsers> getCompanyUsers() {
+        return companyUsers;
+    }
+
+    public void setCompanyUsers(List<CompanyUsers> companyUsers) {
+        this.companyUsers = companyUsers;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    public Filter getFilter() {
+        return filter;
+    }
+
+    public void setFilter(Filter filter) {
+        this.filter = filter;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
 }

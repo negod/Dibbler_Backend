@@ -11,7 +11,7 @@ import se.geomarket.backend.geomarket.generics.BaseDto;
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
-public class CompanyDto extends BaseDto{
+public class CompanyDto extends BaseDto {
 
     private String idNr;
     private String name;
@@ -22,6 +22,7 @@ public class CompanyDto extends BaseDto{
     private String country;
     private Integer postalCode;
     private String followerClaim;
+    private PointDto location;
 
     public String getIdNr() {
         return idNr;
@@ -95,4 +96,12 @@ public class CompanyDto extends BaseDto{
         this.followerClaim = followerClaim;
     }
 
+    public PointDto getLocation() {
+        return location;
+    }
+
+    public void setLocation(PointDto location) {
+        this.location = location;
+    }
+    
 }

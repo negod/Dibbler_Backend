@@ -19,6 +19,7 @@ public class UsersDto extends BaseDto {
     private String gender;
     private Integer age;
     private String imageUrl;
+    private Boolean active;
 
     public String getUsername() {
         return username;
@@ -68,4 +69,12 @@ public class UsersDto extends BaseDto {
         this.imageUrl = imageUrl;
     }
 
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+    
 }

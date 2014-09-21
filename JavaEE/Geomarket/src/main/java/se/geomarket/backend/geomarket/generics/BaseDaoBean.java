@@ -10,7 +10,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import org.eclipse.persistence.config.QueryHints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,7 +50,6 @@ public class BaseDaoBean<E extends BaseEntity> implements BaseDao<E> {
         try {
             Query q = em.createNamedQuery("select d from " + entityClass.getSimpleName() + " where d.id =:id", entityClass);
             q.setParameter("id", id);
-            q.setHint(QueryHints.MAINTAIN_CACHE, false);
             return (E) q.getSingleResult();
         } catch (Exception e) {
             logger.error("[ Failed to get " + entityClass.getSimpleName() + " ] [  ByID: " + id + " ]");

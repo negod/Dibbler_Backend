@@ -20,10 +20,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
 import se.geomarket.backend.geomarket.dto.LanguageDto;
-import se.geomarket.backend.geomarket.entity.Language;
+import se.geomarket.backend.geomarket.entity.Lang;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
-import se.geomarket.backend.geomarket.mapper.LanguageMapper;
+import se.geomarket.backend.geomarket.mapper.LanguagesMapper;
 
 /**
  *
@@ -31,7 +31,7 @@ import se.geomarket.backend.geomarket.mapper.LanguageMapper;
  */
 @Stateless
 @Path("/languages")
-public class LanguageService extends BaseWs<LanguageDto, Language, LanguageDao>{
+public class LanguageService extends BaseWs<LanguageDto, Lang, LanguageDao>{
     
     @EJB
     LanguageDao languageDao;
@@ -42,8 +42,8 @@ public class LanguageService extends BaseWs<LanguageDto, Language, LanguageDao>{
     }
 
     @Override
-    public BaseMapper<LanguageDto, Language> getMapper() {
-        return LanguageMapper.getInstance();
+    public BaseMapper<LanguageDto, Lang> getMapper() {
+        return LanguagesMapper.getInstance();
     }
     
     @POST

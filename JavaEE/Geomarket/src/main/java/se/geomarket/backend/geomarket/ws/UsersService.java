@@ -31,7 +31,7 @@ import se.geomarket.backend.geomarket.mapper.UsersMapper;
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Stateless
-@Path("/users")
+@Path("users")
 public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
 
     @Context
