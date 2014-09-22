@@ -22,7 +22,7 @@ public class CompanyDto extends BaseDto {
     private String country;
     private Integer postalCode;
     private String followerClaim;
-    private PointDto location;
+    private LocationDto location;
 
     public String getIdNr() {
         return idNr;
@@ -96,12 +96,12 @@ public class CompanyDto extends BaseDto {
         this.followerClaim = followerClaim;
     }
 
-    public PointDto getLocation() {
+    public LocationDto getLocation() {
         return location;
     }
 
-    public void setLocation(PointDto location) {
+    public void setLocation(LocationDto location) {
         this.location = location;
     }
-    
+
 }

@@ -5,13 +5,12 @@
  */
 package se.geomarket.backend.geomarket.mapper;
 
-import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Point;
 import java.util.Date;
 import se.geomarket.backend.geomarket.dto.CompanyDto;
-import se.geomarket.backend.geomarket.dto.PointDto;
+import se.geomarket.backend.geomarket.dto.LocationDto;
 import se.geomarket.backend.geomarket.entity.Company;
+import se.geomarket.backend.geomarket.entity.Location;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 
 /**
@@ -41,8 +40,10 @@ public class CompanyMapper extends BaseMapper<CompanyDto, Company> {
             entity.setState(dto.getState());
             entity.setStreet(dto.getStreet());
             entity.setStreetNr(dto.getStreetNr());
-            //Point p = geometryFactory.createPoint(new Coordinate(dto.getLocation().getLatitude(), dto.getLocation().getLongitude()));
-            //entity.setLocation(p);
+            Location location = new Location();
+            location.setLatitude(dto.getLocation().getLatitude());
+            location.setLongitude(dto.getLocation().getLongitude());
+            entity.setLocation(location);
             return entity;
         } catch (Exception e) {
             logger.debug("[ Failed to map from dto {} to entity {} [ DTO EXT_ID: {} ]", dto.getClass().getName(), Company.class.getName(), dto.getExtId());
@@ -61,10 +62,10 @@ public class CompanyMapper extends BaseMapper<CompanyDto, Company> {
             dto.setState(entity.getState());
             dto.setStreet(entity.getStreet());
             dto.setStreetNr(entity.getStreetNr());
-            PointDto point = new PointDto();
-            //point.setLatitude(entity.getLocation().getCoordinate().x);
-            //point.setLongitude(entity.getLocation().getCoordinate().y);
-            dto.setLocation(point);
+            LocationDto location = new LocationDto();
+            location.setLatitude(entity.getLocation().getLatitude());
+            location.setLongitude(entity.getLocation().getLongitude());
+            dto.setLocation(location);
             return dto;
         } catch (Exception e) {
             logger.debug("[ Failed to map from entity {} to dto {} [ ETITY_ID: {} ] Error : {}", entity.getClass().getName(), CompanyDto.class.getName(), entity.getId(), e);

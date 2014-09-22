@@ -6,6 +6,7 @@
 package se.geomarket.backend.geomarket.entity;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -40,7 +41,7 @@ public class Company extends BaseEntity {
     private Integer postalCode;
     @Column
     private String followerClaim;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Location location;
 
     @OneToMany(fetch = FetchType.LAZY)

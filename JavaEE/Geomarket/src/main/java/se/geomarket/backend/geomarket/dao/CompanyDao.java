@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package se.geomarket.backend.geomarket.dao;
 
+import java.util.List;
 import javax.ejb.Local;
+import org.hibernate.search.query.dsl.Unit;
+import se.geomarket.backend.geomarket.entity.Location;
 import se.geomarket.backend.geomarket.generics.BaseDao;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
@@ -16,6 +18,8 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
  * @param <E>
  */
 @Local
-public interface CompanyDao<E extends BaseEntity> extends BaseDao<E>{
-    
+public interface CompanyDao<E extends BaseEntity> extends BaseDao<E> {
+
+    public List<Location> getCompanyByLocation(Double longitude, Double latitude, Double radius, Unit unit);
+
 }

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package se.geomarket.backend.geomarket.ws;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -17,10 +17,13 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.hibernate.search.query.dsl.Unit;
 import se.geomarket.backend.geomarket.dao.CompanyDao;
 import se.geomarket.backend.geomarket.dto.CompanyDto;
 import se.geomarket.backend.geomarket.entity.Company;
+import se.geomarket.backend.geomarket.entity.Location;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
 import se.geomarket.backend.geomarket.mapper.CompanyMapper;
@@ -29,14 +32,13 @@ import se.geomarket.backend.geomarket.mapper.CompanyMapper;
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
-
 @Stateless
 @Path("/companies")
-public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao>{
+public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
 
     @EJB
     CompanyDao companyDao;
-    
+
     @Override
     public CompanyDao getDao() {
         return companyDao;
@@ -46,7 +48,7 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao>{
     public BaseMapper<CompanyDto, Company> getMapper() {
         return CompanyMapper.getInstance();
     }
-    
+
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
@@ -62,6 +64,20 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao>{
     @Override
     public CompanyDto getById(@PathParam("id") String id) {
         return super.getById(id);
+    }
+
+    @GET
+    @Path("location")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Location> getLocatoions(@QueryParam("longitude") Double longitude, @QueryParam("latitude") Double latitude, @QueryParam("radius") Double radius) {
+        try {
+            List<Location> locations = companyDao.getCompanyByLocation(longitude, latitude, radius, Unit.KM);
+            return locations;
+        } catch (Exception e) {
+            return new ArrayList<Location>();
+        }
+
     }
 
     @DELETE
@@ -87,8 +103,5 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao>{
     public List<CompanyDto> getAll() {
         return super.getAll();
     }
-    
-    
-    
-    
+
 }
