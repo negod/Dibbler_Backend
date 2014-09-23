@@ -17,6 +17,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.SettingDao;
 import se.geomarket.backend.geomarket.dto.SettingDto;
 import se.geomarket.backend.geomarket.entity.Setting;
@@ -48,7 +49,7 @@ public class SettingService extends BaseWs<SettingDto, Setting, SettingDao> {
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public String insert(SettingDto data) {
+    public Response insert(SettingDto data) {
         return super.insert(data);
     }
 
@@ -57,7 +58,7 @@ public class SettingService extends BaseWs<SettingDto, Setting, SettingDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public SettingDto getById(@PathParam("id") String id) {
+    public Response getById(@PathParam("id") String id) {
         return super.getById(id);
     }
 
@@ -65,7 +66,7 @@ public class SettingService extends BaseWs<SettingDto, Setting, SettingDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public String delete(@PathParam("id") Long id) {
+    public Response delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
 
@@ -74,14 +75,14 @@ public class SettingService extends BaseWs<SettingDto, Setting, SettingDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public String update(SettingDto data, @PathParam("id") String id) {
+    public Response update(SettingDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public List<SettingDto> getAll() {
+    public Response getAll() {
         return super.getAll();
     }
 

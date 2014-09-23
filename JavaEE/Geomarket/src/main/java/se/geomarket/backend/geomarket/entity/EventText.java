@@ -24,7 +24,7 @@ public class EventText extends BaseEntity {
     @Column
     private String body;
     @OneToOne
-    Lang language;
+    Language language;
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
@@ -44,11 +44,11 @@ public class EventText extends BaseEntity {
         this.body = body;
     }
 
-    public Lang getLanguage() {
+    public Language getLanguage() {
         return language;
     }
 
-    public void setLanguage(Lang language) {
+    public void setLanguage(Language language) {
         this.language = language;
     }
 

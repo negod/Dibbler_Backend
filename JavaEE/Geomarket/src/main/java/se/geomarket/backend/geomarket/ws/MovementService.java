@@ -17,6 +17,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.MovementDao;
 import se.geomarket.backend.geomarket.dto.MovementDto;
 import se.geomarket.backend.geomarket.entity.Movement;
@@ -49,7 +50,7 @@ public class MovementService extends BaseWs<MovementDto, Movement, MovementDao> 
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public String insert(MovementDto data) {
+    public Response insert(MovementDto data) {
         return super.insert(data);
     }
 
@@ -58,7 +59,7 @@ public class MovementService extends BaseWs<MovementDto, Movement, MovementDao> 
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public MovementDto getById(@PathParam("id") String id) {
+    public Response getById(@PathParam("id") String id) {
         return super.getById(id);
     }
 
@@ -66,7 +67,7 @@ public class MovementService extends BaseWs<MovementDto, Movement, MovementDao> 
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public String delete(@PathParam("id") Long id) {
+    public Response delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
 
@@ -75,14 +76,14 @@ public class MovementService extends BaseWs<MovementDto, Movement, MovementDao> 
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public String update(MovementDto data, @PathParam("id") String id) {
+    public Response update(MovementDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public List<MovementDto> getAll() {
+    public Response getAll() {
         return super.getAll();
     }
 

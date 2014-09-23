@@ -5,42 +5,20 @@
  */
 package se.geomarket.backend.geomarket.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import se.geomarket.backend.geomarket.generics.BaseEntity;
+import se.geomarket.backend.geomarket.entity.superclass.Name;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Entity
-public class CategoryName extends BaseEntity {
+public class CategoryName extends Name {
 
-    @Column
-    private String name;
-    @OneToOne
-    Lang language;
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Lang getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(Lang language) {
-        this.language = language;
-    }
 
     public Category getCategory() {
         return category;
@@ -49,7 +27,5 @@ public class CategoryName extends BaseEntity {
     public void setCategory(Category category) {
         this.category = category;
     }
-    
-    
 
 }

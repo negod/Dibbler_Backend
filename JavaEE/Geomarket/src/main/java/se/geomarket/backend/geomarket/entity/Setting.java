@@ -34,7 +34,7 @@ public class Setting extends BaseEntity {
 
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "LANGUAGE_ID", referencedColumnName = "id")
-    private Lang language;
+    private Language language;
 
     public Users getUser() {
         return user;
@@ -68,11 +68,11 @@ public class Setting extends BaseEntity {
         this.allowPush = allowPush;
     }
 
-    public Lang getLanguage() {
+    public Language getLanguage() {
         return language;
     }
 
-    public void setLanguage(Lang language) {
+    public void setLanguage(Language language) {
         this.language = language;
     }
 

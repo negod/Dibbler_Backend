@@ -14,7 +14,7 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Entity
-public class Lang extends BaseEntity {
+public class Language extends BaseEntity {
 
     @Column
     private String shortName;
@@ -53,7 +53,7 @@ public class Lang extends BaseEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Lang other = (Lang) obj;
+        final Language other = (Language) obj;
         if ((this.shortName == null) ? (other.shortName != null) : !this.shortName.equals(other.shortName)) {
             return false;
         }

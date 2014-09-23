@@ -10,38 +10,17 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import se.geomarket.backend.geomarket.generics.BaseEntity;
+import se.geomarket.backend.geomarket.entity.superclass.Name;
 
 /**
  *
  * @author Joakim
  */
-
 @Entity
-public class FollowerRequestName extends BaseEntity {
-    
-    @Column
-    private String name;
-    @OneToOne
-    Lang language;
+public class FollowerRequestName extends Name {
+
     @ManyToOne(fetch = FetchType.LAZY)
     private FollowerRequest followerRequest;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Lang getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(Lang language) {
-        this.language = language;
-    }
 
     public FollowerRequest getFollowerRequest() {
         return followerRequest;
@@ -50,9 +29,5 @@ public class FollowerRequestName extends BaseEntity {
     public void setFollowerRequest(FollowerRequest followerRequest) {
         this.followerRequest = followerRequest;
     }
-    
-    
-    
-    
-    
+
 }

@@ -5,13 +5,12 @@
  */
 package se.geomarket.backend.geomarket.dto;
 
-import se.geomarket.backend.geomarket.generics.BaseDto;
+import se.geomarket.backend.geomarket.dto.languagesupport.BaseNameDto;
 
 /**
  *
- * @author Joakikm Johansson (joakimjohansson@outlook.com)
+ * @author Joakim
  */
-public class CategoryDto extends BaseDto {
+public class CategoryDto extends BaseNameDto {
 
-  
 }

@@ -17,6 +17,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.CompanyUsersDao;
 import se.geomarket.backend.geomarket.dto.CompanyUsersDto;
 import se.geomarket.backend.geomarket.entity.CompanyUsers;
@@ -49,7 +50,7 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public String insert(CompanyUsersDto data) {
+    public Response insert(CompanyUsersDto data) {
         return super.insert(data);
     }
 
@@ -58,7 +59,7 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public CompanyUsersDto getById(@PathParam("id") String id) {
+    public Response getById(@PathParam("id") String id) {
         return super.getById(id);
     }
 
@@ -66,7 +67,7 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public String delete(@PathParam("id") Long id) {
+    public Response delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
 
@@ -75,14 +76,14 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public String update(CompanyUsersDto data, @PathParam("id") String id) {
+    public Response update(CompanyUsersDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public List<CompanyUsersDto> getAll() {
+    public Response getAll() {
         return super.getAll();
     }
 

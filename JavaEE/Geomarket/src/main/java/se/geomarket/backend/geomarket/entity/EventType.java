@@ -8,19 +8,24 @@ package se.geomarket.backend.geomarket.entity;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import se.geomarket.backend.geomarket.generics.BaseEntity;
+import se.geomarket.backend.geomarket.entity.superclass.BaseName;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Entity
-public class EventType extends BaseEntity {
-
-    private String defaultName;
-    private String description;
+public class EventType extends BaseName {
 
     @OneToMany(mappedBy = "eventType")
     List<EventTypeName> names;
+
+    public List<EventTypeName> getNames() {
+        return names;
+    }
+
+    public void setNames(List<EventTypeName> names) {
+        this.names = names;
+    }
 
 }

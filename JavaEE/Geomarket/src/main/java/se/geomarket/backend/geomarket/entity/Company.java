@@ -41,17 +41,21 @@ public class Company extends BaseEntity {
     private Integer postalCode;
     @Column
     private String followerClaim;
+    
     @OneToOne(cascade = CascadeType.ALL)
     private Location location;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<CompanyUsers> companyUsers;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Event> events;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Filter filter;
+    
+    @OneToOne
+    private Company parentCompany;
 
     public String getIdNr() {
         return idNr;
@@ -155,6 +159,14 @@ public class Company extends BaseEntity {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public Company getParentCompany() {
+        return parentCompany;
+    }
+
+    public void setParentCompany(Company parentCompany) {
+        this.parentCompany = parentCompany;
     }
 
 }

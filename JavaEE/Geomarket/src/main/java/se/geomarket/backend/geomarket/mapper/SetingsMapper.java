@@ -46,7 +46,7 @@ public class SetingsMapper extends BaseMapper<SettingDto, Setting> {
         entity.setAllowPush(dto.isAllowPush());
         entity.setFollowOnTop(dto.isFollowOnTop());
         entity.setMapAsDefault(dto.isMapAsDefault());
-        entity.setLanguage(LanguagesMapper.getInstance().mapFromDtoToEntity(dto.getLanguage()));
+        entity.setLanguage(LanguageMapper.getInstance().mapFromDtoToEntity(dto.getLanguage()));
         entity.setUpdatedDate(new Date());
     }
     

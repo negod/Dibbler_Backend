@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package se.geomarket.backend.geomarket.dto;
+package se.geomarket.backend.geomarket.dto.languagesupport;
 
 import se.geomarket.backend.geomarket.generics.BaseDto;
 

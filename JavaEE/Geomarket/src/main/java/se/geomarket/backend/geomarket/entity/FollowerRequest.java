@@ -9,24 +9,20 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import se.geomarket.backend.geomarket.generics.BaseEntity;
+import se.geomarket.backend.geomarket.entity.superclass.BaseName;
 
 /**
  *
  * @author Joakim
  */
 @Entity
-public class FollowerRequest extends BaseEntity {
+public class FollowerRequest extends BaseName {
 
     @Column
     private Boolean mandatory;
-    @Column
-    private String defaultName;
-    @Column
-    private String description;
 
     @OneToMany(mappedBy = "followerRequest")
-    List<FollowerRequest> followerRequest;
+    List<FollowerRequestName> followerRequestName;
 
     public Boolean getMandatory() {
         return mandatory;
@@ -36,28 +32,12 @@ public class FollowerRequest extends BaseEntity {
         this.mandatory = mandatory;
     }
 
-    public String getDefaultName() {
-        return defaultName;
+    public List<FollowerRequestName> getFollowerRequestName() {
+        return followerRequestName;
     }
 
-    public void setDefaultName(String defaultName) {
-        this.defaultName = defaultName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<FollowerRequest> getFollowerRequest() {
-        return followerRequest;
-    }
-
-    public void setFollowerRequest(List<FollowerRequest> followerRequest) {
-        this.followerRequest = followerRequest;
+    public void setFollowerRequestName(List<FollowerRequestName> followerRequestName) {
+        this.followerRequestName = followerRequestName;
     }
 
 }

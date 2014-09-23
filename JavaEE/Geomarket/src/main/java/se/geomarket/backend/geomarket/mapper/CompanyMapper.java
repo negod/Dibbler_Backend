@@ -20,7 +20,6 @@ import se.geomarket.backend.geomarket.generics.BaseMapper;
 public class CompanyMapper extends BaseMapper<CompanyDto, Company> {
 
     private static final CompanyMapper INSTANCE = new CompanyMapper();
-    private static final GeometryFactory geometryFactory = new GeometryFactory();
 
     private CompanyMapper() {
     }

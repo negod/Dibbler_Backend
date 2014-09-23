@@ -6,7 +6,6 @@
 
 package se.geomarket.backend.geomarket.ws;
 
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -18,12 +17,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
-import se.geomarket.backend.geomarket.dto.LanguageDto;
-import se.geomarket.backend.geomarket.entity.Lang;
+import se.geomarket.backend.geomarket.dto.languagesupport.LanguageDto;
+import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
-import se.geomarket.backend.geomarket.mapper.LanguagesMapper;
+import se.geomarket.backend.geomarket.mapper.LanguageMapper;
 
 /**
  *
@@ -31,7 +31,7 @@ import se.geomarket.backend.geomarket.mapper.LanguagesMapper;
  */
 @Stateless
 @Path("/languages")
-public class LanguageService extends BaseWs<LanguageDto, Lang, LanguageDao>{
+public class LanguageService extends BaseWs<LanguageDto, Language, LanguageDao>{
     
     @EJB
     LanguageDao languageDao;
@@ -42,15 +42,15 @@ public class LanguageService extends BaseWs<LanguageDto, Lang, LanguageDao>{
     }
 
     @Override
-    public BaseMapper<LanguageDto, Lang> getMapper() {
-        return LanguagesMapper.getInstance();
+    public BaseMapper<LanguageDto, Language> getMapper() {
+        return LanguageMapper.getInstance();
     }
     
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public String insert(LanguageDto data) {
+    public Response insert(LanguageDto data) {
         return super.insert(data);
     }
 
@@ -59,7 +59,7 @@ public class LanguageService extends BaseWs<LanguageDto, Lang, LanguageDao>{
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public LanguageDto getById(@PathParam("id") String id) {
+    public Response getById(@PathParam("id") String id) {
         return super.getById(id);
     }
 
@@ -67,7 +67,7 @@ public class LanguageService extends BaseWs<LanguageDto, Lang, LanguageDao>{
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public String delete(@PathParam("id") Long id) {
+    public Response delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
 
@@ -75,13 +75,13 @@ public class LanguageService extends BaseWs<LanguageDto, Lang, LanguageDao>{
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public String update(LanguageDto data, @PathParam("id") String id) {
+    public Response update(LanguageDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public List<LanguageDto> getAll() {
+    public Response getAll() {
         return super.getAll();
     }
     

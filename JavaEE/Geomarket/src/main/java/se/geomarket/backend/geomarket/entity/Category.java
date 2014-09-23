@@ -5,31 +5,22 @@
  */
 package se.geomarket.backend.geomarket.entity;
 
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import se.geomarket.backend.geomarket.generics.BaseEntity;
+import se.geomarket.backend.geomarket.entity.superclass.BaseName;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Entity
-public class Category extends BaseEntity {
+public class Category extends BaseName {
     
-    private String defaultName;
-    private String description;
-
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     List<CategoryName> names;
-
-    public String getDefaultName() {
-        return defaultName;
-    }
-
-    public void setDefaultName(String defaultName) {
-        this.defaultName = defaultName;
-    }
 
     public List<CategoryName> getNames() {
         return names;
@@ -38,5 +29,5 @@ public class Category extends BaseEntity {
     public void setNames(List<CategoryName> names) {
         this.names = names;
     }
-
+    
 }

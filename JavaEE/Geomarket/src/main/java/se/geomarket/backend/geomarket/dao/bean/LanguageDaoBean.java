@@ -8,7 +8,7 @@ package se.geomarket.backend.geomarket.dao.bean;
 
 import javax.ejb.Stateless;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
-import se.geomarket.backend.geomarket.entity.Lang;
+import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
 
 /**
@@ -19,6 +19,6 @@ import se.geomarket.backend.geomarket.generics.BaseDaoBean;
 public class LanguageDaoBean extends BaseDaoBean implements LanguageDao{
     
     public LanguageDaoBean() {
-        super(Lang.class);
+        super(Language.class);
     }
 }
