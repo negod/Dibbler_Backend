@@ -5,20 +5,12 @@
  */
 package se.geomarket.backend.geomarket.generics;
 
+import java.io.Serializable;
+
 /**
  *
- * @author Joakikm Johansson (joakimjohansson@outlook.com)
+ * @author Joakim
  */
-public class BaseDto extends BaseDtoEmpty {
-
-    private String id;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
+public class BaseDtoEmpty implements Serializable{
+    
 }

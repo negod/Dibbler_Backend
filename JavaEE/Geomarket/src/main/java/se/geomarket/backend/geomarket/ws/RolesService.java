@@ -5,6 +5,7 @@
  */
 package se.geomarket.backend.geomarket.ws;
 
+import com.wordnik.swagger.annotations.Api;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -31,6 +32,7 @@ import se.geomarket.backend.geomarket.mapper.RolesMapper;
  */
 @Stateless
 @Path("/roles")
+@Api(value = "/movements", description = "Handles all roles")
 public class RolesService extends BaseWs<RolesDto, Roles, RolesDao> {
 
     @EJB

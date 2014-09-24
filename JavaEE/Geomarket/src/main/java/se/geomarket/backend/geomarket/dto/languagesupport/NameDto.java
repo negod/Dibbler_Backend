@@ -5,16 +5,26 @@
  */
 package se.geomarket.backend.geomarket.dto.languagesupport;
 
-import se.geomarket.backend.geomarket.generics.BaseDto;
+import se.geomarket.backend.geomarket.generics.BaseDtoEmpty;
 
 /**
  *
  * @author Joakim
  */
-public class NameDto extends BaseDto {
 
+public class NameDto extends BaseDtoEmpty {
+
+    private String id;
+    private String languageId;
     private String name;
-    private LanguageDto language;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -24,12 +34,12 @@ public class NameDto extends BaseDto {
         this.name = name;
     }
 
-    public LanguageDto getLanguage() {
-        return language;
+    public String getLanguageId() {
+        return languageId;
     }
 
-    public void setLanguage(LanguageDto language) {
-        this.language = language;
+    public void setLanguageId(String languageId) {
+        this.languageId = languageId;
     }
 
 }

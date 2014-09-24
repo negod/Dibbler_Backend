@@ -19,6 +19,10 @@ public class ApplicationConfig extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
+        resources.add(com.wordnik.swagger.jaxrs.listing.ApiListingResource.class);
+        resources.add(com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider.class);
+        resources.add(com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON.class);
+        resources.add(com.wordnik.swagger.jaxrs.listing.ResourceListingProvider.class);
         addRestResourceClasses(resources);
         return resources;
     }

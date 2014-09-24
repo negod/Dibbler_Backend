@@ -28,7 +28,7 @@ public class CategoryDaoBean extends BaseDaoBean implements CategoryDao {
     LanguageDao languageDao;
 
     public CategoryDaoBean() {
-        super(CategoryDaoBean.class);
+        super(Category.class);
     }
 
     @Override
@@ -42,11 +42,8 @@ public class CategoryDaoBean extends BaseDaoBean implements CategoryDao {
         categoryname.setLanguage(languageEntity);
         categoryname.setName(name);
         categoryname.setCategory(category);
-        //categoryname.setCategory(category);
         category.getNames().add(categoryname);
-       
-        super.update(category);
-        
+
         return category.getExtId();
     }
 

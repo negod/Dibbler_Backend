@@ -36,7 +36,7 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
             return Response.serverError().build();
         }
     }
-    
+
     public Response insert(E entity) {
         try {
             entity.setCreatedDate(new Date());
@@ -87,9 +87,9 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
             }
             return Response.ok(dtos).build();
         } catch (Exception e) {
-
+            return Response.serverError().build();
         }
-        return Response.serverError().build();
+
     }
 
 }

@@ -14,16 +14,16 @@ import se.geomarket.backend.geomarket.generics.BaseMapper;
  * @author Joakim
  */
 public class BaseNameMapper extends BaseMapper<BaseNameDto, BaseName> {
-    
+
     private static final BaseNameMapper INSTANCE = new BaseNameMapper();
-    
+
     private BaseNameMapper() {
     }
-    
+
     public static BaseNameMapper getInstance() {
         return INSTANCE;
     }
-    
+
     @Override
     public BaseName mapFromDtoToEntity(BaseNameDto dto) {
         BaseName name = new BaseName();
@@ -31,7 +31,7 @@ public class BaseNameMapper extends BaseMapper<BaseNameDto, BaseName> {
         name.setDescription(dto.getDescription());
         return name;
     }
-    
+
     @Override
     public BaseNameDto mapFromEntityToDto(BaseName entity) {
         BaseNameDto name = new BaseNameDto();
@@ -39,10 +39,10 @@ public class BaseNameMapper extends BaseMapper<BaseNameDto, BaseName> {
         name.setDescription(entity.getDescription());
         return name;
     }
-    
+
     @Override
     public void updateEntityFromDto(BaseName entity, BaseNameDto dto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

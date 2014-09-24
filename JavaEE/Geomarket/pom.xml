@@ -54,6 +54,15 @@
             <artifactId>dozer</artifactId>
             <version>5.5.1</version>
         </dependency>
+        
+        <!-- Documentation -->
+        <dependency>
+            <groupId>com.wordnik</groupId>
+            <artifactId>swagger-jaxrs_2.10</artifactId>
+            <version>1.3.10</version>
+            <scope>compile</scope>
+        </dependency>
+        
         <!-- LOGGING -->
         <dependency>
             <groupId>ch.qos.logback</groupId>

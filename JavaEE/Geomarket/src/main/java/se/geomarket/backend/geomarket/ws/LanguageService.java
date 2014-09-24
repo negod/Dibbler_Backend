@@ -6,6 +6,7 @@
 
 package se.geomarket.backend.geomarket.ws;
 
+import com.wordnik.swagger.annotations.Api;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -31,6 +32,7 @@ import se.geomarket.backend.geomarket.mapper.LanguageMapper;
  */
 @Stateless
 @Path("/languages")
+@Api(value = "/languages", description = "Handles all Languages")
 public class LanguageService extends BaseWs<LanguageDto, Language, LanguageDao>{
     
     @EJB

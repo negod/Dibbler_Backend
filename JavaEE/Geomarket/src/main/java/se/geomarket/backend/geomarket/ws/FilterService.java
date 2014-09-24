@@ -5,8 +5,10 @@
  */
 package se.geomarket.backend.geomarket.ws;
 
+import com.wordnik.swagger.annotations.Api;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -28,6 +30,10 @@ import se.geomarket.backend.geomarket.mapper.FilterMapper;
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
+
+@Stateless
+@Path("/filters")
+@Api(value = "/filters", description = "Handles the users filters")
 public class FilterService extends BaseWs<FilterDto, Filter, FilterDao> {
 
     @EJB

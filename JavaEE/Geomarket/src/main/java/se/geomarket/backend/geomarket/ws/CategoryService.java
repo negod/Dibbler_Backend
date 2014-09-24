@@ -5,6 +5,11 @@
  */
 package se.geomarket.backend.geomarket.ws;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -36,6 +41,7 @@ import se.geomarket.backend.geomarket.utils.ResponseUtil;
  */
 @Stateless
 @Path("/categories")
+@Api(value = "/categories", description = "Handles all categories")
 public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> {
 
     @EJB
@@ -58,8 +64,12 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(httpMethod = "POST", value = "Add a new category", response = String.class, nickname = "insert", notes = "This is not implemented Use /create instead!!")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Method not accessible"),
+        @ApiResponse(code = 500, message = "Internal server error")})
     public Response insert(CategoryDto data) {
-        return ResponseUtil.getMethodNotSupportedError();
+        return ResponseUtil.getMethodNotSupportedError("User method [ create ] instead");
     }
 
     @GET
@@ -67,6 +77,10 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
+    @ApiOperation(httpMethod = "GET", value = "Gets a Category by Id", response = CategoryDto.class, nickname = "getById")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns a Category"),
+        @ApiResponse(code = 500, message = "Internal server error")})
     public Response getById(@PathParam("id") String id) {
         return super.getById(id);
     }
@@ -75,6 +89,10 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
+    @ApiOperation(httpMethod = "DELETE", value = "Deletes a category bi Id", response = String.class, nickname = "delete")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = ""),
+        @ApiResponse(code = 500, message = "Internal server error")})
     public Response delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
@@ -84,13 +102,23 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public Response update(CategoryDto data, @PathParam("id") String id) {
+    @ApiOperation(httpMethod = "PUT", value = "Updates a category", response = String.class, nickname = "update", notes = "This Method is not supported")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Method not accessible"),
+        @ApiResponse(code = 500, message = "Internal server error")})
+    public Response update(
+            @ApiParam(value = "The new Category data", required = true) CategoryDto data,
+            @ApiParam(value = "The id of the Category", required = true) @PathParam("id") String id) {
         return ResponseUtil.getMethodNotSupportedError();
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all Categories", response = CategoryDto.class, nickname = "getAll", notes = "")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "All Categories found"),
+        @ApiResponse(code = 500, message = "Could not get the categories")})
     public Response getAll() {
         return super.getAll();
     }
@@ -98,8 +126,15 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @Path("create")
-    public Response insert(@QueryParam("description") String descr, @QueryParam("defaultName") String defName, @QueryParam("languageId") String language) {
+    @Path("/create")
+    @ApiOperation(httpMethod = "POST", value = "Creates a new category with default language and value set", response = String.class, nickname = "create", notes = "Returns the id of the created category")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns the id of the created category"),
+        @ApiResponse(code = 500, message = "Could not get the categories")})
+    public Response insert(
+            @ApiParam(value = "The category description", required = true) @QueryParam("description") String descr,
+            @ApiParam(value = "The default name of the category", required = true) @QueryParam("defaultName") String defName,
+            @ApiParam(value = "The id of the default language", required = true) @QueryParam("languageId") String language) {
 
         try {
 
@@ -128,8 +163,15 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @Path("addlanguage")
-    public Response addLanguage(@QueryParam("categoryId") String categoryId, @QueryParam("name") String name, @QueryParam("languageId") String language) {
+    @Path("/addlanguage")
+    @ApiOperation(httpMethod = "POST", value = "Adds a description to the Category in the specified language", response = String.class, nickname = "addlanguage", notes = "Returns the id of the updated category")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns the id of the updated category"),
+        @ApiResponse(code = 500, message = "Could not update categories")})
+    public Response addLanguage(
+            @ApiParam(value = "The id for the Category that the new language will be added to", required = true) @QueryParam("categoryId") String categoryId, 
+            @ApiParam(value = "The name of the category in a new language", required = true) @QueryParam("name") String name, 
+            @ApiParam(value = "The id of the language to add", required = true) @QueryParam("languageId") String language) {
         try {
             return Response.ok(categoryDao.addLanguage(categoryId, name, language)).build();
         } catch (Exception e) {

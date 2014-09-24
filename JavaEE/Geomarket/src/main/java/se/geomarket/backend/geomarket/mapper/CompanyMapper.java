@@ -45,7 +45,7 @@ public class CompanyMapper extends BaseMapper<CompanyDto, Company> {
             entity.setLocation(location);
             return entity;
         } catch (Exception e) {
-            logger.debug("[ Failed to map from dto {} to entity {} [ DTO EXT_ID: {} ]", dto.getClass().getName(), Company.class.getName(), dto.getExtId());
+            logger.debug("[ Failed to map from dto {} to entity {} [ DTO EXT_ID: {} ]", dto.getClass().getName(), Company.class.getName(), dto.getId());
             return null;
         }
     }

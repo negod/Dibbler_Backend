@@ -15,19 +15,28 @@ import se.geomarket.backend.geomarket.generics.BaseMapper;
  */
 public class NameMapper extends BaseMapper<NameDto, Name> {
 
+    private static final NameMapper INSTANCE = new NameMapper();
+
+    private NameMapper() {
+    }
+
+    public static NameMapper getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public Name mapFromDtoToEntity(NameDto dto) {
         Name entity = new Name();
         entity.setName(dto.getName());
-        entity.setLanguage(LanguageMapper.getInstance().mapFromDtoToEntity(dto.getLanguage()));
         return entity;
     }
 
     @Override
     public NameDto mapFromEntityToDto(Name entity) {
         NameDto dto = new NameDto();
+        dto.setId(entity.getExtId());
         dto.setName(entity.getName());
-        dto.setLanguage(LanguageMapper.getInstance().mapFromEntityToDto(entity.getLanguage()));
+        dto.setLanguageId(entity.getLanguage().getExtId());
         return dto;
     }
 

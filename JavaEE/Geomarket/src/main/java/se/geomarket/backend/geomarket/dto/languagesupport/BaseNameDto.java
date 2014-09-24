@@ -5,6 +5,7 @@
  */
 package se.geomarket.backend.geomarket.dto.languagesupport;
 
+import java.util.ArrayList;
 import java.util.List;
 import se.geomarket.backend.geomarket.generics.BaseDto;
 
@@ -13,15 +14,16 @@ import se.geomarket.backend.geomarket.generics.BaseDto;
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 public class BaseNameDto extends BaseDto {
-    
+
     private String defaultName;
     private String description;
-    List<NameDto> names;
+    List<NameDto> names = new ArrayList<>();
 
     public String getDefaultName() {
         return defaultName;
     }
 
+    
     public void setDefaultName(String defaultName) {
         this.defaultName = defaultName;
     }
@@ -30,6 +32,7 @@ public class BaseNameDto extends BaseDto {
         return description;
     }
 
+    
     public void setDescription(String description) {
         this.description = description;
     }
@@ -38,9 +41,9 @@ public class BaseNameDto extends BaseDto {
         return names;
     }
 
+    
     public void setNames(List<NameDto> names) {
         this.names = names;
     }
 
-    
 }

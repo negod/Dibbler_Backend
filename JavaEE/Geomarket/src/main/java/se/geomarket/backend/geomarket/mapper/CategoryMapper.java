@@ -7,6 +7,8 @@ package se.geomarket.backend.geomarket.mapper;
 
 import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.entity.Category;
+import se.geomarket.backend.geomarket.entity.superclass.BaseName;
+import se.geomarket.backend.geomarket.entity.superclass.Name;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 
 /**
@@ -31,7 +33,14 @@ public class CategoryMapper extends BaseMapper<CategoryDto, Category> {
 
     @Override
     public CategoryDto mapFromEntityToDto(Category entity) {
-        return (CategoryDto) BaseNameMapper.getInstance().mapFromEntityToDto(entity);
+        CategoryDto dto = new CategoryDto();
+        dto.setId(entity.getExtId());
+        dto.setDefaultName(entity.getDefaultName());
+        dto.setDescription(entity.getDescription());
+        for (Name name : entity.getNames()) {
+            dto.getNames().add(NameMapper.getInstance().mapFromEntityToDto(name));
+        }
+        return dto;
     }
 
     @Override

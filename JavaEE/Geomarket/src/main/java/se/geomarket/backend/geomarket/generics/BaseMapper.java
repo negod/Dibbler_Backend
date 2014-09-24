@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * @param <E> The Entity
  *
  */
-public abstract class BaseMapper<D extends BaseDto, E extends BaseEntity> {
+public abstract class BaseMapper<D extends BaseDtoEmpty, E extends BaseEntity> {
 
     public static final Logger logger = LoggerFactory.getLogger(BaseMapper.class);
 

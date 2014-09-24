@@ -5,6 +5,7 @@
  */
 package se.geomarket.backend.geomarket.ws;
 
+import com.wordnik.swagger.annotations.Api;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -31,6 +32,7 @@ import se.geomarket.backend.geomarket.mapper.CompanyUsersMapper;
  */
 @Stateless
 @Path("/companyUsers")
+@Api(value = "/companyUsers", description = "Handles all users in relation to a company")
 public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, CompanyUsersDao> {
 
     @EJB

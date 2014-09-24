@@ -5,6 +5,7 @@
  */
 package se.geomarket.backend.geomarket.ws;
 
+import com.wordnik.swagger.annotations.Api;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -30,6 +31,7 @@ import se.geomarket.backend.geomarket.generics.BaseWs;
  */
 @Stateless
 @Path("/settings")
+@Api(value = "/settings", description = "Handles all users application settings")
 public class SettingService extends BaseWs<SettingDto, Setting, SettingDao> {
 
     @EJB

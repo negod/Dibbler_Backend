@@ -5,6 +5,7 @@
  */
 package se.geomarket.backend.geomarket.ws;
 
+import com.wordnik.swagger.annotations.Api;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -33,6 +34,7 @@ import se.geomarket.backend.geomarket.mapper.UsersMapper;
  */
 @Stateless
 @Path("users")
+@Api(value = "/users", description = "Handles all Dibbler users")
 public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
 
     @Context

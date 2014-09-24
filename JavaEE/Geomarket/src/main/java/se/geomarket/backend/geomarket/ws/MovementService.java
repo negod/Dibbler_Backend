@@ -5,6 +5,7 @@
  */
 package se.geomarket.backend.geomarket.ws;
 
+import com.wordnik.swagger.annotations.Api;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -31,6 +32,7 @@ import se.geomarket.backend.geomarket.mapper.MovementMapper;
  */
 @Stateless
 @Path("/movements")
+@Api(value = "/movements", description = "Handles all users movements")
 public class MovementService extends BaseWs<MovementDto, Movement, MovementDao> {
 
     @EJB
