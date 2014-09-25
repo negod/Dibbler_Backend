@@ -17,6 +17,7 @@ import javax.ws.rs.core.Application;
 public class ApplicationConfig extends Application {
     
     //Tjubaduba GitHubTest!
+    //Detta är test2
 
     @Override
     public Set<Class<?>> getClasses() {
