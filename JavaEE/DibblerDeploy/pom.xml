@@ -19,6 +19,7 @@
                     <port>${wildfly-port}</port>
                     <username>${wildfly-username}</username>
                     <password>${wildfly-password}</password>
+                    <force>true</force>
                 </configuration>
                 <executions>
                     <execution>
