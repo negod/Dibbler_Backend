@@ -16,7 +16,7 @@ import javax.ws.rs.core.Application;
 @javax.ws.rs.ApplicationPath("webresources")
 public class ApplicationConfig extends Application {
     
-    //Tjubaduba GitHubTest!
+    //Tjubaduba GitHubTest hello test tjubi
    
     @Override
     public Set<Class<?>> getClasses() {
