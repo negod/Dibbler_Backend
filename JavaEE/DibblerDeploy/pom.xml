@@ -13,6 +13,8 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>1.0.0.Final</version>
                 <configuration>
+                    <filename>${filename}</filename>
+                    <targetDir>${project.build.directory}</targetDir>
                     <hostname>${wildfly-hostname}</hostname>
                     <port>${wildfly-port}</port>
                     <username>${wildfly-username}</username>
