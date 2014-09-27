@@ -63,6 +63,13 @@
             <scope>compile</scope>
         </dependency>
         
+        <!-- CORS FILTERING FOR SWAGGER -->
+        <dependency>
+            <groupId>com.thetransactioncompany</groupId>
+            <artifactId>cors-filter</artifactId>
+            <version>2.1</version>
+        </dependency>
+        
         <!-- LOGGING -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
