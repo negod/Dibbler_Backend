@@ -9,7 +9,6 @@ import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -23,7 +22,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.RolesDao;
-import se.geomarket.backend.geomarket.dto.MovementDto;
 import se.geomarket.backend.geomarket.dto.RolesDto;
 import se.geomarket.backend.geomarket.entity.Roles;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
@@ -36,7 +34,7 @@ import se.geomarket.backend.geomarket.mapper.RolesMapper;
  */
 @Stateless
 @Path("/roles")
-@Api(value = "/movements", description = "Handles all roles")
+@Api(value = "/roles", description = "Handles all roles")
 public class RolesService extends BaseWs<RolesDto, Roles, RolesDao> {
 
     @EJB
