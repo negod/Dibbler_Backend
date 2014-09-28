@@ -10,6 +10,8 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -26,6 +28,7 @@ import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.CategoryDao;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
 import se.geomarket.backend.geomarket.dto.CategoryDto;
+import se.geomarket.backend.geomarket.dto.languagesupport.NameDto;
 import se.geomarket.backend.geomarket.entity.Category;
 import se.geomarket.backend.geomarket.entity.CategoryName;
 import se.geomarket.backend.geomarket.entity.Language;
@@ -60,16 +63,9 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
         return CategoryMapper.getInstance();
     }
 
-    @POST
     @Override
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Add a new category", response = String.class, nickname = "insert", notes = "This is not implemented Use /create instead!!")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Method not accessible"),
-        @ApiResponse(code = 500, message = "Internal server error")})
     public Response insert(CategoryDto data) {
-        return ResponseUtil.getMethodNotSupportedError("User method [ create ] instead");
+        return ResponseUtil.getMethodNotSupportedError();
     }
 
     @GET
@@ -83,6 +79,19 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response getById(@PathParam("id") String id) {
         return super.getById(id);
+    }
+
+    @GET
+    @Path("{languageId}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(httpMethod = "GET", value = "Gets all Categorytypes in a certain language", response = CategoryDto.class, nickname = "getAllByLanguage")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns a Category"),
+        @ApiResponse(code = 500, message = "Internal server error")})
+    public Response getAllByLanguage(@PathParam("languageId") String languageId) {
+        List<NameDto> categories = categoryDao.getCategoriesByLanguage(languageId);
+        return Response.ok(categories).build();
     }
 
     @DELETE
@@ -126,11 +135,10 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @Path("/create")
-    @ApiOperation(httpMethod = "POST", value = "Creates a new category with default language and value set", response = String.class, nickname = "create", notes = "Returns the id of the created category")
+    @ApiOperation(httpMethod = "POST", value = "Add a new category", response = String.class, nickname = "create", notes = "")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the id of the created category"),
-        @ApiResponse(code = 500, message = "Could not get the categories")})
+        @ApiResponse(code = 200, message = "Method not accessible"),
+        @ApiResponse(code = 500, message = "Internal server error")})
     public Response insert(
             @ApiParam(value = "The category description", required = true) @QueryParam("description") String descr,
             @ApiParam(value = "The default name of the category", required = true) @QueryParam("defaultName") String defName,
@@ -144,12 +152,14 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
             category.setDescription(descr);
             category.setDefaultName(defName);
 
+            List<CategoryName> ceteogyNames =  new ArrayList<>();
             CategoryName categoryname = (CategoryName) EntityUtils.setEntityCreateData(new CategoryName());
             categoryname.setLanguage(languageEntity);
             categoryname.setName(defName);
             categoryname.setCategory(category);
+            ceteogyNames.add(categoryname);
 
-            category.getNames().add(categoryname);
+            category.setNames(ceteogyNames);
 
             super.insert(category);
 
@@ -169,8 +179,8 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
         @ApiResponse(code = 200, message = "Returns the id of the updated category"),
         @ApiResponse(code = 500, message = "Could not update categories")})
     public Response addLanguage(
-            @ApiParam(value = "The id for the Category that the new language will be added to", required = true) @QueryParam("categoryId") String categoryId, 
-            @ApiParam(value = "The name of the category in a new language", required = true) @QueryParam("name") String name, 
+            @ApiParam(value = "The id for the Category that the new language will be added to", required = true) @QueryParam("categoryId") String categoryId,
+            @ApiParam(value = "The name of the category in a new language", required = true) @QueryParam("name") String name,
             @ApiParam(value = "The id of the language to add", required = true) @QueryParam("languageId") String language) {
         try {
             return Response.ok(categoryDao.addLanguage(categoryId, name, language)).build();

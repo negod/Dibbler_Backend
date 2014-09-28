@@ -5,6 +5,9 @@
  */
 package se.geomarket.backend.geomarket.dto.languagesupport;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import se.geomarket.backend.geomarket.generics.BaseDtoEmpty;
 
 /**
@@ -12,6 +15,7 @@ import se.geomarket.backend.geomarket.generics.BaseDtoEmpty;
  * @author Joakim
  */
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class NameDto extends BaseDtoEmpty {
 
     private String id;

@@ -8,6 +8,7 @@ package se.geomarket.backend.geomarket.entity;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
@@ -19,13 +20,13 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Entity
 public class Event extends BaseEntity {
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Company company;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Category category;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private EventType eventType;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private EventText eventText;
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -101,7 +102,5 @@ public class Event extends BaseEntity {
     public void setMaxRedeem(Integer maxRedeem) {
         this.maxRedeem = maxRedeem;
     }
-    
-    
 
 }

@@ -14,11 +14,11 @@ import javax.ws.rs.core.Response;
 public class ResponseUtil {
 
     public static Response getMethodNotSupportedError() {
-        return Response.ok("Method not accessible").build();
+        return Response.ok("Method not supported").build();
     }
 
     public static Response getMethodNotSupportedError(String message) {
-        return Response.ok("Method not accessible. " + message).build();
+        return Response.ok("Method not supported.  " + message).build();
     }
 
 }
