@@ -6,7 +6,9 @@
 package se.geomarket.backend.geomarket.ws;
 
 import com.wordnik.swagger.annotations.Api;
-import java.util.List;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -52,6 +54,10 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(httpMethod = "POST", value = "Add a new Company", response = String.class, nickname = "insert", notes = "!")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns the Id of the created Company"),
+        @ApiResponse(code = 500, message = "Internal server error")})
     public Response insert(CompanyUsersDto data) {
         return super.insert(data);
     }

@@ -8,7 +8,7 @@ package se.geomarket.backend.geomarket.dao;
 import java.util.List;
 import javax.ejb.Local;
 import org.hibernate.search.query.dsl.Unit;
-import se.geomarket.backend.geomarket.entity.Location;
+import se.geomarket.backend.geomarket.entity.Company;
 import se.geomarket.backend.geomarket.generics.BaseDao;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
@@ -20,6 +20,6 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Local
 public interface CompanyDao<E extends BaseEntity> extends BaseDao<E> {
 
-    public List<Location> getCompanyByLocation(Double longitude, Double latitude, Double radius, Unit unit);
+    public List<Company> getCompanyByLocation(Double longitude, Double latitude, Double radius, Unit unit);
 
 }

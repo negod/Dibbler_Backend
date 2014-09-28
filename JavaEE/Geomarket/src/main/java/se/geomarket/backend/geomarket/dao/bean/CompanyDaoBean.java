@@ -5,6 +5,7 @@
  */
 package se.geomarket.backend.geomarket.dao.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import org.apache.lucene.search.Query;
@@ -30,7 +31,7 @@ public class CompanyDaoBean extends BaseDaoBean implements CompanyDao {
     }
 
     @Override
-    public List<Location> getCompanyByLocation(Double longitude, Double latitude, Double radius, Unit unit) {
+    public List<Company> getCompanyByLocation(Double longitude, Double latitude, Double radius, Unit unit) {
         Session session = (Session) super.getEntityManager().getDelegate();
         FullTextSession fullTextSession = Search.getFullTextSession(session);
         QueryBuilder builder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(Location.class).get();
@@ -42,7 +43,7 @@ public class CompanyDaoBean extends BaseDaoBean implements CompanyDao {
         org.hibernate.Query hibQuery = fullTextSession.createFullTextQuery(query,
                 Location.class);
         List<Location> results = hibQuery.list();
-        return results;
+        return extractCompanies(results);
 
 
         /*Coordinates coordinates = Point.fromDegrees(24d, 31.5d);
@@ -54,6 +55,14 @@ public class CompanyDaoBean extends BaseDaoBean implements CompanyDao {
          .createQuery();
 
          List results = fullTextSession.createFullTextQuery( query, POI.class ).list();*/
+    }
+
+    private List<Company> extractCompanies(List<Location> locations) {
+        List<Company> companies = new ArrayList<>();
+        for (Location loc : locations) {
+            companies.add(loc.getCompany());
+        }
+        return companies;
     }
 
 }

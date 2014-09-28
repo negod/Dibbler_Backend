@@ -20,5 +20,9 @@ public class ResponseUtil {
     public static Response getMethodNotSupportedError(String message) {
         return Response.ok("Method not supported.  " + message).build();
     }
+    
+     public static Response getErrorMessage() {
+       return Response.serverError().status(Response.Status.NO_CONTENT).build();
+    }
 
 }

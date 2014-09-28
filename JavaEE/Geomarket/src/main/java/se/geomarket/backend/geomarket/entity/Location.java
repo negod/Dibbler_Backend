@@ -7,6 +7,7 @@ package se.geomarket.backend.geomarket.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.Latitude;
@@ -33,7 +34,7 @@ public class Location extends BaseEntity {
     @Column
     private String name;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     Company company;
 
     public Double getLatitude() {

@@ -5,9 +5,6 @@
  */
 package se.geomarket.backend.geomarket.dao;
 
-import java.util.List;
-import javax.ejb.Local;
-import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.generics.BaseDao;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
@@ -16,11 +13,6 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
  * @author Joakim
  * @param <E>
  */
-@Local
-public interface CategoryDao<E extends BaseEntity> extends BaseDao<E> {
-
-    public String addLanguage(String categoryId, String name, String language);
-
-    public List<NameSummaryDto> getCategoriesByLanguage(String languageId);
-
+public interface EventDao<E extends BaseEntity> extends BaseDao<E> {
+    
 }

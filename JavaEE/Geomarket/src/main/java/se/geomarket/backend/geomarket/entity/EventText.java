@@ -25,8 +25,8 @@ public class EventText extends BaseEntity {
     private String body;
     @OneToOne
     Language language;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Category category;
+    @OneToOne(fetch = FetchType.LAZY)
+    private Event event;
 
     public String getHeading() {
         return heading;
@@ -52,12 +52,12 @@ public class EventText extends BaseEntity {
         this.language = language;
     }
 
-    public Category getCategory() {
-        return category;
+    public Event getEvent() {
+        return event;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setEvent(Event event) {
+        this.event = event;
     }
 
 }

@@ -28,7 +28,7 @@ import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.CategoryDao;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
 import se.geomarket.backend.geomarket.dto.CategoryDto;
-import se.geomarket.backend.geomarket.dto.languagesupport.NameDto;
+import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.entity.Category;
 import se.geomarket.backend.geomarket.entity.CategoryName;
 import se.geomarket.backend.geomarket.entity.Language;
@@ -90,35 +90,8 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
         @ApiResponse(code = 200, message = "Returns a Category"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response getAllByLanguage(@PathParam("languageId") String languageId) {
-        List<NameDto> categories = categoryDao.getCategoriesByLanguage(languageId);
+        List<NameSummaryDto> categories = categoryDao.getCategoriesByLanguage(languageId);
         return Response.ok(categories).build();
-    }
-
-    @DELETE
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    @Override
-    @ApiOperation(httpMethod = "DELETE", value = "Deletes a category bi Id", response = String.class, nickname = "delete")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = ""),
-        @ApiResponse(code = 500, message = "Internal server error")})
-    public Response delete(@PathParam("id") Long id) {
-        return super.delete(id);
-    }
-
-    @PUT
-    @Path("{id}")
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    @Override
-    @ApiOperation(httpMethod = "PUT", value = "Updates a category", response = String.class, nickname = "update", notes = "This Method is not supported")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Method not accessible"),
-        @ApiResponse(code = 500, message = "Internal server error")})
-    public Response update(
-            @ApiParam(value = "The new Category data", required = true) CategoryDto data,
-            @ApiParam(value = "The id of the Category", required = true) @PathParam("id") String id) {
-        return ResponseUtil.getMethodNotSupportedError();
     }
 
     @GET
@@ -152,7 +125,7 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
             category.setDescription(descr);
             category.setDefaultName(defName);
 
-            List<CategoryName> ceteogyNames =  new ArrayList<>();
+            List<CategoryName> ceteogyNames = new ArrayList<>();
             CategoryName categoryname = (CategoryName) EntityUtils.setEntityCreateData(new CategoryName());
             categoryname.setLanguage(languageEntity);
             categoryname.setName(defName);
@@ -187,6 +160,33 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
         } catch (Exception e) {
             return Response.serverError().build();
         }
+    }
+
+    @DELETE
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Override
+    @ApiOperation(httpMethod = "DELETE", value = "Deletes a category bi Id", response = String.class, nickname = "delete")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = ""),
+        @ApiResponse(code = 500, message = "Internal server error")})
+    public Response delete(@PathParam("id") Long id) {
+        return super.delete(id);
+    }
+
+    @PUT
+    @Path("{id}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Override
+    @ApiOperation(httpMethod = "PUT", value = "Updates a category", response = String.class, nickname = "update", notes = "This Method is not supported")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Method not accessible"),
+        @ApiResponse(code = 500, message = "Internal server error")})
+    public Response update(
+            @ApiParam(value = "The new Category data", required = true) CategoryDto data,
+            @ApiParam(value = "The id of the Category", required = true) @PathParam("id") String id) {
+        return ResponseUtil.getMethodNotSupportedError();
     }
 
 }

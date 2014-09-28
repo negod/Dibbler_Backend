@@ -20,13 +20,13 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Entity
 public class Event extends BaseEntity {
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     private Company company;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     private Category category;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     private EventType eventType;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     private EventText eventText;
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
