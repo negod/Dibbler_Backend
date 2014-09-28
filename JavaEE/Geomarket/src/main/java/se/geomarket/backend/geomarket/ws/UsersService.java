@@ -6,6 +6,9 @@
 package se.geomarket.backend.geomarket.ws;
 
 import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -22,6 +25,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import se.geomarket.backend.geomarket.dao.UsersDao;
+import se.geomarket.backend.geomarket.dto.SettingDto;
 import se.geomarket.backend.geomarket.dto.UsersDto;
 import se.geomarket.backend.geomarket.entity.Users;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
@@ -56,6 +60,10 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(httpMethod = "POST", value = "Add a new User", response = String.class, nickname = "insert", notes = "!")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns the Id of the created User"),
+        @ApiResponse(code = 500, message = "Internal server error")})
     public Response insert(UsersDto data) {
         return super.insert(data);
     }
@@ -65,6 +73,10 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
+    @ApiOperation(httpMethod = "GET", value = "Gets a User by Id", response = UsersDto.class, nickname = "getById")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns a User"),
+        @ApiResponse(code = 500, message = "Internal server error")})
     public Response getById(@PathParam("id") String id) {
         return super.getById(id);
     }
@@ -73,6 +85,10 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
+    @ApiOperation(httpMethod = "DELETE", value = "Deletes a User by Id", response = String.class, nickname = "delete")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = ""),
+        @ApiResponse(code = 500, message = "Internal server error")})
     public Response delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
@@ -82,6 +98,10 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
+    @ApiOperation(httpMethod = "PUT", value = "Update a User", response = String.class, nickname = "update")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns the id of the User"),
+        @ApiResponse(code = 500, message = "Internal server error")})
     public Response update(UsersDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }

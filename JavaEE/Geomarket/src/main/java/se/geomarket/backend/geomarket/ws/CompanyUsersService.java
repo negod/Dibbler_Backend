@@ -22,7 +22,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.CompanyUsersDao;
+import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.dto.CompanyUsersDto;
+import se.geomarket.backend.geomarket.dto.EventDto;
 import se.geomarket.backend.geomarket.entity.CompanyUsers;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
@@ -67,6 +69,10 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
+    @ApiOperation(httpMethod = "GET", value = "Gets a Copmany User by Id", response = CategoryDto.class, nickname = "getById")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns a Category"),
+        @ApiResponse(code = 500, message = "Internal server error")})
     public Response getById(@PathParam("id") String id) {
         return super.getById(id);
     }
@@ -75,6 +81,10 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
+    @ApiOperation(httpMethod = "DELETE", value = "Deletes a CompanyUser by Id", response = String.class, nickname = "delete")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = ""),
+        @ApiResponse(code = 500, message = "Internal server error")})
     public Response delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
@@ -84,6 +94,10 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
+     @ApiOperation(httpMethod = "PUT", value = "Updates a Company", response = String.class, nickname = "update")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns the Company ID"),
+        @ApiResponse(code = 500, message = "Internal server error")})
     public Response update(CompanyUsersDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }

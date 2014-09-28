@@ -79,7 +79,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets an event by Id", response = EventDto.class, nickname = "getById")
+    @ApiOperation(httpMethod = "GET", value = "Gets an Event by Id", response = EventDto.class, nickname = "getById")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns a Category"),
         @ApiResponse(code = 500, message = "Internal server error")})
@@ -130,9 +130,9 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "PUT", value = "Update an event", response = EventDto.class, nickname = "update")
+    @ApiOperation(httpMethod = "PUT", value = "Update an event", response = String.class, nickname = "update")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Event updated"),
+        @ApiResponse(code = 200, message = "Returns the id of the Event"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response update(EventDto data, @PathParam("id") String id) {
         return super.update(data, id);

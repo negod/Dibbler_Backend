@@ -26,7 +26,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.hibernate.search.query.dsl.Unit;
 import se.geomarket.backend.geomarket.dao.CompanyDao;
+import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.dto.CompanyDto;
+import se.geomarket.backend.geomarket.dto.EventDto;
 import se.geomarket.backend.geomarket.entity.Company;
 import se.geomarket.backend.geomarket.entity.Location;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
@@ -72,6 +74,10 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
+    @ApiOperation(httpMethod = "GET", value = "Gets a Company by id", response = String.class, nickname = "getById", notes = "!")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns a Company"),
+        @ApiResponse(code = 500, message = "Internal server error")})
     public Response getById(@PathParam("id") String id) {
         return super.getById(id);
     }
@@ -94,6 +100,10 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
+    @ApiOperation(httpMethod = "DELETE", value = "Deletes a Company by Id", response = String.class, nickname = "delete")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = ""),
+        @ApiResponse(code = 500, message = "Internal server error")})
     public Response delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
@@ -103,6 +113,10 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
+    @ApiOperation(httpMethod = "PUT", value = "Updates a Company", response = String.class, nickname = "update")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns the Company ID"),
+        @ApiResponse(code = 500, message = "Internal server error")})
     public Response update(CompanyDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
@@ -110,6 +124,10 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all Companies", response = CategoryDto.class, nickname = "getAll", notes = "")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "All Companies found"),
+        @ApiResponse(code = 500, message = "Could not get the categories")})
     public Response getAll() {
         return super.getAll();
     }
