@@ -26,14 +26,16 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.hibernate.search.query.dsl.Unit;
 import se.geomarket.backend.geomarket.dao.CompanyDao;
+import se.geomarket.backend.geomarket.dao.LocationDao;
 import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.dto.CompanyDto;
-import se.geomarket.backend.geomarket.dto.EventDto;
 import se.geomarket.backend.geomarket.entity.Company;
 import se.geomarket.backend.geomarket.entity.Location;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
 import se.geomarket.backend.geomarket.mapper.CompanyMapper;
+import se.geomarket.backend.geomarket.mapper.LocationMapper;
+import se.geomarket.backend.geomarket.utils.EntityUtils;
 
 /**
  *
@@ -46,6 +48,8 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
 
     @EJB
     CompanyDao companyDao;
+    @EJB
+    LocationDao locationDao;
 
     @Override
     public CompanyDao getDao() {
@@ -66,7 +70,12 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
         @ApiResponse(code = 200, message = "Returns the Id of the created Company"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response insert(CompanyDto data) {
-        return super.insert(data);
+        Company company = CompanyMapper.getInstance().mapFromDtoToEntity(data);
+        Location location = LocationMapper.getInstance().mapFromDtoToEntity(data.getLocation());
+        EntityUtils.setEntityCreateData(location);
+        location.setCompany(company);
+        company.setLocation(location);
+        return super.insert(company);
     }
 
     @GET
@@ -74,26 +83,12 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a Company by id", response = String.class, nickname = "getById", notes = "!")
+    @ApiOperation(httpMethod = "GET", value = "Gets a Company by id", response = CompanyDto.class, nickname = "getById", notes = "!")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns a Company"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response getById(@PathParam("id") String id) {
         return super.getById(id);
-    }
-
-    @GET
-    @Path("location")
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    public List<Location> getLocatoions(@QueryParam("longitude") Double longitude, @QueryParam("latitude") Double latitude, @QueryParam("radius") Double radius) {
-        try {
-            List<Location> locations = companyDao.getCompanyByLocation(longitude, latitude, radius, Unit.KM);
-            return locations;
-        } catch (Exception e) {
-            return new ArrayList<Location>();
-        }
-
     }
 
     @DELETE
@@ -124,7 +119,7 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a list of all Companies", response = CategoryDto.class, nickname = "getAll", notes = "")
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all Companies", response = CompanyDto.class, nickname = "getAll", notes = "")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "All Companies found"),
         @ApiResponse(code = 500, message = "Could not get the categories")})

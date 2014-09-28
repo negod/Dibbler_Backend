@@ -6,6 +6,7 @@
 package se.geomarket.backend.geomarket.entity;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import se.geomarket.backend.geomarket.entity.superclass.BaseName;
@@ -17,7 +18,7 @@ import se.geomarket.backend.geomarket.entity.superclass.BaseName;
 @Entity
 public class EventType extends BaseName {
 
-    @OneToMany(mappedBy = "eventType")
+    @OneToMany(mappedBy = "eventType", cascade = CascadeType.ALL)
     List<EventTypeName> names;
 
     public List<EventTypeName> getNames() {

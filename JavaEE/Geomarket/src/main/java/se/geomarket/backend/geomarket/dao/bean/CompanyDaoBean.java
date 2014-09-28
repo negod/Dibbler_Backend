@@ -40,8 +40,7 @@ public class CompanyDaoBean extends BaseDaoBean implements CompanyDao {
                 .ofLatitude(latitude)
                 .andLongitude(longitude)
                 .createQuery();
-        org.hibernate.Query hibQuery = fullTextSession.createFullTextQuery(query,
-                Location.class);
+        org.hibernate.Query hibQuery = fullTextSession.createFullTextQuery(query,  Location.class);
         List<Location> results = hibQuery.list();
         return extractCompanies(results);
 

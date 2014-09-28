@@ -5,14 +5,14 @@
  */
 package se.geomarket.backend.geomarket.dto;
 
-import se.geomarket.backend.geomarket.generics.BaseDto;
+import se.geomarket.backend.geomarket.generics.BaseDtoEmpty;
 
 /**
  *
  * @author Joakim
  */
-public class PointDto extends BaseDto{
-    
+public class PointDto extends BaseDtoEmpty {
+
     private Double longitude;
     private Double latitude;
 
@@ -31,7 +31,5 @@ public class PointDto extends BaseDto{
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
-    
-    
-    
+
 }

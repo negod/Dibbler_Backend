@@ -5,14 +5,12 @@
  */
 package se.geomarket.backend.geomarket.dto;
 
-import se.geomarket.backend.geomarket.generics.BaseDto;
+import se.geomarket.backend.geomarket.dto.languagesupport.BaseNameDto;
 
 /**
  *
  * @author Joakim
  */
-public class EventDto extends BaseDto{
-    
-    
-    
+public class EventTypeDto extends BaseNameDto {
+
 }

@@ -101,10 +101,10 @@ public class FilterService extends BaseWs<FilterDto, Filter, FilterDao> {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a list of all Filters", response = CategoryDto.class, nickname = "getAll", notes = "")
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all CompanyUsers", response = CategoryDto.class, nickname = "getAll", notes = "")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "All Filters found"),
-        @ApiResponse(code = 500, message = "Could not get the Filters")})
+        @ApiResponse(code = 200, message = "All CompanyUsers found"),
+        @ApiResponse(code = 500, message = "Could not get the CompanyUsers")})
     public Response getAll() {
         return super.getAll();
     }

@@ -23,7 +23,7 @@ public class EventText extends BaseEntity {
     private String heading;
     @Column
     private String body;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     Language language;
     @OneToOne(fetch = FetchType.LAZY)
     private Event event;

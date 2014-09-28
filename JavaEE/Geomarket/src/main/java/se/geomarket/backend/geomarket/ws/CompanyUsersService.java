@@ -94,7 +94,7 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-     @ApiOperation(httpMethod = "PUT", value = "Updates a Company", response = String.class, nickname = "update")
+    @ApiOperation(httpMethod = "PUT", value = "Updates a Company", response = String.class, nickname = "update")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Company ID"),
         @ApiResponse(code = 500, message = "Internal server error")})
@@ -105,6 +105,10 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all CompanyUsers", response = CategoryDto.class, nickname = "getAll", notes = "")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "All CompanyUsers found"),
+        @ApiResponse(code = 500, message = "Could not get the CompanyUsers")})
     public Response getAll() {
         return super.getAll();
     }

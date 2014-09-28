@@ -11,10 +11,10 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
  *
- * @author Joakikm Johansson (joakimjohansson@outlook.com)
- * @param <E>
+ * @author Joakim
  */
-@Local
-public interface FilterDao<E extends BaseEntity> extends BaseDao<E> {
 
+@Local
+public interface LocationDao<E extends BaseEntity> extends BaseDao<E> {
+    
 }

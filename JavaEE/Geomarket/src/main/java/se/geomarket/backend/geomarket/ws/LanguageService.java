@@ -97,6 +97,7 @@ public class LanguageService extends BaseWs<LanguageDto, Language, LanguageDao> 
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the id of the Language"),
         @ApiResponse(code = 500, message = "Internal server error")})
+    @Override
     public Response update(LanguageDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
