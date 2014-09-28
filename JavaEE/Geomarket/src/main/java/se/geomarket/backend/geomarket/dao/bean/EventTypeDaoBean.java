@@ -22,7 +22,6 @@ import se.geomarket.backend.geomarket.utils.EntityUtils;
  *
  * @author Joakim
  */
-
 @Stateless
 public class EventTypeDaoBean extends BaseDaoBean implements EventTypeDao {
 

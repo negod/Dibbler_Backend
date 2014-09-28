@@ -48,7 +48,7 @@ public class Company extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<CompanyUsers> companyUsers;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "company")
     private List<Event> events;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

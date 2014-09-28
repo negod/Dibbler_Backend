@@ -26,16 +26,24 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.hibernate.search.query.dsl.Unit;
+import se.geomarket.backend.geomarket.dao.CategoryDao;
 import se.geomarket.backend.geomarket.dao.CompanyDao;
 import se.geomarket.backend.geomarket.dao.EventDao;
+import se.geomarket.backend.geomarket.dao.EventTypeDao;
+import se.geomarket.backend.geomarket.dao.LanguageDao;
 import se.geomarket.backend.geomarket.dto.EventDto;
 import se.geomarket.backend.geomarket.dto.summary.EventSummaryDto;
+import se.geomarket.backend.geomarket.entity.Category;
 import se.geomarket.backend.geomarket.entity.Company;
 import se.geomarket.backend.geomarket.entity.Event;
+import se.geomarket.backend.geomarket.entity.EventText;
+import se.geomarket.backend.geomarket.entity.EventType;
+import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
 import se.geomarket.backend.geomarket.mapper.EventMapper;
 import se.geomarket.backend.geomarket.mapper.summary.EventSummaryMapper;
+import se.geomarket.backend.geomarket.utils.EntityUtils;
 import se.geomarket.backend.geomarket.utils.ResponseUtil;
 
 /**
@@ -43,14 +51,20 @@ import se.geomarket.backend.geomarket.utils.ResponseUtil;
  * @author Joakim
  */
 @Stateless
-@Path("/Events")
-@Api(value = "/Events", description = "Handles all Events")
+@Path("/events")
+@Api(value = "/events", description = "Handles all Events")
 public class EventService extends BaseWs<EventDto, Event, EventDao> {
 
     @EJB
     CompanyDao companyDao;
     @EJB
     EventDao eventDao;
+    @EJB
+    EventTypeDao eventTypeDao;
+    @EJB
+    CategoryDao categoryDao;
+    @EJB
+    LanguageDao languageDao;
 
     @Override
     public EventDao getDao() {
@@ -66,12 +80,42 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Add a new Events", response = String.class, nickname = "insert", notes = "")
+    @ApiOperation(httpMethod = "POST", value = "Add a new Event", response = String.class, nickname = "insert", notes = "")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the created Event"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response insert(EventDto data) {
-        return super.insert(data);
+        Event event = new Event();
+
+        Company company = (Company) companyDao.getByExtId(data.getCompanyId());
+        EventType eventType = (EventType) eventTypeDao.getByExtId(data.getEventTypeId());
+        Category category = (Category) categoryDao.getByExtId(data.getCategoryId());
+        Language language = (Language) languageDao.getByExtId(data.getLanguageId());
+
+        EventText eventText = new EventText();
+        EntityUtils.setEntityCreateData(eventText);
+        eventText.setLanguage(language);
+        eventText.setHeading(data.getEventHeader());
+        eventText.setBody(data.getEventTextBody());
+
+        EntityUtils.setEntityCreateData(event);
+        event.setCategory(category);
+        event.setCompany(company);
+        event.setEventType(eventType);
+        event.setEndDate(data.getEndDate());
+        event.setStartDate(data.getStartDate());
+        event.setMaxRedeem(data.getMaxredeem());
+        event.setEventText(eventText);
+
+        if (company.getEvents() == null) {
+            List<Event> events = new ArrayList<>();
+            events.add(event);
+            company.getEvents().add(event);
+        } else {
+            company.getEvents().add(event);
+        }
+
+        return Response.ok(event.getExtId()).build();
     }
 
     @GET
@@ -79,7 +123,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets an Event by Id", response = EventDto.class, nickname = "getById")
+    @ApiOperation(httpMethod = "GET", value = "Gets an Event by Id", response = EventSummaryDto.class, nickname = "getById")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns a Event"),
         @ApiResponse(code = 500, message = "Internal server error")})

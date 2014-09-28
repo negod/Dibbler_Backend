@@ -5,19 +5,23 @@
  */
 package se.geomarket.backend.geomarket.dao.bean;
 
+import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import se.geomarket.backend.geomarket.dao.EventTextDao;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
-import se.geomarket.backend.geomarket.entity.Language;
+import se.geomarket.backend.geomarket.entity.EventText;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
 
 /**
  *
- * @author Joakikm Johansson (joakimjohansson@outlook.com)
+ * @author Joakim
  */
 @Stateless
-public class LanguageDaoBean extends BaseDaoBean implements LanguageDao {
+public class EventTextDaoBean extends BaseDaoBean implements EventTextDao {
 
-    public LanguageDaoBean() {
-        super(Language.class);
+    public EventTextDaoBean() {
+        super(EventText.class);
     }
+
 }

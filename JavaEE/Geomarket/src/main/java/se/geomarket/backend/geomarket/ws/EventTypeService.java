@@ -104,7 +104,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @Produces({MediaType.APPLICATION_JSON})
     @ApiOperation(httpMethod = "POST", value = "Add a new EventType", response = String.class, nickname = "create", notes = "")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Method not accessible"),
+        @ApiResponse(code = 200, message = "Returns the ID of the EventType"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response insert(
             @ApiParam(value = "The EventType description", required = true) @QueryParam("description") String descr,
@@ -112,7 +112,6 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
             @ApiParam(value = "The id of the default language", required = true) @QueryParam("languageId") String language) {
 
         try {
-
             Language languageEntity = (Language) languageDao.getByExtId(language);
 
             EventType eventType = new EventType();

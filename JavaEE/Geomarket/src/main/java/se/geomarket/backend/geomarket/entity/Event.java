@@ -6,9 +6,11 @@
 package se.geomarket.backend.geomarket.entity;
 
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
@@ -20,13 +22,13 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Entity
 public class Event extends BaseEntity {
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
     @OneToOne(fetch = FetchType.LAZY)
     private Category category;
     @OneToOne(fetch = FetchType.LAZY)
     private EventType eventType;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private EventText eventText;
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)

@@ -14,7 +14,6 @@ import se.geomarket.backend.geomarket.generics.BaseDaoBean;
  *
  * @author Joakim
  */
-
 @Stateless
 public class EventDaoBean extends BaseDaoBean implements EventDao {
 

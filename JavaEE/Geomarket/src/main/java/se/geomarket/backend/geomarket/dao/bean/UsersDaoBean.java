@@ -15,7 +15,7 @@ import se.geomarket.backend.geomarket.generics.BaseDaoBean;
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Stateless
-public class UsersDaoBean extends BaseDaoBean implements UsersDao{
+public class UsersDaoBean extends BaseDaoBean implements UsersDao {
 
     public UsersDaoBean() {
         super(Users.class);

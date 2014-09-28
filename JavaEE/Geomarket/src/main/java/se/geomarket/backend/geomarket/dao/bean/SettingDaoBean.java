@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package se.geomarket.backend.geomarket.dao.bean;
 
 import javax.ejb.Stateless;
@@ -17,9 +16,9 @@ import se.geomarket.backend.geomarket.generics.BaseDaoBean;
  */
 @Stateless
 public class SettingDaoBean extends BaseDaoBean implements SettingDao {
-    
-     public SettingDaoBean() {
+
+    public SettingDaoBean() {
         super(Setting.class);
     }
-    
+
 }
