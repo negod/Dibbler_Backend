@@ -41,7 +41,7 @@ public class EventDto extends BaseDto {
 
     @XmlElement(type = String.class, required = true)
     @ApiModelProperty(value = "A short header to the event [ Will be refactored to support several languages ]", required = true)
-    String EventHeader;
+    String eventHeader;
 
     @XmlElement(type = String.class, required = true)
     @ApiModelProperty(value = "Informative text about the event [ Will be refactored to support several languages ]", required = true)
@@ -92,11 +92,11 @@ public class EventDto extends BaseDto {
     }
 
     public String getEventHeader() {
-        return EventHeader;
+        return eventHeader;
     }
 
     public void setEventHeader(String EventHeader) {
-        this.EventHeader = EventHeader;
+        this.eventHeader = EventHeader;
     }
 
     public String getEventTextBody() {

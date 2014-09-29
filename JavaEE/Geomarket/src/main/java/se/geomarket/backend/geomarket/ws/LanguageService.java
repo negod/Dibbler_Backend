@@ -7,6 +7,7 @@ package se.geomarket.backend.geomarket.ws;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 import javax.ejb.EJB;
@@ -56,11 +57,11 @@ public class LanguageService extends BaseWs<LanguageDto, Language, LanguageDao> 
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Add a new Language", response = String.class, nickname = "insert", notes = "!")
+    @ApiOperation(httpMethod = "POST", value = "Add a new language", response = String.class, nickname = "insert")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the Id of the created Language"),
+        @ApiResponse(code = 200, message = "Returns the id of the created language"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response insert(LanguageDto data) {
+    public Response insert(@ApiParam(value = "The new language", required = true) LanguageDto data) {
         return super.insert(data);
     }
 
@@ -69,11 +70,12 @@ public class LanguageService extends BaseWs<LanguageDto, Language, LanguageDao> 
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a Language by Id", response = LanguageDto.class, nickname = "getById")
+    @ApiOperation(httpMethod = "GET", value = "Gets a language by id", response = LanguageDto.class, nickname = "getById")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns a Language"),
+        @ApiResponse(code = 200, message = "Returns a language"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response getById(@PathParam("id") String id) {
+    public Response getById(
+            @ApiParam(value = "The id for the language", required = true) @PathParam("id") String id) {
         return super.getById(id);
     }
 
@@ -81,11 +83,12 @@ public class LanguageService extends BaseWs<LanguageDto, Language, LanguageDao> 
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "DELETE", value = "Deletes a Language by Id", response = String.class, nickname = "delete")
+    @ApiOperation(httpMethod = "DELETE", value = "Deletes a language by id", response = String.class, nickname = "delete")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = ""),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response delete(@PathParam("id") Long id) {
+    public Response delete(
+            @ApiParam(value = "The id for the language", required = true) @PathParam("id") Long id) {
         return super.delete(id);
     }
 
@@ -93,18 +96,20 @@ public class LanguageService extends BaseWs<LanguageDto, Language, LanguageDao> 
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "PUT", value = "Update a Language", response = String.class, nickname = "update")
+    @ApiOperation(httpMethod = "PUT", value = "Update a language", response = String.class, nickname = "update")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the id of the Language"),
         @ApiResponse(code = 500, message = "Internal server error")})
     @Override
-    public Response update(LanguageDto data, @PathParam("id") String id) {
+    public Response update(
+            @ApiParam(value = "The new language data", required = true) LanguageDto data,
+            @ApiParam(value = "The id for the language", required = true) @PathParam("id") String id) {
         return super.update(data, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "GET", value = "Gets a list of all Languages", response = CategoryDto.class, nickname = "getAll", notes = "")
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all Languages", response = CategoryDto.class, nickname = "getAll")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "All CompanyUsers found"),
         @ApiResponse(code = 500, message = "Could not get the Languages")})

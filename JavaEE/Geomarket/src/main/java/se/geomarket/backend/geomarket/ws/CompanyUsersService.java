@@ -30,7 +30,7 @@ import se.geomarket.backend.geomarket.generics.BaseWs;
 import se.geomarket.backend.geomarket.mapper.CompanyUsersMapper;
 
 /**
- *
+ * KOLLA ÖVER DENNA!!
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Stateless
@@ -55,7 +55,7 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Add a new Company", response = String.class, nickname = "insert", notes = "!")
+    @ApiOperation(httpMethod = "POST", value = "Add a new Company", response = String.class, nickname = "insert")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the created Company"),
         @ApiResponse(code = 500, message = "Internal server error")})
@@ -104,7 +104,7 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a list of all CompanyUsers", response = CategoryDto.class, nickname = "getAll", notes = "")
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all CompanyUsers", response = CategoryDto.class, nickname = "getAll")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "All CompanyUsers found"),
         @ApiResponse(code = 500, message = "Could not get the CompanyUsers")})

@@ -34,7 +34,7 @@ import se.geomarket.backend.geomarket.mapper.RolesMapper;
  */
 @Stateless
 @Path("/roles")
-@Api(value = "/roles", description = "Handles all roles")
+@Api(value = "/roles", description = "Handles all roles", hidden = true)
 public class RolesService extends BaseWs<RolesDto, Roles, RolesDao> {
 
     @EJB
@@ -54,7 +54,7 @@ public class RolesService extends BaseWs<RolesDto, Roles, RolesDao> {
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Add a new Role", response = String.class, nickname = "insert", notes = "!")
+    @ApiOperation(httpMethod = "POST", value = "Add a new Role", response = String.class, nickname = "insert", hidden = true)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the created Role"),
         @ApiResponse(code = 500, message = "Internal server error")})

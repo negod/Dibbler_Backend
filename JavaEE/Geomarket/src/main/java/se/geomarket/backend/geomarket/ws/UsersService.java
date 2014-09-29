@@ -36,7 +36,7 @@ import se.geomarket.backend.geomarket.mapper.UsersMapper;
  */
 @Stateless
 @Path("users")
-@Api(value = "/users", description = "Handles all Dibbler users")
+@Api(value = "/users", description = "Handles all Dibbler users", hidden = true)
 public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
 
     @Context
@@ -58,7 +58,7 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Add a new User", response = String.class, nickname = "insert", notes = "!")
+    @ApiOperation(httpMethod = "POST", value = "Add a new User", response = String.class, nickname = "insert")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the created User"),
         @ApiResponse(code = 500, message = "Internal server error")})

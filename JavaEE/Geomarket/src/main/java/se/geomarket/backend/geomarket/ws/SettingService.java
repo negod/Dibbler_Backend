@@ -53,7 +53,7 @@ public class SettingService extends BaseWs<SettingDto, Setting, SettingDao> {
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Add a new Setting", response = String.class, nickname = "insert", notes = "!")
+    @ApiOperation(httpMethod = "POST", value = "Add a new Setting", response = String.class, nickname = "insert")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the created Setting"),
         @ApiResponse(code = 500, message = "Internal server error")})

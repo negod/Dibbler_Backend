@@ -9,8 +9,6 @@ import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
-import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -21,13 +19,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.hibernate.search.query.dsl.Unit;
 import se.geomarket.backend.geomarket.dao.CompanyDao;
 import se.geomarket.backend.geomarket.dao.LocationDao;
-import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.dto.CompanyDto;
 import se.geomarket.backend.geomarket.entity.Company;
 import se.geomarket.backend.geomarket.entity.Location;
@@ -65,7 +60,7 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Add a new Company", response = String.class, nickname = "insert", notes = "!")
+    @ApiOperation(httpMethod = "POST", value = "Add a new Company", response = String.class, nickname = "insert")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the created Company"),
         @ApiResponse(code = 500, message = "Internal server error")})
@@ -83,9 +78,9 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a Company by id", response = CompanyDto.class, nickname = "getById", notes = "!")
+    @ApiOperation(httpMethod = "GET", value = "Gets a Company by id", response = CompanyDto.class, nickname = "getById")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns a Company"),
+        @ApiResponse(code = 200, message = "Returns a company"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response getById(@PathParam("id") String id) {
         return super.getById(id);
@@ -95,7 +90,7 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "DELETE", value = "Deletes a Company by Id", response = String.class, nickname = "delete")
+    @ApiOperation(httpMethod = "DELETE", value = "Deletes a company by Id", response = String.class, nickname = "delete")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = ""),
         @ApiResponse(code = 500, message = "Internal server error")})
@@ -108,9 +103,9 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "PUT", value = "Updates a Company", response = String.class, nickname = "update")
+    @ApiOperation(httpMethod = "PUT", value = "Updates a company", response = String.class, nickname = "update")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the Company ID"),
+        @ApiResponse(code = 200, message = "Returns the id of the updated company"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response update(CompanyDto data, @PathParam("id") String id) {
         return super.update(data, id);
@@ -119,9 +114,9 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a list of all Companies", response = CompanyDto.class, nickname = "getAll", notes = "")
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all Companies", response = CompanyDto.class, nickname = "getAll")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "All Companies found"),
+        @ApiResponse(code = 200, message = "Returns all companies that exists in db"),
         @ApiResponse(code = 500, message = "Could not get the categories")})
     public Response getAll() {
         return super.getAll();

@@ -20,7 +20,7 @@ import se.geomarket.backend.geomarket.generics.BaseDtoEmpty;
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
 @ApiModel(value = "A summary of an event")
-@XmlRootElement(name = "event")
+@XmlRootElement(name = "eventsummary")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EventSummaryDto extends BaseDtoEmpty {
 

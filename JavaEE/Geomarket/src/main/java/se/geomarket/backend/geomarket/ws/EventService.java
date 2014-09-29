@@ -80,11 +80,11 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Add a new Event", response = String.class, nickname = "insert", notes = "")
+    @ApiOperation(httpMethod = "POST", value = "Add a new Event", response = String.class, nickname = "insert")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the created Event"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response insert(EventDto data) {
+    public Response insert(@ApiParam(value = "The event to be inserted", required = true) EventDto data) {
         Event event = new Event();
 
         Company company = (Company) companyDao.getByExtId(data.getCompanyId());
@@ -123,7 +123,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets an Event by Id", response = EventSummaryDto.class, nickname = "getById")
+    @ApiOperation(httpMethod = "GET", value = "Gets an Event by Id", response = EventDto.class, nickname = "getById")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns a Event"),
         @ApiResponse(code = 500, message = "Internal server error")})
@@ -135,15 +135,15 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Path("byLocation")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "GET", value = "Gets all Events based on the users position", response = EventSummaryDto.class, nickname = "getEventsByLocation")
+    @ApiOperation(httpMethod = "GET", value = "Gets all events based on the users position", response = EventSummaryDto.class, nickname = "getEventsByLocation")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns a list of Events"),
+        @ApiResponse(code = 200, message = "Returns a list of events in the requested radius"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response getEventsByLocation(
             @ApiParam(value = "The present longitude", required = true) @QueryParam("longitude") Double longitude,
             @ApiParam(value = "The present latitude", required = true) @QueryParam("latitude") Double latitude,
             @ApiParam(value = "How large area of Events that should return ( In KM )", required = true) @QueryParam("radius") Double radius,
-            @ApiParam(value = "The default language", required = true) @QueryParam("language") String languageId) {
+            @ApiParam(value = "The default language the events will be presented in", required = true) @QueryParam("language") String languageId) {
         try {
             List<Company> locations = companyDao.getCompanyByLocation(longitude, latitude, radius, Unit.KM);
             List<EventSummaryDto> allEvents = new ArrayList<>();
@@ -161,9 +161,9 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "DELETE", value = "Delete an Event", response = EventDto.class, nickname = "delete")
+    @ApiOperation(httpMethod = "DELETE", value = "Delete an Event", response = String.class, nickname = "delete")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Event deleted"),
+        @ApiResponse(code = 200, message = "event deleted"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response delete(@PathParam("id") Long id) {
         return super.delete(id);
@@ -174,9 +174,9 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "PUT", value = "Update an Event", response = String.class, nickname = "update")
+    @ApiOperation(httpMethod = "PUT", value = "Update an event", response = String.class, nickname = "update")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the id of the Event"),
+        @ApiResponse(code = 200, message = "Returns the id of the updated Event"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response update(EventDto data, @PathParam("id") String id) {
         return super.update(data, id);
@@ -185,9 +185,9 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Get all Events", response = EventDto.class, nickname = "get All")
+    @ApiOperation(httpMethod = "GET", value = "Gets all events", response = EventDto.class, nickname = "get All")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the Id of the Event"),
+        @ApiResponse(code = 200, message = "Returns all the events in all languages"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response getAll() {
         return super.getAll();

@@ -9,7 +9,6 @@ import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -31,7 +30,7 @@ import se.geomarket.backend.geomarket.generics.BaseWs;
 import se.geomarket.backend.geomarket.mapper.FilterMapper;
 
 /**
- *
+ * KOLLA DENNA!
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Stateless
@@ -56,7 +55,7 @@ public class FilterService extends BaseWs<FilterDto, Filter, FilterDao> {
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Add a new Filter", response = String.class, nickname = "insert", notes = "")
+    @ApiOperation(httpMethod = "POST", value = "Add a new Filter", response = String.class, nickname = "insert")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the created Filter"),
         @ApiResponse(code = 500, message = "Internal server error")})
@@ -101,7 +100,7 @@ public class FilterService extends BaseWs<FilterDto, Filter, FilterDao> {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a list of all CompanyUsers", response = CategoryDto.class, nickname = "getAll", notes = "")
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all CompanyUsers", response = CategoryDto.class, nickname = "getAll")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "All CompanyUsers found"),
         @ApiResponse(code = 500, message = "Could not get the CompanyUsers")})

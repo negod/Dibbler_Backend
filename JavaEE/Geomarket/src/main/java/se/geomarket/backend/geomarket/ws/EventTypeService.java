@@ -67,9 +67,9 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a EventType by Id", response = EventTypeDto.class, nickname = "getById")
+    @ApiOperation(httpMethod = "GET", value = "Gets a eventtype by Id", response = EventTypeDto.class, nickname = "getById")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns a EventType"),
+        @ApiResponse(code = 200, message = "Returns an eventtype"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response getById(@PathParam("id") String id) {
         return super.getById(id);
@@ -79,22 +79,22 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @Path("{languageId}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "GET", value = "Gets all Categorytypes in a certain language", response = NameSummaryDto.class, nickname = "getAllByLanguage")
+    @ApiOperation(httpMethod = "GET", value = "Gets all EventTypes in a certain language", response = NameSummaryDto.class, nickname = "getAllByLanguage")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns a EventType"),
+        @ApiResponse(code = 200, message = "Returns an eventtype in the requested language"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response getAllByLanguage(@PathParam("languageId") String languageId) {
-        List<NameSummaryDto> categories = eventTypeDao.getEventTypesByLanguage(languageId);
-        return Response.ok(categories).build();
+        List<NameSummaryDto> evnttypes = eventTypeDao.getEventTypesByLanguage(languageId);
+        return Response.ok(evnttypes).build();
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a list of all Categories", response = EventTypeDto.class, nickname = "getAll", notes = "")
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all eventtypes", response = EventTypeDto.class, nickname = "getAll")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "All Categories found"),
-        @ApiResponse(code = 500, message = "Could not get the categories")})
+        @ApiResponse(code = 200, message = "returns all eventtypes in all languages"),
+        @ApiResponse(code = 500, message = "Could not get the evnttypes")})
     public Response getAll() {
         return super.getAll();
     }
@@ -102,13 +102,13 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Add a new EventType", response = String.class, nickname = "create", notes = "")
+    @ApiOperation(httpMethod = "POST", value = "Add a new eventtype", response = String.class, nickname = "create")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the ID of the EventType"),
+        @ApiResponse(code = 200, message = "Returns the id of the created EventType"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response insert(
-            @ApiParam(value = "The EventType description", required = true) @QueryParam("description") String descr,
-            @ApiParam(value = "The default name of the EventType", required = true) @QueryParam("defaultName") String defName,
+            @ApiParam(value = "The eventtype description", required = true) @QueryParam("description") String descr,
+            @ApiParam(value = "The default name of the eventtype", required = true) @QueryParam("defaultName") String defName,
             @ApiParam(value = "The id of the default language", required = true) @QueryParam("languageId") String language) {
 
         try {
@@ -140,13 +140,13 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/addlanguage")
-    @ApiOperation(httpMethod = "POST", value = "Adds a description to the EventType in the specified language", response = String.class, nickname = "addlanguage", notes = "Returns the id of the updated EventType")
+    @ApiOperation(httpMethod = "POST", value = "Adds a description to the eventtype in the specified language", response = String.class, nickname = "addlanguage")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the id of the updated EventType"),
-        @ApiResponse(code = 500, message = "Could not update categories")})
+        @ApiResponse(code = 200, message = "Returns the id of the updated eventtype"),
+        @ApiResponse(code = 500, message = "Internal server error")})
     public Response addLanguage(
-            @ApiParam(value = "The id for the EventType that the new language will be added to", required = true) @QueryParam("categoryId") String categoryId,
-            @ApiParam(value = "The name of the EventType in a new language", required = true) @QueryParam("name") String name,
+            @ApiParam(value = "The id for the eventtype that the new language will be added to", required = true) @QueryParam("eventTypeId") String categoryId,
+            @ApiParam(value = "The name of the eventtype in the requested language", required = true) @QueryParam("name") String name,
             @ApiParam(value = "The id of the language to add", required = true) @QueryParam("languageId") String language) {
         try {
             return Response.ok(eventTypeDao.addLanguage(categoryId, name, language)).build();
@@ -159,7 +159,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "DELETE", value = "Deletes a EventType bi Id", response = String.class, nickname = "delete")
+    @ApiOperation(httpMethod = "DELETE", value = "Deletes an eventtype by Id", response = String.class, nickname = "delete")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = ""),
         @ApiResponse(code = 500, message = "Internal server error")})
@@ -172,7 +172,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "PUT", value = "Updates a EventType", response = String.class, nickname = "update", notes = "This Method is not supported")
+    @ApiOperation(httpMethod = "PUT", value = "Updates an eventtype", response = String.class, nickname = "update", notes = "This Method is not supported yet")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Method not accessible"),
         @ApiResponse(code = 500, message = "Internal server error")})
