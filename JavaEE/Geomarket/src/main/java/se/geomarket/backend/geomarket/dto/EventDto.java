@@ -5,23 +5,58 @@
  */
 package se.geomarket.backend.geomarket.dto;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Date;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import se.geomarket.backend.geomarket.generics.BaseDto;
 
 /**
  *
- * @author Joakim
+ * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
+@ApiModel(value = "Defines an event that can be published to Dibblers users")
+@XmlRootElement(name = "event")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class EventDto extends BaseDto {
 
+    @XmlElement(type = String.class, required = true)
+    @ApiModelProperty(value = "Id of the company that publishes the event", required = true)
     String companyId;
+
+    @XmlElement(type = String.class, required = true)
+    @ApiModelProperty(value = "Id of the events category", required = true)
     String categoryId;
+
+    @XmlElement(type = String.class, required = true)
+    @ApiModelProperty(value = "Id of the events type", required = true)
     String eventTypeId;
+
+    @XmlElement(type = String.class, required = true)
+    @ApiModelProperty(value = "The default language of the event [ Will be refactored to support several languages ]", required = true)
     String languageId;
+
+    @XmlElement(type = String.class, required = true)
+    @ApiModelProperty(value = "A short header to the event [ Will be refactored to support several languages ]", required = true)
     String EventHeader;
+
+    @XmlElement(type = String.class, required = true)
+    @ApiModelProperty(value = "Informative text about the event [ Will be refactored to support several languages ]", required = true)
     String eventTextBody;
+
+    @XmlElement(type = Date.class, required = true)
+    @ApiModelProperty(value = "The startdate of the event", required = true)
     Date startDate;
+
+    @XmlElement(type = Date.class, required = true)
+    @ApiModelProperty(value = "The enddate of the event", required = true)
     Date endDate;
+
+    @XmlElement(type = Integer.class, defaultValue = "0", required = false)
+    @ApiModelProperty(value = "The number of times this event can be used", required = false)
     Integer maxredeem;
 
     public String getCompanyId() {

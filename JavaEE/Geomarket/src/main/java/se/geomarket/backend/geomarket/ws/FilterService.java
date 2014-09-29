@@ -36,7 +36,7 @@ import se.geomarket.backend.geomarket.mapper.FilterMapper;
  */
 @Stateless
 @Path("/filters")
-@Api(value = "/filters", description = "Handles the users filters")
+@Api(value = "/filters", description = "Handles the users filters", hidden = true)
 public class FilterService extends BaseWs<FilterDto, Filter, FilterDao> {
 
     @EJB

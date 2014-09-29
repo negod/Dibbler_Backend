@@ -5,21 +5,31 @@
  */
 package se.geomarket.backend.geomarket.dto.languagesupport;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import se.geomarket.backend.geomarket.generics.BaseDtoEmpty;
 
 /**
  *
  * @author Joakim
  */
-
+@ApiModel(value = "A base type for language support which enables different types to have the same name defines in different languages")
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "name")
 public class NameDto extends BaseDtoEmpty {
 
+    @ApiModelProperty(value = "The id of the name", required = false)
+    @XmlElement(required = false)
     private String id;
+    @XmlElement(required = true)
+    @ApiModelProperty(value = "The id of the language", required = true)
     private String languageId;
+    @XmlElement(required = true)
+    @ApiModelProperty(value = "The name in a different language than the basename [ See class basename for more info ]", required = true)
     private String name;
 
     public String getId() {

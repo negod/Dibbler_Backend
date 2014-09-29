@@ -9,7 +9,6 @@ import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -23,7 +22,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.SettingDao;
-import se.geomarket.backend.geomarket.dto.RolesDto;
 import se.geomarket.backend.geomarket.dto.SettingDto;
 import se.geomarket.backend.geomarket.entity.Setting;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
@@ -35,7 +33,7 @@ import se.geomarket.backend.geomarket.generics.BaseWs;
  */
 @Stateless
 @Path("/settings")
-@Api(value = "/settings", description = "Handles all users application settings")
+@Api(value = "/settings", description = "Handles all users application settings", hidden = true)
 public class SettingService extends BaseWs<SettingDto, Setting, SettingDao> {
 
     @EJB

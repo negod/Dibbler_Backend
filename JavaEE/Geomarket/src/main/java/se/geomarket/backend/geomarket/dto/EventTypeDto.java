@@ -5,12 +5,16 @@
  */
 package se.geomarket.backend.geomarket.dto;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import javax.xml.bind.annotation.XmlRootElement;
 import se.geomarket.backend.geomarket.dto.languagesupport.BaseNameDto;
 
 /**
  *
- * @author Joakim
+ * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
+@ApiModel(value = "Defines a type of event that can be published")
+@XmlRootElement(name = "eventType")
 public class EventTypeDto extends BaseNameDto {
 
 }

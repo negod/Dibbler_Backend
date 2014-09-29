@@ -73,7 +73,7 @@ public class CompanyMapper extends BaseMapper<CompanyDto, Company> {
             entity.setCity(dto.getCity());
             entity.setCountry(dto.getCountry());
             entity.setFollowerClaim(dto.getFollowerClaim());
-            entity.setIdNr(dto.getIdNr());
+            entity.setIdNr(dto.getOrgNr());
             entity.setName(dto.getName());
             entity.setPostalCode(dto.getPostalCode());
             entity.setState(dto.getState());

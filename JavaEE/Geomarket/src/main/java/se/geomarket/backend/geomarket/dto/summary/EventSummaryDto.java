@@ -5,22 +5,51 @@
  */
 package se.geomarket.backend.geomarket.dto.summary;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Date;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import se.geomarket.backend.geomarket.dto.PointDto;
 import se.geomarket.backend.geomarket.generics.BaseDtoEmpty;
 
 /**
  *
- * @author Joakim
+ * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
+@ApiModel(value = "A summary of an event")
+@XmlRootElement(name = "event")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class EventSummaryDto extends BaseDtoEmpty {
 
+    @XmlElement(type = String.class, required = true)
+    @ApiModelProperty(value = "The id of the event", required = true)
     private String id;
-    private String eventText;
+
+    @XmlElement(type = String.class, required = true)
+    @ApiModelProperty(value = "The header of the event", required = true)
+    private String eventHeader;
+
+    @XmlElement(type = String.class, required = true)
+    @ApiModelProperty(value = "The name of the company that publishes the event", required = true)
     private String companyName;
+
+    @XmlElement(type = String.class, required = true)
+    @ApiModelProperty(value = "The id of the events category", required = true)
     private String categoryId;
+
+    @XmlElement(type = Date.class, required = true)
+    @ApiModelProperty(value = "Date when the event expires", required = true)
     private Date expires;
+
+    @XmlElement(type = String.class, required = true)
+    @ApiModelProperty(value = "The type of event", required = true)
     private String eventTypeId;
+
+    @XmlElement(type = PointDto.class, required = true)
+    @ApiModelProperty(value = "The location of the company where the event takes place", required = true)
     private PointDto location;
 
     public String getId() {
@@ -31,12 +60,12 @@ public class EventSummaryDto extends BaseDtoEmpty {
         this.id = id;
     }
 
-    public String getEventText() {
-        return eventText;
+    public String getEventHeader() {
+        return eventHeader;
     }
 
-    public void setEventText(String eventText) {
-        this.eventText = eventText;
+    public void setEventHeader(String eventText) {
+        this.eventHeader = eventText;
     }
 
     public String getCompanyName() {
@@ -78,5 +107,5 @@ public class EventSummaryDto extends BaseDtoEmpty {
     public void setLocation(PointDto location) {
         this.location = location;
     }
-    
+
 }

@@ -9,7 +9,6 @@ import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -24,7 +23,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.MovementDao;
 import se.geomarket.backend.geomarket.dto.MovementDto;
-import se.geomarket.backend.geomarket.dto.languagesupport.LanguageDto;
 import se.geomarket.backend.geomarket.entity.Movement;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
@@ -36,7 +34,7 @@ import se.geomarket.backend.geomarket.mapper.MovementMapper;
  */
 @Stateless
 @Path("/movements")
-@Api(value = "/movements", description = "Handles all users movements")
+@Api(value = "/movements", description = "Handles all users movements", hidden = true)
 public class MovementService extends BaseWs<MovementDto, Movement, MovementDao> {
 
     @EJB

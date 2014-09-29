@@ -24,7 +24,6 @@ import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.CompanyUsersDao;
 import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.dto.CompanyUsersDto;
-import se.geomarket.backend.geomarket.dto.EventDto;
 import se.geomarket.backend.geomarket.entity.CompanyUsers;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
@@ -36,7 +35,7 @@ import se.geomarket.backend.geomarket.mapper.CompanyUsersMapper;
  */
 @Stateless
 @Path("/companyUsers")
-@Api(value = "/companyUsers", description = "Handles all users in relation to a company")
+@Api(value = "/companyUsers", description = "Handles all users in relation to a company", hidden = true)
 public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, CompanyUsersDao> {
 
     @EJB
