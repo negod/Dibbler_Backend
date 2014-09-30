@@ -26,10 +26,10 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Indexed
 public class Location extends BaseEntity {
 
-    @NotNull
+    @NotNull(message = "location.latitude cannot be null")
     @Latitude
     Double latitude;
-    @NotNull
+    @NotNull(message = "location.longitude cannot be null")
     @Longitude
     Double longitude;
 

@@ -17,10 +17,10 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Entity
 public class Language extends BaseEntity {
 
-    @NotNull
+    @NotNull(message = "language.shortName cannot be null")
     @Column
     private String shortName;
-    @NotNull
+    @NotNull(message = "language.fullName cannot be null")
     @Column
     private String fullName;
 

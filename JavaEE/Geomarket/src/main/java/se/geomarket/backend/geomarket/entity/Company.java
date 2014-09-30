@@ -24,10 +24,10 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Entity
 public class Company extends BaseEntity {
 
-    @NotNull(message = "idNr cannot be null")
+    @NotNull(message = "company.idNr cannot be null")
     @Column
-    private String idNr;
-    @NotNull
+    private String orgNr;
+    @NotNull(message = "company.name cannot be null")
     @Column
     private String name;
     @Column
@@ -44,8 +44,7 @@ public class Company extends BaseEntity {
     private Integer postalCode;
     @Column
     private String followerClaim;
-    
-    @NotNull
+
     @OneToOne(cascade = CascadeType.ALL)
     private Location location;
 
@@ -57,16 +56,16 @@ public class Company extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Filter filter;
-    
+
     @OneToOne
     private Company parentCompany;
 
-    public String getIdNr() {
-        return idNr;
+    public String getOrgNr() {
+        return orgNr;
     }
 
-    public void setIdNr(String idNr) {
-        this.idNr = idNr;
+    public void setOrgNr(String orgNr) {
+        this.orgNr = orgNr;
     }
 
     public String getName() {

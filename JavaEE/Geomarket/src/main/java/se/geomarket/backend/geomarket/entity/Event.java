@@ -23,23 +23,23 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Entity
 public class Event extends BaseEntity {
 
-    @NotNull
+    @NotNull(message = "event.company cannot be null, must be an existing company")
     @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
-    @NotNull
+    @NotNull(message = "event.category cannot be null, must be an existing category")
     @OneToOne(fetch = FetchType.LAZY)
     private Category category;
-    @NotNull
+    @NotNull(message = "event.eventType cannot be null, must be an existing eventType")
     @OneToOne(fetch = FetchType.LAZY)
     private EventType eventType;
-    @NotNull
+    @NotNull(message = "event.eventText cannot be null")
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private EventText eventText;
-    @NotNull
+    @NotNull(message = "event.startDate cannot be null")
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date startDate;
-    @NotNull
+    @NotNull(message = "event.endDate cannot be null")
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date endDate;
