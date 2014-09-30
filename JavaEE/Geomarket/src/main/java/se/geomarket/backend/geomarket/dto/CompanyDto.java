@@ -54,7 +54,7 @@ public class CompanyDto extends BaseDto {
     @ApiModelProperty(value = "The postal code where the company is registered", required = false)
     private Integer postalCode;
 
-    @XmlElement(type = Integer.class, required = false)
+    @XmlElement(type = String.class, required = false)
     @ApiModelProperty(value = "If the user that wants to follow the company has to meet certain criterias", required = false)
     private String followerClaim;
 

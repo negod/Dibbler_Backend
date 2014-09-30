@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
@@ -23,8 +24,10 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Entity
 public class Company extends BaseEntity {
 
+    @NotNull
     @Column
     private String idNr;
+    @NotNull
     @Column
     private String name;
     @Column
@@ -42,6 +45,7 @@ public class Company extends BaseEntity {
     @Column
     private String followerClaim;
     
+    @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     private Location location;
 

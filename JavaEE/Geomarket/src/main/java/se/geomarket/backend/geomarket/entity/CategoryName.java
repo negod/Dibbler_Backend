@@ -8,6 +8,7 @@ package se.geomarket.backend.geomarket.entity;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import se.geomarket.backend.geomarket.entity.superclass.Name;
 
 /**
@@ -17,6 +18,7 @@ import se.geomarket.backend.geomarket.entity.superclass.Name;
 @Entity
 public class CategoryName extends Name {
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 

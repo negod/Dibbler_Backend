@@ -6,6 +6,7 @@
 package se.geomarket.backend.geomarket.entity.superclass;
 
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
@@ -15,7 +16,9 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @MappedSuperclass
 public class BaseName extends BaseEntity{
     
+    @NotNull
     private String defaultName;
+    @NotNull
     private String description;
 
     public String getDefaultName() {

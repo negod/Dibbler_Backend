@@ -8,8 +8,8 @@ package se.geomarket.backend.geomarket.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
@@ -19,10 +19,13 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Entity
 public class EventText extends BaseEntity {
 
+    @NotNull
     @Column
     private String heading;
+    @NotNull
     @Column
     private String body;
+    @NotNull
     @OneToOne(fetch = FetchType.LAZY)
     Language language;
     @OneToOne(fetch = FetchType.LAZY)

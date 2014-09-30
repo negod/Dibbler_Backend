@@ -5,11 +5,17 @@
  */
 package se.geomarket.backend.geomarket.generics;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.annotation.Resource;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +30,9 @@ public class BaseDaoBean<E extends BaseEntity> implements BaseDao<E> {
 
     Class<E> entityClass;
 
+    @Resource
+    Validator validator;
+
     public BaseDaoBean(Class<E> entityClass) {
         this.entityClass = entityClass;
     }
@@ -36,13 +45,32 @@ public class BaseDaoBean<E extends BaseEntity> implements BaseDao<E> {
         return em;
     }
 
+    public Set<String> validate(E entity) {
+        Set<String> validations = new HashSet<>();
+        Set<ConstraintViolation<E>> validation = validator.validate(entity);
+        if (!validation.isEmpty()) {
+            for (ConstraintViolation<E> val : validation) {
+                validations.add(val.getMessage());
+            }
+        }
+        return validations;
+    }
+
     @Override
-    public void create(E entity) {
+    public DaoResponse create(E entity) {
+        Set<String> validations = validate(entity);
         try {
-            getEntityManager().persist(entity);
+            if (validations.isEmpty()) {
+                getEntityManager().persist(entity);
+                return new DaoResponse(entity.getExtId());
+            }
+        } catch (ConstraintViolationException ex) {
+            logger.error("[ Failed to create " + entityClass.getSimpleName() + " ] due to constraint violations");
+            return new DaoResponse(buildViolationResponse(ex.getConstraintViolations()));
         } catch (Exception e) {
             logger.error("[ Failed to create " + entityClass.getSimpleName() + " ]");
         }
+        return new DaoResponse(validations);
     }
 
     @Override
@@ -92,11 +120,12 @@ public class BaseDaoBean<E extends BaseEntity> implements BaseDao<E> {
     }
 
     @Override
-    public void delete(E entity) {
+    public void delete(Long id) {
         try {
-            getEntityManager().remove(getEntityManager().merge(entity));
+            E entity = getEntityManager().find(entityClass, id);
+            getEntityManager().remove(entity);
         } catch (Exception e) {
-            logger.error("[ Failed to delete " + entityClass.getSimpleName() + " ] [ Id: " + entity.getId() + " ]");
+            logger.error("[ Failed to delete " + entityClass.getSimpleName() + " ] [ Id: " + id + " ]");
         }
     }
 
@@ -118,6 +147,16 @@ public class BaseDaoBean<E extends BaseEntity> implements BaseDao<E> {
             logger.error("[ Failed to get all from " + entityClass.getSimpleName() + " ]");
             return null;
         }
+    }
+
+    private Set<String> buildViolationResponse(Set<ConstraintViolation<?>> constaints) {
+        Set<String> validations = new HashSet<>();
+        if (!constaints.isEmpty()) {
+            for (ConstraintViolation<?> val : constaints) {
+                validations.add(val.getConstraintDescriptor() + " " + val.getMessage());
+            }
+        }
+        return validations;
     }
 
 }

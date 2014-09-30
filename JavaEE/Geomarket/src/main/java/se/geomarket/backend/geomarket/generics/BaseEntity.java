@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  *
@@ -24,11 +26,15 @@ public class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotNull
     @Column
+    @Pattern(regexp = "[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}")
     private String extId;
+    @NotNull
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date createdDate;
+    @NotNull
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date updatedDate;
@@ -48,7 +54,7 @@ public class BaseEntity implements Serializable {
     public void setExtId(String extId) {
         this.extId = extId;
     }
-   
+
     public Date getCreatedDate() {
         return createdDate;
     }

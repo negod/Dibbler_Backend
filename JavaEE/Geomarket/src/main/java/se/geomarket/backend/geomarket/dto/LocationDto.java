@@ -30,10 +30,6 @@ public class LocationDto extends BaseDto {
     @ApiModelProperty(value = "The longitude of the location", required = true)
     Double longitude;
     
-    @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "The name of the location", required = true)
-    private String name;
-
     public Double getLatitude() {
         return latitude;
     }
@@ -48,14 +44,6 @@ public class LocationDto extends BaseDto {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
 }

@@ -8,6 +8,7 @@ package se.geomarket.backend.geomarket.entity.superclass;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
@@ -19,7 +20,9 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 public class Name extends BaseEntity {
 
     @Column
+    @NotNull
     private String name;
+    @NotNull
     @OneToOne
     Language language;
 

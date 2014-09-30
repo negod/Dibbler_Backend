@@ -30,8 +30,12 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
             entity.setCreatedDate(new Date());
             entity.setUpdatedDate(new Date());
             entity.setExtId(UUID.randomUUID().toString());
-            getDao().create(entity);
-            return Response.ok(entity.getExtId()).build();
+            DaoResponse response = getDao().create(entity);
+            if (response.isOk()) {
+                return Response.ok(response.getId()).build();
+            } else {
+                return Response.ok(response.getValidationErrors()).build();
+            }
         } catch (Exception e) {
             return Response.serverError().build();
         }
@@ -42,8 +46,12 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
             entity.setCreatedDate(new Date());
             entity.setUpdatedDate(new Date());
             entity.setExtId(UUID.randomUUID().toString());
-            getDao().create(entity);
-            return Response.ok(entity.getExtId()).build();
+            DaoResponse response = getDao().create(entity);
+            if (response.isOk()) {
+                return Response.ok(response.getId()).build();
+            } else {
+                return Response.ok(response.getValidationErrors()).build();
+            }
         } catch (Exception e) {
             return Response.serverError().build();
         }
@@ -60,7 +68,7 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
     public Response delete(Long id) {
         try {
             E entity = (E) getDao().getById(id);
-            getDao().delete(entity);
+            getDao().delete(id);
             return Response.ok(entity.getExtId()).build();
         } catch (Exception e) {
             return Response.serverError().build();

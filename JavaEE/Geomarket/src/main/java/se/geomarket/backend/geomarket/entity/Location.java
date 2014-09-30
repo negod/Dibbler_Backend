@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.Latitude;
 import org.hibernate.search.annotations.Longitude;
@@ -25,14 +26,12 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Indexed
 public class Location extends BaseEntity {
 
+    @NotNull
     @Latitude
     Double latitude;
-
+    @NotNull
     @Longitude
     Double longitude;
-
-    @Column
-    private String name;
 
     @OneToOne(fetch = FetchType.EAGER)
     Company company;
@@ -51,14 +50,6 @@ public class Location extends BaseEntity {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Company getCompany() {

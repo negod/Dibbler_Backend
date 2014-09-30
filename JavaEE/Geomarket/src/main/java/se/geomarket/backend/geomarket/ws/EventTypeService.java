@@ -127,9 +127,8 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
 
             eventType.setNames(eventNames);
 
-            super.insert(eventType);
+            return super.insert(eventType);
 
-            return Response.ok(eventType.getExtId()).build();
         } catch (Exception e) {
             return Response.serverError().build();
         }

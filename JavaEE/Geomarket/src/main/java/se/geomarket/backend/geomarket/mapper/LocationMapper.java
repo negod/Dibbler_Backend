@@ -29,7 +29,6 @@ public class LocationMapper extends BaseMapper<LocationDto, Location> {
         Location entity = new Location();
         entity.setLatitude(dto.getLatitude());
         entity.setLongitude(dto.getLongitude());
-        entity.setName(dto.getName());
         return entity;
     }
     
@@ -38,7 +37,6 @@ public class LocationMapper extends BaseMapper<LocationDto, Location> {
         LocationDto dto = new LocationDto();
         dto.setLatitude(entity.getLatitude());
         dto.setLongitude(entity.getLongitude());
-        dto.setName(entity.getName());
         return dto;
     }
     
@@ -46,7 +44,6 @@ public class LocationMapper extends BaseMapper<LocationDto, Location> {
     public void updateEntityFromDto(Location entity, LocationDto dto) {
         entity.setLatitude(dto.getLatitude());
         entity.setLongitude(dto.getLongitude());
-        entity.setName(dto.getName());
     }
     
 }

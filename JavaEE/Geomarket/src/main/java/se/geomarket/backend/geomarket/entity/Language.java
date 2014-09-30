@@ -7,6 +7,7 @@ package se.geomarket.backend.geomarket.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
@@ -16,8 +17,10 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Entity
 public class Language extends BaseEntity {
 
+    @NotNull
     @Column
     private String shortName;
+    @NotNull
     @Column
     private String fullName;
 

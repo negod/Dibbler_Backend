@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
@@ -22,17 +23,23 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Entity
 public class Event extends BaseEntity {
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
+    @NotNull
     @OneToOne(fetch = FetchType.LAZY)
     private Category category;
+    @NotNull
     @OneToOne(fetch = FetchType.LAZY)
     private EventType eventType;
+    @NotNull
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private EventText eventText;
+    @NotNull
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date startDate;
+    @NotNull
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date endDate;
