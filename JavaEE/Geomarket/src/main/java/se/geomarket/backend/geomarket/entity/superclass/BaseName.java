@@ -16,9 +16,9 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @MappedSuperclass
 public class BaseName extends BaseEntity{
     
-    @NotNull
+    @NotNull(message = "defaultName cannot be null")
     private String defaultName;
-    @NotNull
+    @NotNull(message = "description cannot be null")
     private String description;
 
     public String getDefaultName() {

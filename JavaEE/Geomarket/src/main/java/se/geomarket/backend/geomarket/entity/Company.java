@@ -24,7 +24,7 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Entity
 public class Company extends BaseEntity {
 
-    @NotNull
+    @NotNull(message = "idNr cannot be null")
     @Column
     private String idNr;
     @NotNull

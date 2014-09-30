@@ -153,7 +153,7 @@ public class BaseDaoBean<E extends BaseEntity> implements BaseDao<E> {
         Set<String> validations = new HashSet<>();
         if (!constaints.isEmpty()) {
             for (ConstraintViolation<?> val : constaints) {
-                validations.add(val.getConstraintDescriptor() + " " + val.getMessage());
+                validations.add(val.getMessage());
             }
         }
         return validations;
