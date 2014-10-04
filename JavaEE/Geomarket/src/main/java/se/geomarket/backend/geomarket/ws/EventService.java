@@ -29,7 +29,6 @@ import org.hibernate.search.query.dsl.Unit;
 import se.geomarket.backend.geomarket.dao.CategoryDao;
 import se.geomarket.backend.geomarket.dao.CompanyDao;
 import se.geomarket.backend.geomarket.dao.EventDao;
-import se.geomarket.backend.geomarket.dao.EventTextDao;
 import se.geomarket.backend.geomarket.dao.EventTypeDao;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
 import se.geomarket.backend.geomarket.dto.EventDto;
@@ -134,7 +133,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     }
 
     @GET
-    @Path("byLocation")
+    @Path("/byLocation")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @ApiOperation(httpMethod = "GET", value = "Gets all events based on the users position", response = EventSummaryDto.class, nickname = "getEventsByLocation")

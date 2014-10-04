@@ -5,16 +5,19 @@
  */
 package se.geomarket.backend.geomarket.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.Latitude;
 import org.hibernate.search.annotations.Longitude;
 import org.hibernate.search.annotations.Spatial;
 import org.hibernate.search.annotations.SpatialMode;
+import org.hibernate.search.annotations.Store;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
@@ -26,9 +29,11 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Indexed
 public class Location extends BaseEntity {
 
+    @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     @NotNull(message = "location.latitude cannot be null")
     @Latitude
     Double latitude;
+    @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     @NotNull(message = "location.longitude cannot be null")
     @Longitude
     Double longitude;
