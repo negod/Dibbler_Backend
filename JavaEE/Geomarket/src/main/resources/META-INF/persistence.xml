@@ -24,7 +24,7 @@
             <property name="javax.persistence.schema-generation.drop-script-source" value="META-INF/sql/drop.sql"/> -->
             <!-- <property name="hibernate.hbm2ddl.auto" value="update"/> -->
             <!-- <property name="hibernate.hbm2ddl.auto" value="create-drop"/> -->
-            <property name="hibernate.hbm2ddl.auto" value="update"/> 
+            <property name="hibernate.hbm2ddl.auto" value="create"/> 
             <property name="hibernate.search.default.directory_provider" value="filesystem"/>
             <property name="hibernate.search.default.indexBase" value="/home/wildfly/.lucene/indexes"/>
             <property name="hibernate.dialect" value="org.hibernate.spatial.dialect.mysql.MySQLSpatialDialect"/>

@@ -31,14 +31,15 @@ public class CompanyMapper extends BaseMapper<CompanyDto, Company> {
     public Company mapFromDtoToEntity(CompanyDto dto) {
         try {
             Company entity = new Company();
-            entity.setCity(dto.getCity());
-            entity.setCountry(dto.getCity());
+            entity.setOrgNr(dto.getOrgNr());
             entity.setName(dto.getName());
-            entity.setPostalCode(dto.getPostalCode());
-            entity.setState(dto.getState());
             entity.setStreet(dto.getStreet());
             entity.setStreetNr(dto.getStreetNr());
-            entity.setOrgNr(dto.getOrgNr());
+            entity.setCity(dto.getCity());
+            entity.setState(dto.getState());
+            entity.setCountry(dto.getCountry());
+            entity.setPostalCode(dto.getPostalCode());
+            entity.setFollowerClaim(dto.getFollowerClaim());
             Location location = LocationMapper.getInstance().mapFromDtoToEntity(dto.getLocation());
             entity.setLocation(location);
             return entity;
@@ -52,13 +53,16 @@ public class CompanyMapper extends BaseMapper<CompanyDto, Company> {
     public CompanyDto mapFromEntityToDto(Company entity) {
         try {
             CompanyDto dto = new CompanyDto();
-            dto.setCity(entity.getCity());
-            dto.setCountry(entity.getCity());
+            dto.setId(entity.getExtId());
+            dto.setOrgNr(entity.getOrgNr());
             dto.setName(entity.getName());
-            dto.setPostalCode(entity.getPostalCode());
-            dto.setState(entity.getState());
             dto.setStreet(entity.getStreet());
             dto.setStreetNr(entity.getStreetNr());
+            dto.setCity(entity.getCity());
+            dto.setState(entity.getState());
+            dto.setCountry(entity.getCity());
+            dto.setPostalCode(entity.getPostalCode());
+            dto.setFollowerClaim(entity.getFollowerClaim());
             LocationDto location = LocationMapper.getInstance().mapFromEntityToDto(entity.getLocation());
             dto.setLocation(location);
             return dto;
