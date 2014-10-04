@@ -66,8 +66,6 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     CategoryDao categoryDao;
     @EJB
     LanguageDao languageDao;
-    @EJB
-    EventTextDao eventTextDao;
 
     @Override
     public EventDao getDao() {
