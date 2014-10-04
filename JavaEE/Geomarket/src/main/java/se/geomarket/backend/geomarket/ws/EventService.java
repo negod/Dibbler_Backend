@@ -97,6 +97,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         eventText.setLanguage(language);
         eventText.setHeading(data.getEventHeader());
         eventText.setBody(data.getEventTextBody());
+        eventText.setEvent(event);
 
         EntityUtils.setEntityCreateData(event);
         event.setCategory(category);
