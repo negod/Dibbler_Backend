@@ -5,6 +5,8 @@
  */
 package se.geomarket.backend.geomarket.mapper;
 
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import se.geomarket.backend.geomarket.dto.EventDto;
 import se.geomarket.backend.geomarket.entity.Event;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
@@ -14,29 +16,40 @@ import se.geomarket.backend.geomarket.generics.BaseMapper;
  * @author Joakim
  */
 public class EventMapper extends BaseMapper<EventDto, Event> {
-
+    
     private static final EventMapper INSTANCE = new EventMapper();
-
+    
     private EventMapper() {
     }
-
+    
     public static EventMapper getInstance() {
         return INSTANCE;
     }
-
+    
     @Override
     public Event mapFromDtoToEntity(EventDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Mapper mapper = new DozerBeanMapper();
+        Event destObject = mapper.map(dto, Event.class);
+        return destObject;
     }
-
+    
     @Override
     public EventDto mapFromEntityToDto(Event entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EventDto event = new EventDto();
+        event.setId(entity.getExtId());
+        event.setCategoryId(entity.getCategory().getExtId());
+        event.setCompanyId(entity.getCompany().getExtId());
+        event.setEndDate(entity.getEndDate());
+        event.setEventHeader(entity.getEventText().getHeading());
+        event.setEventTextBody(entity.getEventText().getBody());
+        event.setEventTypeId(entity.getEventType().getExtId());
+        event.setMaxredeem(entity.getMaxRedeem());
+        event.setStartDate(entity.getStartDate());
+        return event;
     }
-
+    
     @Override
     public void updateEntityFromDto(Event entity, EventDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
 }
