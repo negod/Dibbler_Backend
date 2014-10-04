@@ -29,6 +29,7 @@ import org.hibernate.search.query.dsl.Unit;
 import se.geomarket.backend.geomarket.dao.CategoryDao;
 import se.geomarket.backend.geomarket.dao.CompanyDao;
 import se.geomarket.backend.geomarket.dao.EventDao;
+import se.geomarket.backend.geomarket.dao.EventTextDao;
 import se.geomarket.backend.geomarket.dao.EventTypeDao;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
 import se.geomarket.backend.geomarket.dto.EventDto;
@@ -65,6 +66,8 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     CategoryDao categoryDao;
     @EJB
     LanguageDao languageDao;
+    @EJB
+    EventTextDao eventTextDao;
 
     @Override
     public EventDao getDao() {
@@ -116,7 +119,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
             company.getEvents().add(event);
         }
 
-        return Response.ok(event.getExtId()).build();
+        return super.insert(event);
     }
 
     @GET

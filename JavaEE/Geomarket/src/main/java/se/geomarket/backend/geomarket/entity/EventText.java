@@ -28,7 +28,7 @@ public class EventText extends BaseEntity {
     @NotNull(message = "eventText.language cannot be null, must be an existing language")
     @OneToOne(fetch = FetchType.LAZY)
     Language language;
-    @NotNull(message = "eventText.event cannot be null, must be an existing event")
+    //@NotNull(message = "eventText.event cannot be null, must be an existing event")
     @OneToOne(fetch = FetchType.LAZY)
     private Event event;
 
