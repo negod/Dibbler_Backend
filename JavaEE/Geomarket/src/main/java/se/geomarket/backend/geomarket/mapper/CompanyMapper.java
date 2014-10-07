@@ -17,16 +17,16 @@ import se.geomarket.backend.geomarket.generics.BaseMapper;
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 public class CompanyMapper extends BaseMapper<CompanyDto, Company> {
-
+    
     private static final CompanyMapper INSTANCE = new CompanyMapper();
-
+    
     private CompanyMapper() {
     }
-
+    
     public static CompanyMapper getInstance() {
         return INSTANCE;
     }
-
+    
     @Override
     public Company mapFromDtoToEntity(CompanyDto dto) {
         try {
@@ -40,6 +40,7 @@ public class CompanyMapper extends BaseMapper<CompanyDto, Company> {
             entity.setCountry(dto.getCountry());
             entity.setPostalCode(dto.getPostalCode());
             entity.setFollowerClaim(dto.getFollowerClaim());
+            entity.setWww(dto.getWww());
             Location location = LocationMapper.getInstance().mapFromDtoToEntity(dto.getLocation());
             entity.setLocation(location);
             return entity;
@@ -48,7 +49,7 @@ public class CompanyMapper extends BaseMapper<CompanyDto, Company> {
             return null;
         }
     }
-
+    
     @Override
     public CompanyDto mapFromEntityToDto(Company entity) {
         try {
@@ -63,6 +64,7 @@ public class CompanyMapper extends BaseMapper<CompanyDto, Company> {
             dto.setCountry(entity.getCity());
             dto.setPostalCode(entity.getPostalCode());
             dto.setFollowerClaim(entity.getFollowerClaim());
+            dto.setWww(entity.getWww());
             LocationDto location = LocationMapper.getInstance().mapFromEntityToDto(entity.getLocation());
             dto.setLocation(location);
             return dto;
@@ -71,7 +73,7 @@ public class CompanyMapper extends BaseMapper<CompanyDto, Company> {
             return null;
         }
     }
-
+    
     @Override
     public void updateEntityFromDto(Company entity, CompanyDto dto) {
         try {
@@ -83,6 +85,7 @@ public class CompanyMapper extends BaseMapper<CompanyDto, Company> {
             entity.setPostalCode(dto.getPostalCode());
             entity.setState(dto.getState());
             entity.setStreet(dto.getStreet());
+            entity.setWww(dto.getWww());
             LocationMapper.getInstance().updateEntityFromDto(entity.getLocation(), dto.getLocation());
             entity.setUpdatedDate(new Date());
         } catch (Exception e) {
