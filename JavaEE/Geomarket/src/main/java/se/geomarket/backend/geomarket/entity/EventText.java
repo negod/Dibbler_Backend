@@ -8,6 +8,7 @@ package se.geomarket.backend.geomarket.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
@@ -23,12 +24,12 @@ public class EventText extends BaseEntity {
     @Column
     private String heading;
     @NotNull(message = "eventText.body cannot be null")
-    @Column
+    @Column(length = 500)
     private String body;
     @NotNull(message = "eventText.language cannot be null, must be an existing language")
     @OneToOne(fetch = FetchType.LAZY)
     Language language;
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Event event;
 
     public String getHeading() {

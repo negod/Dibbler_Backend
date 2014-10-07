@@ -29,10 +29,6 @@ public class EventSummaryDto extends BaseDtoEmpty {
     private String id;
 
     @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "The header of the event", required = true)
-    private String eventHeader;
-
-    @XmlElement(type = String.class, required = true)
     @ApiModelProperty(value = "The id of the events category", required = true)
     private String categoryId;
 
@@ -52,6 +48,10 @@ public class EventSummaryDto extends BaseDtoEmpty {
     @ApiModelProperty(value = "The company that publishes the event", required = true)
     private CompanySummaryDto company;
 
+    @XmlElement(type = EventTextSummaryDto.class, required = true)
+    @ApiModelProperty(value = "The descriptive text for the event", required = true)
+    private EventTextSummaryDto eventText;
+
     public String getId() {
         return id;
     }
@@ -60,12 +60,12 @@ public class EventSummaryDto extends BaseDtoEmpty {
         this.id = id;
     }
 
-    public String getEventHeader() {
-        return eventHeader;
+    public EventTextSummaryDto getEventText() {
+        return eventText;
     }
 
-    public void setEventHeader(String eventText) {
-        this.eventHeader = eventText;
+    public void setEventText(EventTextSummaryDto eventText) {
+        this.eventText = eventText;
     }
 
     public String getCategoryId() {

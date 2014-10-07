@@ -6,11 +6,13 @@
 package se.geomarket.backend.geomarket.entity;
 
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
@@ -23,28 +25,43 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Entity
 public class Event extends BaseEntity {
 
-    @NotNull(message = "event.company cannot be null, must be an existing company")
+    @NotNull(message = "company cannot be null, must be an existing company")
     @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
-    @NotNull(message = "event.category cannot be null, must be an existing category")
+
+    @NotNull(message = "category cannot be null, must be an existing category")
     @OneToOne(fetch = FetchType.LAZY)
     private Category category;
-    @NotNull(message = "event.eventType cannot be null, must be an existing eventType")
+
+    @NotNull(message = "eventType cannot be null, must be an existing eventType")
     @OneToOne(fetch = FetchType.LAZY)
     private EventType eventType;
-    @NotNull(message = "event.eventText cannot be null")
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private EventText eventText;
-    @NotNull(message = "event.startDate cannot be null")
+
+    @NotNull(message = "defaultEventText cannot be null")
+    @Column
+    private String defaultEventText;
+
+    @NotNull(message = "defaultEventHeader cannot be null")
+    @Column
+    private String defaultEventHeader;
+
+    @NotNull(message = "eventText cannot be null")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<EventText> eventText;
+
+    @NotNull(message = "startDate cannot be null")
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date startDate;
+
     @NotNull(message = "event.endDate cannot be null")
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date endDate;
+
     @Column
     private String qrCode;
+
     @Column
     private Integer maxRedeem;
 
@@ -72,11 +89,27 @@ public class Event extends BaseEntity {
         this.eventType = eventType;
     }
 
-    public EventText getEventText() {
+    public String getDefaultEventText() {
+        return defaultEventText;
+    }
+
+    public void setDefaultEventText(String defaultEventText) {
+        this.defaultEventText = defaultEventText;
+    }
+
+    public String getDefaultEventHeader() {
+        return defaultEventHeader;
+    }
+
+    public void setDefaultEventHeader(String defaultEventHeader) {
+        this.defaultEventHeader = defaultEventHeader;
+    }
+
+    public List<EventText> getEventText() {
         return eventText;
     }
 
-    public void setEventText(EventText eventText) {
+    public void setEventText(List<EventText> eventText) {
         this.eventText = eventText;
     }
 

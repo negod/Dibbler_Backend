@@ -32,6 +32,7 @@ import se.geomarket.backend.geomarket.dao.EventDao;
 import se.geomarket.backend.geomarket.dao.EventTypeDao;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
 import se.geomarket.backend.geomarket.dto.EventDto;
+import se.geomarket.backend.geomarket.dto.EventTextDto;
 import se.geomarket.backend.geomarket.dto.summary.EventSummaryDto;
 import se.geomarket.backend.geomarket.entity.Category;
 import se.geomarket.backend.geomarket.entity.Company;
@@ -42,6 +43,7 @@ import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
 import se.geomarket.backend.geomarket.mapper.EventMapper;
+import se.geomarket.backend.geomarket.mapper.EventTextMapper;
 import se.geomarket.backend.geomarket.mapper.summary.EventSummaryMapper;
 import se.geomarket.backend.geomarket.utils.EntityUtils;
 import se.geomarket.backend.geomarket.utils.ResponseUtil;
@@ -77,6 +79,33 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     }
 
     @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/addEventText")
+    @ApiOperation(httpMethod = "POST", value = "Adds a new language to the eventText", response = String.class, nickname = "addEventText")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns the Id of the updated Event"),
+        @ApiResponse(code = 500, message = "Internal server error")})
+    public Response addEventText(
+            @ApiParam(value = "The eventText to be inserted", required = true) EventTextDto data,
+            @ApiParam(value = "The event to be updated", required = true) @QueryParam("eventId") String eventId) {
+        try {
+            EventText eventText = EventTextMapper.getInstance().mapFromDtoToEntity(data);
+            Event event = (Event) eventDao.getByExtId(eventId);
+            Language language = (Language) languageDao.getByExtId(data.getLanguageId());
+
+            EntityUtils.setEntityCreateData(eventText);
+            eventText.setLanguage(language);
+            eventText.setEvent(event);
+
+            event.getEventText().add(eventText);
+            return Response.ok(event.getExtId()).build();
+        } catch (Exception e) {
+            return ResponseUtil.getErrorMessage();
+        }
+    }
+
+    @POST
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
@@ -84,7 +113,8 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the created Event"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response insert(@ApiParam(value = "The event to be inserted", required = true) EventDto data) {
+    public Response insert(@ApiParam(value = "The event to be inserted", required = true) EventDto data
+    ) {
         Event event = new Event();
 
         Company company = (Company) companyDao.getByExtId(data.getCompanyId());
@@ -105,7 +135,16 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         event.setEndDate(data.getEndDate());
         event.setStartDate(data.getStartDate());
         event.setMaxRedeem(data.getMaxredeem());
-        event.setEventText(eventText);
+        event.setDefaultEventHeader(eventText.getHeading());
+        event.setDefaultEventText(eventText.getBody());
+
+        if (event.getEventText() == null) {
+            List<EventText> eventsTexts = new ArrayList<>();
+            eventsTexts.add(eventText);
+            event.setEventText(eventsTexts);
+        } else {
+            event.getEventText().add(eventText);
+        }
 
         if (company.getEvents() == null) {
             List<Event> events = new ArrayList<>();
@@ -127,7 +166,8 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns a Event"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response getById(@PathParam("id") String id) {
+    public Response getById(@PathParam("id") String id
+    ) {
         return super.getById(id);
     }
 
@@ -140,16 +180,19 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         @ApiResponse(code = 200, message = "Returns a list of events in the requested radius"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response getEventsByLocation(
-            @ApiParam(value = "The present longitude", required = true) @QueryParam("longitude") Double longitude,
+            @ApiParam(value = "The present longitude", required = true)
+            @QueryParam("longitude") Double longitude,
             @ApiParam(value = "The present latitude", required = true) @QueryParam("latitude") Double latitude,
             @ApiParam(value = "How large area of Events that should return ( In KM )", required = true) @QueryParam("radius") Double radius,
-            @ApiParam(value = "The default language the events will be presented in", required = true) @QueryParam("language") String languageId) {
+            @ApiParam(value = "The default language the events will be presented in", required = true) @QueryParam("language") String languageId
+    ) {
         try {
             List<Company> locations = companyDao.getCompanyByLocation(longitude, latitude, radius, Unit.KM);
             List<EventSummaryDto> allEvents = new ArrayList<>();
             for (Company company : locations) {
-                allEvents.addAll(EventSummaryMapper.getInstance().extractEvents(company));
+                allEvents.addAll(EventSummaryMapper.getInstance().extractEvents(company, languageId));
             }
+
             return Response.ok(allEvents).build();
         } catch (Exception e) {
             return ResponseUtil.getErrorMessage();
@@ -165,7 +208,8 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "event deleted"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response delete(@PathParam("id") Long id) {
+    public Response delete(@PathParam("id") Long id
+    ) {
         return super.delete(id);
     }
 
@@ -178,7 +222,8 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the id of the updated Event"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response update(EventDto data, @PathParam("id") String id) {
+    public Response update(EventDto data, @PathParam("id") String id
+    ) {
         return super.update(data, id);
     }
 

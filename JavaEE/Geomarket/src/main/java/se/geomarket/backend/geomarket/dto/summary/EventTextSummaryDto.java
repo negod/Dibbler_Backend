@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.geomarket.backend.geomarket.dto;
+package se.geomarket.backend.geomarket.dto.summary;
 
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import se.geomarket.backend.geomarket.generics.BaseDto;
+import se.geomarket.backend.geomarket.generics.BaseDtoEmpty;
 
 /**
  *
@@ -19,28 +19,16 @@ import se.geomarket.backend.geomarket.generics.BaseDto;
  */
 @ApiModel(value = "The eventText for the event")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "eventText")
-public class EventTextDto extends BaseDto {
-
-    @ApiModelProperty(value = "The id for the language to be added", required = true)
-    @XmlElement(required = true, type = String.class)
-    private String languageId;
+@XmlRootElement(name = "eventTextSummary")
+public class EventTextSummaryDto extends BaseDtoEmpty {
 
     @ApiModelProperty(value = "The heading for the event", required = true)
-    @XmlElement(required = true, type = String.class)
+    @XmlElement(required = false)
     private String heading;
 
     @ApiModelProperty(value = "The description and body for the event", required = true)
-    @XmlElement(required = true, type = String.class)
+    @XmlElement(required = false)
     private String body;
-
-    public String getLanguageId() {
-        return languageId;
-    }
-
-    public void setLanguageId(String languageId) {
-        this.languageId = languageId;
-    }
 
     public String getHeading() {
         return heading;

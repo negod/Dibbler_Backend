@@ -8,10 +8,12 @@ package se.geomarket.backend.geomarket.mapper.summary;
 import java.util.ArrayList;
 import java.util.List;
 import org.joda.time.DateTime;
+import se.geomarket.backend.geomarket.dto.summary.EventTextSummaryDto;
 import se.geomarket.backend.geomarket.dto.summary.EventSummaryDto;
 import se.geomarket.backend.geomarket.entity.Company;
 import se.geomarket.backend.geomarket.entity.Event;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
+import se.geomarket.backend.geomarket.mapper.EventMapper;
 import se.geomarket.backend.geomarket.mapper.PointMapper;
 
 /**
@@ -44,7 +46,7 @@ public class EventSummaryMapper extends BaseMapper<EventSummaryDto, Company> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<EventSummaryDto> extractEvents(Company entity) {
+    public List<EventSummaryDto> extractEvents(Company entity, String languageId) {
         List<EventSummaryDto> dtoList = new ArrayList<>();
         for (Event event : entity.getEvents()) {
             if (checkDateIsOk(event)) {
@@ -55,7 +57,7 @@ public class EventSummaryMapper extends BaseMapper<EventSummaryDto, Company> {
                 summary.setId(event.getExtId());
                 summary.setCompany(CompanySummaryMapper.getInstance().mapFromEntityToDto(entity));
                 summary.setLocation(PointMapper.getInstance().mapFromEntityToDto(entity.getLocation()));
-                summary.setEventHeader(event.getEventText().getHeading());
+                summary.setEventText(EventMapper.getInstance().getEventText(event, languageId));
                 dtoList.add(summary);
             }
         }
