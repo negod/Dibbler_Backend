@@ -99,7 +99,6 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         eventText.setBody(data.getEventTextBody());
         eventText.setEvent(event);
 
-        EntityUtils.setEntityCreateData(event);
         event.setCategory(category);
         event.setCompany(company);
         event.setEventType(eventType);

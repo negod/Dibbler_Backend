@@ -33,10 +33,6 @@ public class EventSummaryDto extends BaseDtoEmpty {
     private String eventHeader;
 
     @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "The name of the company that publishes the event", required = true)
-    private String companyName;
-
-    @XmlElement(type = String.class, required = true)
     @ApiModelProperty(value = "The id of the events category", required = true)
     private String categoryId;
 
@@ -52,6 +48,10 @@ public class EventSummaryDto extends BaseDtoEmpty {
     @ApiModelProperty(value = "The location of the company where the event takes place", required = true)
     private PointDto location;
 
+    @XmlElement(type = CompanySummaryDto.class, required = true)
+    @ApiModelProperty(value = "The company that publishes the event", required = true)
+    private CompanySummaryDto company;
+
     public String getId() {
         return id;
     }
@@ -66,14 +66,6 @@ public class EventSummaryDto extends BaseDtoEmpty {
 
     public void setEventHeader(String eventText) {
         this.eventHeader = eventText;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
     }
 
     public String getCategoryId() {
@@ -106,6 +98,14 @@ public class EventSummaryDto extends BaseDtoEmpty {
 
     public void setLocation(PointDto location) {
         this.location = location;
+    }
+
+    public CompanySummaryDto getCompany() {
+        return company;
+    }
+
+    public void setCompany(CompanySummaryDto company) {
+        this.company = company;
     }
 
 }

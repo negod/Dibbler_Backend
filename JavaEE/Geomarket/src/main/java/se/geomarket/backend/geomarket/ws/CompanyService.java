@@ -117,7 +117,7 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @ApiOperation(httpMethod = "GET", value = "Gets a list of all Companies", response = CompanyDto.class, nickname = "getAll")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns all companies that exists in db"),
-        @ApiResponse(code = 500, message = "Could not get the categories")})
+        @ApiResponse(code = 500, message = "Could not get the companies")})
     public Response getAll() {
         return super.getAll();
     }

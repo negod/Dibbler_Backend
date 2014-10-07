@@ -53,7 +53,7 @@ public class EventSummaryMapper extends BaseMapper<EventSummaryDto, Company> {
                 summary.setEventTypeId(event.getEventType().getExtId());
                 summary.setExpires(event.getEndDate());
                 summary.setId(event.getExtId());
-                summary.setCompanyName(entity.getName());
+                summary.setCompany(CompanySummaryMapper.getInstance().mapFromEntityToDto(entity));
                 summary.setLocation(PointMapper.getInstance().mapFromEntityToDto(entity.getLocation()));
                 summary.setEventHeader(event.getEventText().getHeading());
                 dtoList.add(summary);
