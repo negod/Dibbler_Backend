@@ -42,7 +42,7 @@ public class CompanySummaryDto extends BaseDto {
     @ApiModelProperty(value = "The state/province where the company is registered", required = false)
     private String state;
 
-    @XmlElement(type = String.class, required = false)
+    @XmlElement(type = String.class, required = true)
     @ApiModelProperty(value = "The country where the company is registered", required = true)
     private String country;
 
@@ -50,9 +50,13 @@ public class CompanySummaryDto extends BaseDto {
     @ApiModelProperty(value = "The postal code where the company is registered", required = false)
     private Integer postalCode;
 
-    @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "The web address of the company", required = true)
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "The web address of the company", required = false)
     private String www;
+
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "The phone number of the company", required = false)
+    private String phone;
 
     public String getName() {
         return name;
@@ -118,4 +122,12 @@ public class CompanySummaryDto extends BaseDto {
         this.www = www;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    
 }

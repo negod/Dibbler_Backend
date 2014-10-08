@@ -38,7 +38,7 @@ public class CategoryDaoBean extends BaseDaoBean implements CategoryDao {
         Language languageEntity = (Language) languageDao.getByExtId(language);
         Category category = (Category) super.getByExtId(categoryId);
 
-        //TODO check that language does not exist in category
+        //TODO check that language does not exist in category        
         CategoryName categoryname = (CategoryName) EntityUtils.setEntityCreateData(new CategoryName());
         categoryname.setLanguage(languageEntity);
         categoryname.setName(name);
@@ -58,11 +58,9 @@ public class CategoryDaoBean extends BaseDaoBean implements CategoryDao {
             NameSummaryDto dto = new NameSummaryDto();
             if (name.isEmpty()) {
                 dto.setName(category.getDefaultName());
-
             } else {
                 dto.setName(name);
             }
-
             dto.setId(category.getExtId());
             categoryNames.add(dto);
         }

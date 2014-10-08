@@ -41,6 +41,7 @@ public class CompanyMapper extends BaseMapper<CompanyDto, Company> {
             entity.setPostalCode(dto.getPostalCode());
             entity.setFollowerClaim(dto.getFollowerClaim());
             entity.setWww(dto.getWww());
+            entity.setPhone(dto.getPhone());
             Location location = LocationMapper.getInstance().mapFromDtoToEntity(dto.getLocation());
             entity.setLocation(location);
             return entity;
@@ -65,6 +66,7 @@ public class CompanyMapper extends BaseMapper<CompanyDto, Company> {
             dto.setPostalCode(entity.getPostalCode());
             dto.setFollowerClaim(entity.getFollowerClaim());
             dto.setWww(entity.getWww());
+            dto.setPhone(entity.getPhone());
             LocationDto location = LocationMapper.getInstance().mapFromEntityToDto(entity.getLocation());
             dto.setLocation(location);
             return dto;
@@ -86,6 +88,7 @@ public class CompanyMapper extends BaseMapper<CompanyDto, Company> {
             entity.setState(dto.getState());
             entity.setStreet(dto.getStreet());
             entity.setWww(dto.getWww());
+            entity.setPhone(dto.getPhone());
             LocationMapper.getInstance().updateEntityFromDto(entity.getLocation(), dto.getLocation());
             entity.setUpdatedDate(new Date());
         } catch (Exception e) {

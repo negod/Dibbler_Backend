@@ -69,7 +69,7 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     }
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
@@ -82,16 +82,20 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     }
 
     @GET
-    @Path("{languageId}")
+    @Path("/language/{languageId}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "GET", value = "Gets all Categorytypes in a certain language", response = CategoryDto.class, nickname = "getAllByLanguage")
+    @ApiOperation(httpMethod = "GET", value = "Gets all Categorytypes in a certain language", response = NameSummaryDto.class, nickname = "getAllByLanguage")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns a list of categories in the requested language"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response getAllByLanguage(@PathParam("languageId") String languageId) {
-        List<NameSummaryDto> categories = categoryDao.getCategoriesByLanguage(languageId);
-        return Response.ok(categories).build();
+        try {
+            List<NameSummaryDto> categories = categoryDao.getCategoriesByLanguage(languageId);
+            return Response.ok(categories).build();
+        } catch (Exception e) {
+            return Response.serverError().build();
+        }
     }
 
     @GET

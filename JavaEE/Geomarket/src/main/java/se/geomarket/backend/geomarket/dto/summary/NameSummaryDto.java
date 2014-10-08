@@ -5,15 +5,29 @@
  */
 package se.geomarket.backend.geomarket.dto.summary;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import se.geomarket.backend.geomarket.generics.BaseDtoEmpty;
 
 /**
  *
  * @author Joakim
  */
+
+@ApiModel(value = "A generic nametype for language support")
+@XmlRootElement(name = "nameType")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class NameSummaryDto extends BaseDtoEmpty{
     
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "The id of the type", required = false)
     String id;
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "The actual name", required = false)
     String name;
 
     public String getId() {

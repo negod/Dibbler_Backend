@@ -44,6 +44,7 @@ public class CompanySummaryMapper extends BaseMapper<CompanySummaryDto, Company>
             dto.setCountry(entity.getCity());
             dto.setPostalCode(entity.getPostalCode());
             dto.setWww(entity.getWww());
+            dto.setPhone(entity.getPhone());
             return dto;
         } catch (Exception e) {
             logger.debug("[ Failed to map from entity {} to dto {} [ ETITY_ID: {} ] Error : {}", entity.getClass().getName(), CompanyDto.class.getName(), entity.getId(), e);

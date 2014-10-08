@@ -63,7 +63,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     }
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
@@ -76,7 +76,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     }
 
     @GET
-    @Path("{languageId}")
+    @Path("/language/{languageId}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @ApiOperation(httpMethod = "GET", value = "Gets all EventTypes in a certain language", response = NameSummaryDto.class, nickname = "getAllByLanguage")
@@ -84,8 +84,13 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
         @ApiResponse(code = 200, message = "Returns an eventtype in the requested language"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response getAllByLanguage(@PathParam("languageId") String languageId) {
-        List<NameSummaryDto> evnttypes = eventTypeDao.getEventTypesByLanguage(languageId);
-        return Response.ok(evnttypes).build();
+        try {
+            List<NameSummaryDto> evnttypes = eventTypeDao.getEventTypesByLanguage(languageId);
+            return Response.ok(evnttypes).build();
+        } catch (Exception e) {
+            return Response.serverError().build();
+        }
+
     }
 
     @GET
@@ -167,7 +172,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     }
 
     @PUT
-    @Path("{id}")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override

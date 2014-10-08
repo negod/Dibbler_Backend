@@ -46,6 +46,8 @@ public class Company extends BaseEntity {
     private String followerClaim;
     @Column
     private String www;
+    @Column
+    private String phone;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Location location;
@@ -182,4 +184,12 @@ public class Company extends BaseEntity {
         this.www = www;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    
 }
