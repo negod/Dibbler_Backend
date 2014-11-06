@@ -13,15 +13,13 @@ hs_err_pid*
 
 java/logs
 java/project/project
-java/project/target
-java/target
-java/tmp
+target/
 java/.history
 java/dist
-java/.settings
-java/.project
-java/.classpath
-java/.target
+.settings
+.project
+.classpath
+activator-sbt*.sbt
 
 scala/logs
 scala/project/project
@@ -33,7 +31,6 @@ scala/dist
 scala/.classpath
 scala/.project
 scala/.settings
-/JavaEE/Geomarket/target/
 /JavaEE/Geomarket/nb-configuration.xml
 /JavaEE/Parent/GeomarketPom/pom.xml.releaseBackup
 /JavaEE/Parent/GeomarketPom/release.properties
