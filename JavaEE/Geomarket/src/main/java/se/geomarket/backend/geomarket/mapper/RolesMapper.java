@@ -6,8 +6,6 @@
 
 package se.geomarket.backend.geomarket.mapper;
 
-import org.dozer.DozerBeanMapper;
-import org.dozer.Mapper;
 import se.geomarket.backend.geomarket.dto.RolesDto;
 import se.geomarket.backend.geomarket.entity.Roles;
 import se.geomarket.backend.geomarket.generics.BaseMapper;

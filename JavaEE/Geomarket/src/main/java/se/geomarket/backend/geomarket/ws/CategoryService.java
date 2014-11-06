@@ -26,13 +26,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.CategoryDao;
 import se.geomarket.backend.geomarket.dto.CategoryDto;
-import se.geomarket.backend.geomarket.dto.languagesupport.BaseNameDto;
+import se.geomarket.backend.geomarket.dto.languagesupport.NameDto;
 import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.entity.Category;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
 import se.geomarket.backend.geomarket.mapper.CategoryMapper;
-import se.geomarket.backend.geomarket.utils.ResponseUtil;
 
 /**
  *
@@ -149,12 +148,30 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @Override
     @ApiOperation(httpMethod = "PUT", value = "Updates a category", response = String.class, nickname = "update", notes = "This Method is not supported")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Method not accessible"),
+        @ApiResponse(code = 200, message = "Success"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response update(
-            @ApiParam(value = "The new Category data", required = true) CategoryDto data,
+            @ApiParam(value = "The Category data", required = true) CategoryDto data,
             @ApiParam(value = "The id of the Category", required = true) @PathParam("id") String id) {
-        return ResponseUtil.getMethodNotSupportedError();
+        return super.update(data, id);
+    }
+
+    @PUT
+    @Path("/updateCategoryName/{categoryNameId}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(httpMethod = "PUT", value = "Updates a category", response = String.class, nickname = "update", notes = "This Method is not supported")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Method not accessible"),
+        @ApiResponse(code = 500, message = "Internal server error")})
+    public Response updateCategoryName(
+            @ApiParam(value = "The new CategoryName data", required = true) NameDto data,
+            @ApiParam(value = "The id of the CategoryName", required = true) @PathParam("categoryNameId") String categoryNameId) {
+        try {
+            return Response.ok(categoryDao.updateCategoryName(data, categoryNameId)).build();
+        } catch (Exception e) {
+            return Response.serverError().build();
+        }
     }
 
 }

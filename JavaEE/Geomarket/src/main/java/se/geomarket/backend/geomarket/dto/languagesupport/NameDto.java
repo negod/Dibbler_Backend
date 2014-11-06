@@ -22,23 +22,12 @@ import se.geomarket.backend.geomarket.generics.BaseDto;
 @XmlRootElement(name = "name")
 public class NameDto extends BaseDto {
 
-    @ApiModelProperty(value = "The id of the name", required = false)
-    @XmlElement(required = false)
-    private String id;
     @XmlElement(required = true)
     @ApiModelProperty(value = "The id of the language", required = true)
     private String languageId;
     @XmlElement(required = true)
     @ApiModelProperty(value = "The name in a different language than the basename [ See class basename for more info ]", required = true)
     private String name;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

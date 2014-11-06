@@ -5,27 +5,20 @@
  */
 package se.geomarket.backend.geomarket.dao;
 
-import java.util.List;
 import javax.ejb.Local;
 import se.geomarket.backend.geomarket.dto.languagesupport.NameDto;
-import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.generics.BaseDao;
 import se.geomarket.backend.geomarket.generics.BaseDto;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
  *
- * @author Joakim
- * @param <E>
- * @param <D>
+ * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-@Local
-public interface EventTypeDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D>{
-    
-    public String addLanguage(String categoryId, String name, String language);
 
-    public List<NameSummaryDto> getEventTypesByLanguage(String languageId);
-    
-     public String updateEventTypeName(NameDto name, String eventTypeNameId);
-    
+@Local
+public interface EventTypeNameDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
+
+    public String updateEventTypeName(NameDto name, String eventTypeNameId);
+
 }

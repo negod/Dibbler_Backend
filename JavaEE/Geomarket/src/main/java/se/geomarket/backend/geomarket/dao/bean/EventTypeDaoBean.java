@@ -10,16 +10,17 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import se.geomarket.backend.geomarket.dao.EventTypeDao;
+import se.geomarket.backend.geomarket.dao.EventTypeNameDao;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
 import se.geomarket.backend.geomarket.dto.EventTypeDto;
+import se.geomarket.backend.geomarket.dto.languagesupport.NameDto;
 import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
-import se.geomarket.backend.geomarket.entity.Category;
-import se.geomarket.backend.geomarket.entity.CategoryName;
 import se.geomarket.backend.geomarket.entity.EventType;
 import se.geomarket.backend.geomarket.entity.EventTypeName;
 import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
 import se.geomarket.backend.geomarket.generics.DaoResponse;
+import se.geomarket.backend.geomarket.mapper.NameMapper;
 
 /**
  *
@@ -30,6 +31,8 @@ public class EventTypeDaoBean extends BaseDaoBean<EventType, EventTypeDto> imple
 
     @EJB
     LanguageDao languageDao;
+    @EJB
+    EventTypeNameDao eventTypeNameDao;
 
     public EventTypeDaoBean() {
         super(EventType.class);
@@ -99,6 +102,14 @@ public class EventTypeDaoBean extends BaseDaoBean<EventType, EventTypeDto> imple
         eventType.setNames(eventTypeNames);
 
         return super.create(eventType);
+    }
+
+    @Override
+    public String updateEventTypeName(NameDto name, String categoryNameId) {
+        EventTypeName eventTypeName = (EventTypeName) eventTypeNameDao.getByExtId(categoryNameId);
+        NameMapper.getInstance().updateEntityFromDto(eventTypeName, name);
+        eventTypeNameDao.update(eventTypeName);
+        return eventTypeName.getExtId();
     }
 
 }

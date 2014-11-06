@@ -10,14 +10,17 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import se.geomarket.backend.geomarket.dao.CategoryDao;
+import se.geomarket.backend.geomarket.dao.CategoryNameDao;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
 import se.geomarket.backend.geomarket.dto.CategoryDto;
+import se.geomarket.backend.geomarket.dto.languagesupport.NameDto;
 import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.entity.Category;
 import se.geomarket.backend.geomarket.entity.CategoryName;
 import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
 import se.geomarket.backend.geomarket.generics.DaoResponse;
+import se.geomarket.backend.geomarket.mapper.NameMapper;
 
 /**
  *
@@ -28,6 +31,8 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
 
     @EJB
     LanguageDao languageDao;
+    @EJB
+    CategoryNameDao categoryNameDao;
 
     public CategoryDaoBean() {
         super(Category.class);
@@ -70,7 +75,6 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
     }
 
     private String getNameByLanguage(List<CategoryName> categories, String languageId) {
-
         for (CategoryName cat : categories) {
             if (cat.getLanguage().getExtId().equalsIgnoreCase(languageId)) {
                 return cat.getName();
@@ -97,6 +101,14 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
         category.setNames(ceteogyNames);
 
         return super.create(category);
+    }
+
+    @Override
+    public String updateCategoryName(NameDto name, String categoryNameId) {
+        CategoryName categoryName = (CategoryName) categoryNameDao.getByExtId(categoryNameId);
+        NameMapper.getInstance().updateEntityFromDto(categoryName, name);
+        categoryNameDao.update(categoryName);
+        return categoryName.getExtId();
     }
 
 }

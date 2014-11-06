@@ -45,7 +45,7 @@ public class BaseNameDto extends BaseDto {
     @ApiModelProperty(value = "The default language", required = false)
     private String defaultLanguage;
 
-    @XmlElement(type = String.class, required = false)
+    @XmlElement(type = NameDto.class, required = false)
     @ApiModelProperty(value = "A list of names in different languages that relates to this name", required = false)
     List<NameDto> names = new ArrayList<>();
 

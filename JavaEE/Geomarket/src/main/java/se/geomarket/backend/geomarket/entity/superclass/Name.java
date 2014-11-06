@@ -8,6 +8,7 @@ package se.geomarket.backend.geomarket.entity.superclass;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
@@ -26,6 +27,10 @@ public class Name extends BaseEntity {
     @OneToOne
     Language language;
 
+    //Only used for mapping
+    @Transient
+    String languageId;
+
     public String getName() {
         return name;
     }
@@ -40,6 +45,10 @@ public class Name extends BaseEntity {
 
     public void setLanguage(Language language) {
         this.language = language;
+    }
+
+    public String getLanguageId() {
+        return language.getExtId();
     }
 
 }

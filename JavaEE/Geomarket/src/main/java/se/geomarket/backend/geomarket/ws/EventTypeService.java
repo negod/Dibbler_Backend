@@ -10,8 +10,6 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
-import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -26,13 +24,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.EventTypeDao;
-import se.geomarket.backend.geomarket.dao.LanguageDao;
-import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.dto.EventTypeDto;
+import se.geomarket.backend.geomarket.dto.languagesupport.NameDto;
 import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.entity.EventType;
-import se.geomarket.backend.geomarket.entity.EventTypeName;
-import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
 import se.geomarket.backend.geomarket.mapper.EventTypeMapper;
@@ -49,8 +44,6 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
 
     @EJB
     EventTypeDao eventTypeDao;
-    @EJB
-    LanguageDao languageDao;
 
     @Override
     public EventTypeDao getDao() {
@@ -165,6 +158,24 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
             @ApiParam(value = "The new EventType data", required = true) EventTypeDto data,
             @ApiParam(value = "The id of the EventType", required = true) @PathParam("id") String id) {
         return ResponseUtil.getMethodNotSupportedError();
+    }
+
+    @PUT
+    @Path("{id}/{languageId}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(httpMethod = "PUT", value = "Updates a category", response = String.class, nickname = "update", notes = "This Method is not supported")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Method not accessible"),
+        @ApiResponse(code = 500, message = "Internal server error")})
+    public Response update(
+            @ApiParam(value = "The new EventName data", required = true) NameDto data,
+            @ApiParam(value = "The id of the EventType Name", required = true) @PathParam("id") String eventTypeNameId) {
+        try {
+            return Response.ok(eventTypeDao.updateEventTypeName(data, eventTypeNameId)).build();
+        } catch (Exception e) {
+            return Response.serverError().build();
+        }
     }
 
 }
