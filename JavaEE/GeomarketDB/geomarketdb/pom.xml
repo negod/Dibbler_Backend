@@ -32,6 +32,12 @@
             <artifactId>javax.persistence</artifactId>
             <version>2.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>se.geomarket.backend</groupId>
+		    <artifactId>Geomarket</artifactId>
+		    <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
