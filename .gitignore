@@ -39,3 +39,6 @@ scala/.settings
 /JavaEE/Parent/GeomarketPom/release.properties
 /JavaEE/GeomarketDB/geomarketdb/nb-configuration.xml
 /JavaEE/Geomarket/src/main/setup/glassfish-resources.xml
+/JavaEE/Geomarket/.settings
+/JavaEE/Geomarket/.classpath
+/JavaEE/Geomarket/.project
