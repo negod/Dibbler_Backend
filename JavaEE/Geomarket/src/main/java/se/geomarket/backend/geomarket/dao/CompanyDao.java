@@ -10,15 +10,18 @@ import javax.ejb.Local;
 import org.hibernate.search.query.dsl.Unit;
 import se.geomarket.backend.geomarket.entity.Company;
 import se.geomarket.backend.geomarket.generics.BaseDao;
+import se.geomarket.backend.geomarket.generics.BaseDto;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  * @param <E>
+ * @param <D>
+ * 
  */
 @Local
-public interface CompanyDao<E extends BaseEntity> extends BaseDao<E> {
+public interface CompanyDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
 
     public List<Company> getCompanyByLocation(Double longitude, Double latitude, Double radius, Unit unit);
 

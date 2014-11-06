@@ -19,11 +19,12 @@ public class MovementMapper extends BaseMapper<MovementDto, Movement> {
 
     private static final MovementMapper INSTANCE = new MovementMapper();
 
-    private MovementMapper() {
-    }
-
     public static MovementMapper getInstance() {
         return INSTANCE;
+    }
+
+    public MovementMapper() {
+        super(MovementDto.class, Movement.class);
     }
 
     @Override

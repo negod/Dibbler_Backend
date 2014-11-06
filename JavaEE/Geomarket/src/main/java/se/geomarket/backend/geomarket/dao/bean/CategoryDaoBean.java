@@ -11,19 +11,20 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import se.geomarket.backend.geomarket.dao.CategoryDao;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
+import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.entity.Category;
 import se.geomarket.backend.geomarket.entity.CategoryName;
 import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
-import se.geomarket.backend.geomarket.utils.EntityUtils;
+import se.geomarket.backend.geomarket.generics.DaoResponse;
 
 /**
  *
  * @author Joakim
  */
 @Stateless
-public class CategoryDaoBean extends BaseDaoBean implements CategoryDao {
+public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implements CategoryDao<Category, CategoryDto> {
 
     @EJB
     LanguageDao languageDao;
@@ -39,7 +40,7 @@ public class CategoryDaoBean extends BaseDaoBean implements CategoryDao {
         Category category = (Category) super.getByExtId(categoryId);
 
         //TODO check that language does not exist in category        
-        CategoryName categoryname = (CategoryName) EntityUtils.setEntityCreateData(new CategoryName());
+        CategoryName categoryname = new CategoryName();
         categoryname.setLanguage(languageEntity);
         categoryname.setName(name);
         categoryname.setCategory(category);
@@ -77,4 +78,25 @@ public class CategoryDaoBean extends BaseDaoBean implements CategoryDao {
         }
         return "";
     }
+
+    @Override
+    public DaoResponse create(CategoryDto dto) {
+        Language languageEntity = (Language) languageDao.getByExtId(dto.getDefaultLanguage());
+
+        Category category = new Category();
+        category.setDescription(dto.getDescription());
+        category.setDefaultName(dto.getDefaultName());
+
+        List<CategoryName> ceteogyNames = new ArrayList<>();
+        CategoryName categoryname = new CategoryName();
+        categoryname.setLanguage(languageEntity);
+        categoryname.setName(dto.getDefaultName());
+        categoryname.setCategory(category);
+        ceteogyNames.add(categoryname);
+
+        category.setNames(ceteogyNames);
+
+        return super.create(category);
+    }
+
 }

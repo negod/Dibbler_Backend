@@ -8,7 +8,6 @@ package se.geomarket.backend.geomarket.mapper.summary;
 import java.util.ArrayList;
 import java.util.List;
 import org.joda.time.DateTime;
-import se.geomarket.backend.geomarket.dto.summary.EventTextSummaryDto;
 import se.geomarket.backend.geomarket.dto.summary.EventSummaryDto;
 import se.geomarket.backend.geomarket.entity.Company;
 import se.geomarket.backend.geomarket.entity.Event;
@@ -24,26 +23,12 @@ public class EventSummaryMapper extends BaseMapper<EventSummaryDto, Company> {
 
     private static final EventSummaryMapper INSTANCE = new EventSummaryMapper();
 
-    private EventSummaryMapper() {
-    }
-
     public static EventSummaryMapper getInstance() {
         return INSTANCE;
     }
 
-    @Override
-    public Company mapFromDtoToEntity(EventSummaryDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public EventSummaryDto mapFromEntityToDto(Company entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateEntityFromDto(Company entity, EventSummaryDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public EventSummaryMapper() {
+        super(EventSummaryDto.class, Company.class);
     }
 
     public List<EventSummaryDto> extractEvents(Company entity, String languageId) {

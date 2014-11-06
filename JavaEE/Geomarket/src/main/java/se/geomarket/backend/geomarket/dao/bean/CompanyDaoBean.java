@@ -15,16 +15,20 @@ import org.hibernate.search.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.hibernate.search.query.dsl.Unit;
 import se.geomarket.backend.geomarket.dao.CompanyDao;
+import se.geomarket.backend.geomarket.dto.CompanyDto;
 import se.geomarket.backend.geomarket.entity.Company;
 import se.geomarket.backend.geomarket.entity.Location;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
+import se.geomarket.backend.geomarket.generics.DaoResponse;
+import se.geomarket.backend.geomarket.mapper.CompanyMapper;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
+ * @inheritDoc
  */
 @Stateless
-public class CompanyDaoBean extends BaseDaoBean implements CompanyDao {
+public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements CompanyDao<Company, CompanyDto> {
 
     public CompanyDaoBean() {
         super(Company.class);
@@ -43,17 +47,6 @@ public class CompanyDaoBean extends BaseDaoBean implements CompanyDao {
         org.hibernate.Query hibQuery = fullTextSession.createFullTextQuery(query, Location.class);
         List<Location> results = hibQuery.list();
         return extractCompanies(results);
-
-
-        /*Coordinates coordinates = Point.fromDegrees(24d, 31.5d);
-         Query query = builder
-         .spatial()
-         .onCoordinates( "location" )
-         .within( 51, Unit.KM )
-         .ofCoordinates( coordinates )
-         .createQuery();
-
-         List results = fullTextSession.createFullTextQuery( query, POI.class ).list();*/
     }
 
     private List<Company> extractCompanies(List<Location> locations) {
@@ -62,6 +55,11 @@ public class CompanyDaoBean extends BaseDaoBean implements CompanyDao {
             companies.add(loc.getCompany());
         }
         return companies;
+    }
+
+    @Override
+    public DaoResponse create(CompanyDto dto) {
+        return super.create(CompanyMapper.getInstance().mapFromDtoToEntity(dto));
     }
 
 }

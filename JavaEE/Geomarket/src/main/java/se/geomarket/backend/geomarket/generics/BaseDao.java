@@ -6,19 +6,22 @@
 package se.geomarket.backend.geomarket.generics;
 
 import java.util.List;
-import java.util.Set;
+
 import javax.persistence.EntityManager;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
- * @param <E>
+ * @param <E> The entity to persist
+ * @param <D> The dto to maniulate before persisting
  */
-public interface BaseDao<E extends BaseEntity> {
+public interface BaseDao<E extends BaseEntity, D extends BaseDto> {
 
     public EntityManager getEntityManager();
 
     public DaoResponse create(E entity);
+
+    public DaoResponse create(D dto);
 
     public E getByExtId(String id);
 

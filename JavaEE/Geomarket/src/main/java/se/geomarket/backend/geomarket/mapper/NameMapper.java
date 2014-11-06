@@ -17,32 +17,12 @@ public class NameMapper extends BaseMapper<NameDto, Name> {
 
     private static final NameMapper INSTANCE = new NameMapper();
 
-    private NameMapper() {
-    }
-
     public static NameMapper getInstance() {
         return INSTANCE;
     }
 
-    @Override
-    public Name mapFromDtoToEntity(NameDto dto) {
-        Name entity = new Name();
-        entity.setName(dto.getName());
-        return entity;
-    }
-
-    @Override
-    public NameDto mapFromEntityToDto(Name entity) {
-        NameDto dto = new NameDto();
-        dto.setId(entity.getExtId());
-        dto.setName(entity.getName());
-        dto.setLanguageId(entity.getLanguage().getExtId());
-        return dto;
-    }
-
-    @Override
-    public void updateEntityFromDto(Name entity, NameDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public NameMapper() {
+        super(NameDto.class, Name.class);
     }
 
 }

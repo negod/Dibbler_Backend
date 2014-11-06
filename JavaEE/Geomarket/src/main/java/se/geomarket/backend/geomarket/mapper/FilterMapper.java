@@ -20,11 +20,12 @@ public class FilterMapper extends BaseMapper<FilterDto, Filter> {
     
     private static final FilterMapper INSTANCE = new FilterMapper();
     
-    private FilterMapper() {
-    }
-    
     public static FilterMapper getInstance() {
         return INSTANCE;
+    }
+
+    public FilterMapper() {
+        super(FilterDto.class, Filter.class);
     }
     
     @Override

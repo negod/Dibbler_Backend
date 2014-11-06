@@ -17,11 +17,12 @@ public class PointMapper extends BaseMapper<PointDto, Location> {
     
     private static final PointMapper INSTANCE = new PointMapper();
     
-    private PointMapper() {
-    }
-    
     public static PointMapper getInstance() {
         return INSTANCE;
+    }
+
+    public PointMapper() {
+        super(PointDto.class, Location.class);
     }
     
     @Override

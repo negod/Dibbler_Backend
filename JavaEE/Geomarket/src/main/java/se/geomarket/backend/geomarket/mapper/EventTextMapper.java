@@ -17,11 +17,12 @@ public class EventTextMapper extends BaseMapper<EventTextDto, EventText> {
 
     private static final EventTextMapper INSTANCE = new EventTextMapper();
 
-    private EventTextMapper() {
-    }
-
     public static EventTextMapper getInstance() {
         return INSTANCE;
+    }
+
+    public EventTextMapper() {
+        super(EventTextDto.class, EventText.class);
     }
 
     @Override

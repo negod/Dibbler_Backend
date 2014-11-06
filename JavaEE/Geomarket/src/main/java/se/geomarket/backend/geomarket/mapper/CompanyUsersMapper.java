@@ -20,25 +20,12 @@ public class CompanyUsersMapper extends BaseMapper<CompanyUsersDto, CompanyUsers
     
     private static final CompanyUsersMapper INSTANCE = new CompanyUsersMapper();
     
-    private CompanyUsersMapper() {
-    }
-    
     public static CompanyUsersMapper getInstance() {
         return INSTANCE;
     }
-    
-    @Override
-    public CompanyUsers mapFromDtoToEntity(CompanyUsersDto dto) {
-        Mapper mapper = new DozerBeanMapper();
-        CompanyUsers destObject = mapper.map(dto, CompanyUsers.class);
-        return destObject;
-    }
-    
-    @Override
-    public CompanyUsersDto mapFromEntityToDto(CompanyUsers entity) {
-        Mapper mapper = new DozerBeanMapper();
-        CompanyUsersDto destObject = mapper.map(entity, CompanyUsersDto.class);
-        return destObject;
+
+    public CompanyUsersMapper() {
+        super(CompanyUsersDto.class, CompanyUsers.class);
     }
     
     @Override

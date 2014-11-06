@@ -17,32 +17,12 @@ public class BaseNameMapper extends BaseMapper<BaseNameDto, BaseName> {
 
     private static final BaseNameMapper INSTANCE = new BaseNameMapper();
 
-    private BaseNameMapper() {
-    }
-
     public static BaseNameMapper getInstance() {
         return INSTANCE;
     }
 
-    @Override
-    public BaseName mapFromDtoToEntity(BaseNameDto dto) {
-        BaseName name = new BaseName();
-        name.setDefaultName(dto.getDefaultName());
-        name.setDescription(dto.getDescription());
-        return name;
-    }
-
-    @Override
-    public BaseNameDto mapFromEntityToDto(BaseName entity) {
-        BaseNameDto name = new BaseNameDto();
-        name.setDefaultName(entity.getDefaultName());
-        name.setDescription(entity.getDescription());
-        return name;
-    }
-
-    @Override
-    public void updateEntityFromDto(BaseName entity, BaseNameDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public BaseNameMapper() {
+        super(BaseNameDto.class, BaseName.class);
     }
 
 }

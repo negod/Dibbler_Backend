@@ -7,18 +7,26 @@ package se.geomarket.backend.geomarket.dao.bean;
 
 import javax.ejb.Stateless;
 import se.geomarket.backend.geomarket.dao.FilterDao;
+import se.geomarket.backend.geomarket.dto.FilterDto;
 import se.geomarket.backend.geomarket.entity.Filter;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
+import se.geomarket.backend.geomarket.generics.DaoResponse;
+import se.geomarket.backend.geomarket.mapper.FilterMapper;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Stateless
-public class FilterDaoBean extends BaseDaoBean implements FilterDao {
+public class FilterDaoBean extends BaseDaoBean<Filter, FilterDto> implements FilterDao<Filter, FilterDto> {
 
     public FilterDaoBean() {
         super(Filter.class);
+    }
+
+    @Override
+    public DaoResponse create(FilterDto dto) {
+        return super.create(FilterMapper.getInstance().mapFromDtoToEntity(dto));
     }
 
 }

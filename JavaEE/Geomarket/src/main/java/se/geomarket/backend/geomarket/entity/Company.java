@@ -5,7 +5,9 @@
  */
 package se.geomarket.backend.geomarket.entity;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
 import se.geomarket.backend.geomarket.generics.BaseEntity;
@@ -191,5 +194,14 @@ public class Company extends BaseEntity {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    
+
+    @PrePersist
+    @Override
+    protected void onCreate() {
+        super.onCreate();
+        if (location != null) {
+            location.setCompany(this);
+        }
+    }
+
 }

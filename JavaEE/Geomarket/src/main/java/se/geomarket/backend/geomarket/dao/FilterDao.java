@@ -7,6 +7,7 @@ package se.geomarket.backend.geomarket.dao;
 
 import javax.ejb.Local;
 import se.geomarket.backend.geomarket.generics.BaseDao;
+import se.geomarket.backend.geomarket.generics.BaseDto;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
@@ -15,6 +16,6 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
  * @param <E>
  */
 @Local
-public interface FilterDao<E extends BaseEntity> extends BaseDao<E> {
+public interface FilterDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
 
 }

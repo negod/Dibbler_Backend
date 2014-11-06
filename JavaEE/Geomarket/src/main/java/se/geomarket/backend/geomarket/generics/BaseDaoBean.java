@@ -22,9 +22,10 @@ import org.slf4j.LoggerFactory;
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
- * @param <E>
+ * @param <E> The Entity to persist
+ * @param <D> The Dto to manipulate before persisting as Entity
  */
-public class BaseDaoBean<E extends BaseEntity> implements BaseDao<E> {
+public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> implements BaseDao<E, D> {
 
     Logger logger = LoggerFactory.getLogger(BaseDaoBean.class);
 
@@ -45,32 +46,21 @@ public class BaseDaoBean<E extends BaseEntity> implements BaseDao<E> {
         return em;
     }
 
-    public Set<String> validate(E entity) {
-        Set<String> validations = new HashSet<>();
-        Set<ConstraintViolation<E>> validation = validator.validate(entity);
-        if (!validation.isEmpty()) {
-            for (ConstraintViolation<E> val : validation) {
-                validations.add(val.getMessage());
-            }
-        }
-        return validations;
-    }
+    @Override
+    public abstract DaoResponse create(D dto);
 
     @Override
     public DaoResponse create(E entity) {
-        Set<String> validations = validate(entity);
         try {
-            if (validations.isEmpty()) {
-                getEntityManager().persist(entity);
-                return new DaoResponse(entity.getExtId());
-            }
+            getEntityManager().persist(entity);
+            return new DaoResponse(entity.getExtId());
         } catch (ConstraintViolationException ex) {
-            logger.error("[ Failed to create " + entityClass.getSimpleName() + " ] due to constraint violations");
+            logger.error("[ Failed to create " + entityClass.getSimpleName() + " ] due to constraint violations [ ERROR ]: {} ", ex);
             return new DaoResponse(buildViolationResponse(ex.getConstraintViolations()));
         } catch (Exception e) {
-            logger.error("[ Failed to create " + entityClass.getSimpleName() + " ]");
+            logger.error("[ Failed to create " + entityClass.getSimpleName() + " ] [ ERROR ] {} ", e);
         }
-        return new DaoResponse(validations);
+        return new DaoResponse("Failed to create " + entityClass.getSimpleName());
     }
 
     @Override
@@ -80,7 +70,7 @@ public class BaseDaoBean<E extends BaseEntity> implements BaseDao<E> {
             q.setParameter("id", id);
             return (E) q.getSingleResult();
         } catch (Exception e) {
-            logger.error("[ Failed to get " + entityClass.getSimpleName() + " ] [  ByID: " + id + " ]");
+            logger.error("[ Failed to get " + entityClass.getSimpleName() + " ] [  ByID: " + id + " ] [ ERROR ]: {}", e);
             return null;
         }
     }
@@ -92,7 +82,7 @@ public class BaseDaoBean<E extends BaseEntity> implements BaseDao<E> {
             q.setParameter(1, id);
             return (E) q.getSingleResult();
         } catch (Exception e) {
-            logger.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ ByExtID: " + id + " ]");
+            logger.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ ByExtID: " + id + " ] [ ERROR ]: {}", e);
             return null;
         }
     }
@@ -103,7 +93,7 @@ public class BaseDaoBean<E extends BaseEntity> implements BaseDao<E> {
             Query q = getEntityManager().createNamedQuery(query, entityClass);
             return q.getResultList();
         } catch (Exception e) {
-            logger.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By named query: " + query + " ]");
+            logger.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By named query: " + query + " ] [ ERROR ]: {}", e);
             return null;
         }
     }
@@ -114,7 +104,7 @@ public class BaseDaoBean<E extends BaseEntity> implements BaseDao<E> {
             Query q = getEntityManager().createNativeQuery(query, entityClass);
             return q.getResultList();
         } catch (Exception e) {
-            logger.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By native query: " + query + " ]");
+            logger.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By native query: " + query + " ] [ ERROR ]: {}", e);
             return null;
         }
     }
@@ -125,16 +115,17 @@ public class BaseDaoBean<E extends BaseEntity> implements BaseDao<E> {
             E entity = getEntityManager().find(entityClass, id);
             getEntityManager().remove(entity);
         } catch (Exception e) {
-            logger.error("[ Failed to delete " + entityClass.getSimpleName() + " ] [ Id: " + id + " ]");
+            logger.error("[ Failed to delete " + entityClass.getSimpleName() + " ] [ Id: " + id + " ] [ ERROR ]: {}", e);
         }
     }
 
     @Override
     public void update(E entity) {
         try {
+
             getEntityManager().merge(entity);
         } catch (Exception e) {
-            logger.error("[ Failed to update " + entityClass.getSimpleName() + " ] [ Id: " + entity.getId() + " ]");
+            logger.error("[ Failed to update " + entityClass.getSimpleName() + " ] [ Id: " + entity.getId() + " ] [ ERROR ]: {}", e);
         }
     }
 
@@ -144,7 +135,7 @@ public class BaseDaoBean<E extends BaseEntity> implements BaseDao<E> {
             Query q = em.createQuery("select d from " + entityClass.getSimpleName() + " d", entityClass);
             return q.getResultList();
         } catch (Exception e) {
-            logger.error("[ Failed to get all from " + entityClass.getSimpleName() + " ]");
+            logger.error("[ Failed to get all from " + entityClass.getSimpleName() + " ] [ ERROR ]: {}", e);
             return null;
         }
     }

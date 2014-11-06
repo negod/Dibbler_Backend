@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+          
+    <!-- IF YOU UPDATE THIS DO NOT FORGET TO UPDATE IT IN THE companyMapper.xml -->
+    
+    <mapping map-null="false" type="one-way">
+        <class-a>se.geomarket.backend.geomarket.generics.BaseEntity</class-a>
+        <class-b>se.geomarket.backend.geomarket.generics.BaseDto</class-b>
+        <field>
+            <a>extId</a>
+            <b>id</b>
+        </field>
+    </mapping>
+    
+</mappings>

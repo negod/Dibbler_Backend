@@ -5,9 +5,7 @@
  */
 package se.geomarket.backend.geomarket.mapper;
 
-import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.dto.EventTypeDto;
-import se.geomarket.backend.geomarket.entity.Category;
 import se.geomarket.backend.geomarket.entity.EventType;
 import se.geomarket.backend.geomarket.entity.superclass.Name;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
@@ -20,16 +18,12 @@ public class EventTypeMapper extends BaseMapper<EventTypeDto, EventType> {
 
     private static final EventTypeMapper INSTANCE = new EventTypeMapper();
 
-    private EventTypeMapper() {
-    }
-
     public static EventTypeMapper getInstance() {
         return INSTANCE;
     }
 
-    @Override
-    public EventType mapFromDtoToEntity(EventTypeDto dto) {
-        return (EventType) BaseNameMapper.getInstance().mapFromDtoToEntity(dto);
+    public EventTypeMapper() {
+        super(EventTypeDto.class, EventType.class);
     }
 
     @Override
@@ -43,10 +37,4 @@ public class EventTypeMapper extends BaseMapper<EventTypeDto, EventType> {
         }
         return dto;
     }
-
-    @Override
-    public void updateEntityFromDto(EventType entity, EventTypeDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }

@@ -10,7 +10,6 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -26,16 +25,13 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.CategoryDao;
-import se.geomarket.backend.geomarket.dao.LanguageDao;
 import se.geomarket.backend.geomarket.dto.CategoryDto;
+import se.geomarket.backend.geomarket.dto.languagesupport.BaseNameDto;
 import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.entity.Category;
-import se.geomarket.backend.geomarket.entity.CategoryName;
-import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
 import se.geomarket.backend.geomarket.mapper.CategoryMapper;
-import se.geomarket.backend.geomarket.utils.EntityUtils;
 import se.geomarket.backend.geomarket.utils.ResponseUtil;
 
 /**
@@ -50,9 +46,6 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @EJB
     CategoryDao categoryDao;
 
-    @EJB
-    LanguageDao languageDao;
-
     @Override
     public CategoryDao getDao() {
         return categoryDao;
@@ -61,11 +54,6 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @Override
     public BaseMapper<CategoryDto, Category> getMapper() {
         return CategoryMapper.getInstance();
-    }
-
-    @Override
-    public Response insert(CategoryDto data) {
-        return ResponseUtil.getMethodNotSupportedError();
     }
 
     @GET
@@ -117,34 +105,10 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
         @ApiResponse(code = 200, message = "Returns the id of the created category"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response insert(
-            @ApiParam(value = "The category description", required = true) @QueryParam("description") String descr,
-            @ApiParam(value = "The default name of the category", required = true) @QueryParam("defaultName") String defName,
-            @ApiParam(value = "The id of the default language", required = true) @QueryParam("languageId") String language) {
-
-        try {
-
-            Language languageEntity = (Language) languageDao.getByExtId(language);
-
-            Category category = new Category();
-            category.setDescription(descr);
-            category.setDefaultName(defName);
-
-            List<CategoryName> ceteogyNames = new ArrayList<>();
-            CategoryName categoryname = (CategoryName) EntityUtils.setEntityCreateData(new CategoryName());
-            categoryname.setLanguage(languageEntity);
-            categoryname.setName(defName);
-            categoryname.setCategory(category);
-            ceteogyNames.add(categoryname);
-
-            category.setNames(ceteogyNames);
-
-            super.insert(category);
-
-            return Response.ok(category.getExtId()).build();
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
-
+            @ApiParam(value = "The category description", required = true) @QueryParam("description") String description,
+            @ApiParam(value = "The default name of the category", required = true) @QueryParam("defaultName") String defaultName,
+            @ApiParam(value = "The id of the default language", required = true) @QueryParam("languageId") String languageId) {
+        return super.insert(new CategoryDto(defaultName, description, languageId));
     }
 
     @POST

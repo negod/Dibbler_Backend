@@ -7,7 +7,6 @@ package se.geomarket.backend.geomarket.mapper;
 
 import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.entity.Category;
-import se.geomarket.backend.geomarket.entity.superclass.BaseName;
 import se.geomarket.backend.geomarket.entity.superclass.Name;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 
@@ -19,33 +18,18 @@ public class CategoryMapper extends BaseMapper<CategoryDto, Category> {
 
     private static final CategoryMapper INSTANCE = new CategoryMapper();
 
-    private CategoryMapper() {
-    }
-
     public static CategoryMapper getInstance() {
         return INSTANCE;
     }
 
-    @Override
-    public Category mapFromDtoToEntity(CategoryDto dto) {
-        return (Category) BaseNameMapper.getInstance().mapFromDtoToEntity(dto);
+    public CategoryMapper() {
+        super(CategoryDto.class, Category.class);
     }
 
     @Override
     public CategoryDto mapFromEntityToDto(Category entity) {
-        CategoryDto dto = new CategoryDto();
-        dto.setId(entity.getExtId());
-        dto.setDefaultName(entity.getDefaultName());
-        dto.setDescription(entity.getDescription());
-        for (Name name : entity.getNames()) {
-            dto.getNames().add(NameMapper.getInstance().mapFromEntityToDto(name));
-        }
+        CategoryDto dto = super.mapFromEntityToDto(entity);
         return dto;
-    }
-
-    @Override
-    public void updateEntityFromDto(Category entity, CategoryDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

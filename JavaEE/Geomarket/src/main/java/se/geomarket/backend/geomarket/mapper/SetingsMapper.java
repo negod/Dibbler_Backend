@@ -19,12 +19,13 @@ import se.geomarket.backend.geomarket.generics.BaseMapper;
 public class SetingsMapper extends BaseMapper<SettingDto, Setting> {
     
     private static final SetingsMapper INSTANCE = new SetingsMapper();
-    
-    private SetingsMapper() {
-    }
-    
+
     public static SetingsMapper getInstance() {
         return INSTANCE;
+    }
+
+    public SetingsMapper() {
+        super(SettingDto.class, Setting.class);
     }
     
     @Override

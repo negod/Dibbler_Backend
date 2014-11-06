@@ -9,15 +9,17 @@ import java.util.List;
 import javax.ejb.Local;
 import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.generics.BaseDao;
+import se.geomarket.backend.geomarket.generics.BaseDto;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
  *
  * @author Joakim
  * @param <E>
+ * @param <D>
  */
 @Local
-public interface EventTypeDao <E extends BaseEntity> extends BaseDao<E>{
+public interface EventTypeDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D>{
     
     public String addLanguage(String categoryId, String name, String language);
 

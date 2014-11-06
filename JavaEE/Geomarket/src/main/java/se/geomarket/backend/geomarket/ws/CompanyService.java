@@ -22,15 +22,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.CompanyDao;
-import se.geomarket.backend.geomarket.dao.LocationDao;
 import se.geomarket.backend.geomarket.dto.CompanyDto;
 import se.geomarket.backend.geomarket.entity.Company;
-import se.geomarket.backend.geomarket.entity.Location;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
 import se.geomarket.backend.geomarket.mapper.CompanyMapper;
-import se.geomarket.backend.geomarket.mapper.LocationMapper;
-import se.geomarket.backend.geomarket.utils.EntityUtils;
 
 /**
  *
@@ -43,8 +39,6 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
 
     @EJB
     CompanyDao companyDao;
-    @EJB
-    LocationDao locationDao;
 
     @Override
     public CompanyDao getDao() {
@@ -65,12 +59,7 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
         @ApiResponse(code = 200, message = "Returns the Id of the created Company"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response insert(CompanyDto data) {
-        Company company = CompanyMapper.getInstance().mapFromDtoToEntity(data);
-        Location location = LocationMapper.getInstance().mapFromDtoToEntity(data.getLocation());
-        EntityUtils.setEntityCreateData(location);
-        location.setCompany(company);
-        company.setLocation(location);
-        return super.insert(company);
+        return super.insert(data);
     }
 
     @GET

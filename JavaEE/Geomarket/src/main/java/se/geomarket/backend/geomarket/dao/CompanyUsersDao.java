@@ -8,14 +8,16 @@ package se.geomarket.backend.geomarket.dao;
 
 import javax.ejb.Local;
 import se.geomarket.backend.geomarket.generics.BaseDao;
+import se.geomarket.backend.geomarket.generics.BaseDto;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  * @param <E>
+ * @param <D>
  */
 @Local
-public interface CompanyUsersDao<E extends BaseEntity> extends BaseDao<E> {
+public interface CompanyUsersDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
     
 }

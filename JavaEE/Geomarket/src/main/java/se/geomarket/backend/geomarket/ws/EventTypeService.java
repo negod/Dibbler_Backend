@@ -27,6 +27,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.EventTypeDao;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
+import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.dto.EventTypeDto;
 import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.entity.EventType;
@@ -35,7 +36,6 @@ import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
 import se.geomarket.backend.geomarket.mapper.EventTypeMapper;
-import se.geomarket.backend.geomarket.utils.EntityUtils;
 import se.geomarket.backend.geomarket.utils.ResponseUtil;
 
 /**
@@ -85,8 +85,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response getAllByLanguage(@PathParam("languageId") String languageId) {
         try {
-            List<NameSummaryDto> evnttypes = eventTypeDao.getEventTypesByLanguage(languageId);
-            return Response.ok(evnttypes).build();
+            return Response.ok(eventTypeDao.getEventTypesByLanguage(languageId)).build();
         } catch (Exception e) {
             return Response.serverError().build();
         }
@@ -112,32 +111,14 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
         @ApiResponse(code = 200, message = "Returns the id of the created EventType"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public Response insert(
-            @ApiParam(value = "The eventtype description", required = true) @QueryParam("description") String descr,
-            @ApiParam(value = "The default name of the eventtype", required = true) @QueryParam("defaultName") String defName,
-            @ApiParam(value = "The id of the default language", required = true) @QueryParam("languageId") String language) {
-
+            @ApiParam(value = "The eventtype description", required = true) @QueryParam("description") String description,
+            @ApiParam(value = "The default name of the eventtype", required = true) @QueryParam("defaultName") String defaultName,
+            @ApiParam(value = "The id of the default language", required = true) @QueryParam("languageId") String languageId) {
         try {
-            Language languageEntity = (Language) languageDao.getByExtId(language);
-
-            EventType eventType = new EventType();
-            eventType.setDescription(descr);
-            eventType.setDefaultName(defName);
-
-            List<EventTypeName> eventNames = new ArrayList<>();
-            EventTypeName eventTypeName = (EventTypeName) EntityUtils.setEntityCreateData(new EventTypeName());
-            eventTypeName.setLanguage(languageEntity);
-            eventTypeName.setName(defName);
-            eventTypeName.setEventType(eventType);
-            eventNames.add(eventTypeName);
-
-            eventType.setNames(eventNames);
-
-            return super.insert(eventType);
-
+            return super.insert(new EventTypeDto(defaultName, description, languageId));
         } catch (Exception e) {
             return Response.serverError().build();
         }
-
     }
 
     @POST

@@ -7,11 +7,14 @@ package se.geomarket.backend.geomarket.generics;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -26,6 +29,7 @@ public class BaseEntity implements Serializable {
     @NotNull(message = "id cannot be null! FOR GOD SAKE!!, should be autoincrement!!")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
     private long id;
     @NotNull(message = "extId cannot be null should be set to UUID")
     @Column(unique = true)
@@ -70,6 +74,18 @@ public class BaseEntity implements Serializable {
 
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedDate = new Date();
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdDate = new Date();
+        this.updatedDate = new Date();
+        this.extId = UUID.randomUUID().toString();
     }
 
 }

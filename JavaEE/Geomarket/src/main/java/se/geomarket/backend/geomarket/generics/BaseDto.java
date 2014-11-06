@@ -9,6 +9,7 @@ import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -21,6 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class BaseDto extends BaseDtoEmpty {
 
     @ApiModelProperty(value = "The id for the object", required = false)
+    @XmlElement(type = String.class, required = false)
     private String id;
 
     public String getId() {

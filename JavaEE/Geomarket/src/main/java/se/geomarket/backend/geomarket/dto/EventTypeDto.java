@@ -17,4 +17,13 @@ import se.geomarket.backend.geomarket.dto.languagesupport.BaseNameDto;
 @XmlRootElement(name = "eventType")
 public class EventTypeDto extends BaseNameDto {
 
+    public EventTypeDto() {
+    }
+
+    public EventTypeDto(String defaultName, String description, String defaultLanguage) {
+        super(defaultName, description, defaultLanguage);
+    }
+    
+    
+
 }

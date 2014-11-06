@@ -24,6 +24,15 @@ import se.geomarket.backend.geomarket.generics.BaseDto;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BaseNameDto extends BaseDto {
 
+    public BaseNameDto() {
+    }
+
+    public BaseNameDto(String defaultName, String description, String defaultLanguage) {
+        this.defaultName = defaultName;
+        this.description = description;
+        this.defaultLanguage = defaultLanguage;
+    }
+
     @XmlElement(type = String.class, required = true)
     @ApiModelProperty(value = "The default name that will be shown if certain langugaes are not supported (Preferably in english)", required = true)
     private String defaultName;
@@ -31,6 +40,10 @@ public class BaseNameDto extends BaseDto {
     @XmlElement(type = String.class, required = true)
     @ApiModelProperty(value = "A description of the default name", required = true)
     private String description;
+
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "The default language", required = false)
+    private String defaultLanguage;
 
     @XmlElement(type = String.class, required = false)
     @ApiModelProperty(value = "A list of names in different languages that relates to this name", required = false)
@@ -58,6 +71,14 @@ public class BaseNameDto extends BaseDto {
 
     public void setNames(List<NameDto> names) {
         this.names = names;
+    }
+
+    public String getDefaultLanguage() {
+        return defaultLanguage;
+    }
+
+    public void setDefaultLanguage(String defaultLanguage) {
+        this.defaultLanguage = defaultLanguage;
     }
 
 }

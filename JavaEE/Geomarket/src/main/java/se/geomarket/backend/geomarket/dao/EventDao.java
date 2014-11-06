@@ -5,14 +5,23 @@
  */
 package se.geomarket.backend.geomarket.dao;
 
+import java.util.List;
+import se.geomarket.backend.geomarket.dto.EventTextDto;
+import se.geomarket.backend.geomarket.dto.summary.EventSummaryDto;
 import se.geomarket.backend.geomarket.generics.BaseDao;
+import se.geomarket.backend.geomarket.generics.BaseDto;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
  *
  * @author Joakim
  * @param <E>
+ * @param <D>
  */
-public interface EventDao<E extends BaseEntity> extends BaseDao<E> {
-    
+public interface EventDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
+
+    public String addEventText(EventTextDto eventText, String eventId);
+
+    List<EventSummaryDto> getEventsByLocation(Double longitude, Double latitude, Double radius, String languageId);
+
 }

@@ -15,10 +15,16 @@ import se.geomarket.backend.geomarket.dto.languagesupport.BaseNameDto;
  *
  * @author Joakim
  */
-
-@XmlRootElement(name="category")
+@XmlRootElement(name = "category")
 @XmlAccessorType(XmlAccessType.FIELD)
 @ApiModel(value = "A category for different types of events that are created and published")
 public class CategoryDto extends BaseNameDto {
+
+    public CategoryDto() {
+    }
+
+    public CategoryDto(String defaultName, String description, String defaultLanguage) {
+        super(defaultName, description, defaultLanguage);
+    }
 
 }

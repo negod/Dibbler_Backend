@@ -20,11 +20,12 @@ public class UsersMapper extends BaseMapper<UsersDto, Users> {
 
     private static final UsersMapper INSTANCE = new UsersMapper();
 
-    private UsersMapper() {
-    }
-
     public static UsersMapper getInstance() {
         return INSTANCE;
+    }
+
+    public UsersMapper() {
+        super(UsersDto.class, Users.class);
     }
 
     @Override

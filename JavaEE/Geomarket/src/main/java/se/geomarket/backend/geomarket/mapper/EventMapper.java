@@ -21,11 +21,12 @@ public class EventMapper extends BaseMapper<EventDto, Event> {
 
     private static final EventMapper INSTANCE = new EventMapper();
 
-    private EventMapper() {
-    }
-
     public static EventMapper getInstance() {
         return INSTANCE;
+    }
+
+    public EventMapper() {
+        super(EventDto.class, Event.class);
     }
 
     @Override

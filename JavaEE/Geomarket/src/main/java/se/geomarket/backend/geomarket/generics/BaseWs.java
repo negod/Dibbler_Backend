@@ -6,9 +6,8 @@
 package se.geomarket.backend.geomarket.generics;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+
 import javax.ws.rs.core.Response;
 
 /**
@@ -19,34 +18,15 @@ import javax.ws.rs.core.Response;
  * @param <DAO> DAO class
  */
 public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extends BaseDao> {
-
+    
     public abstract DAO getDao();
 
     public abstract BaseMapper<D, E> getMapper();
 
+    
     public Response insert(D data) {
         try {
-            E entity = getMapper().mapFromDtoToEntity(data);
-            entity.setCreatedDate(new Date());
-            entity.setUpdatedDate(new Date());
-            entity.setExtId(UUID.randomUUID().toString());
-            DaoResponse response = getDao().create(entity);
-            if (response.isOk()) {
-                return Response.ok(response.getId()).build();
-            } else {
-                return Response.ok(response.getValidationErrors()).build();
-            }
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
-    }
-
-    public Response insert(E entity) {
-        try {
-            entity.setCreatedDate(new Date());
-            entity.setUpdatedDate(new Date());
-            entity.setExtId(UUID.randomUUID().toString());
-            DaoResponse response = getDao().create(entity);
+            DaoResponse response = getDao().create(data);
             if (response.isOk()) {
                 return Response.ok(response.getId()).build();
             } else {
@@ -87,7 +67,7 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
     }
 
     public Response getAll() {
-        List<D> dtos = new ArrayList<D>();
+        List<D> dtos = new ArrayList<>();
         try {
             List<E> entities = getDao().getAll();
             for (E entity : entities) {

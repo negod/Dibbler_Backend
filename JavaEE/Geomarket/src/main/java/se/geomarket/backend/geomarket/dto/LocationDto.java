@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import se.geomarket.backend.geomarket.generics.BaseDtoEmpty;
+import se.geomarket.backend.geomarket.generics.BaseDto;
 
 /**
  *
@@ -20,7 +20,7 @@ import se.geomarket.backend.geomarket.generics.BaseDtoEmpty;
 @ApiModel(value = "A location on a map with a fixed position")
 @XmlRootElement(name = "location")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LocationDto extends BaseDtoEmpty {
+public class LocationDto extends BaseDto {
 
     @XmlElement(type = Double.class, required = true)
     @ApiModelProperty(value = "The latitude of the location", required = true)
