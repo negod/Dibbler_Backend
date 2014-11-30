@@ -27,6 +27,7 @@ import se.geomarket.backend.geomarket.dto.FilterDto;
 import se.geomarket.backend.geomarket.entity.Filter;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
+import se.geomarket.backend.geomarket.generics.WsResponse;
 import se.geomarket.backend.geomarket.mapper.FilterMapper;
 
 /**
@@ -59,7 +60,7 @@ public class FilterService extends BaseWs<FilterDto, Filter, FilterDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the created Filter"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response insert(FilterDto data) {
+    public WsResponse insert(FilterDto data) {
         return super.insert(data);
     }
 
@@ -72,11 +73,12 @@ public class FilterService extends BaseWs<FilterDto, Filter, FilterDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns a Filter"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response getById(@PathParam("id") String id) {
+    public WsResponse getById(@PathParam("id") String id) {
         return super.getById(id);
     }
 
     @DELETE
+    @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
@@ -84,7 +86,7 @@ public class FilterService extends BaseWs<FilterDto, Filter, FilterDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the id of the Filter"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response delete(@PathParam("id") Long id) {
+    public WsResponse delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
 
@@ -93,7 +95,7 @@ public class FilterService extends BaseWs<FilterDto, Filter, FilterDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public Response update(FilterDto data, @PathParam("id") String id) {
+    public WsResponse update(FilterDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
 
@@ -104,7 +106,7 @@ public class FilterService extends BaseWs<FilterDto, Filter, FilterDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "All CompanyUsers found"),
         @ApiResponse(code = 500, message = "Could not get the CompanyUsers")})
-    public Response getAll() {
+    public WsResponse getAll() {
         return super.getAll();
     }
 

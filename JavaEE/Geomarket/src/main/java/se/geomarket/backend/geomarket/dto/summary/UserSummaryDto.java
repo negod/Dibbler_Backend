@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.geomarket.backend.geomarket.dto;
+package se.geomarket.backend.geomarket.dto.summary;
 
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -15,12 +15,12 @@ import se.geomarket.backend.geomarket.generics.BaseDto;
 
 /**
  *
- * @author Joakikm Johansson (joakimjohansson@outlook.com)
+ * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
 @ApiModel(value = "Defines a user for Dibbler")
 @XmlRootElement(name = "user")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class UsersDto extends BaseDto {
+public class UserSummaryDto extends BaseDto {
 
     @XmlElement(type = String.class, required = true)
     @ApiModelProperty(value = "The username of the user", required = true)
@@ -29,10 +29,6 @@ public class UsersDto extends BaseDto {
     @XmlElement(type = String.class, required = true)
     @ApiModelProperty(value = "The email of the user", required = true)
     private String email;
-
-    @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "The users password", required = true)
-    private String password;
 
     @XmlElement(type = String.class, required = true)
     @ApiModelProperty(value = "The users gender", required = true)
@@ -46,7 +42,7 @@ public class UsersDto extends BaseDto {
     @ApiModelProperty(value = "URL to the users avatar or image", required = false)
     private String imageUrl;
 
-    @XmlElement(required = false)
+    @XmlElement(required = true)
     @ApiModelProperty(value = "A flag to see if the user is active or not", required = true)
     private boolean active;
 
@@ -64,14 +60,6 @@ public class UsersDto extends BaseDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getGender() {
@@ -98,7 +86,7 @@ public class UsersDto extends BaseDto {
         this.imageUrl = imageUrl;
     }
 
-    public boolean isActive() {
+    public boolean getActive() {
         return active;
     }
 

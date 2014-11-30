@@ -10,7 +10,8 @@ import se.geomarket.backend.geomarket.dao.CategoryNameDao;
 import se.geomarket.backend.geomarket.dto.languagesupport.BaseNameDto;
 import se.geomarket.backend.geomarket.entity.CategoryName;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
-import se.geomarket.backend.geomarket.generics.DaoResponse;
+import se.geomarket.backend.geomarket.generics.GenericError;
+import se.geomarket.backend.geomarket.generics.MethodResponse;
 
 /**
  *
@@ -24,8 +25,8 @@ public class CategoryNameDaoBean extends BaseDaoBean<CategoryName, BaseNameDto> 
     }
 
     @Override
-    public DaoResponse create(BaseNameDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public MethodResponse create(BaseNameDto dto) {
+        return MethodResponse.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }

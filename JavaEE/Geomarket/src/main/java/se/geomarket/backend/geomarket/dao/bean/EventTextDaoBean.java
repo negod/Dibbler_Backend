@@ -10,25 +10,27 @@ import se.geomarket.backend.geomarket.dao.EventTextDao;
 import se.geomarket.backend.geomarket.dto.EventTextDto;
 import se.geomarket.backend.geomarket.entity.EventText;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
-import se.geomarket.backend.geomarket.generics.DaoResponse;
+import se.geomarket.backend.geomarket.generics.MethodResponse;
 import se.geomarket.backend.geomarket.mapper.EventTextMapper;
 
 /**
- * 
+ *
  * @author Joakim
  */
 @Stateless
-public class EventTextDaoBean extends BaseDaoBean<EventText, EventTextDto> implements EventTextDao<EventText, EventTextDto>  {
+public class EventTextDaoBean extends BaseDaoBean<EventText, EventTextDto> implements EventTextDao<EventText, EventTextDto> {
 
     public EventTextDaoBean() {
         super(EventText.class);
     }
 
     @Override
-    public DaoResponse create(EventTextDto dto) {
-        return super.create(EventTextMapper.getInstance().mapFromDtoToEntity(dto));
+    public MethodResponse create(EventTextDto dto) {
+        MethodResponse<EventText> entity = EventTextMapper.getInstance().mapFromDtoToEntity(dto);
+        if (entity.hasErrors) {
+            return MethodResponse.error(entity.getErrorCode());
+        }
+        return super.create(entity.getData());
     }
-
-   
 
 }

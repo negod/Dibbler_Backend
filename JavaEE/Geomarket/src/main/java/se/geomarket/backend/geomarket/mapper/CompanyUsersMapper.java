@@ -5,21 +5,21 @@
  */
 package se.geomarket.backend.geomarket.mapper;
 
-import java.util.Date;
-import org.dozer.DozerBeanMapper;
-import org.dozer.Mapper;
 import se.geomarket.backend.geomarket.dto.CompanyUsersDto;
+import se.geomarket.backend.geomarket.entity.Company;
 import se.geomarket.backend.geomarket.entity.CompanyUsers;
+import se.geomarket.backend.geomarket.entity.Roles;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
+import se.geomarket.backend.geomarket.generics.MethodResponse;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 public class CompanyUsersMapper extends BaseMapper<CompanyUsersDto, CompanyUsers> {
-    
+
     private static final CompanyUsersMapper INSTANCE = new CompanyUsersMapper();
-    
+
     public static CompanyUsersMapper getInstance() {
         return INSTANCE;
     }
@@ -27,13 +27,23 @@ public class CompanyUsersMapper extends BaseMapper<CompanyUsersDto, CompanyUsers
     public CompanyUsersMapper() {
         super(CompanyUsersDto.class, CompanyUsers.class);
     }
-    
+
     @Override
-    public void updateEntityFromDto(CompanyUsers entity, CompanyUsersDto dto) {
-        entity.setUpdatedDate(new Date());
-        entity.setCompany(CompanyMapper.getInstance().mapFromDtoToEntity(dto.getCompany()));
-        entity.setUserRole(RolesMapper.getInstance().mapFromDtoToEntity(dto.getUserRole()));
-        entity.setUpdatedDate(new Date());
+    public MethodResponse<CompanyUsers> updateEntityFromDto(CompanyUsers entity, CompanyUsersDto dto) {
+        MethodResponse<Company> company = CompanyMapper.getInstance().mapFromDtoToEntity(dto.getCompany());
+        if (company.hasErrors) {
+            return MethodResponse.error(company.getErrorCode());
+        }
+
+        MethodResponse<Roles> role = RolesMapper.getInstance().mapFromDtoToEntity(dto.getUserRole());
+        if (role.hasErrors) {
+            return MethodResponse.error(role.getErrorCode());
+        }
+
+        entity.setCompany(company.getData());
+        entity.setUserRole(role.getData());
+
+        return MethodResponse.success(entity);
     }
-    
+
 }

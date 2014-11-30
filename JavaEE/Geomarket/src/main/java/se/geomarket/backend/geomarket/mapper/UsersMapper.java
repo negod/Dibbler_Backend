@@ -5,9 +5,6 @@
  */
 package se.geomarket.backend.geomarket.mapper;
 
-import java.util.Date;
-import org.dozer.DozerBeanMapper;
-import org.dozer.Mapper;
 import se.geomarket.backend.geomarket.dto.UsersDto;
 import se.geomarket.backend.geomarket.entity.Users;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
@@ -26,32 +23,6 @@ public class UsersMapper extends BaseMapper<UsersDto, Users> {
 
     public UsersMapper() {
         super(UsersDto.class, Users.class);
-    }
-
-    @Override
-    public Users mapFromDtoToEntity(UsersDto dto) {
-        Mapper mapper = new DozerBeanMapper();
-        Users destObject = mapper.map(dto, Users.class);
-        return destObject;
-    }
-
-    @Override
-    public UsersDto mapFromEntityToDto(Users entity) {
-        Mapper mapper = new DozerBeanMapper();
-        UsersDto destObject = mapper.map(entity, UsersDto.class);
-        return destObject;
-    }
-
-    @Override
-    public void updateEntityFromDto(Users entity, UsersDto dto) {
-        entity.setAge(dto.getAge());
-        entity.setEmail(dto.getEmail());
-        entity.setGender(dto.getGender());
-        entity.setImageUrl(dto.getImageUrl());
-        entity.setPassword(dto.getPassword());
-        entity.setUsername(dto.getUsername());
-        entity.setActive(true);
-        entity.setUpdatedDate(new Date());
     }
 
 }

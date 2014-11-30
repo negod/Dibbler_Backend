@@ -10,8 +10,8 @@ import se.geomarket.backend.geomarket.dao.CompanyUsersDao;
 import se.geomarket.backend.geomarket.dto.CompanyUsersDto;
 import se.geomarket.backend.geomarket.entity.CompanyUsers;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
-import se.geomarket.backend.geomarket.generics.DaoResponse;
-import se.geomarket.backend.geomarket.mapper.CompanyUsersMapper;
+import se.geomarket.backend.geomarket.generics.GenericError;
+import se.geomarket.backend.geomarket.generics.MethodResponse;
 
 /**
  *
@@ -25,8 +25,8 @@ public class CompanyUsersDaoBean extends BaseDaoBean<CompanyUsers, CompanyUsersD
     }
 
     @Override
-    public DaoResponse create(CompanyUsersDto dto) {
-        return super.create(CompanyUsersMapper.getInstance().mapFromDtoToEntity(dto));
+    public MethodResponse create(CompanyUsersDto dto) {
+        return MethodResponse.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }

@@ -11,13 +11,13 @@ import se.geomarket.backend.geomarket.dto.languagesupport.BaseNameDto;
 import se.geomarket.backend.geomarket.dto.languagesupport.NameDto;
 import se.geomarket.backend.geomarket.entity.EventTypeName;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
-import se.geomarket.backend.geomarket.generics.DaoResponse;
+import se.geomarket.backend.geomarket.generics.GenericError;
+import se.geomarket.backend.geomarket.generics.MethodResponse;
 
 /**
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-
 @Stateless
 public class EventTypeNameDaoBean extends BaseDaoBean<EventTypeName, BaseNameDto> implements EventTypeNameDao<EventTypeName, BaseNameDto> {
 
@@ -26,13 +26,13 @@ public class EventTypeNameDaoBean extends BaseDaoBean<EventTypeName, BaseNameDto
     }
 
     @Override
-    public DaoResponse create(BaseNameDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public MethodResponse<String> create(BaseNameDto dto) {
+        return MethodResponse.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
     @Override
-    public String updateEventTypeName(NameDto name, String eventTypeNameId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public MethodResponse<String> updateEventTypeName(NameDto name, String eventTypeNameId) {
+        return MethodResponse.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }

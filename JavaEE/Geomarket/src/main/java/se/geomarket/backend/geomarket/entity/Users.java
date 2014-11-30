@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
@@ -36,11 +37,11 @@ public class Users extends BaseEntity {
     private String imageUrl;
     @Column
     private boolean active;
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private Setting setting;
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private Filter filter;
-    @ManyToMany(fetch=FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Roles> roles;
 
     public String getUsername() {
@@ -122,7 +123,12 @@ public class Users extends BaseEntity {
     public void setFilter(Filter filter) {
         this.filter = filter;
     }
-    
-    
+
+    @PrePersist
+    @Override
+    protected void onCreate() {
+        super.onCreate();
+        this.active = true;
+    }
 
 }

@@ -7,8 +7,8 @@ package se.geomarket.backend.geomarket.generics;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.ws.rs.core.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -18,64 +18,81 @@ import javax.ws.rs.core.Response;
  * @param <DAO> DAO class
  */
 public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extends BaseDao> {
-    
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(BaseWs.class);
+
     public abstract DAO getDao();
 
     public abstract BaseMapper<D, E> getMapper();
 
-    
-    public Response insert(D data) {
+    public WsResponse insert(D data) {
         try {
-            DaoResponse response = getDao().create(data);
-            if (response.isOk()) {
-                return Response.ok(response.getId()).build();
-            } else {
-                return Response.ok(response.getValidationErrors()).build();
+            return getDao().create(data).getWsResponse();
+        } catch (Exception e) {
+            LOGGER.error("[ Failed to insert data into: {} ] Error : {}", getDao().getEntityClass().getSimpleName(), e);
+            return new WsResponse<>(null, 500);
+        }
+    }
+
+    public WsResponse getById(String id) {
+        try {
+            MethodResponse<E> response = getDao().getByExtId(id);
+            if (response.hasErrors) {
+                return response.getWsResponse();
             }
+
+            return getMapper().mapFromEntityToDto(response.getData()).getWsResponse();
         } catch (Exception e) {
-            return Response.serverError().build();
+            LOGGER.error("[ Failed to get data with id: {} from: {}] Error : {} ", id, getDao().getEntityClass().getSimpleName(), e);
+            return new WsResponse<>(null, 500);
         }
     }
 
-    public Response getById(String id) {
+    public WsResponse delete(Long id) {
         try {
-            return Response.ok(getMapper().mapFromEntityToDto((E) getDao().getByExtId(id))).build();
+            MethodResponse<E> entity = getDao().getById(id);
+            if (entity.hasErrors) {
+                return entity.getWsResponse();
+            }
+
+            return getDao().delete(entity.getData()).getWsResponse();
         } catch (Exception e) {
-            return null;
+            LOGGER.error("[ Failed to delete data with id: {} from: {} ] Error : {} ", id, getDao().getEntityClass().getSimpleName(), e);
+            return new WsResponse<>(null, 500);
         }
     }
 
-    public Response delete(Long id) {
+    public WsResponse update(D data, String id) {
         try {
-            E entity = (E) getDao().getById(id);
-            getDao().delete(id);
-            return Response.ok(entity.getExtId()).build();
+            MethodResponse<E> oldEntity = getDao().getByExtId(id);
+            if (oldEntity.hasErrors) {
+                return oldEntity.getWsResponse();
+            }
+
+            MethodResponse<E> updatedEntity = getMapper().updateEntityFromDto(oldEntity.getData(), data);
+            if (updatedEntity.hasErrors) {
+                return updatedEntity.getWsResponse();
+            }
+
+            return getDao().update(oldEntity.getData()).getWsResponse();
         } catch (Exception e) {
-            return Response.serverError().build();
+            LOGGER.error("[ Failed to update data with id: {} table: {} ] Error : {} ", id, getDao().getEntityClass().getSimpleName(), e);
+            return new WsResponse<>(null, 500);
         }
     }
 
-    public Response update(D data, String id) {
-        try {
-            E oldEntity = (E) getDao().getByExtId(id);
-            getMapper().updateEntityFromDto(oldEntity, data);
-            getDao().update(oldEntity);
-            return Response.ok(oldEntity.getExtId()).build();
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
-    }
-
-    public Response getAll() {
+    public WsResponse getAll() {
         List<D> dtos = new ArrayList<>();
         try {
-            List<E> entities = getDao().getAll();
-            for (E entity : entities) {
-                dtos.add(getMapper().mapFromEntityToDto(entity));
+            MethodResponse<List<E>> entities = getDao().getAll();
+            if (entities.hasErrors) {
+                return entities.getWsResponse();
             }
-            return Response.ok(dtos).build();
+
+            return getMapper().mapToDtoList(entities.getData()).getWsResponse();
         } catch (Exception e) {
-            return Response.serverError().build();
+            LOGGER.error("[ Failed to get all data from {} ] Error : {} ", getDao().getEntityClass().getSimpleName(), e);
+            return new WsResponse<>(null, 500);
         }
 
     }

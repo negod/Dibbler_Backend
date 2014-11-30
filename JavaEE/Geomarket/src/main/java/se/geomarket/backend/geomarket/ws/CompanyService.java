@@ -20,12 +20,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.CompanyDao;
 import se.geomarket.backend.geomarket.dto.CompanyDto;
 import se.geomarket.backend.geomarket.entity.Company;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
+import se.geomarket.backend.geomarket.generics.WsResponse;
 import se.geomarket.backend.geomarket.mapper.CompanyMapper;
 
 /**
@@ -58,7 +58,7 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the created Company"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response insert(CompanyDto data) {
+    public WsResponse insert(CompanyDto data) {
         return super.insert(data);
     }
 
@@ -71,11 +71,12 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns a company"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response getById(@PathParam("id") String id) {
+    public WsResponse getById(@PathParam("id") String id) {
         return super.getById(id);
     }
 
     @DELETE
+    @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
@@ -83,7 +84,7 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = ""),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response delete(@PathParam("id") Long id) {
+    public WsResponse delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
 
@@ -96,7 +97,7 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the id of the updated company"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response update(CompanyDto data, @PathParam("id") String id) {
+    public WsResponse update(CompanyDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
 
@@ -107,7 +108,7 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns all companies that exists in db"),
         @ApiResponse(code = 500, message = "Could not get the companies")})
-    public Response getAll() {
+    public WsResponse getAll() {
         return super.getAll();
     }
 

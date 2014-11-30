@@ -10,7 +10,7 @@ import se.geomarket.backend.geomarket.dao.RolesDao;
 import se.geomarket.backend.geomarket.dto.RolesDto;
 import se.geomarket.backend.geomarket.entity.Roles;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
-import se.geomarket.backend.geomarket.generics.DaoResponse;
+import se.geomarket.backend.geomarket.generics.MethodResponse;
 import se.geomarket.backend.geomarket.mapper.RolesMapper;
 
 /**
@@ -25,8 +25,12 @@ public class RolesDaoBean extends BaseDaoBean<Roles, RolesDto> implements RolesD
     }
 
     @Override
-    public DaoResponse create(RolesDto dto) {
-        return super.create(RolesMapper.getInstance().mapFromDtoToEntity(dto));
+    public MethodResponse create(RolesDto dto) {
+        MethodResponse<Roles> entity = RolesMapper.getInstance().mapFromDtoToEntity(dto);
+        if (entity.hasErrors) {
+            return MethodResponse.error(entity.getErrorCode());
+        }
+        return super.create(entity.getData());
     }
 
 }

@@ -22,7 +22,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.EventTypeDao;
 import se.geomarket.backend.geomarket.dto.EventTypeDto;
 import se.geomarket.backend.geomarket.dto.languagesupport.NameDto;
@@ -30,8 +29,10 @@ import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.entity.EventType;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
+import se.geomarket.backend.geomarket.generics.GenericError;
+import se.geomarket.backend.geomarket.generics.MethodResponse;
+import se.geomarket.backend.geomarket.generics.WsResponse;
 import se.geomarket.backend.geomarket.mapper.EventTypeMapper;
-import se.geomarket.backend.geomarket.utils.ResponseUtil;
 
 /**
  *
@@ -64,7 +65,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns an eventtype"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response getById(@PathParam("id") String id) {
+    public WsResponse getById(@PathParam("id") String id) {
         return super.getById(id);
     }
 
@@ -76,13 +77,8 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns an eventtype in the requested language"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response getAllByLanguage(@PathParam("languageId") String languageId) {
-        try {
-            return Response.ok(eventTypeDao.getEventTypesByLanguage(languageId)).build();
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
-
+    public WsResponse getAllByLanguage(@PathParam("languageId") String languageId) {
+        return eventTypeDao.getEventTypesByLanguage(languageId).getWsResponse();
     }
 
     @GET
@@ -92,7 +88,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "returns all eventtypes in all languages"),
         @ApiResponse(code = 500, message = "Could not get the evnttypes")})
-    public Response getAll() {
+    public WsResponse getAll() {
         return super.getAll();
     }
 
@@ -103,15 +99,11 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the id of the created EventType"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response insert(
+    public WsResponse insert(
             @ApiParam(value = "The eventtype description", required = true) @QueryParam("description") String description,
             @ApiParam(value = "The default name of the eventtype", required = true) @QueryParam("defaultName") String defaultName,
             @ApiParam(value = "The id of the default language", required = true) @QueryParam("languageId") String languageId) {
-        try {
-            return super.insert(new EventTypeDto(defaultName, description, languageId));
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
+        return super.insert(new EventTypeDto(defaultName, description, languageId));
     }
 
     @POST
@@ -122,18 +114,15 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the id of the updated eventtype"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response addLanguage(
+    public WsResponse addLanguage(
             @ApiParam(value = "The id for the eventtype that the new language will be added to", required = true) @QueryParam("eventTypeId") String categoryId,
             @ApiParam(value = "The name of the eventtype in the requested language", required = true) @QueryParam("name") String name,
             @ApiParam(value = "The id of the language to add", required = true) @QueryParam("languageId") String language) {
-        try {
-            return Response.ok(eventTypeDao.addLanguage(categoryId, name, language)).build();
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
+        return eventTypeDao.addLanguage(categoryId, name, language).getWsResponse();
     }
 
     @DELETE
+    @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
@@ -141,7 +130,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = ""),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response delete(@PathParam("id") Long id) {
+    public WsResponse delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
 
@@ -154,10 +143,10 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Method not accessible"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response update(
+    public WsResponse update(
             @ApiParam(value = "The new EventType data", required = true) EventTypeDto data,
             @ApiParam(value = "The id of the EventType", required = true) @PathParam("id") String id) {
-        return ResponseUtil.getMethodNotSupportedError();
+        return MethodResponse.error(GenericError.METHOD_NOT_IMPLEMENTED).getWsResponse();
     }
 
     @PUT
@@ -168,14 +157,10 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Method not accessible"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response update(
+    public WsResponse update(
             @ApiParam(value = "The new EventName data", required = true) NameDto data,
             @ApiParam(value = "The id of the EventType Name", required = true) @PathParam("id") String eventTypeNameId) {
-        try {
-            return Response.ok(eventTypeDao.updateEventTypeName(data, eventTypeNameId)).build();
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
+        return eventTypeDao.updateEventTypeName(data, eventTypeNameId).getWsResponse();
     }
 
 }

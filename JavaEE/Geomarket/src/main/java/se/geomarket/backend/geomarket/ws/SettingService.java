@@ -22,10 +22,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.SettingDao;
+import se.geomarket.backend.geomarket.dto.MovementDto;
 import se.geomarket.backend.geomarket.dto.SettingDto;
 import se.geomarket.backend.geomarket.entity.Setting;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
+import se.geomarket.backend.geomarket.generics.WsResponse;
 
 /**
  *
@@ -57,7 +59,7 @@ public class SettingService extends BaseWs<SettingDto, Setting, SettingDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the created Setting"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response insert(SettingDto data) {
+    public WsResponse insert(SettingDto data) {
         return super.insert(data);
     }
 
@@ -70,11 +72,12 @@ public class SettingService extends BaseWs<SettingDto, Setting, SettingDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns a Setting"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response getById(@PathParam("id") String id) {
+    public WsResponse getById(@PathParam("id") String id) {
         return super.getById(id);
     }
 
     @DELETE
+    @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
@@ -82,7 +85,7 @@ public class SettingService extends BaseWs<SettingDto, Setting, SettingDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = ""),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response delete(@PathParam("id") Long id) {
+    public WsResponse delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
 
@@ -95,14 +98,18 @@ public class SettingService extends BaseWs<SettingDto, Setting, SettingDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the id of the Setting"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response update(SettingDto data, @PathParam("id") String id) {
+    public WsResponse update(SettingDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all settings", response = SettingDto.class, nickname = "getAll")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "All Settings found"),
+        @ApiResponse(code = 500, message = "Could not get the Settings")})
     @Override
-    public Response getAll() {
+    public WsResponse getAll() {
         return super.getAll();
     }
 

@@ -42,6 +42,7 @@ public class ApplicationConfig extends Application {
         resources.add(se.geomarket.backend.geomarket.ws.EventService.class);
         resources.add(se.geomarket.backend.geomarket.ws.EventTypeService.class);
         resources.add(se.geomarket.backend.geomarket.ws.FilterService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.IdService.class);
         resources.add(se.geomarket.backend.geomarket.ws.IndexService.class);
         resources.add(se.geomarket.backend.geomarket.ws.LanguageService.class);
         resources.add(se.geomarket.backend.geomarket.ws.MovementService.class);

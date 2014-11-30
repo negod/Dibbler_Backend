@@ -25,16 +25,4 @@ public class EventTypeMapper extends BaseMapper<EventTypeDto, EventType> {
     public EventTypeMapper() {
         super(EventTypeDto.class, EventType.class);
     }
-
-    @Override
-    public EventTypeDto mapFromEntityToDto(EventType entity) {
-        EventTypeDto dto = new EventTypeDto();
-        dto.setId(entity.getExtId());
-        dto.setDefaultName(entity.getDefaultName());
-        dto.setDescription(entity.getDescription());
-        for (Name name : entity.getNames()) {
-            dto.getNames().add(NameMapper.getInstance().mapFromEntityToDto(name));
-        }
-        return dto;
-    }
 }

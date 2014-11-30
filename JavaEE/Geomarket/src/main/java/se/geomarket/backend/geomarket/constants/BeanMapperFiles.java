@@ -18,6 +18,8 @@ public enum BeanMapperFiles {
     EVENT_TYPE("eventTypeMapper.xml"),
     LANGUAGE("languageMapper.xml"),
     NAME("nameMapper.xml"),
+    USER("usersMapper.xml"),
+    USER_SUMMAY("userSummaryMapper.xml"),
     ROLE("roleMapper.xml");
 
     private final String fileName;

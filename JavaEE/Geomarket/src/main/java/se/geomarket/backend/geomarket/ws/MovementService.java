@@ -22,10 +22,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.MovementDao;
+import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.dto.MovementDto;
 import se.geomarket.backend.geomarket.entity.Movement;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
+import se.geomarket.backend.geomarket.generics.WsResponse;
 import se.geomarket.backend.geomarket.mapper.MovementMapper;
 
 /**
@@ -58,7 +60,7 @@ public class MovementService extends BaseWs<MovementDto, Movement, MovementDao> 
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the created Movement"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response insert(MovementDto data) {
+    public WsResponse insert(MovementDto data) {
         return super.insert(data);
     }
 
@@ -71,11 +73,12 @@ public class MovementService extends BaseWs<MovementDto, Movement, MovementDao> 
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns a Movement"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response getById(@PathParam("id") String id) {
+    public WsResponse getById(@PathParam("id") String id) {
         return super.getById(id);
     }
 
     @DELETE
+    @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
@@ -83,7 +86,7 @@ public class MovementService extends BaseWs<MovementDto, Movement, MovementDao> 
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = ""),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response delete(@PathParam("id") Long id) {
+    public WsResponse delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
 
@@ -96,14 +99,18 @@ public class MovementService extends BaseWs<MovementDto, Movement, MovementDao> 
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the id of the Movement"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response update(MovementDto data, @PathParam("id") String id) {
+    public WsResponse update(MovementDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all movements", response = MovementDto.class, nickname = "getAll")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "All CompanyUsers found"),
+        @ApiResponse(code = 500, message = "Could not get the Languages")})
     @Override
-    public Response getAll() {
+    public WsResponse getAll() {
         return super.getAll();
     }
 

@@ -20,13 +20,13 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Entity
 public class EventText extends BaseEntity {
 
-    @NotNull(message = "eventText.heading cannot be null")
+    @NotNull(message = "cannot be null")
     @Column
     private String heading;
-    @NotNull(message = "eventText.body cannot be null")
+    @NotNull(message = "cannot be null")
     @Column(length = 500)
     private String body;
-    @NotNull(message = "eventText.language cannot be null, must be an existing language")
+    @NotNull(message = "cannot be null, must be an existing language")
     @OneToOne(fetch = FetchType.LAZY)
     Language language;
     @ManyToOne(fetch = FetchType.LAZY)

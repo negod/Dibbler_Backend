@@ -11,6 +11,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.hibernate.search.query.dsl.Unit;
 import static scala.io.BytePickle.data;
+import se.geomarket.backend.geomarket.constants.DaoError;
 import se.geomarket.backend.geomarket.dao.CategoryDao;
 import se.geomarket.backend.geomarket.dao.CompanyDao;
 import se.geomarket.backend.geomarket.dao.EventDao;
@@ -26,7 +27,7 @@ import se.geomarket.backend.geomarket.entity.EventText;
 import se.geomarket.backend.geomarket.entity.EventType;
 import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
-import se.geomarket.backend.geomarket.generics.DaoResponse;
+import se.geomarket.backend.geomarket.generics.MethodResponse;
 import se.geomarket.backend.geomarket.mapper.EventTextMapper;
 import se.geomarket.backend.geomarket.mapper.summary.EventSummaryMapper;
 
@@ -51,67 +52,111 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
     }
 
     @Override
-    public String addEventText(EventTextDto eventText, String eventId) {
+    public MethodResponse<String> addEventText(EventTextDto eventText, String eventId) {
 
-        EventText eventTextEntity = EventTextMapper.getInstance().mapFromDtoToEntity(eventText);
-        Event event = (Event) this.getByExtId(eventId);
-        Language language = (Language) languageDao.getByExtId(eventText.getLanguageId());
-
-        eventTextEntity.setLanguage(language);
-        eventTextEntity.setEvent(event);
-
-        event.getEventText().add(eventTextEntity);
-        return event.getExtId();
-    }
-
-    @Override
-    public List<EventSummaryDto> getEventsByLocation(Double longitude, Double latitude, Double radius, String languageId) {
-        List<Company> locations = companyDao.getCompanyByLocation(longitude, latitude, radius, Unit.KM);
-        List<EventSummaryDto> allEvents = new ArrayList<>();
-        for (Company company : locations) {
-            allEvents.addAll(EventSummaryMapper.getInstance().extractEvents(company, languageId));
+        MethodResponse<EventText> eventTextEntity = EventTextMapper.getInstance().mapFromDtoToEntity(eventText);
+        if (eventTextEntity.hasErrors) {
+            return MethodResponse.error(eventTextEntity.getErrorCode());
         }
-        return allEvents;
+
+        MethodResponse<Event> event = this.getByExtId(eventId);
+        if (event.hasErrors) {
+            return MethodResponse.error(event.getErrorCode());
+        }
+
+        MethodResponse<Language> language = languageDao.getByExtId(eventText.getLanguageId());
+        if (language.hasErrors) {
+            return MethodResponse.error(language.getErrorCode());
+        }
+
+        try {
+            eventTextEntity.getData().setLanguage(language.getData());
+            eventTextEntity.getData().setEvent(event.getData());
+            event.getData().getEventText().add(eventTextEntity.getData());
+            return MethodResponse.success(event.getData().getExtId());
+        } catch (Exception e) {
+            getLogger().error("[ Error when adding EventText ] [ ERROR ]", e);
+            return MethodResponse.error(DaoError.EVENT_ADD_EVENT_TEXT);
+        }
     }
 
     @Override
-    public DaoResponse create(EventDto dto) {
+    public MethodResponse<List<EventSummaryDto>> getEventsByLocation(Double longitude, Double latitude, Double radius, String languageId) {
+        MethodResponse<List<Company>> locations = companyDao.getCompanyByLocation(longitude, latitude, radius, Unit.KM);
+        if (locations.hasErrors) {
+            return MethodResponse.error(locations.getErrorCode());
+        }
+
+        try {
+            List<EventSummaryDto> allEvents = new ArrayList<>();
+            for (Company company : locations.getData()) {
+                MethodResponse<List<EventSummaryDto>> events = EventSummaryMapper.getInstance().extractEvents(company, languageId);
+                if (events.hasNoErrors) {
+                    allEvents.addAll(events.getData());
+                }
+            }
+            return MethodResponse.success(allEvents);
+        } catch (Exception e) {
+            getLogger().error("[ Error when getting events by location ] [ ERROR ]", e);
+            return MethodResponse.error(DaoError.EVENT_GET_EVENT_BY_LOCATION);
+        }
+
+    }
+
+    @Override
+    public MethodResponse<String> create(EventDto dto) {
         Event event = new Event();
 
-        Company company = (Company) companyDao.getByExtId(dto.getCompanyId());
-        EventType eventType = (EventType) eventTypeDao.getByExtId(dto.getEventTypeId());
-        Category category = (Category) categoryDao.getByExtId(dto.getCategoryId());
-        Language language = (Language) languageDao.getByExtId(dto.getLanguageId());
+        MethodResponse<Company> company = companyDao.getByExtId(dto.getCompanyId());
+        if (company.hasErrors) {
+            return MethodResponse.error(company.getErrorCode());
+        }
 
-        EventText eventText = new EventText();
-        eventText.setLanguage(language);
-        eventText.setHeading(dto.getEventHeader());
-        eventText.setBody(dto.getEventTextBody());
-        eventText.setEvent(event);
+        MethodResponse<EventType> eventType = eventTypeDao.getByExtId(dto.getEventTypeId());
+        if (eventType.hasErrors) {
+            return MethodResponse.error(eventType.getErrorCode());
+        }
 
-        event.setCategory(category);
-        event.setCompany(company);
-        event.setEventType(eventType);
-        event.setEndDate(dto.getEndDate());
-        event.setStartDate(dto.getStartDate());
-        event.setMaxRedeem(dto.getMaxredeem());
-        event.setDefaultEventHeader(eventText.getHeading());
-        event.setDefaultEventText(eventText.getBody());
+        MethodResponse<Category> category = categoryDao.getByExtId(dto.getCategoryId());
+        if (category.hasErrors) {
+            return MethodResponse.error(category.getErrorCode());
+        }
 
-        if (event.getEventText() == null) {
+        MethodResponse<Language> language = languageDao.getByExtId(dto.getLanguageId());
+        if (language.hasErrors) {
+            return MethodResponse.error(language.getErrorCode());
+        }
+
+        try {
+            EventText eventText = new EventText();
+            eventText.setLanguage(language.getData());
+            eventText.setHeading(dto.getEventHeader());
+            eventText.setBody(dto.getEventTextBody());
+            eventText.setEvent(event);
+
+            event.setCategory(category.getData());
+            event.setCompany(company.getData());
+            event.setEventType(eventType.getData());
+            event.setEndDate(dto.getEndDate());
+            event.setStartDate(dto.getStartDate());
+            event.setMaxRedeem(dto.getMaxredeem());
+            event.setDefaultEventHeader(eventText.getHeading());
+            event.setDefaultEventText(eventText.getBody());
+
             List<EventText> eventsTexts = new ArrayList<>();
             eventsTexts.add(eventText);
             event.setEventText(eventsTexts);
-        } else {
-            event.getEventText().add(eventText);
-        }
 
-        if (company.getEvents() == null) {
-            List<Event> events = new ArrayList<>();
-            events.add(event);
-            company.getEvents().add(event);
-        } else {
-            company.getEvents().add(event);
+            if (company.getData().getEvents() == null) {
+                List<Event> events = new ArrayList<>();
+                events.add(event);
+                company.getData().getEvents().add(event);
+            } else {
+                company.getData().getEvents().add(event);
+            }
+        } catch (Exception e) {
+            getLogger().error("[ Error when creating event ] [ ERROR ]", e);
+            return MethodResponse.error(DaoError.EVENT_CREATE);
         }
 
         return super.create(event);

@@ -14,9 +14,9 @@ import se.geomarket.backend.geomarket.generics.BaseMapper;
  * @author Joakim
  */
 public class PointMapper extends BaseMapper<PointDto, Location> {
-    
+
     private static final PointMapper INSTANCE = new PointMapper();
-    
+
     public static PointMapper getInstance() {
         return INSTANCE;
     }
@@ -24,23 +24,5 @@ public class PointMapper extends BaseMapper<PointDto, Location> {
     public PointMapper() {
         super(PointDto.class, Location.class);
     }
-    
-    @Override
-    public Location mapFromDtoToEntity(PointDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    @Override
-    public PointDto mapFromEntityToDto(Location entity) {
-        PointDto p = new PointDto();
-        p.setLatitude(entity.getLatitude());
-        p.setLongitude(entity.getLongitude());
-        return p;
-    }
-    
-    @Override
-    public void updateEntityFromDto(Location entity, PointDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+
 }

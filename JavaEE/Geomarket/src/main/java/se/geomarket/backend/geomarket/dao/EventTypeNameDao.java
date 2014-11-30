@@ -10,15 +10,17 @@ import se.geomarket.backend.geomarket.dto.languagesupport.NameDto;
 import se.geomarket.backend.geomarket.generics.BaseDao;
 import se.geomarket.backend.geomarket.generics.BaseDto;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
+import se.geomarket.backend.geomarket.generics.MethodResponse;
 
 /**
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
+ * @param <E>
+ * @param <D>
  */
-
 @Local
 public interface EventTypeNameDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
 
-    public String updateEventTypeName(NameDto name, String eventTypeNameId);
+    public MethodResponse<String> updateEventTypeName(NameDto name, String eventTypeNameId);
 
 }

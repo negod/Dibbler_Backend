@@ -10,7 +10,8 @@ import se.geomarket.backend.geomarket.dao.MovementDao;
 import se.geomarket.backend.geomarket.dto.MovementDto;
 import se.geomarket.backend.geomarket.entity.Movement;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
-import se.geomarket.backend.geomarket.generics.DaoResponse;
+import se.geomarket.backend.geomarket.generics.MethodResponse;
+import se.geomarket.backend.geomarket.mapper.MovementMapper;
 
 /**
  *
@@ -24,8 +25,12 @@ public class MovementDaoBean extends BaseDaoBean<Movement, MovementDto> implemen
     }
 
     @Override
-    public DaoResponse create(MovementDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public MethodResponse create(MovementDto dto) {
+        MethodResponse<Movement> entity = MovementMapper.getInstance().mapFromDtoToEntity(dto);
+        if (entity.hasErrors) {
+            return MethodResponse.error(entity.getErrorCode());
+        }
+        return super.create(entity.getData());
     }
 
 }

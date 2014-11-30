@@ -12,6 +12,7 @@ import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.generics.BaseDao;
 import se.geomarket.backend.geomarket.generics.BaseDto;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
+import se.geomarket.backend.geomarket.generics.MethodResponse;
 
 /**
  *
@@ -20,12 +21,12 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
  * @param <D>
  */
 @Local
-public interface EventTypeDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D>{
-    
-    public String addLanguage(String categoryId, String name, String language);
+public interface EventTypeDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
 
-    public List<NameSummaryDto> getEventTypesByLanguage(String languageId);
-    
-     public String updateEventTypeName(NameDto name, String eventTypeNameId);
-    
+    public MethodResponse<String> addLanguage(String eventTypeId, String name, String language);
+
+    public MethodResponse<List<NameSummaryDto>> getEventTypesByLanguage(String languageId);
+
+    public MethodResponse<String> updateEventTypeName(NameDto name, String eventTypeNameId);
+
 }

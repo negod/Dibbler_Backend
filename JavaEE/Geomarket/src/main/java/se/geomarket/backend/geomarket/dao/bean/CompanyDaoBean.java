@@ -14,12 +14,13 @@ import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.hibernate.search.query.dsl.Unit;
+import se.geomarket.backend.geomarket.constants.DaoError;
 import se.geomarket.backend.geomarket.dao.CompanyDao;
 import se.geomarket.backend.geomarket.dto.CompanyDto;
 import se.geomarket.backend.geomarket.entity.Company;
 import se.geomarket.backend.geomarket.entity.Location;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
-import se.geomarket.backend.geomarket.generics.DaoResponse;
+import se.geomarket.backend.geomarket.generics.MethodResponse;
 import se.geomarket.backend.geomarket.mapper.CompanyMapper;
 
 /**
@@ -35,31 +36,44 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
     }
 
     @Override
-    public List<Company> getCompanyByLocation(Double longitude, Double latitude, Double radius, Unit unit) {
-        Session session = (Session) super.getEntityManager().getDelegate();
-        FullTextSession fullTextSession = Search.getFullTextSession(session);
-        QueryBuilder builder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(Location.class).get();
-        Query query = builder.spatial().onDefaultCoordinates()
-                .within(radius, unit)
-                .ofLatitude(latitude)
-                .andLongitude(longitude)
-                .createQuery();
-        org.hibernate.Query hibQuery = fullTextSession.createFullTextQuery(query, Location.class);
-        List<Location> results = hibQuery.list();
-        return extractCompanies(results);
+    public MethodResponse<List<Company>> getCompanyByLocation(Double longitude, Double latitude, Double radius, Unit unit) {
+        try {
+            Session session = (Session) super.getEntityManager().getDelegate();
+            FullTextSession fullTextSession = Search.getFullTextSession(session);
+            QueryBuilder builder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(Location.class).get();
+            Query query = builder.spatial().onDefaultCoordinates()
+                    .within(radius, unit)
+                    .ofLatitude(latitude)
+                    .andLongitude(longitude)
+                    .createQuery();
+            org.hibernate.Query hibQuery = fullTextSession.createFullTextQuery(query, Location.class);
+            List<Location> results = hibQuery.list();
+            return extractCompanies(results);
+        } catch (Exception e) {
+            super.getLogger().error("[ Error when getting company by location] [LONG: {}] [LAT: {}] [RADIUS: {}]", longitude, latitude, radius);
+            return MethodResponse.error(DaoError.COMPANY_BY_LOCATION);
+        }
     }
 
-    private List<Company> extractCompanies(List<Location> locations) {
+    private MethodResponse<List<Company>> extractCompanies(List<Location> locations) {
         List<Company> companies = new ArrayList<>();
         for (Location loc : locations) {
-            companies.add(loc.getCompany());
+            if (loc.getCompany() != null) {
+                companies.add(loc.getCompany());
+            } else {
+                super.getLogger().debug("[ (Extract companies) Failed to get Company from location with ID: {} }", loc.getExtId());
+            }
         }
-        return companies;
+        return MethodResponse.success(companies);
     }
 
     @Override
-    public DaoResponse create(CompanyDto dto) {
-        return super.create(CompanyMapper.getInstance().mapFromDtoToEntity(dto));
+    public MethodResponse create(CompanyDto dto) {
+        MethodResponse<Company> entity = CompanyMapper.getInstance().mapFromDtoToEntity(dto);
+        if (entity.hasErrors) {
+            return MethodResponse.error(entity.getErrorCode());
+        }
+        return super.create(entity.getData());
     }
 
 }

@@ -25,28 +25,4 @@ public class EventTextMapper extends BaseMapper<EventTextDto, EventText> {
         super(EventTextDto.class, EventText.class);
     }
 
-    @Override
-    public EventText mapFromDtoToEntity(EventTextDto dto) {
-        EventText entity = new EventText();
-        entity.setBody(dto.getBody());
-        entity.setHeading(dto.getHeading());
-        return entity;
-    }
-
-    @Override
-    public EventTextDto mapFromEntityToDto(EventText entity) {
-        EventTextDto dto = new EventTextDto();
-        dto.setBody(entity.getBody());
-        dto.setId(entity.getExtId());
-        dto.setHeading(entity.getHeading());
-        dto.setLanguageId(entity.getLanguage().getExtId());
-        return dto;
-    }
-
-    @Override
-    public void updateEntityFromDto(EventText entity, EventTextDto dto) {
-        entity.setBody(dto.getBody());
-        entity.setHeading(dto.getHeading());
-    }
-
 }

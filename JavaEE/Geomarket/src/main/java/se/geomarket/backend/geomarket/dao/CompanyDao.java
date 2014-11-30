@@ -12,17 +12,18 @@ import se.geomarket.backend.geomarket.entity.Company;
 import se.geomarket.backend.geomarket.generics.BaseDao;
 import se.geomarket.backend.geomarket.generics.BaseDto;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
+import se.geomarket.backend.geomarket.generics.MethodResponse;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  * @param <E>
  * @param <D>
- * 
+ *
  */
 @Local
 public interface CompanyDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
 
-    public List<Company> getCompanyByLocation(Double longitude, Double latitude, Double radius, Unit unit);
+    public MethodResponse<List<Company>> getCompanyByLocation(Double longitude, Double latitude, Double radius, Unit unit);
 
 }

@@ -5,9 +5,7 @@
  */
 package se.geomarket.backend.geomarket.entity;
 
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,10 +25,10 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @Entity
 public class Company extends BaseEntity {
 
-    @NotNull(message = "company.idNr cannot be null")
+    @NotNull(message = "cannot be null and must be unique")
     @Column(unique = true)
     private String orgNr;
-    @NotNull(message = "company.name cannot be null and must be unique")
+    @NotNull(message = "cannot be null")
     @Column
     private String name;
     @Column
@@ -52,7 +50,7 @@ public class Company extends BaseEntity {
     @Column
     private String phone;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER)
     private Location location;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

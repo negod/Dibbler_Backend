@@ -19,15 +19,19 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import se.geomarket.backend.geomarket.dao.UsersDao;
 import se.geomarket.backend.geomarket.dto.UsersDto;
+import se.geomarket.backend.geomarket.dto.summary.UserSummaryDto;
 import se.geomarket.backend.geomarket.entity.Users;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
+import se.geomarket.backend.geomarket.generics.GenericError;
+import se.geomarket.backend.geomarket.generics.MethodResponse;
+import se.geomarket.backend.geomarket.generics.WsResponse;
 import se.geomarket.backend.geomarket.mapper.UsersMapper;
 
 /**
@@ -62,7 +66,7 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the created User"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response insert(UsersDto data) {
+    public WsResponse insert(UsersDto data) {
         return super.insert(data);
     }
 
@@ -71,15 +75,16 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a User by Id", response = UsersDto.class, nickname = "getById")
+    @ApiOperation(httpMethod = "GET", value = "Gets a User by Id", response = UserSummaryDto.class, nickname = "getById")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns a User"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response getById(@PathParam("id") String id) {
-        return super.getById(id);
+    public WsResponse getById(@PathParam("id") String id) {
+        return getDao().getUserSummaryById(id).getWsResponse();
     }
 
     @DELETE
+    @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
@@ -87,7 +92,7 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = ""),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response delete(@PathParam("id") Long id) {
+    public WsResponse delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
 
@@ -100,15 +105,48 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the id of the User"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public Response update(UsersDto data, @PathParam("id") String id) {
+    public WsResponse update(UsersDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all users", response = UsersDto.class, nickname = "getAll")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "All Users found"),
+        @ApiResponse(code = 500, message = "Could not get Users")})
     @Override
-    public Response getAll() {
-        return super.getAll();
+    public WsResponse getAll() {
+        return getDao().getAllUserSummary().getWsResponse();
+    }
+
+    @PUT
+    @Path("/changePass/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(httpMethod = "PUT", value = "Gets a list of all users", response = String.class, nickname = "changePassword")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "All Users found"),
+        @ApiResponse(code = 500, message = "Could not get Users")})
+    public WsResponse changePassword(@PathParam("id") String id, @QueryParam("old") String oldPass, @QueryParam("new") String newPass) {
+
+        if (oldPass == null || newPass == null) {
+            return MethodResponse.error(GenericError.FAILURE, "Incorrect parameters!").getWsResponse();
+        }
+
+        MethodResponse<Users> entity = getDao().getByExtId(id);
+        if (entity.hasNoErrors) {
+
+            if (entity.getData().getPassword().equals(oldPass)) {
+                entity.getData().setPassword(newPass);
+                return getDao().update(entity.getData()).getWsResponse();
+            } else {
+                return MethodResponse.error(GenericError.FAILURE, "Old password not same!").getWsResponse();
+            }
+
+        } else {
+            return entity.getWsResponse();
+        }
+
     }
 
 }

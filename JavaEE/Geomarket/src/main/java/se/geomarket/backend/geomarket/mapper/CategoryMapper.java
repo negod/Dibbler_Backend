@@ -7,7 +7,6 @@ package se.geomarket.backend.geomarket.mapper;
 
 import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.entity.Category;
-import se.geomarket.backend.geomarket.entity.superclass.Name;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 
 /**
@@ -24,12 +23,6 @@ public class CategoryMapper extends BaseMapper<CategoryDto, Category> {
 
     public CategoryMapper() {
         super(CategoryDto.class, Category.class);
-    }
-
-    @Override
-    public CategoryDto mapFromEntityToDto(Category entity) {
-        CategoryDto dto = super.mapFromEntityToDto(entity);
-        return dto;
     }
 
 }
