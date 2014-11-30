@@ -30,6 +30,7 @@ import se.geomarket.backend.geomarket.entity.Users;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
 import se.geomarket.backend.geomarket.generics.GenericError;
+import se.geomarket.backend.geomarket.generics.Mapper;
 import se.geomarket.backend.geomarket.generics.MethodResponse;
 import se.geomarket.backend.geomarket.generics.WsResponse;
 import se.geomarket.backend.geomarket.mapper.UsersMapper;
@@ -40,7 +41,7 @@ import se.geomarket.backend.geomarket.mapper.UsersMapper;
  */
 @Stateless
 @Path("users")
-@Api(value = "/users", description = "Handles all Dibbler users", hidden = true)
+@Api(value = "/users", description = "Handles all Dibbler users")
 public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
 
     @Context
@@ -100,13 +101,13 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @Override
     @ApiOperation(httpMethod = "PUT", value = "Update a User", response = String.class, nickname = "update")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the id of the User"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public WsResponse update(UsersDto data, @PathParam("id") String id) {
-        return super.update(data, id);
+    public WsResponse update(UserSummaryDto data, @PathParam("id") String id) {
+        UsersDto dto = Mapper.getInstance().getMapper().map(data, UsersDto.class);
+        return super.update(dto, id);
     }
 
     @GET
@@ -125,12 +126,12 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @Produces({MediaType.APPLICATION_JSON})
     @ApiOperation(httpMethod = "PUT", value = "Gets a list of all users", response = String.class, nickname = "changePassword")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "All Users found"),
-        @ApiResponse(code = 500, message = "Could not get Users")})
+        @ApiResponse(code = 701, message = "Incorrect parameters or null values!"),
+        @ApiResponse(code = 701, message = "Old password not same!")})
     public WsResponse changePassword(@PathParam("id") String id, @QueryParam("old") String oldPass, @QueryParam("new") String newPass) {
 
         if (oldPass == null || newPass == null) {
-            return MethodResponse.error(GenericError.FAILURE, "Incorrect parameters!").getWsResponse();
+            return MethodResponse.error(GenericError.WRONG_PARAMETER, "Incorrect parameters or null values!").getWsResponse();
         }
 
         MethodResponse<Users> entity = getDao().getByExtId(id);
