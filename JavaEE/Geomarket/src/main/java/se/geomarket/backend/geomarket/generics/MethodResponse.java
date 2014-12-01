@@ -52,7 +52,11 @@ public class MethodResponse<T> {
 
     public WsResponse getWsResponse() {
         if (hasErrors) {
-            return new WsResponse(data, error.getErrorCode());
+            if (data != null) {
+                return new WsResponse(data, error.getErrorCode());
+            } else {
+                return new WsResponse(error.getErrorText(), error.getErrorCode());
+            }
         } else {
             return new WsResponse(data, 200);
         }

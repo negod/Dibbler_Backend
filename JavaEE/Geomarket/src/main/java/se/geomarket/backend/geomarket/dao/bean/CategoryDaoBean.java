@@ -60,7 +60,7 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
             category.getData().getNames().add(categoryname);
             return MethodResponse.success(category.getData().getExtId());
         } catch (Exception e) {
-            getLogger().error("[ Error when adding language to category ]", e);
+            getLogger().error(DaoError.CATEGORY_ADD_LANGUAGE.getErrorText(), e);
             return MethodResponse.error(DaoError.CATEGORY_ADD_LANGUAGE);
         }
     }
@@ -92,7 +92,7 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
             }
             return MethodResponse.success(categoryNames);
         } catch (Exception e) {
-            getLogger().error("[ Error when getting categories by language ]", e);
+            getLogger().error(DaoError.CATEGORY_GET_BY_LANGUAGE.getErrorText(), e);
             return MethodResponse.error(DaoError.CATEGORY_GET_BY_LANGUAGE);
         }
 
@@ -131,7 +131,7 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
 
             return super.create(category);
         } catch (Exception e) {
-            getLogger().error("[ Error when creating category ]", e);
+            getLogger().error(DaoError.CATEGORY_CREATE.getErrorText(), e);
             return MethodResponse.error(DaoError.CATEGORY_CREATE);
         }
     }

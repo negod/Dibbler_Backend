@@ -101,48 +101,48 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
     }
 
     @Override
-    public MethodResponse getById(Long id) {
+    public MethodResponse<E> getById(Long id) {
         try {
             Query q = em.createNativeQuery("select * from " + entityClass.getSimpleName() + " where id = ?", entityClass);
             q.setParameter(1, id);
             return MethodResponse.success((E) q.getSingleResult());
         } catch (Exception e) {
             LOGGER.error("[ Failed to get " + entityClass.getSimpleName() + " ] [  ByID: " + id + " ] [ ERROR ]: ", e);
-            return MethodResponse.error(GenericError.READ, "Error when retrieving data from database");
+            return MethodResponse.error(GenericError.READ);
         }
     }
 
     @Override
-    public MethodResponse getByExtId(String id) {
+    public MethodResponse<E> getByExtId(String id) {
         try {
             Query q = em.createNativeQuery("select * from " + entityClass.getSimpleName() + " where extId = ?", entityClass);
             q.setParameter(1, id);
             return MethodResponse.success((E) q.getSingleResult());
         } catch (Exception e) {
             LOGGER.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ ByExtID: " + id + " ] [ ERROR ]: ", e);
-            return MethodResponse.error(GenericError.READ, "Error when retrieving data from database");
+            return MethodResponse.error(GenericError.READ);
         }
     }
 
     @Override
-    public MethodResponse getByNamedQuery(String query) {
+    public MethodResponse<List<E>> getByNamedQuery(String query) {
         try {
             Query q = getEntityManager().createNamedQuery(query, entityClass);
             return MethodResponse.success((List<E>) q.getResultList());
         } catch (Exception e) {
             LOGGER.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By named query: " + query + " ] [ ERROR ]: ", e);
-            return MethodResponse.error(GenericError.READ, "Error when retrieving data from database");
+            return MethodResponse.error(GenericError.READ);
         }
     }
 
     @Override
-    public MethodResponse getByNativeQuery(String query) {
+    public MethodResponse<List<E>> getByNativeQuery(String query) {
         try {
             Query q = getEntityManager().createNativeQuery(query, entityClass);
             return MethodResponse.success((List<E>) q.getResultList());
         } catch (Exception e) {
             LOGGER.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By native query: " + query + " ] [ ERROR ]: ", e);
-            return MethodResponse.error(GenericError.READ, "Error when retrieving data from database");
+            return MethodResponse.error(GenericError.READ);
         }
     }
 
@@ -153,7 +153,7 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
             return MethodResponse.success(null);
         } catch (Exception e) {
             LOGGER.error("[ Failed to delete " + entityClass.getSimpleName() + " ] [ Id: " + entity.getId() + " ] [ ERROR ]: ", e);
-            return MethodResponse.error(GenericError.DELETE, "Error when deleting data in database");
+            return MethodResponse.error(GenericError.DELETE);
         }
     }
 
@@ -174,28 +174,28 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
     }
 
     @Override
-    public MethodResponse getAll() {
+    public MethodResponse<List<E>> getAll() {
         try {
             Query q = em.createQuery("select d from " + entityClass.getSimpleName() + " d", entityClass);
             return MethodResponse.success((List<E>) q.getResultList());
         } catch (Exception e) {
             LOGGER.error("[ Failed to get all from " + entityClass.getSimpleName() + " ] [ ERROR ]: ", e);
-            return MethodResponse.error(GenericError.READ, "Error when retrieving data from database");
+            return MethodResponse.error(GenericError.READ);
         }
     }
 
     @Override
-    public MethodResponse getId(String id) {
+    public MethodResponse<Long> getId(String id) {
         try {
             Query q = em.createQuery("select id from " + entityClass.getSimpleName() + " d where extid = ?", Long.class);
             q.setParameter(1, id);
             return MethodResponse.success((Long) q.getSingleResult());
         } catch (NonUniqueResultException e) {
             LOGGER.error("[ Failed to get id from " + entityClass.getSimpleName() + " with extid {} ] [ ERROR ]: ", id, e);
-            return MethodResponse.error(GenericError.READ, "Error when retrieving data from database");
+            return MethodResponse.error(GenericError.READ);
         } catch (Exception e) {
             LOGGER.error("[ Failed to get id from " + entityClass.getSimpleName() + " with extid {} ] [ ERROR ]: ", id, e);
-            return MethodResponse.error(GenericError.READ, "Error when retrieving data from database");
+            return MethodResponse.error(GenericError.READ);
         }
     }
 

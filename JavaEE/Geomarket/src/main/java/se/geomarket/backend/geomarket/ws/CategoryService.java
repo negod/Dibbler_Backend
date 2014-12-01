@@ -96,7 +96,12 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @ApiOperation(httpMethod = "POST", value = "Add a new category", response = String.class, nickname = "create")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the id of the created category"),
-        @ApiResponse(code = 500, message = "Internal server error")})
+        @ApiResponse(code = 500, message = "Unhandled exception"),
+        @ApiResponse(code = 1000, message = "Error when inserting to database ( Generic Dao Error )"),
+        @ApiResponse(code = 1001, message = "Contraint violation when inserting to database ( Generic Dao Error )"),
+        @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity ( Generic Dao Error )"),
+        @ApiResponse(code = 1008, message = "Wrong parameters or null in request ( Generic Dao Error )")
+    })
     public WsResponse insert(
             @ApiParam(value = "The category description", required = true) @QueryParam("description") String description,
             @ApiParam(value = "The default name of the category", required = true) @QueryParam("defaultName") String defaultName,

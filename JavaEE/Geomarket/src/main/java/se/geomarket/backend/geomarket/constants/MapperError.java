@@ -16,18 +16,26 @@ public enum MapperError implements ErrorCode {
     /**
      * EventSummary Mapper ERRORS
      */
-    EVENT_SUMMARY_GET_EVENTTEXT(2000),
-    EVENT_SUMMARY_GET_EVENT(2001);
+    EVENT_SUMMARY_GET_EVENTTEXT(3000, "Error when mapping default EventText"),
+    EVENT_SUMMARY_GET_EVENT(3001, "Error when mapping EventSummary event"),
+    EVENT_EXTRACT_EVENTS(3002, "Error when mapping EventSummaryLIST for company");
 
     private final Integer errorCode;
+    private final String errorText;
 
-    MapperError(Integer code) {
+    MapperError(Integer code, String errorText) {
         this.errorCode = code;
+        this.errorText = errorText;
     }
 
     @Override
     public Integer getErrorCode() {
         return errorCode;
+    }
+
+    @Override
+    public String getErrorText() {
+        return "[ MAPPER ERROR ] " + errorText;
     }
 
 }

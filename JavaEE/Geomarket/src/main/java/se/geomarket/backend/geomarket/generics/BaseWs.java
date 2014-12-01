@@ -27,10 +27,13 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
 
     public WsResponse insert(D data) {
         try {
+            if (data == null) {
+                return MethodResponse.error(GenericError.WRONG_PARAMETER).getWsResponse();
+            }
             return getDao().create(data).getWsResponse();
         } catch (Exception e) {
             LOGGER.error("[ Failed to insert data into: {} ] Error : {}", getDao().getEntityClass().getSimpleName(), e);
-            return new WsResponse<>(null, 500);
+            return MethodResponse.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
         }
     }
 
@@ -44,7 +47,7 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
             return getMapper().mapFromEntityToDto(response.getData()).getWsResponse();
         } catch (Exception e) {
             LOGGER.error("[ Failed to get data with id: {} from: {}] Error : {} ", id, getDao().getEntityClass().getSimpleName(), e);
-            return new WsResponse<>(null, 500);
+            return MethodResponse.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
         }
     }
 
@@ -58,7 +61,7 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
             return getDao().delete(entity.getData()).getWsResponse();
         } catch (Exception e) {
             LOGGER.error("[ Failed to delete data with id: {} from: {} ] Error : {} ", id, getDao().getEntityClass().getSimpleName(), e);
-            return new WsResponse<>(null, 500);
+            return MethodResponse.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
         }
     }
 
@@ -77,7 +80,7 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
             return getDao().update(oldEntity.getData()).getWsResponse();
         } catch (Exception e) {
             LOGGER.error("[ Failed to update data with id: {} table: {} ] Error : {} ", id, getDao().getEntityClass().getSimpleName(), e);
-            return new WsResponse<>(null, 500);
+            return MethodResponse.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
         }
     }
 
@@ -92,7 +95,7 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
             return getMapper().mapToDtoList(entities.getData()).getWsResponse();
         } catch (Exception e) {
             LOGGER.error("[ Failed to get all data from {} ] Error : {} ", getDao().getEntityClass().getSimpleName(), e);
-            return new WsResponse<>(null, 500);
+            return MethodResponse.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
         }
 
     }

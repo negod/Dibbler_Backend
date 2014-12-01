@@ -50,7 +50,7 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
             List<Location> results = hibQuery.list();
             return extractCompanies(results);
         } catch (Exception e) {
-            super.getLogger().error("[ Error when getting company by location] [LONG: {}] [LAT: {}] [RADIUS: {}]", longitude, latitude, radius);
+            super.getLogger().error("[ Error when getting company by location ] [LONG: {}] [LAT: {}] [RADIUS: {}]", longitude, latitude, radius);
             return MethodResponse.error(DaoError.COMPANY_BY_LOCATION);
         }
     }

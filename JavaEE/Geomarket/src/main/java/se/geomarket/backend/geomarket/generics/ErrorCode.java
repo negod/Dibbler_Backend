@@ -13,4 +13,6 @@ public interface ErrorCode {
 
     public Integer getErrorCode();
 
+    public String getErrorText();
+
 }

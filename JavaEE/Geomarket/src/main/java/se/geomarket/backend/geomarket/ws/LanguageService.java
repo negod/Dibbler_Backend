@@ -59,7 +59,12 @@ public class LanguageService extends BaseWs<LanguageDto, Language, LanguageDao> 
     @ApiOperation(httpMethod = "POST", value = "Add a new language", response = String.class, nickname = "insert")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the id of the created language"),
-        @ApiResponse(code = 500, message = "Internal server error")})
+        @ApiResponse(code = 500, message = "Unhandled exception"),
+        @ApiResponse(code = 1000, message = "Error when inserting to database ( Generic Dao Error )"),
+        @ApiResponse(code = 1001, message = "Contraint violation when inserting to database ( Generic Dao Error )"),
+        @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity ( Generic Dao Error )"),
+        @ApiResponse(code = 1008, message = "Wrong parameters or null in request ( Generic Dao Error )")
+    })
     public WsResponse insert(@ApiParam(value = "The new language", required = true) LanguageDto data) {
         return super.insert(data);
     }
@@ -74,7 +79,8 @@ public class LanguageService extends BaseWs<LanguageDto, Language, LanguageDao> 
         @ApiResponse(code = 200, message = "Returns a language"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public WsResponse getById(
-            @ApiParam(value = "The id for the language", required = true) @PathParam("id") String id) {
+            @ApiParam(value = "The id for the language", required = true)
+            @PathParam("id") String id) {
         return super.getById(id);
     }
 
@@ -88,7 +94,8 @@ public class LanguageService extends BaseWs<LanguageDto, Language, LanguageDao> 
         @ApiResponse(code = 200, message = ""),
         @ApiResponse(code = 500, message = "Internal server error")})
     public WsResponse delete(
-            @ApiParam(value = "The id for the language", required = true) @PathParam("id") Long id) {
+            @ApiParam(value = "The id for the language", required = true)
+            @PathParam("id") Long id) {
         return super.delete(id);
     }
 
@@ -103,7 +110,8 @@ public class LanguageService extends BaseWs<LanguageDto, Language, LanguageDao> 
     @Override
     public WsResponse update(
             @ApiParam(value = "The new language data", required = true) LanguageDto data,
-            @ApiParam(value = "The id for the language", required = true) @PathParam("id") String id) {
+            @ApiParam(value = "The id for the language", required = true)
+            @PathParam("id") String id) {
         return super.update(data, id);
     }
 

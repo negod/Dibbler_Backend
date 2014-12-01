@@ -52,7 +52,7 @@ public class EventSummaryMapper extends BaseMapper<EventSummaryDto, Company> {
             return MethodResponse.success(dtoList);
         } catch (Exception e) {
             LOGGER.debug("[ Error when mapping EventSummaryLIST for company with id: {} ] [ ERROR: {} ]", entity.getExtId());
-            return MethodResponse.error(DaoError.EVENT_EXTRACT_EVENTS);
+            return MethodResponse.error(MapperError.EVENT_EXTRACT_EVENTS);
         }
     }
 
