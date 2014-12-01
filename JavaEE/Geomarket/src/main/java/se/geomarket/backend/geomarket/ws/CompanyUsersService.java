@@ -20,7 +20,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.CompanyUsersDao;
 import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.dto.CompanyUsersDto;
@@ -59,12 +58,12 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @Produces({MediaType.APPLICATION_JSON})
     @ApiOperation(httpMethod = "POST", value = "Add a new Company", response = String.class, nickname = "insert")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the Id of the created Company"),
-        @ApiResponse(code = 500, message = "Unhandled exception"),
-        @ApiResponse(code = 1000, message = "Error when inserting to database ( Generic Dao Error )"),
-        @ApiResponse(code = 1001, message = "Contraint violation when inserting to database ( Generic Dao Error )"),
-        @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity ( Generic Dao Error )"),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request ( Generic Dao Error )")
+        @ApiResponse(code = 200, message = "Returns the Id of the created Company", response = String.class),
+        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
+        @ApiResponse(code = 1000, message = "Error when inserting to database ( Generic Dao Error )", response = String.class),
+        @ApiResponse(code = 1001, message = "Contraint violation when inserting to database ( Generic Dao Error )", response = String.class),
+        @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity ( Generic Dao Error )", response = String.class),
+        @ApiResponse(code = 1008, message = "Wrong parameters or null in request ( Generic Dao Error )", response = String.class)
     })
     public WsResponse insert(CompanyUsersDto data) {
         return super.insert(data);
@@ -75,7 +74,7 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a Copmany User by Id", response = CategoryDto.class, nickname = "getById")
+    @ApiOperation(httpMethod = "GET", value = "Gets a Company User by Id", response = CategoryDto.class, nickname = "getById")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns a Category"),
         @ApiResponse(code = 500, message = "Internal server error")})

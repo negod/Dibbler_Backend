@@ -58,12 +58,12 @@ public class LanguageService extends BaseWs<LanguageDto, Language, LanguageDao> 
     @Produces({MediaType.APPLICATION_JSON})
     @ApiOperation(httpMethod = "POST", value = "Add a new language", response = String.class, nickname = "insert")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the id of the created language"),
-        @ApiResponse(code = 500, message = "Unhandled exception"),
-        @ApiResponse(code = 1000, message = "Error when inserting to database ( Generic Dao Error )"),
-        @ApiResponse(code = 1001, message = "Contraint violation when inserting to database ( Generic Dao Error )"),
-        @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity ( Generic Dao Error )"),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request ( Generic Dao Error )")
+        @ApiResponse(code = 200, message = "Returns the id of the created language", response = String.class),
+        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
+        @ApiResponse(code = 1000, message = "Error when inserting to database ( Generic Dao Error )", response = String.class),
+        @ApiResponse(code = 1001, message = "Contraint violation when inserting to database ( Generic Dao Error )", response = String.class),
+        @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity ( Generic Dao Error )", response = String.class),
+        @ApiResponse(code = 1008, message = "Wrong parameters or null in request ( Generic Dao Error )", response = String.class)
     })
     public WsResponse insert(@ApiParam(value = "The new language", required = true) LanguageDto data) {
         return super.insert(data);

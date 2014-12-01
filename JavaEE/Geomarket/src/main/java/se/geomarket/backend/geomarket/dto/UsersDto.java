@@ -17,8 +17,8 @@ import se.geomarket.backend.geomarket.dto.summary.UserSummaryDto;
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
-@ApiModel(value = "Defines a user for Dibbler")
-@XmlRootElement(name = "user")
+@ApiModel(value = "Extra user data")
+@XmlRootElement(name = "userExtended")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UsersDto extends UserSummaryDto {
 
@@ -33,5 +33,5 @@ public class UsersDto extends UserSummaryDto {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
 }

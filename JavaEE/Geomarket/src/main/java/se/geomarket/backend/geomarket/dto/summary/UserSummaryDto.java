@@ -18,7 +18,7 @@ import se.geomarket.backend.geomarket.generics.BaseDto;
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
 @ApiModel(value = "Defines a user for Dibbler")
-@XmlRootElement(name = "user")
+@XmlRootElement(name = "userSummary")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UserSummaryDto extends BaseDto {
 

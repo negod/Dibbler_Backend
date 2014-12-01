@@ -78,7 +78,7 @@ public class IdService {
     @Produces({MediaType.APPLICATION_JSON})
     @ApiOperation(httpMethod = "GET", value = "Gets a Category by Id", response = Long.class, nickname = "getIdByExtId")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = ""),
+        @ApiResponse(code = 200, message = "The databaseId ffor the selected type", response = Long.class),
         @ApiResponse(code = 500, message = "")})
     public WsResponse getById(@PathParam("id") String id, @PathParam("type") DaoTypes daoType) {
         switch (daoType) {
@@ -111,7 +111,6 @@ public class IdService {
             default:
                 return MethodResponse.error(GenericError.WRONG_PARAMETER).getWsResponse();
         }
-
     }
 
 }
