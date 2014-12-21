@@ -6,8 +6,10 @@
 package se.geomarket.backend.geomarket.generics;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.Resource;
 import javax.ejb.TransactionAttribute;
@@ -32,7 +34,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> implements BaseDao<E, D> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BaseDaoBean.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BaseDaoBean.class);
 
     Class<E> entityClass;
 
@@ -45,7 +47,7 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
 
     @Override
     public Logger getLogger() {
-        return LOGGER;
+        return LOG;
     }
 
     @PersistenceContext(unitName = "geomarket_PU")
@@ -62,140 +64,162 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
     }
 
     @Override
-    public abstract MethodResponse<String> create(D dto);
+    public abstract Response<String> create(D dto);
 
-    private MethodResponse<String> getSQLIntegrityConstraintViolation(Throwable exception) {
+    private Response<String> getSQLIntegrityConstraintViolation(Throwable exception) {
         Throwable t = exception.getCause();
         while ((t != null) && !(t instanceof SQLIntegrityConstraintViolationException)) {
             t = t.getCause();
         }
         if (t instanceof SQLIntegrityConstraintViolationException) {
             SQLIntegrityConstraintViolationException constaint = (SQLIntegrityConstraintViolationException) t;
-            return MethodResponse.success(constaint.getMessage());
+            return Response.success(constaint.getMessage());
         }
-        return MethodResponse.error(GenericError.FAILURE);
+        return Response.error(GenericError.FAILURE);
     }
 
     @Override
     @TransactionAttribute(REQUIRES_NEW)
-    public MethodResponse create(E entity) {
+    public Response create(E entity) {
         try {
             getEntityManager().persist(entity);
             getEntityManager().flush();
-            return MethodResponse.success(entity.getExtId());
+            return Response.success(entity.getExtId());
         } catch (PersistenceException e) {
 
-            MethodResponse<String> constraintError = getSQLIntegrityConstraintViolation(e);
+            Response<String> constraintError = getSQLIntegrityConstraintViolation(e);
             if (constraintError.hasNoErrors) {
-                LOGGER.error("[ Failed to create " + entityClass.getSimpleName() + " ] due to constraint violations [ ERROR ]: ", e);
-                return MethodResponse.error(GenericError.CONSTRAINT_VIOLATION, constraintError.getData());
+                LOG.error("[ Failed to create " + entityClass.getSimpleName() + " ] due to constraint violations [ ERROR ]: {}", e.getMessage());
+                return Response.error(GenericError.CONSTRAINT_VIOLATION, constraintError.getData());
             }
 
         } catch (ConstraintViolationException ex) {
-            LOGGER.error("[ Failed to create " + entityClass.getSimpleName() + " ] due to constraint violations [ ERROR ]: ", ex);
-            return MethodResponse.error(GenericError.CONSTRAINT_VIOLATION, buildViolationResponse(ex.getConstraintViolations()));
+            LOG.error("[ Failed to create " + entityClass.getSimpleName() + " ] due to constraint violations [ ERROR ]: {}", ex.getMessage());
+            return Response.error(GenericError.CONSTRAINT_VIOLATION, buildViolationResponse(ex.getConstraintViolations()));
         } catch (Exception e) {
-            LOGGER.error("[ Failed to create " + entityClass.getSimpleName() + " ] [ ERROR ] ", e);
+            LOG.error("[ Failed to create " + entityClass.getSimpleName() + " ] [ ERROR ] ", e.getMessage());
         }
-        return MethodResponse.error(GenericError.CREATE);
+        return Response.error(GenericError.CREATE);
     }
 
     @Override
-    public MethodResponse<E> getById(Long id) {
+    public Response<E> getById(Long id) {
         try {
             Query q = em.createNativeQuery("select * from " + entityClass.getSimpleName() + " where id = ?", entityClass);
             q.setParameter(1, id);
-            return MethodResponse.success((E) q.getSingleResult());
+            return Response.success((E) q.getSingleResult());
         } catch (Exception e) {
-            LOGGER.error("[ Failed to get " + entityClass.getSimpleName() + " ] [  ByID: " + id + " ] [ ERROR ]: ", e);
-            return MethodResponse.error(GenericError.READ);
+            LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [  ByID: " + id + " ] [ ERROR ]: {}", e.getMessage());
+            return Response.error(GenericError.READ);
         }
     }
 
     @Override
-    public MethodResponse<E> getByExtId(String id) {
+    public Response<E> getByExtId(String id) {
         try {
             Query q = em.createNativeQuery("select * from " + entityClass.getSimpleName() + " where extId = ?", entityClass);
             q.setParameter(1, id);
-            return MethodResponse.success((E) q.getSingleResult());
+            return Response.success((E) q.getSingleResult());
         } catch (Exception e) {
-            LOGGER.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ ByExtID: " + id + " ] [ ERROR ]: ", e);
-            return MethodResponse.error(GenericError.READ);
+            LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ ByExtID: " + id + " ] [ ERROR ]: {}", e.getMessage());
+            return Response.error(GenericError.READ);
         }
     }
 
     @Override
-    public MethodResponse<List<E>> getByNamedQuery(String query) {
+    public Response<List<E>> getListByNamedQuery(String query, HashMap<String, ? extends Object> params) {
         try {
             Query q = getEntityManager().createNamedQuery(query, entityClass);
-            return MethodResponse.success((List<E>) q.getResultList());
+
+            for (Entry<String, ? extends Object> param : params.entrySet()) {
+                q.setParameter(param.getKey(), param.getValue());
+            }
+
+            return Response.success((List<E>) q.getResultList());
         } catch (Exception e) {
-            LOGGER.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By named query: " + query + " ] [ ERROR ]: ", e);
-            return MethodResponse.error(GenericError.READ);
+            LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By named query: " + query + " ] [ ERROR ]: {}", e.getMessage());
+            return Response.error(GenericError.READ);
         }
     }
 
+    public Response<E> getSingleByNamedQuery(String query, HashMap<String, ? extends Object> params) {
+
+        try {
+            Query q = getEntityManager().createNamedQuery(query, entityClass);
+
+            for (Entry<String, ? extends Object> param : params.entrySet()) {
+                q.setParameter(param.getKey(), param.getValue());
+            }
+
+            return Response.success((E) q.getSingleResult());
+        } catch (Exception e) {
+            LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By named query: " + query + " ] [ ERROR ]: {}", e.getMessage());
+            return Response.error(GenericError.READ);
+        }
+
+    }
+
     @Override
-    public MethodResponse<List<E>> getByNativeQuery(String query) {
+    public Response<List<E>> getByNativeQuery(String query) {
         try {
             Query q = getEntityManager().createNativeQuery(query, entityClass);
-            return MethodResponse.success((List<E>) q.getResultList());
+            return Response.success((List<E>) q.getResultList());
         } catch (Exception e) {
-            LOGGER.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By native query: " + query + " ] [ ERROR ]: ", e);
-            return MethodResponse.error(GenericError.READ);
+            LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By native query: " + query + " ] [ ERROR ]: {}", e.getMessage());
+            return Response.error(GenericError.READ);
         }
     }
 
     @Override
-    public MethodResponse<String> delete(E entity) {
+    public Response<String> delete(E entity) {
         try {
             getEntityManager().remove(entity);
-            return MethodResponse.success(null);
+            return Response.success(null);
         } catch (Exception e) {
-            LOGGER.error("[ Failed to delete " + entityClass.getSimpleName() + " ] [ Id: " + entity.getId() + " ] [ ERROR ]: ", e);
-            return MethodResponse.error(GenericError.DELETE);
+            LOG.error("[ Failed to delete " + entityClass.getSimpleName() + " ] [ Id: " + entity.getId() + " ] [ ERROR ]: {}", e.getMessage());
+            return Response.error(GenericError.DELETE);
         }
     }
 
     @Override
     @TransactionAttribute(REQUIRES_NEW)
-    public MethodResponse update(E entity) {
+    public Response update(E entity) {
         try {
             getEntityManager().merge(entity);
             getEntityManager().flush();
-            return MethodResponse.success(entity.getExtId());
+            return Response.success(entity.getExtId());
         } catch (ConstraintViolationException ex) {
-            LOGGER.error("[ Failed to create " + entityClass.getSimpleName() + " ] due to constraint violations [ ERROR ]: ", ex);
-            return MethodResponse.error(GenericError.CONSTRAINT_VIOLATION, buildViolationResponse(ex.getConstraintViolations()));
+            LOG.error("[ Failed to create " + entityClass.getSimpleName() + " ] due to constraint violations [ ERROR ]: {}", ex.getMessage());
+            return Response.error(GenericError.CONSTRAINT_VIOLATION, buildViolationResponse(ex.getConstraintViolations()));
         } catch (Exception e) {
-            LOGGER.error("[ Failed to update " + entityClass.getSimpleName() + " ] [ Id: " + entity.getId() + " ] [ ERROR ]: ", e);
-            return MethodResponse.error(GenericError.UPDATE, "Error when updating data in database");
+            LOG.error("[ Failed to update " + entityClass.getSimpleName() + " ] [ Id: " + entity.getId() + " ] [ ERROR ]: {}", e.getMessage());
+            return Response.error(GenericError.UPDATE, "Error when updating data in database");
         }
     }
 
     @Override
-    public MethodResponse<List<E>> getAll() {
+    public Response<List<E>> getAll() {
         try {
             Query q = em.createQuery("select d from " + entityClass.getSimpleName() + " d", entityClass);
-            return MethodResponse.success((List<E>) q.getResultList());
+            return Response.success((List<E>) q.getResultList());
         } catch (Exception e) {
-            LOGGER.error("[ Failed to get all from " + entityClass.getSimpleName() + " ] [ ERROR ]: ", e);
-            return MethodResponse.error(GenericError.READ);
+            LOG.error("[ Failed to get all from " + entityClass.getSimpleName() + " ] [ ERROR ]: {}", e.getMessage());
+            return Response.error(GenericError.READ);
         }
     }
 
     @Override
-    public MethodResponse<Long> getId(String id) {
+    public Response<Long> getId(String id) {
         try {
             Query q = em.createQuery("select id from " + entityClass.getSimpleName() + " d where extid = ?", Long.class);
             q.setParameter(1, id);
-            return MethodResponse.success((Long) q.getSingleResult());
+            return Response.success((Long) q.getSingleResult());
         } catch (NonUniqueResultException e) {
-            LOGGER.error("[ Failed to get id from " + entityClass.getSimpleName() + " with extid {} ] [ ERROR ]: ", id, e);
-            return MethodResponse.error(GenericError.READ);
+            LOG.error("[ Failed to get id from " + entityClass.getSimpleName() + " with extid {} ] [ ERROR ]: {}", id, e.getMessage());
+            return Response.error(GenericError.READ);
         } catch (Exception e) {
-            LOGGER.error("[ Failed to get id from " + entityClass.getSimpleName() + " with extid {} ] [ ERROR ]: ", id, e);
-            return MethodResponse.error(GenericError.READ);
+            LOG.error("[ Failed to get id from " + entityClass.getSimpleName() + " with extid {} ] [ ERROR ]: {}", id, e.getMessage());
+            return Response.error(GenericError.READ);
         }
     }
 

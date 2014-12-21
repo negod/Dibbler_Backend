@@ -11,7 +11,7 @@ import se.geomarket.backend.geomarket.dto.summary.UserSummaryDto;
 import se.geomarket.backend.geomarket.generics.BaseDao;
 import se.geomarket.backend.geomarket.generics.BaseDto;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
-import se.geomarket.backend.geomarket.generics.MethodResponse;
+import se.geomarket.backend.geomarket.generics.Response;
 
 /**
  *
@@ -22,8 +22,8 @@ import se.geomarket.backend.geomarket.generics.MethodResponse;
 @Local
 public interface UsersDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
 
-    public MethodResponse<UserSummaryDto> getUserSummaryById(String id);
+    public Response<UserSummaryDto> getUserSummaryById(String id);
 
-    MethodResponse<List<UserSummaryDto>> getAllUserSummary();
+    Response<List<UserSummaryDto>> getAllUserSummary();
 
 }

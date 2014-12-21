@@ -5,7 +5,6 @@
  */
 package se.geomarket.backend.geomarket.dto;
 
-import se.geomarket.backend.geomarket.dto.languagesupport.LanguageDto;
 import se.geomarket.backend.geomarket.generics.BaseDto;
 
 /**

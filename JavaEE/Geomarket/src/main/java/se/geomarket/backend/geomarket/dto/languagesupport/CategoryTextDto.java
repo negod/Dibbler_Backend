@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-package se.geomarket.backend.geomarket.entity;
+package se.geomarket.backend.geomarket.dto.languagesupport;
 
 /**
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-public class FollowerEvent {
+public class CategoryTextDto extends LanguageTextDto {
 
 }

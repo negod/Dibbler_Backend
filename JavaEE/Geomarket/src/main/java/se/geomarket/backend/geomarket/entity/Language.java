@@ -40,30 +40,4 @@ public class Language extends BaseEntity {
         this.fullName = fullName;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 47 * hash + (this.shortName != null ? this.shortName.hashCode() : 0);
-        hash = 47 * hash + (this.fullName != null ? this.fullName.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Language other = (Language) obj;
-        if ((this.shortName == null) ? (other.shortName != null) : !this.shortName.equals(other.shortName)) {
-            return false;
-        }
-        if ((this.fullName == null) ? (other.fullName != null) : !this.fullName.equals(other.fullName)) {
-            return false;
-        }
-        return true;
-    }
-
 }

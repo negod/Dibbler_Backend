@@ -5,56 +5,18 @@
  */
 package se.geomarket.backend.geomarket.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
-import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
  *
- * @author Joakim
+ * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
 @Entity
-public class EventText extends BaseEntity {
+public class EventText extends LanguageText {
 
-    @NotNull(message = "cannot be null")
-    @Column
-    private String heading;
-    @NotNull(message = "cannot be null")
-    @Column(length = 500)
-    private String body;
-    @NotNull(message = "cannot be null, must be an existing language")
-    @OneToOne(fetch = FetchType.LAZY)
-    Language language;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Event event;
-
-    public String getHeading() {
-        return heading;
-    }
-
-    public void setHeading(String heading) {
-        this.heading = heading;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public Language getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(Language language) {
-        this.language = language;
-    }
+    @ManyToOne(optional = false)
+    Event event;
 
     public Event getEvent() {
         return event;

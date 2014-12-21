@@ -5,9 +5,11 @@
  */
 package se.geomarket.backend.geomarket.dto;
 
+import se.geomarket.backend.geomarket.dto.languagesupport.EventTextDto;
+import se.geomarket.backend.geomarket.dto.languagesupport.LanguageTextDto;
 import com.wordnik.swagger.annotations.ApiModel;
+import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
-import se.geomarket.backend.geomarket.dto.languagesupport.BaseNameDto;
 
 /**
  *
@@ -15,15 +17,23 @@ import se.geomarket.backend.geomarket.dto.languagesupport.BaseNameDto;
  */
 @ApiModel(value = "Defines a type of event that can be published")
 @XmlRootElement(name = "eventType")
-public class EventTypeDto extends BaseNameDto {
+public class EventTypeDto extends LanguageTextDto {
+
+    List<EventTextDto> eventTexts;
+
+    public EventTypeDto(String language, String value, String description) {
+        super(language, value, description);
+    }
 
     public EventTypeDto() {
     }
 
-    public EventTypeDto(String defaultName, String description, String defaultLanguage) {
-        super(defaultName, description, defaultLanguage);
+    public List<EventTextDto> getEventTexts() {
+        return eventTexts;
     }
-    
-    
+
+    public void setEventTexts(List<EventTextDto> eventTexts) {
+        this.eventTexts = eventTexts;
+    }
 
 }

@@ -24,13 +24,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import se.geomarket.backend.geomarket.dao.EventTypeDao;
 import se.geomarket.backend.geomarket.dto.EventTypeDto;
-import se.geomarket.backend.geomarket.dto.languagesupport.NameDto;
 import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.entity.EventType;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
 import se.geomarket.backend.geomarket.generics.GenericError;
-import se.geomarket.backend.geomarket.generics.MethodResponse;
+import se.geomarket.backend.geomarket.generics.Response;
 import se.geomarket.backend.geomarket.generics.WsResponse;
 import se.geomarket.backend.geomarket.mapper.EventTypeMapper;
 
@@ -108,7 +107,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
             @ApiParam(value = "The eventtype description", required = true) @QueryParam("description") String description,
             @ApiParam(value = "The default name of the eventtype", required = true) @QueryParam("defaultName") String defaultName,
             @ApiParam(value = "The id of the default language", required = true) @QueryParam("languageId") String languageId) {
-        return super.insert(new EventTypeDto(defaultName, description, languageId));
+        return super.insert(new EventTypeDto(languageId, defaultName, description));
     }
 
     @POST
@@ -151,21 +150,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     public WsResponse update(
             @ApiParam(value = "The new EventType data", required = true) EventTypeDto data,
             @ApiParam(value = "The id of the EventType", required = true) @PathParam("id") String id) {
-        return MethodResponse.error(GenericError.METHOD_NOT_IMPLEMENTED).getWsResponse();
-    }
-
-    @PUT
-    @Path("{id}/{languageId}")
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "PUT", value = "Updates a category", response = String.class, nickname = "update", notes = "This Method is not supported")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Method not accessible"),
-        @ApiResponse(code = 500, message = "Internal server error")})
-    public WsResponse update(
-            @ApiParam(value = "The new EventName data", required = true) NameDto data,
-            @ApiParam(value = "The id of the EventType Name", required = true) @PathParam("id") String eventTypeNameId) {
-        return eventTypeDao.updateEventTypeName(data, eventTypeNameId).getWsResponse();
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED).getWsResponse();
     }
 
 }

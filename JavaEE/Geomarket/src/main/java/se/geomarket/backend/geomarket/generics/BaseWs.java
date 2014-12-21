@@ -28,74 +28,69 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
     public WsResponse insert(D data) {
         try {
             if (data == null) {
-                return MethodResponse.error(GenericError.WRONG_PARAMETER).getWsResponse();
+                return Response.error(GenericError.WRONG_PARAMETER).getWsResponse();
             }
             return getDao().create(data).getWsResponse();
         } catch (Exception e) {
-            LOGGER.error("[ Failed to insert data into: {} ] Error : {}", getDao().getEntityClass().getSimpleName(), e);
-            return MethodResponse.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
+            LOGGER.error("[ Failed to insert data into: {} ] Error : {}", getDao().getEntityClass().getSimpleName(), e.getMessage());
+            return Response.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
         }
     }
 
     public WsResponse getById(String id) {
         try {
-            MethodResponse<E> response = getDao().getByExtId(id);
+            Response<E> response = getDao().getByExtId(id);
             if (response.hasErrors) {
                 return response.getWsResponse();
             }
-
             return getMapper().mapFromEntityToDto(response.getData()).getWsResponse();
         } catch (Exception e) {
-            LOGGER.error("[ Failed to get data with id: {} from: {}] Error : {} ", id, getDao().getEntityClass().getSimpleName(), e);
-            return MethodResponse.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
+            LOGGER.error("[ Failed to get data with id: {} from: {}] Error : {} ", id, getDao().getEntityClass().getSimpleName(), e.getMessage());
+            return Response.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
         }
     }
 
     public WsResponse delete(Long id) {
         try {
-            MethodResponse<E> entity = getDao().getById(id);
+            Response<E> entity = getDao().getById(id);
             if (entity.hasErrors) {
                 return entity.getWsResponse();
             }
-
             return getDao().delete(entity.getData()).getWsResponse();
         } catch (Exception e) {
-            LOGGER.error("[ Failed to delete data with id: {} from: {} ] Error : {} ", id, getDao().getEntityClass().getSimpleName(), e);
-            return MethodResponse.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
+            LOGGER.error("[ Failed to delete data with id: {} from: {} ] Error : {} ", id, getDao().getEntityClass().getSimpleName(), e.getMessage());
+            return Response.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
         }
     }
 
     public WsResponse update(D data, String id) {
         try {
-            MethodResponse<E> oldEntity = getDao().getByExtId(id);
+            Response<E> oldEntity = getDao().getByExtId(id);
             if (oldEntity.hasErrors) {
                 return oldEntity.getWsResponse();
             }
-
-            MethodResponse<E> updatedEntity = getMapper().updateEntityFromDto(oldEntity.getData(), data);
+            Response<E> updatedEntity = getMapper().updateEntityFromDto(oldEntity.getData(), data);
             if (updatedEntity.hasErrors) {
                 return updatedEntity.getWsResponse();
             }
-
             return getDao().update(oldEntity.getData()).getWsResponse();
         } catch (Exception e) {
-            LOGGER.error("[ Failed to update data with id: {} table: {} ] Error : {} ", id, getDao().getEntityClass().getSimpleName(), e);
-            return MethodResponse.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
+            LOGGER.error("[ Failed to update data with id: {} table: {} ] Error : {} ", id, getDao().getEntityClass().getSimpleName(), e.getMessage());
+            return Response.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
         }
     }
 
     public WsResponse getAll() {
         List<D> dtos = new ArrayList<>();
         try {
-            MethodResponse<List<E>> entities = getDao().getAll();
+            Response<List<E>> entities = getDao().getAll();
             if (entities.hasErrors) {
                 return entities.getWsResponse();
             }
-
             return getMapper().mapToDtoList(entities.getData()).getWsResponse();
         } catch (Exception e) {
-            LOGGER.error("[ Failed to get all data from {} ] Error : {} ", getDao().getEntityClass().getSimpleName(), e);
-            return MethodResponse.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
+            LOGGER.error("[ Failed to get all data from {} ] Error : {} ", getDao().getEntityClass().getSimpleName(), e.getMessage());
+            return Response.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
         }
 
     }

@@ -6,12 +6,12 @@
 package se.geomarket.backend.geomarket.dao;
 
 import java.util.List;
-import se.geomarket.backend.geomarket.dto.EventTextDto;
+import se.geomarket.backend.geomarket.dto.languagesupport.LanguageTextDto;
 import se.geomarket.backend.geomarket.dto.summary.EventSummaryDto;
 import se.geomarket.backend.geomarket.generics.BaseDao;
 import se.geomarket.backend.geomarket.generics.BaseDto;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
-import se.geomarket.backend.geomarket.generics.MethodResponse;
+import se.geomarket.backend.geomarket.generics.Response;
 
 /**
  *
@@ -21,8 +21,8 @@ import se.geomarket.backend.geomarket.generics.MethodResponse;
  */
 public interface EventDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
 
-    public MethodResponse<String> addEventText(EventTextDto eventText, String eventId);
+    public Response<String> addEventText(LanguageTextDto eventText, String eventId);
 
-    public MethodResponse<List<EventSummaryDto>> getEventsByLocation(Double longitude, Double latitude, Double radius, String languageId);
+    public Response<List<EventSummaryDto>> getEventsByLocation(Double longitude, Double latitude, Double radius, String languageId);
 
 }

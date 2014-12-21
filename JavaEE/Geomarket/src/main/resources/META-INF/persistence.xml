@@ -3,8 +3,6 @@
   <persistence-unit name="geomarket_PU" transaction-type="JTA">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>java:/jdbc/geomarket</jta-data-source>
-    <class>se.geomarket.backend.geomarket.entity.Category</class>
-    <class>se.geomarket.backend.geomarket.entity.CategoryName</class>
     <class>se.geomarket.backend.geomarket.entity.Company</class>
     <class>se.geomarket.backend.geomarket.entity.CompanyUsers</class>
     <class>se.geomarket.backend.geomarket.entity.Event</class>
@@ -15,6 +13,7 @@
     <class>se.geomarket.backend.geomarket.entity.Roles</class>
     <class>se.geomarket.backend.geomarket.entity.Users</class>
     <class>se.geomarket.backend.geomarket.entity.Language</class>
+    <class>se.geomarket.backend.geomarket.entity.Category</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties>
@@ -25,7 +24,7 @@
             <property name="javax.persistence.schema-generation.drop-script-source" value="META-INF/sql/drop.sql"/> -->
       <!-- <property name="hibernate.hbm2ddl.auto" value="update"/> -->
       <!-- <property name="hibernate.hbm2ddl.auto" value="create-drop"/> -->
-      <property name="hibernate.hbm2ddl.auto" value="update"/>
+      <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
       <property name="hibernate.search.default.directory_provider" value="filesystem"/>
       <property name="hibernate.search.default.indexBase" value="/home/wildfly/.lucene/indexes"/>
       <property name="hibernate.dialect" value="org.hibernate.spatial.dialect.mysql.MySQLSpatialDialect"/>

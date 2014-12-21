@@ -7,12 +7,12 @@ package se.geomarket.backend.geomarket.dao;
 
 import java.util.List;
 import javax.ejb.Local;
-import se.geomarket.backend.geomarket.dto.languagesupport.NameDto;
-import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
+import se.geomarket.backend.geomarket.dto.CategoryDto;
+import se.geomarket.backend.geomarket.entity.LanguageText;
 import se.geomarket.backend.geomarket.generics.BaseDao;
 import se.geomarket.backend.geomarket.generics.BaseDto;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
-import se.geomarket.backend.geomarket.generics.MethodResponse;
+import se.geomarket.backend.geomarket.generics.Response;
 
 /**
  *
@@ -23,10 +23,10 @@ import se.geomarket.backend.geomarket.generics.MethodResponse;
 @Local
 public interface CategoryDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
 
-    public MethodResponse<String> addLanguage(String categoryId, String name, String language);
+    public Response<String> addLanguage(String categoryId, String name, String language);
 
-    public MethodResponse<List<NameSummaryDto>> getCategoriesByLanguage(String languageId);
+    public Response<List<LanguageText>> getCategoriesByLanguage(String languageId);
 
-    public MethodResponse<String> updateCategoryName(NameDto name, String categoryNameId);
+    public Response<String> updateCategoryName(CategoryDto name, String categoryNameId);
 
 }

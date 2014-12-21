@@ -5,7 +5,7 @@
  */
 package se.geomarket.backend.geomarket.mapper;
 
-import se.geomarket.backend.geomarket.dto.languagesupport.LanguageDto;
+import se.geomarket.backend.geomarket.dto.LanguageDto;
 import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 

@@ -24,7 +24,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import se.geomarket.backend.geomarket.dao.CategoryDao;
 import se.geomarket.backend.geomarket.dto.CategoryDto;
-import se.geomarket.backend.geomarket.dto.languagesupport.NameDto;
 import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.entity.Category;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
@@ -106,7 +105,7 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
             @ApiParam(value = "The category description", required = true) @QueryParam("description") String description,
             @ApiParam(value = "The default name of the category", required = true) @QueryParam("defaultName") String defaultName,
             @ApiParam(value = "The id of the default language", required = true) @QueryParam("languageId") String languageId) {
-        return super.insert(new CategoryDto(defaultName, description, languageId));
+        return super.insert(new CategoryDto(defaultName, languageId, description));
     }
 
     @POST
@@ -121,7 +120,7 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
             @ApiParam(value = "The id for the category that the new language will be added to", required = true) @QueryParam("categoryId") String categoryId,
             @ApiParam(value = "The name of the category in a new language", required = true) @QueryParam("name") String name,
             @ApiParam(value = "The id of the language to add", required = true) @QueryParam("languageId") String language) {
-        return new WsResponse(categoryDao.addLanguage(categoryId, name, language), 200);
+        return categoryDao.addLanguage(categoryId, name, language).getWsResponse();
     }
 
     @DELETE
@@ -161,7 +160,7 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
         @ApiResponse(code = 200, message = "Method not accessible"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public WsResponse updateCategoryName(
-            @ApiParam(value = "The new CategoryName data", required = true) NameDto data,
+            @ApiParam(value = "The new CategoryName data", required = true) CategoryDto data,
             @ApiParam(value = "The id of the CategoryName", required = true) @PathParam("categoryNameId") String categoryNameId) {
         return categoryDao.updateCategoryName(data, categoryNameId).getWsResponse();
     }

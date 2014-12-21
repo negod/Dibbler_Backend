@@ -10,7 +10,7 @@ import se.geomarket.backend.geomarket.dao.MovementDao;
 import se.geomarket.backend.geomarket.dto.MovementDto;
 import se.geomarket.backend.geomarket.entity.Movement;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
-import se.geomarket.backend.geomarket.generics.MethodResponse;
+import se.geomarket.backend.geomarket.generics.Response;
 import se.geomarket.backend.geomarket.mapper.MovementMapper;
 
 /**
@@ -25,10 +25,10 @@ public class MovementDaoBean extends BaseDaoBean<Movement, MovementDto> implemen
     }
 
     @Override
-    public MethodResponse create(MovementDto dto) {
-        MethodResponse<Movement> entity = MovementMapper.getInstance().mapFromDtoToEntity(dto);
+    public Response create(MovementDto dto) {
+        Response<Movement> entity = MovementMapper.getInstance().mapFromDtoToEntity(dto);
         if (entity.hasErrors) {
-            return MethodResponse.error(entity.getErrorCode());
+            return Response.error(entity.getErrorCode());
         }
         return super.create(entity.getData());
     }

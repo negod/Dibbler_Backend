@@ -16,14 +16,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
-import se.geomarket.backend.geomarket.generics.BaseEntity;
+import se.geomarket.backend.geomarket.entity.superclass.BaseType;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Entity
-public class Event extends BaseEntity {
+public class Event extends BaseType {
 
     @NotNull(message = "cannot be null, must be an existing company")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,18 +36,6 @@ public class Event extends BaseEntity {
     @NotNull(message = "cannot be null, must be an existing eventType")
     @OneToOne(fetch = FetchType.LAZY)
     private EventType eventType;
-
-    @NotNull(message = "cannot be null")
-    @Column
-    private String defaultEventText;
-
-    @NotNull(message = "cannot be null")
-    @Column
-    private String defaultEventHeader;
-
-    @NotNull(message = "cannot be null")
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<EventText> eventText;
 
     @NotNull(message = "cannot be null")
     @Column
@@ -64,6 +52,9 @@ public class Event extends BaseEntity {
 
     @Column
     private Integer maxRedeem;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    List<EventText> eventTexts;
 
     public Company getCompany() {
         return company;
@@ -87,30 +78,6 @@ public class Event extends BaseEntity {
 
     public void setEventType(EventType eventType) {
         this.eventType = eventType;
-    }
-
-    public String getDefaultEventText() {
-        return defaultEventText;
-    }
-
-    public void setDefaultEventText(String defaultEventText) {
-        this.defaultEventText = defaultEventText;
-    }
-
-    public String getDefaultEventHeader() {
-        return defaultEventHeader;
-    }
-
-    public void setDefaultEventHeader(String defaultEventHeader) {
-        this.defaultEventHeader = defaultEventHeader;
-    }
-
-    public List<EventText> getEventText() {
-        return eventText;
-    }
-
-    public void setEventText(List<EventText> eventText) {
-        this.eventText = eventText;
     }
 
     public Date getStartDate() {
@@ -143,6 +110,14 @@ public class Event extends BaseEntity {
 
     public void setMaxRedeem(Integer maxRedeem) {
         this.maxRedeem = maxRedeem;
+    }
+
+    public List<EventText> getEventTexts() {
+        return eventTexts;
+    }
+
+    public void setEventTexts(List<EventText> eventTexts) {
+        this.eventTexts = eventTexts;
     }
 
 }

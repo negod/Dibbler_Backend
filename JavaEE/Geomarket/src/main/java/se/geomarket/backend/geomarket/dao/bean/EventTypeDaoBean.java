@@ -6,21 +6,25 @@
 package se.geomarket.backend.geomarket.dao.bean;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import se.geomarket.backend.geomarket.constants.DaoError;
+import se.geomarket.backend.geomarket.constants.DibblerNamedQueries;
+import se.geomarket.backend.geomarket.constants.TextType;
 import se.geomarket.backend.geomarket.dao.EventTypeDao;
-import se.geomarket.backend.geomarket.dao.EventTypeNameDao;
+import se.geomarket.backend.geomarket.dao.EventTypeTextDao;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
 import se.geomarket.backend.geomarket.dto.EventTypeDto;
-import se.geomarket.backend.geomarket.dto.languagesupport.NameDto;
-import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
+import se.geomarket.backend.geomarket.dto.languagesupport.EventTypeTextDto;
 import se.geomarket.backend.geomarket.entity.EventType;
-import se.geomarket.backend.geomarket.entity.EventTypeName;
+import se.geomarket.backend.geomarket.entity.EventTypeText;
 import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
-import se.geomarket.backend.geomarket.generics.MethodResponse;
+import se.geomarket.backend.geomarket.generics.GenericError;
+import se.geomarket.backend.geomarket.generics.Response;
+import se.geomarket.backend.geomarket.mapper.EventTypeTextMapper;
 
 /**
  *
@@ -32,116 +36,106 @@ public class EventTypeDaoBean extends BaseDaoBean<EventType, EventTypeDto> imple
     @EJB
     LanguageDao languageDao;
     @EJB
-    EventTypeNameDao eventTypeNameDao;
+    EventTypeTextDao languageText;
 
     public EventTypeDaoBean() {
         super(EventType.class);
     }
 
     @Override
-    public MethodResponse<String> addLanguage(String eventTypeId, String name, String language) {
-        MethodResponse<Language> languageEntity = languageDao.getByExtId(language);
+    public Response<String> addLanguage(String eventTypeId, String name, String language) {
+
+        Response<Language> languageEntity = languageDao.getByExtId(language);
         if (languageEntity.hasErrors) {
-            return MethodResponse.error(languageEntity.getErrorCode());
+            return Response.error(languageEntity.getErrorCode());
         }
 
-        MethodResponse<EventType> eventType = super.getByExtId(eventTypeId);
+        Response<EventType> eventType = super.getByExtId(eventTypeId);
         if (eventType.hasErrors) {
-            return MethodResponse.error(eventType.getErrorCode());
+            return Response.error(eventType.getErrorCode());
         }
 
         try {
             //TODO check that language does not exist in category
-            EventTypeName eventTypeName = new EventTypeName();
-            eventTypeName.setLanguage(languageEntity.getData());
-            eventTypeName.setName(name);
-            eventTypeName.setEventType(eventType.getData());
-            eventType.getData().getNames().add(eventTypeName);
+            EventTypeText languageText = new EventTypeText();
+            languageText.setLanguage(languageEntity.getData());
+            languageText.setValue(name);
+            languageText.setTextType(TextType.NAME);
+            languageText.setEventType(eventType.getData());
+            eventType.getData().getEventTexts().add(languageText);
 
-            return MethodResponse.success(eventType.getData().getExtId());
+            return Response.success(eventType.getData().getExtId());
         } catch (Exception e) {
             getLogger().error("[ Error when adding language to EventType ]", e);
-            return MethodResponse.error(DaoError.EVENTTYPE_ADD_LANGUAGE);
+            return Response.error(DaoError.EVENTTYPE_ADD_LANGUAGE);
         }
     }
 
     @Override
-    public MethodResponse<List<NameSummaryDto>> getEventTypesByLanguage(String languageId) {
-        MethodResponse<List<EventType>> allCategories = super.getAll();
-        if (allCategories.hasErrors) {
-            return MethodResponse.error(allCategories.getErrorCode());
-        }
-
+    public Response<List<EventTypeTextDto>> getEventTypesByLanguage(String languageId) {
         try {
-            List<NameSummaryDto> categoryNames = new ArrayList<>();
-            for (EventType category : allCategories.getData()) {
-                MethodResponse<String> name = getNameByLanguage(category.getNames(), languageId);
-                NameSummaryDto dto = new NameSummaryDto();
-                if (name.hasErrors) {
-                    dto.setName(category.getDefaultName());
-                } else {
-                    dto.setName(name.getData());
-                }
-                dto.setId(category.getExtId());
-                categoryNames.add(dto);
-            }
-            return MethodResponse.success(categoryNames);
-        } catch (Exception e) {
-            super.getLogger().error("[ Error when getting eventtypes by language ] [ LanguageId: {} ]", languageId, e);
-            return MethodResponse.error(DaoError.EVENTTYPE_BY_LANGUAGE);
-        }
-    }
 
-    private MethodResponse<String> getNameByLanguage(List<EventTypeName> categories, String languageId) {
-        for (EventTypeName cat : categories) {
-            if (cat.getLanguage().getExtId().equalsIgnoreCase(languageId)) {
-                MethodResponse.success(cat.getName());
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("languageExtId", languageId);
+            Response<List<EventTypeText>> eventTypeTexts = languageText.getListByNamedQuery(DibblerNamedQueries.EVENTTYPE_FINDBY_LANGUAGE_EXTID, params);
+
+            if (eventTypeTexts.hasErrors) {
+                return Response.error(eventTypeTexts.getErrorCode());
             }
+
+            return EventTypeTextMapper.getInstance().mapToDtoList(eventTypeTexts.getData());
+
+        } catch (Exception e) {
+            getLogger().error(DaoError.CATEGORY_GET_BY_LANGUAGE.getErrorText(), e.getMessage());
+            return Response.error(DaoError.CATEGORY_GET_BY_LANGUAGE);
         }
-        return MethodResponse.error(DaoError.EVENTTYPE_NAME_BY_LANGUAGE);
     }
 
     @Override
-    public MethodResponse create(EventTypeDto dto) {
-        MethodResponse<Language> languageEntity = languageDao.getByExtId(dto.getDefaultLanguage());
+    public Response create(EventTypeDto dto) {
+
+        Response<Language> languageEntity = languageDao.getByExtId(dto.getLanguage());
         if (languageEntity.hasErrors) {
-            return MethodResponse.error(languageEntity.getErrorCode());
+            return Response.error(languageEntity.getErrorCode());
         }
 
         try {
             EventType eventType = new EventType();
             eventType.setDescription(dto.getDescription());
-            eventType.setDefaultName(dto.getDefaultName());
+            eventType.setDefaultName(dto.getValue());
+            eventType.setDefaultLanguage(languageEntity.getData());
 
-            List<EventTypeName> eventTypeNames = new ArrayList<>();
-            EventTypeName categoryname = new EventTypeName();
-            categoryname.setLanguage(languageEntity.getData());
-            categoryname.setName(dto.getDefaultName());
-            categoryname.setEventType(eventType);
-            eventTypeNames.add(categoryname);
-            eventType.setNames(eventTypeNames);
+            List<EventTypeText> categoryNames = new ArrayList<>();
+            EventTypeText categoryName = new EventTypeText();
+            categoryName.setLanguage(languageEntity.getData());
+            categoryName.setValue(dto.getValue());
+            categoryName.setEventType(eventType);
+            categoryName.setTextType(TextType.NAME);
+            categoryNames.add(categoryName);
+            eventType.setEventTexts(categoryNames);
 
             return super.create(eventType);
         } catch (Exception e) {
             super.getLogger().error("[ Error when creating EventType ]", e);
-            return MethodResponse.error(DaoError.EVENTTYPE_CREATE);
+            return Response.error(DaoError.EVENTTYPE_CREATE);
         }
 
     }
 
     @Override
-    public MethodResponse<String> updateEventTypeName(NameDto name, String categoryNameId) {
-        MethodResponse<EventTypeName> eventTypeName = eventTypeNameDao.getByExtId(categoryNameId);
-        if (eventTypeName.hasErrors) {
-            return MethodResponse.error(eventTypeName.getErrorCode());
-        }
+    public Response<String> updateEventTypeName(EventTypeDto name, String eventTypeNameId) {
+        /*Response<EventTypeName> eventTypeName = eventTypeNameDao.getByExtId(categoryNameId);
+         if (eventTypeName.hasErrors) {
+         return Response.error(eventTypeName.getErrorCode());
+         }
 
-        //TODO FIX THIS WITH LANGUAGE SUPPORT!
-        /*MethodResponse<Name> updatedName = NameMapper.getInstance().updateEntityFromDto(eventTypeName, name);
+         //TODO FIX THIS WITH LANGUAGE SUPPORT!
+         /*MethodResponse<Name> updatedName = NameMapper.getInstance().updateEntityFromDto(eventTypeName, name);
          if (updatedName.hasErrors) {
          return MethodResponse.error(updatedName.getErrorCode());
-         }*/
-        return eventTypeNameDao.update(eventTypeName.getData());
+         }
+         return eventTypeNameDao.update(eventTypeName.getData());*/
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }

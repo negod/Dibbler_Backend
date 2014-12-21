@@ -5,7 +5,7 @@
  */
 package se.geomarket.backend.geomarket.mapper;
 
-import se.geomarket.backend.geomarket.dto.EventTextDto;
+import se.geomarket.backend.geomarket.dto.languagesupport.EventTextDto;
 import se.geomarket.backend.geomarket.entity.EventText;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 

@@ -7,7 +7,6 @@ package se.geomarket.backend.geomarket.mapper;
 
 import se.geomarket.backend.geomarket.dto.EventTypeDto;
 import se.geomarket.backend.geomarket.entity.EventType;
-import se.geomarket.backend.geomarket.entity.superclass.Name;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 
 /**

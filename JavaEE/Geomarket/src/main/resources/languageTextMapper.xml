@@ -5,7 +5,15 @@
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
           
     <mapping map-null="false" map-empty-string="false">
-        <class-a>se.geomarket.backend.geomarket.entity.superclass.BaseName</class-a>
-        <class-b>se.geomarket.backend.geomarket.dto.languagesupport.BaseNameDto</class-b>
+        <class-a>se.geomarket.backend.geomarket.entity.LanguageText</class-a>
+        <class-b>se.geomarket.backend.geomarket.dto.LanguageTextDto</class-b>
+        <field>
+            <a>language.extId</a>
+            <b>language</b>
+        </field>
+    
     </mapping>
+    
+    
+    
 </mappings>

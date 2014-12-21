@@ -5,6 +5,7 @@
  */
 package se.geomarket.backend.geomarket.generics;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -22,25 +23,27 @@ public interface BaseDao<E extends BaseEntity, D extends BaseDto> {
 
     public Logger getLogger();
 
-    public MethodResponse<String> create(E entity);
+    public Response<String> create(E entity);
 
-    public MethodResponse<String> create(D dto);
+    public Response<String> create(D dto);
 
-    public MethodResponse<E> getByExtId(String id);
+    public Response<E> getByExtId(String id);
 
-    public MethodResponse<E> getById(Long id);
+    public Response<E> getById(Long id);
 
-    public MethodResponse<List<E>> getByNamedQuery(String query);
+    public Response<List<E>> getListByNamedQuery(String query, HashMap<String, ? extends Object> params);
 
-    public MethodResponse<List<E>> getByNativeQuery(String query);
+    public Response<E> getSingleByNamedQuery(String query, HashMap<String, ? extends Object> params);
 
-    public MethodResponse<String> delete(E entity);
+    public Response<List<E>> getByNativeQuery(String query);
 
-    public MethodResponse<String> update(E entity);
+    public Response<String> delete(E entity);
 
-    public MethodResponse<List<E>> getAll();
+    public Response<String> update(E entity);
 
-    public MethodResponse<Long> getId(String id);
+    public Response<List<E>> getAll();
+
+    public Response<Long> getId(String id);
 
     public Class getEntityClass();
 

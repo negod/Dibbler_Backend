@@ -31,7 +31,7 @@ import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
 import se.geomarket.backend.geomarket.generics.GenericError;
 import se.geomarket.backend.geomarket.generics.Mapper;
-import se.geomarket.backend.geomarket.generics.MethodResponse;
+import se.geomarket.backend.geomarket.generics.Response;
 import se.geomarket.backend.geomarket.generics.WsResponse;
 import se.geomarket.backend.geomarket.mapper.UsersMapper;
 
@@ -136,17 +136,17 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     public WsResponse changePassword(@PathParam("id") String id, @QueryParam("old") String oldPass, @QueryParam("new") String newPass) {
 
         if (oldPass == null || newPass == null) {
-            return MethodResponse.error(GenericError.WRONG_PARAMETER, "Incorrect parameters or null values!").getWsResponse();
+            return Response.error(GenericError.WRONG_PARAMETER, "Incorrect parameters or null values!").getWsResponse();
         }
 
-        MethodResponse<Users> entity = getDao().getByExtId(id);
+        Response<Users> entity = getDao().getByExtId(id);
         if (entity.hasNoErrors) {
 
             if (entity.getData().getPassword().equals(oldPass)) {
                 entity.getData().setPassword(newPass);
                 return getDao().update(entity.getData()).getWsResponse();
             } else {
-                return MethodResponse.error(GenericError.FAILURE, "Old password not same!").getWsResponse();
+                return Response.error(GenericError.FAILURE, "Old password not same!").getWsResponse();
             }
 
         } else {

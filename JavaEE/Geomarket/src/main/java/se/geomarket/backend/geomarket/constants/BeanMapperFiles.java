@@ -12,12 +12,11 @@ package se.geomarket.backend.geomarket.constants;
 public enum BeanMapperFiles {
 
     BASE_ENTITY("baseEntityMapper.xml"),
-    BASE_NAME("baseNameMapper.xml"),
     COMPANY("companyMapper.xml"),
+    LANGUAGETEXT("languageTextMapper.xml"),
     COMPANY_SUMMARY("companySummaryMapper.xml"),
     EVENT_TYPE("eventTypeMapper.xml"),
     LANGUAGE("languageMapper.xml"),
-    NAME("nameMapper.xml"),
     USER("usersMapper.xml"),
     ROLE("roleMapper.xml");
 

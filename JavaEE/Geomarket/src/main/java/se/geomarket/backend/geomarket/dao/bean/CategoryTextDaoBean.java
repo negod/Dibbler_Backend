@@ -5,9 +5,9 @@
  */
 package se.geomarket.backend.geomarket.dao.bean;
 
-import se.geomarket.backend.geomarket.dao.EventTextDao;
-import se.geomarket.backend.geomarket.dto.languagesupport.EventTextDto;
-import se.geomarket.backend.geomarket.entity.EventText;
+import se.geomarket.backend.geomarket.dao.CategoryTextDao;
+import se.geomarket.backend.geomarket.dto.languagesupport.CategoryTextDto;
+import se.geomarket.backend.geomarket.entity.CategoryText;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
 import se.geomarket.backend.geomarket.generics.Response;
 
@@ -15,14 +15,14 @@ import se.geomarket.backend.geomarket.generics.Response;
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-public class EventTextDaoBean extends BaseDaoBean<EventText, EventTextDto> implements EventTextDao<EventText, EventTextDto> {
+public class CategoryTextDaoBean extends BaseDaoBean<CategoryText, CategoryTextDto> implements CategoryTextDao<CategoryText, CategoryTextDto> {
 
-    public EventTextDaoBean() {
-        super(EventText.class);
+    public CategoryTextDaoBean() {
+        super(CategoryText.class);
     }
 
     @Override
-    public Response<String> create(EventTextDto dto) {
+    public Response<String> create(CategoryTextDto dto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -5,13 +5,12 @@
  */
 package se.geomarket.backend.geomarket.mapper;
 
-import se.geomarket.backend.geomarket.constants.MapperError;
 import se.geomarket.backend.geomarket.dto.EventDto;
 import se.geomarket.backend.geomarket.dto.summary.EventTextSummaryDto;
 import se.geomarket.backend.geomarket.entity.Event;
-import se.geomarket.backend.geomarket.entity.EventText;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
-import se.geomarket.backend.geomarket.generics.MethodResponse;
+import se.geomarket.backend.geomarket.generics.GenericError;
+import se.geomarket.backend.geomarket.generics.Response;
 
 /**
  *
@@ -29,23 +28,25 @@ public class EventMapper extends BaseMapper<EventDto, Event> {
         super(EventDto.class, Event.class);
     }
 
-    public MethodResponse<EventTextSummaryDto> getEventText(Event entity, String languageId) {
-        try {
-            for (EventText eventText : entity.getEventText()) {
-                if (eventText.getLanguage().getExtId().equalsIgnoreCase(languageId)) {
-                    EventTextSummaryDto dto = new EventTextSummaryDto();
-                    dto.setBody(eventText.getBody());
-                    dto.setHeading(eventText.getHeading());
-                    MethodResponse.success(dto);
-                }
-            }
-            EventTextSummaryDto dto = new EventTextSummaryDto();
-            dto.setBody(entity.getDefaultEventText());
-            dto.setHeading(entity.getDefaultEventHeader());
-            return MethodResponse.success(dto);
-        } catch (Exception e) {
-            return MethodResponse.error(MapperError.EVENT_SUMMARY_GET_EVENTTEXT);
-        }
-    }
+    public Response<EventTextSummaryDto> getEventText(Event entity, String languageId) {
+        /*try {
+         for (EventText eventText : entity.getEventText()) {
+         if (eventText.getLanguage().getExtId().equalsIgnoreCase(languageId)) {
+         EventTextSummaryDto dto = new EventTextSummaryDto();
+         dto.setBody(eventText.getBody());
+         dto.setHeading(eventText.getHeading());
+         Response.success(dto);
+         }
+         }
+         EventTextSummaryDto dto = new EventTextSummaryDto();
+         dto.setBody(entity.getDefaultEventText());
+         dto.setHeading(entity.getDefaultEventHeader());
+         return Response.success(dto);
+         } catch (Exception e) {
+         return Response.error(MapperError.EVENT_SUMMARY_GET_EVENTTEXT);
+         }
 
+         }*/
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
+    }
 }

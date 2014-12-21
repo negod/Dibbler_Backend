@@ -6,7 +6,9 @@
 package se.geomarket.backend.geomarket.entity.superclass;
 
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
@@ -14,12 +16,15 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
  * @author Joakim
  */
 @MappedSuperclass
-public class BaseName extends BaseEntity{
-    
+public class BaseType extends BaseEntity {
+
     @NotNull(message = "defaultName cannot be null")
     private String defaultName;
     @NotNull(message = "description cannot be null")
     private String description;
+    @OneToOne
+    @NotNull(message = "language cannot be null")
+    private Language defaultLanguage;
 
     public String getDefaultName() {
         return defaultName;
@@ -36,7 +41,13 @@ public class BaseName extends BaseEntity{
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    
-    
+
+    public Language getDefaultLanguage() {
+        return defaultLanguage;
+    }
+
+    public void setDefaultLanguage(Language defaultLanguage) {
+        this.defaultLanguage = defaultLanguage;
+    }
+
 }

@@ -6,19 +6,22 @@
 package se.geomarket.backend.geomarket.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import se.geomarket.backend.geomarket.entity.superclass.Name;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import se.geomarket.backend.geomarket.constants.DibblerNamedQueries;
 
 /**
  *
- * @author Joakikm Johansson (joakimjohansson@outlook.com)
+ * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
 @Entity
-public class EventTypeName extends Name {
+@NamedQueries({
+    @NamedQuery(name = DibblerNamedQueries.EVENTTYPE_FINDBY_LANGUAGE_EXTID, query = "SELECT c FROM EventTypeText c where c.language.extId =:languageExtId"),})
+public class EventTypeText extends LanguageText {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private EventType eventType;
+    @ManyToOne(optional = false)
+    EventType eventType;
 
     public EventType getEventType() {
         return eventType;

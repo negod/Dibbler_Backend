@@ -18,20 +18,12 @@ public enum DaoTypes {
     @XmlEnumValue("CATEGORY")
     CATEGORY,
     @XmlEnumValue("CATEGORY_NAME")
-    CATEGORY_NAME,
-    @XmlEnumValue("COMPANY")
     COMPANY,
     @XmlEnumValue("COMPANY_USERS")
     COMPANY_USERS,
     @XmlEnumValue("EVENT")
     EVENT,
     @XmlEnumValue("EVENT_TEXT")
-    EVENT_TEXT,
-    @XmlEnumValue("EVENT_TYPE")
-    EVENT_TYPE,
-    @XmlEnumValue("EVENT_TYPE_NAME")
-    EVENT_TYPE_NAME,
-    @XmlEnumValue("FILTER")
     FILTER,
     @XmlEnumValue("LANGUAGE")
     LANGUAGE,

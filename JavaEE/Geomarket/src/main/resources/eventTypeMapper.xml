@@ -8,4 +8,5 @@
         <class-a>se.geomarket.backend.geomarket.entity.EventType</class-a>
         <class-b>se.geomarket.backend.geomarket.dto.EventTypeDto</class-b>
     </mapping>
+    
 </mappings>

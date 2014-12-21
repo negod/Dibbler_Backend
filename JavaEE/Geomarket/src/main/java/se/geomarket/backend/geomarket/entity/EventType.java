@@ -5,53 +5,28 @@
  */
 package se.geomarket.backend.geomarket.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.Transient;
-import se.geomarket.backend.geomarket.entity.superclass.BaseName;
+import se.geomarket.backend.geomarket.entity.superclass.BaseType;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Entity
-public class EventType extends BaseName {
+public class EventType extends BaseType {
 
     @OneToMany(mappedBy = "eventType", cascade = CascadeType.ALL)
-    List<EventTypeName> names;
+    List<EventTypeText> eventTexts;
 
-    @Transient
-    private Language language;
-
-    public List<EventTypeName> getNames() {
-        return names;
+    public List<EventTypeText> getEventTexts() {
+        return eventTexts;
     }
 
-    public void setNames(List<EventTypeName> names) {
-        this.names = names;
-    }
-
-    public Language getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(Language language) {
-        this.language = language;
-    }
-
-    @PrePersist
-    @Override
-    protected void onCreate() {
-        super.onCreate();
-        List<EventTypeName> newNamesList = new ArrayList<>();
-        EventTypeName eventTypeName = new EventTypeName();
-        eventTypeName.setEventType(this);
-        eventTypeName.setLanguage(this.language);
-        eventTypeName.setName(this.getDefaultName());
+    public void setEventTexts(List<EventTypeText> eventTexts) {
+        this.eventTexts = eventTexts;
     }
 
 }

@@ -29,56 +29,56 @@ public class BaseMapper<D extends BaseDto, E extends BaseEntity> {
         this.entityClass = entityClass;
     }
 
-    public MethodResponse<List<E>> mapToEntityList(List<D> dtoList) {
+    public Response<List<E>> mapToEntityList(List<D> dtoList) {
         List<E> entityList = new ArrayList<>();
         for (D dto : dtoList) {
-            MethodResponse<E> entity = mapFromDtoToEntity(dto);
+            Response<E> entity = mapFromDtoToEntity(dto);
             if (entity.hasNoErrors) {
                 entityList.add(entity.getData());
             }
         }
-        return MethodResponse.success(entityList);
+        return Response.success(entityList);
     }
 
-    public MethodResponse<List<D>> mapToDtoList(List<E> entityList) {
+    public Response<List<D>> mapToDtoList(List<E> entityList) {
         List<D> dtoList = new ArrayList<>();
         for (E entity : entityList) {
-            MethodResponse<D> dto = mapFromEntityToDto(entity);
+            Response<D> dto = mapFromEntityToDto(entity);
             if (dto.hasNoErrors) {
                 dtoList.add(dto.getData());
             }
 
         }
-        return MethodResponse.success(dtoList);
+        return Response.success(dtoList);
     }
 
-    public MethodResponse<E> mapFromDtoToEntity(D dto) {
+    public Response<E> mapFromDtoToEntity(D dto) {
         try {
             E entity = Mapper.getInstance().getMapper().map(dto, entityClass);
-            return MethodResponse.success(entity);
+            return Response.success(entity);
         } catch (Exception e) {
             LOGGER.error("[ Failed to map from dto {} to entity {} [ DTO EXT_ID: {} ] Error : {}", dto.getClass().getName(), entityClass.getName(), dto.getId(), e);
-            return MethodResponse.error(GenericError.DTO_TO_ENTITY);
+            return Response.error(GenericError.DTO_TO_ENTITY);
         }
     }
 
-    public MethodResponse<D> mapFromEntityToDto(E entity) {
+    public Response<D> mapFromEntityToDto(E entity) {
         try {
             D dto = Mapper.getInstance().getMapper().map(entity, dtoClass);
-            return MethodResponse.success(dto);
+            return Response.success(dto);
         } catch (Exception e) {
             LOGGER.error("[ Failed to map from entity {} to dto {} [ ENTITY_ID: {} ] Error : {}", entity.getClass().getName(), dtoClass.getName(), entity.getId(), e);
-            return MethodResponse.error(GenericError.ENTITY_TO_DTO);
+            return Response.error(GenericError.ENTITY_TO_DTO);
         }
     }
 
-    public MethodResponse<E> updateEntityFromDto(E entity, D dto) {
+    public Response<E> updateEntityFromDto(E entity, D dto) {
         try {
             Mapper.getInstance().getMapper().map(dto, entity);
-            return MethodResponse.success(entity);
+            return Response.success(entity);
         } catch (Exception e) {
             LOGGER.error("[ Failed to update entity {} from dto {} [ ENTITY_ID: {} ] Error : {}", entity.getClass().getName(), dto.getClass().getName(), entity.getId(), e);
-            return MethodResponse.error(GenericError.UPDATE_ENTITY);
+            return Response.error(GenericError.UPDATE_ENTITY);
         }
     }
 

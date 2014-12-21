@@ -10,7 +10,7 @@ import se.geomarket.backend.geomarket.dao.SettingDao;
 import se.geomarket.backend.geomarket.dto.SettingDto;
 import se.geomarket.backend.geomarket.entity.Setting;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
-import se.geomarket.backend.geomarket.generics.MethodResponse;
+import se.geomarket.backend.geomarket.generics.Response;
 import se.geomarket.backend.geomarket.mapper.SettingsMapper;
 
 /**
@@ -25,10 +25,10 @@ public class SettingDaoBean extends BaseDaoBean<Setting, SettingDto> implements 
     }
 
     @Override
-    public MethodResponse create(SettingDto dto) {
-        MethodResponse<Setting> entity = SettingsMapper.getInstance().mapFromDtoToEntity(dto);
+    public Response create(SettingDto dto) {
+        Response<Setting> entity = SettingsMapper.getInstance().mapFromDtoToEntity(dto);
         if (entity.hasErrors) {
-            return MethodResponse.error(entity.getErrorCode());
+            return Response.error(entity.getErrorCode());
         }
         return super.create(entity.getData());
     }

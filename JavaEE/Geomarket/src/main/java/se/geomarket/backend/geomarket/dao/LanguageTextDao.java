@@ -6,11 +6,9 @@
 package se.geomarket.backend.geomarket.dao;
 
 import javax.ejb.Local;
-import se.geomarket.backend.geomarket.dto.languagesupport.NameDto;
 import se.geomarket.backend.geomarket.generics.BaseDao;
 import se.geomarket.backend.geomarket.generics.BaseDto;
 import se.geomarket.backend.geomarket.generics.BaseEntity;
-import se.geomarket.backend.geomarket.generics.MethodResponse;
 
 /**
  *
@@ -19,8 +17,6 @@ import se.geomarket.backend.geomarket.generics.MethodResponse;
  * @param <D>
  */
 @Local
-public interface EventTypeNameDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
-
-    public MethodResponse<String> updateEventTypeName(NameDto name, String eventTypeNameId);
+public interface LanguageTextDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
 
 }

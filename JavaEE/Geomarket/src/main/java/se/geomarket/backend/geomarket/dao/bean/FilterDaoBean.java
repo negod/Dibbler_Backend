@@ -10,7 +10,7 @@ import se.geomarket.backend.geomarket.dao.FilterDao;
 import se.geomarket.backend.geomarket.dto.FilterDto;
 import se.geomarket.backend.geomarket.entity.Filter;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
-import se.geomarket.backend.geomarket.generics.MethodResponse;
+import se.geomarket.backend.geomarket.generics.Response;
 import se.geomarket.backend.geomarket.mapper.FilterMapper;
 
 /**
@@ -25,10 +25,10 @@ public class FilterDaoBean extends BaseDaoBean<Filter, FilterDto> implements Fil
     }
 
     @Override
-    public MethodResponse create(FilterDto dto) {
-        MethodResponse<Filter> filter = FilterMapper.getInstance().mapFromDtoToEntity(dto);
+    public Response create(FilterDto dto) {
+        Response<Filter> filter = FilterMapper.getInstance().mapFromDtoToEntity(dto);
         if (filter.hasErrors) {
-            return MethodResponse.error(filter.getErrorCode());
+            return Response.error(filter.getErrorCode());
         }
         return super.create(filter.getData());
     }

@@ -10,44 +10,44 @@ package se.geomarket.backend.geomarket.generics;
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  * @param <T>
  */
-public class MethodResponse<T> {
+public class Response<T> {
 
     private final ErrorCode error;
     private final T data;
     public final boolean hasNoErrors;
     public final boolean hasErrors;
 
-    private MethodResponse(ErrorCode error) {
+    private Response(ErrorCode error) {
         this.error = error;
         this.data = null;
         this.hasNoErrors = false;
         this.hasErrors = true;
     }
 
-    private MethodResponse(ErrorCode error, T data) {
+    private Response(ErrorCode error, T data) {
         this.error = error;
         this.data = data;
         this.hasNoErrors = false;
         this.hasErrors = true;
     }
 
-    private MethodResponse(T data) {
+    private Response(T data) {
         this.data = data;
         this.error = null;
         this.hasNoErrors = true;
         this.hasErrors = false;
     }
 
-    public static <T> MethodResponse<T> error(ErrorCode error, T data) {
-        return new MethodResponse<>(error, data);
+    public static <T> Response<T> error(ErrorCode error, T data) {
+        return new Response<>(error, data);
     }
 
-    public static <T> MethodResponse<T> error(ErrorCode error) {
-        return new MethodResponse<>(error);
+    public static <T> Response<T> error(ErrorCode error) {
+        return new Response<>(error);
     }
 
-    public static <T> MethodResponse<T> success(T data) {
-        return new MethodResponse<>(data);
+    public static <T> Response<T> success(T data) {
+        return new Response<>(data);
     }
 
     public WsResponse getWsResponse() {

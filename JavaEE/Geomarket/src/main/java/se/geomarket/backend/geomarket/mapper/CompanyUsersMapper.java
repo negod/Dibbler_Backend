@@ -10,7 +10,7 @@ import se.geomarket.backend.geomarket.entity.Company;
 import se.geomarket.backend.geomarket.entity.CompanyUsers;
 import se.geomarket.backend.geomarket.entity.Roles;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
-import se.geomarket.backend.geomarket.generics.MethodResponse;
+import se.geomarket.backend.geomarket.generics.Response;
 
 /**
  *
@@ -29,21 +29,21 @@ public class CompanyUsersMapper extends BaseMapper<CompanyUsersDto, CompanyUsers
     }
 
     @Override
-    public MethodResponse<CompanyUsers> updateEntityFromDto(CompanyUsers entity, CompanyUsersDto dto) {
-        MethodResponse<Company> company = CompanyMapper.getInstance().mapFromDtoToEntity(dto.getCompany());
+    public Response<CompanyUsers> updateEntityFromDto(CompanyUsers entity, CompanyUsersDto dto) {
+        Response<Company> company = CompanyMapper.getInstance().mapFromDtoToEntity(dto.getCompany());
         if (company.hasErrors) {
-            return MethodResponse.error(company.getErrorCode());
+            return Response.error(company.getErrorCode());
         }
 
-        MethodResponse<Roles> role = RolesMapper.getInstance().mapFromDtoToEntity(dto.getUserRole());
+        Response<Roles> role = RolesMapper.getInstance().mapFromDtoToEntity(dto.getUserRole());
         if (role.hasErrors) {
-            return MethodResponse.error(role.getErrorCode());
+            return Response.error(role.getErrorCode());
         }
 
         entity.setCompany(company.getData());
         entity.setUserRole(role.getData());
 
-        return MethodResponse.success(entity);
+        return Response.success(entity);
     }
 
 }

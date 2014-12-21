@@ -20,7 +20,7 @@ import se.geomarket.backend.geomarket.dto.CompanyDto;
 import se.geomarket.backend.geomarket.entity.Company;
 import se.geomarket.backend.geomarket.entity.Location;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
-import se.geomarket.backend.geomarket.generics.MethodResponse;
+import se.geomarket.backend.geomarket.generics.Response;
 import se.geomarket.backend.geomarket.mapper.CompanyMapper;
 
 /**
@@ -36,7 +36,7 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
     }
 
     @Override
-    public MethodResponse<List<Company>> getCompanyByLocation(Double longitude, Double latitude, Double radius, Unit unit) {
+    public Response<List<Company>> getCompanyByLocation(Double longitude, Double latitude, Double radius, Unit unit) {
         try {
             Session session = (Session) super.getEntityManager().getDelegate();
             FullTextSession fullTextSession = Search.getFullTextSession(session);
@@ -51,11 +51,11 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
             return extractCompanies(results);
         } catch (Exception e) {
             super.getLogger().error("[ Error when getting company by location ] [LONG: {}] [LAT: {}] [RADIUS: {}]", longitude, latitude, radius);
-            return MethodResponse.error(DaoError.COMPANY_BY_LOCATION);
+            return Response.error(DaoError.COMPANY_BY_LOCATION);
         }
     }
 
-    private MethodResponse<List<Company>> extractCompanies(List<Location> locations) {
+    private Response<List<Company>> extractCompanies(List<Location> locations) {
         List<Company> companies = new ArrayList<>();
         for (Location loc : locations) {
             if (loc.getCompany() != null) {
@@ -64,14 +64,14 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
                 super.getLogger().debug("[ (Extract companies) Failed to get Company from location with ID: {} }", loc.getExtId());
             }
         }
-        return MethodResponse.success(companies);
+        return Response.success(companies);
     }
 
     @Override
-    public MethodResponse create(CompanyDto dto) {
-        MethodResponse<Company> entity = CompanyMapper.getInstance().mapFromDtoToEntity(dto);
+    public Response create(CompanyDto dto) {
+        Response<Company> entity = CompanyMapper.getInstance().mapFromDtoToEntity(dto);
         if (entity.hasErrors) {
-            return MethodResponse.error(entity.getErrorCode());
+            return Response.error(entity.getErrorCode());
         }
         return super.create(entity.getData());
     }

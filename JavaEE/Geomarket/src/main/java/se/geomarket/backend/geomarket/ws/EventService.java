@@ -24,7 +24,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import se.geomarket.backend.geomarket.dao.EventDao;
 import se.geomarket.backend.geomarket.dto.EventDto;
-import se.geomarket.backend.geomarket.dto.EventTextDto;
+import se.geomarket.backend.geomarket.dto.languagesupport.LanguageTextDto;
 import se.geomarket.backend.geomarket.dto.summary.EventSummaryDto;
 import se.geomarket.backend.geomarket.entity.Event;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
@@ -63,7 +63,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         @ApiResponse(code = 200, message = "Returns the Id of the updated Event"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public WsResponse addEventText(
-            @ApiParam(value = "The eventText to be inserted", required = true) EventTextDto data,
+            @ApiParam(value = "The eventText to be inserted", required = true) LanguageTextDto data,
             @ApiParam(value = "The event to be updated", required = true) @QueryParam("eventId") String eventId) {
         return eventDao.addEventText(data, eventId).getWsResponse();
     }

@@ -11,7 +11,7 @@ import se.geomarket.backend.geomarket.dto.CompanyUsersDto;
 import se.geomarket.backend.geomarket.entity.CompanyUsers;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
 import se.geomarket.backend.geomarket.generics.GenericError;
-import se.geomarket.backend.geomarket.generics.MethodResponse;
+import se.geomarket.backend.geomarket.generics.Response;
 
 /**
  *
@@ -25,8 +25,8 @@ public class CompanyUsersDaoBean extends BaseDaoBean<CompanyUsers, CompanyUsersD
     }
 
     @Override
-    public MethodResponse create(CompanyUsersDto dto) {
-        return MethodResponse.error(GenericError.METHOD_NOT_IMPLEMENTED);
+    public Response create(CompanyUsersDto dto) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }

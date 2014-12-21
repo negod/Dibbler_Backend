@@ -20,7 +20,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import se.geomarket.backend.geomarket.dao.FilterDao;
 import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.dto.FilterDto;
@@ -108,10 +107,10 @@ public class FilterService extends BaseWs<FilterDto, Filter, FilterDao> {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a list of all CompanyUsers", response = CategoryDto.class, nickname = "getAll")
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all CompanyUsers", response = FilterDto.class, nickname = "getAll")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "All CompanyUsers found"),
-        @ApiResponse(code = 500, message = "Could not get the CompanyUsers")})
+        @ApiResponse(code = 200, message = "All Filters found"),
+        @ApiResponse(code = 500, message = "Could not get the Filters")})
     public WsResponse getAll() {
         return super.getAll();
     }

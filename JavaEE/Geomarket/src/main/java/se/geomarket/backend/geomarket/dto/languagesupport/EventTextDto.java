@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package se.geomarket.backend.geomarket.generics;
+package se.geomarket.backend.geomarket.dto.languagesupport;
 
 /**
  *
- * @author Joakikm Johansson (joakimjohansson@outlook.com)
+ * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-public class Option {
-    
+public class EventTextDto extends LanguageTextDto {
+
 }

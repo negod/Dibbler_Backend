@@ -9,24 +9,24 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import se.geomarket.backend.geomarket.entity.superclass.BaseName;
+import se.geomarket.backend.geomarket.entity.superclass.BaseType;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Entity
-public class Category extends BaseName {
+public class Category extends BaseType {
     
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    List<CategoryName> names;
+    List<CategoryText> cateoryTexts;
 
-    public List<CategoryName> getNames() {
-        return names;
+    public List<CategoryText> getCateoryTexts() {
+        return cateoryTexts;
     }
 
-    public void setNames(List<CategoryName> names) {
-        this.names = names;
+    public void setCateoryTexts(List<CategoryText> cateoryTexts) {
+        this.cateoryTexts = cateoryTexts;
     }
-    
+
 }
