@@ -23,13 +23,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import se.geomarket.backend.geomarket.dao.EventTypeDao;
+import se.geomarket.backend.geomarket.dao.EventTypeTextDao;
 import se.geomarket.backend.geomarket.dto.EventTypeDto;
 import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.entity.EventType;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
-import se.geomarket.backend.geomarket.generics.GenericError;
-import se.geomarket.backend.geomarket.generics.Response;
 import se.geomarket.backend.geomarket.generics.WsResponse;
 import se.geomarket.backend.geomarket.mapper.EventTypeMapper;
 
@@ -44,6 +43,9 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
 
     @EJB
     EventTypeDao eventTypeDao;
+
+    @EJB
+    EventTypeTextDao eventTypeText;
 
     @Override
     public EventTypeDao getDao() {
@@ -126,7 +128,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
@@ -142,15 +144,41 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @Override
     @ApiOperation(httpMethod = "PUT", value = "Updates an eventtype", response = String.class, nickname = "update", notes = "This Method is not supported yet")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Method not accessible"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public WsResponse update(
-            @ApiParam(value = "The new EventType data", required = true) EventTypeDto data,
+            @ApiParam(value = "The new descripton of the EventType", required = true) String description,
             @ApiParam(value = "The id of the EventType", required = true) @PathParam("id") String id) {
-        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED).getWsResponse();
+        return eventTypeDao.updateEventTypeDescription(description, id).getWsResponse();
+    }
+
+    @DELETE
+    @Path("language/{id}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(httpMethod = "DELETE", value = "Deletes an eventtyes language by Id", response = String.class, nickname = "delete")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = ""),
+        @ApiResponse(code = 500, message = "Internal server error")})
+    public WsResponse deleteLanguage(@PathParam("id") Long id) {
+        return eventTypeText.delete(id).getWsResponse();
+    }
+
+    @PUT
+    @Path("/language/{id}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(httpMethod = "PUT", value = "Updates an events language type", response = String.class, nickname = "update", notes = "This Method is not supported yet")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Method not accessible"),
+        @ApiResponse(code = 500, message = "Internal server error")})
+    public WsResponse updateLanguage(
+            @ApiParam(value = "The new descripton of the EventType", required = true) String description,
+            @ApiParam(value = "The id of the EventType", required = true) @PathParam("id") String id,
+            @ApiParam(value = "The id of the EventType", required = true) @PathParam("name") String name) {
+        return eventTypeText.updateEventTypeNameByEventTextId(name, id).getWsResponse();
     }
 
 }

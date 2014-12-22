@@ -71,7 +71,7 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
     public Response create(CompanyDto dto) {
         Response<Company> entity = CompanyMapper.getInstance().mapFromDtoToEntity(dto);
         if (entity.hasErrors) {
-            return Response.error(entity.getErrorCode());
+            return Response.error(entity.getError());
         }
         return super.create(entity.getData());
     }

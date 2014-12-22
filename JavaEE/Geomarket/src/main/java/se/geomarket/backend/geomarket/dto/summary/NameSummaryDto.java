@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import se.geomarket.backend.geomarket.generics.BaseDtoEmpty;
+import se.geomarket.backend.geomarket.generics.BaseDtoNoId;
 
 /**
  *
@@ -21,7 +21,7 @@ import se.geomarket.backend.geomarket.generics.BaseDtoEmpty;
 @ApiModel(value = "A generic nametype for language support")
 @XmlRootElement(name = "nameType")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NameSummaryDto extends BaseDtoEmpty{
+public class NameSummaryDto extends BaseDtoNoId{
     
     @XmlElement(type = String.class, required = false)
     @ApiModelProperty(value = "The id of the type", required = false)

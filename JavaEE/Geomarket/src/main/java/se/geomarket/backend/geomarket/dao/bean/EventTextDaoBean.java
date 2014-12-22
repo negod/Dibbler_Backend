@@ -5,6 +5,7 @@
  */
 package se.geomarket.backend.geomarket.dao.bean;
 
+import javax.ejb.Stateless;
 import se.geomarket.backend.geomarket.dao.EventTextDao;
 import se.geomarket.backend.geomarket.dto.languagesupport.EventTextDto;
 import se.geomarket.backend.geomarket.entity.EventText;
@@ -15,6 +16,7 @@ import se.geomarket.backend.geomarket.generics.Response;
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
+@Stateless
 public class EventTextDaoBean extends BaseDaoBean<EventText, EventTextDto> implements EventTextDao<EventText, EventTextDto> {
 
     public EventTextDaoBean() {

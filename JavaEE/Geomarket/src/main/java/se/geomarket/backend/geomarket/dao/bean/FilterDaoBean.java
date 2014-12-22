@@ -28,7 +28,7 @@ public class FilterDaoBean extends BaseDaoBean<Filter, FilterDto> implements Fil
     public Response create(FilterDto dto) {
         Response<Filter> filter = FilterMapper.getInstance().mapFromDtoToEntity(dto);
         if (filter.hasErrors) {
-            return Response.error(filter.getErrorCode());
+            return Response.error(filter.getError());
         }
         return super.create(filter.getData());
     }

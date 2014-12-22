@@ -21,6 +21,8 @@ import se.geomarket.backend.geomarket.dao.CategoryDao;
 import se.geomarket.backend.geomarket.dao.CompanyDao;
 import se.geomarket.backend.geomarket.dao.CompanyUsersDao;
 import se.geomarket.backend.geomarket.dao.EventDao;
+import se.geomarket.backend.geomarket.dao.EventTypeDao;
+import se.geomarket.backend.geomarket.dao.EventTypeTextDao;
 import se.geomarket.backend.geomarket.dao.FilterDao;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
 import se.geomarket.backend.geomarket.dao.MovementDao;
@@ -59,6 +61,10 @@ public class IdService {
     SettingDao settings;
     @EJB
     UsersDao users;
+    @EJB
+    EventTypeTextDao eventTypeText;
+    @EJB
+    EventTypeDao eventType;
 
     @GET
     @Path("/{id}/{type}")
@@ -88,6 +94,10 @@ public class IdService {
                 return roles.getId(id).getWsResponse();
             case USERS:
                 return users.getId(id).getWsResponse();
+            case EVENTTYPE:
+                return eventType.getId(id).getWsResponse();
+            case EVENTTEXT:
+                return eventTypeText.getId(id).getWsResponse();
             default:
                 return Response.error(GenericError.WRONG_PARAMETER).getWsResponse();
         }

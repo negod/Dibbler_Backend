@@ -5,6 +5,7 @@
  */
 package se.geomarket.backend.geomarket.dao.bean;
 
+import javax.ejb.Stateless;
 import se.geomarket.backend.geomarket.dao.CategoryTextDao;
 import se.geomarket.backend.geomarket.dto.languagesupport.CategoryTextDto;
 import se.geomarket.backend.geomarket.entity.CategoryText;
@@ -15,6 +16,8 @@ import se.geomarket.backend.geomarket.generics.Response;
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
+
+@Stateless
 public class CategoryTextDaoBean extends BaseDaoBean<CategoryText, CategoryTextDto> implements CategoryTextDao<CategoryText, CategoryTextDto> {
 
     public CategoryTextDaoBean() {

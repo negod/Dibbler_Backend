@@ -32,12 +32,12 @@ public class CompanyUsersMapper extends BaseMapper<CompanyUsersDto, CompanyUsers
     public Response<CompanyUsers> updateEntityFromDto(CompanyUsers entity, CompanyUsersDto dto) {
         Response<Company> company = CompanyMapper.getInstance().mapFromDtoToEntity(dto.getCompany());
         if (company.hasErrors) {
-            return Response.error(company.getErrorCode());
+            return Response.error(company.getError());
         }
 
         Response<Roles> role = RolesMapper.getInstance().mapFromDtoToEntity(dto.getUserRole());
         if (role.hasErrors) {
-            return Response.error(role.getErrorCode());
+            return Response.error(role.getError());
         }
 
         entity.setCompany(company.getData());

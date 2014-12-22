@@ -66,7 +66,7 @@ public class Response<T> {
         return data;
     }
 
-    public ErrorCode getErrorCode() {
+    public ErrorCode getError() {
         return error;
     }
 

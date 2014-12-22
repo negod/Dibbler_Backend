@@ -28,7 +28,7 @@ public class SettingDaoBean extends BaseDaoBean<Setting, SettingDto> implements 
     public Response create(SettingDto dto) {
         Response<Setting> entity = SettingsMapper.getInstance().mapFromDtoToEntity(dto);
         if (entity.hasErrors) {
-            return Response.error(entity.getErrorCode());
+            return Response.error(entity.getError());
         }
         return super.create(entity.getData());
     }

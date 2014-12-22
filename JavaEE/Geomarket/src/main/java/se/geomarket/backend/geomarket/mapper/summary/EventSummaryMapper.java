@@ -61,7 +61,7 @@ public class EventSummaryMapper extends BaseMapper<EventSummaryDto, Company> {
         try {
             Response<Boolean> checkDateIsOk = checkDateIsOk(event);
             if (checkDateIsOk.hasErrors) {
-                return Response.error(checkDateIsOk.getErrorCode());
+                return Response.error(checkDateIsOk.getError());
             }
 
             if (checkDateIsOk.getData()) {
@@ -73,17 +73,17 @@ public class EventSummaryMapper extends BaseMapper<EventSummaryDto, Company> {
 
                 Response<CompanySummaryDto> companySummary = CompanySummaryMapper.getInstance().mapFromEntityToDto(entity);
                 if (companySummary.hasErrors) {
-                    return Response.error(companySummary.getErrorCode());
+                    return Response.error(companySummary.getError());
                 }
 
                 Response<PointDto> location = PointMapper.getInstance().mapFromEntityToDto(entity.getLocation());
                 if (location.hasErrors) {
-                    return Response.error(location.getErrorCode());
+                    return Response.error(location.getError());
                 }
 
                 Response<EventTextSummaryDto> eventText = EventMapper.getInstance().getEventText(event, languageId);
                 if (eventText.hasErrors) {
-                    return Response.error(eventText.getErrorCode());
+                    return Response.error(eventText.getError());
                 }
 
                 summary.setCompany(companySummary.getData());
@@ -91,7 +91,7 @@ public class EventSummaryMapper extends BaseMapper<EventSummaryDto, Company> {
                 summary.setEventText(eventText.getData());
                 return Response.success(summary);
             } else {
-                return Response.error(checkDateIsOk.getErrorCode());
+                return Response.error(checkDateIsOk.getError());
             }
         } catch (Exception e) {
             LOGGER.debug("[ Error when mapping EventSummary event with id: {} ] [ ERROR: {} ]", event.getExtId());

@@ -11,6 +11,6 @@ import java.io.Serializable;
  *
  * @author Joakim
  */
-public class BaseDtoEmpty implements Serializable{
+public class BaseDtoNoId implements Serializable{
     
 }

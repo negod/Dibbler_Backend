@@ -17,7 +17,7 @@ import se.geomarket.backend.geomarket.entity.superclass.BaseType;
  */
 @Entity
 public class Category extends BaseType {
-    
+
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     List<CategoryText> cateoryTexts;
 

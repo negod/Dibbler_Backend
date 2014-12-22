@@ -28,7 +28,7 @@ public class LanguageDaoBean extends BaseDaoBean<Language, LanguageDto> implemen
     public Response create(LanguageDto dto) {
         Response<Language> entity = LanguageMapper.getInstance().mapFromDtoToEntity(dto);
         if (entity.hasErrors) {
-            return Response.error(entity.getErrorCode());
+            return Response.error(entity.getError());
         }
         return super.create(entity.getData());
     }

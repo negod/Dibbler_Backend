@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "Defines a basetype for all classes")
 @XmlRootElement(name = "base")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BaseDto extends BaseDtoEmpty {
+public class BaseDto extends BaseDtoNoId {
 
     @ApiModelProperty(value = "The id for the object", required = false)
     @XmlElement(type = String.class, required = false)

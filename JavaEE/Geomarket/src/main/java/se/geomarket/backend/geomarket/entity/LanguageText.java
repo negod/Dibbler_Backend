@@ -7,7 +7,6 @@ package se.geomarket.backend.geomarket.entity;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 import se.geomarket.backend.geomarket.constants.TextType;
@@ -21,8 +20,10 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 public class LanguageText extends BaseEntity {
 
     private String value;
+    
     @OneToOne
     private Language language;
+    
     @Enumerated(EnumType.STRING)
     private TextType textType;
 

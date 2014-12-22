@@ -56,12 +56,12 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
 
         Response<Event> event = this.getByExtId(eventId);
         if (event.hasErrors) {
-            return Response.error(event.getErrorCode());
+            return Response.error(event.getError());
         }
 
         Response<Language> language = languageDao.getByExtId(text.getLanguage());
         if (language.hasErrors) {
-            return Response.error(language.getErrorCode());
+            return Response.error(language.getError());
         }
 
         try {
@@ -81,7 +81,7 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
     public Response<List<EventSummaryDto>> getEventsByLocation(Double longitude, Double latitude, Double radius, String languageId) {
         Response<List<Company>> locations = companyDao.getCompanyByLocation(longitude, latitude, radius, Unit.KM);
         if (locations.hasErrors) {
-            return Response.error(locations.getErrorCode());
+            return Response.error(locations.getError());
         }
 
         try {
@@ -106,22 +106,22 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
 
         Response<Company> company = companyDao.getByExtId(dto.getCompanyId());
         if (company.hasErrors) {
-            return Response.error(company.getErrorCode());
+            return Response.error(company.getError());
         }
 
         Response<EventType> eventType = eventTypeDao.getByExtId(dto.getEventTypeId());
         if (eventType.hasErrors) {
-            return Response.error(eventType.getErrorCode());
+            return Response.error(eventType.getError());
         }
 
         Response<Category> category = categoryDao.getByExtId(dto.getCategoryId());
         if (category.hasErrors) {
-            return Response.error(category.getErrorCode());
+            return Response.error(category.getError());
         }
 
         Response<Language> language = languageDao.getByExtId(dto.getLanguageId());
         if (language.hasErrors) {
-            return Response.error(language.getErrorCode());
+            return Response.error(language.getError());
         }
 
         try {

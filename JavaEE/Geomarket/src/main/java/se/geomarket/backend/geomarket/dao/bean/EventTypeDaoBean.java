@@ -22,7 +22,6 @@ import se.geomarket.backend.geomarket.entity.EventType;
 import se.geomarket.backend.geomarket.entity.EventTypeText;
 import se.geomarket.backend.geomarket.entity.Language;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
-import se.geomarket.backend.geomarket.generics.GenericError;
 import se.geomarket.backend.geomarket.generics.Response;
 import se.geomarket.backend.geomarket.mapper.EventTypeTextMapper;
 
@@ -47,12 +46,12 @@ public class EventTypeDaoBean extends BaseDaoBean<EventType, EventTypeDto> imple
 
         Response<Language> languageEntity = languageDao.getByExtId(language);
         if (languageEntity.hasErrors) {
-            return Response.error(languageEntity.getErrorCode());
+            return Response.error(languageEntity.getError());
         }
 
         Response<EventType> eventType = super.getByExtId(eventTypeId);
         if (eventType.hasErrors) {
-            return Response.error(eventType.getErrorCode());
+            return Response.error(eventType.getError());
         }
 
         try {
@@ -80,7 +79,7 @@ public class EventTypeDaoBean extends BaseDaoBean<EventType, EventTypeDto> imple
             Response<List<EventTypeText>> eventTypeTexts = languageText.getListByNamedQuery(DibblerNamedQueries.EVENTTYPE_FINDBY_LANGUAGE_EXTID, params);
 
             if (eventTypeTexts.hasErrors) {
-                return Response.error(eventTypeTexts.getErrorCode());
+                return Response.error(eventTypeTexts.getError());
             }
 
             return EventTypeTextMapper.getInstance().mapToDtoList(eventTypeTexts.getData());
@@ -94,21 +93,20 @@ public class EventTypeDaoBean extends BaseDaoBean<EventType, EventTypeDto> imple
     @Override
     public Response create(EventTypeDto dto) {
 
-        Response<Language> languageEntity = languageDao.getByExtId(dto.getLanguage());
+        Response<Language> languageEntity = languageDao.getByExtId(dto.getDefaultLanguage());
         if (languageEntity.hasErrors) {
-            return Response.error(languageEntity.getErrorCode());
+            return Response.error(languageEntity.getError());
         }
 
         try {
             EventType eventType = new EventType();
             eventType.setDescription(dto.getDescription());
-            eventType.setDefaultName(dto.getValue());
             eventType.setDefaultLanguage(languageEntity.getData());
 
             List<EventTypeText> categoryNames = new ArrayList<>();
             EventTypeText categoryName = new EventTypeText();
             categoryName.setLanguage(languageEntity.getData());
-            categoryName.setValue(dto.getValue());
+            categoryName.setValue(dto.getDefaultName());
             categoryName.setEventType(eventType);
             categoryName.setTextType(TextType.NAME);
             categoryNames.add(categoryName);
@@ -123,19 +121,15 @@ public class EventTypeDaoBean extends BaseDaoBean<EventType, EventTypeDto> imple
     }
 
     @Override
-    public Response<String> updateEventTypeName(EventTypeDto name, String eventTypeNameId) {
-        /*Response<EventTypeName> eventTypeName = eventTypeNameDao.getByExtId(categoryNameId);
-         if (eventTypeName.hasErrors) {
-         return Response.error(eventTypeName.getErrorCode());
-         }
+    public Response<String> updateEventTypeDescription(String description, String eventTypeNameId) {
+        Response<EventType> eventType = super.getByExtId(eventTypeNameId);
+        if (eventType.hasErrors) {
+            return Response.error(eventType.getError());
+        }
 
-         //TODO FIX THIS WITH LANGUAGE SUPPORT!
-         /*MethodResponse<Name> updatedName = NameMapper.getInstance().updateEntityFromDto(eventTypeName, name);
-         if (updatedName.hasErrors) {
-         return MethodResponse.error(updatedName.getErrorCode());
-         }
-         return eventTypeNameDao.update(eventTypeName.getData());*/
-        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
+        eventType.getData().setDescription(description);
+
+        return Response.success(eventType.getData().getExtId());
     }
 
 }

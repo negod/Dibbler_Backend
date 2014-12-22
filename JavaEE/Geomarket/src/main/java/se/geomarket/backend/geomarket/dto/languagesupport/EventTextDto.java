@@ -10,5 +10,4 @@ package se.geomarket.backend.geomarket.dto.languagesupport;
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
 public class EventTextDto extends LanguageTextDto {
-
 }

@@ -39,6 +39,8 @@ public interface BaseDao<E extends BaseEntity, D extends BaseDto> {
 
     public Response<String> delete(E entity);
 
+    public Response<String> delete(Long id);
+
     public Response<String> update(E entity);
 
     public Response<List<E>> getAll();

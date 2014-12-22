@@ -142,6 +142,7 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
         }
     }
 
+    @Override
     public Response<E> getSingleByNamedQuery(String query, HashMap<String, ? extends Object> params) {
 
         try {
@@ -177,6 +178,21 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
             return Response.success(null);
         } catch (Exception e) {
             LOG.error("[ Failed to delete " + entityClass.getSimpleName() + " ] [ Id: " + entity.getId() + " ] [ ERROR ]: {}", e.getMessage());
+            return Response.error(GenericError.DELETE);
+        }
+    }
+
+    @Override
+    public Response<String> delete(Long id) {
+        try {
+            Response<E> entity = this.getById(id);
+            if (entity.hasErrors) {
+                return Response.error(entity.getError());
+            }
+            getEntityManager().remove(entity);
+            return Response.success(null);
+        } catch (Exception e) {
+            LOG.error("[ Failed to delete " + entityClass.getSimpleName() + " ] [ Id: " + id + " ] [ ERROR ]: {}", e.getMessage());
             return Response.error(GenericError.DELETE);
         }
     }

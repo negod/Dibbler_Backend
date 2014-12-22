@@ -4,15 +4,15 @@
           xsi:schemaLocation="http://dozer.sourceforge.net
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
           
+    <!-- IF YOU UPDATE THIS DO NOT FORGET TO UPDATE IT IN THE companyMapper.xml -->
     
     <mapping map-null="false" map-empty-string="false">
-        <class-a>se.geomarket.backend.geomarket.entity.LanguageText</class-a>
-        <class-b>se.geomarket.backend.geomarket.dto.languagesupport.LanguageTextDto</class-b>     
+        <class-a>se.geomarket.backend.geomarket.entity.superclass.BaseType</class-a>
+        <class-b>se.geomarket.backend.geomarket.dto.languagesupport.BaseTypeDto</class-b>  
         <field>
-            <a>language.extId</a>
-            <b>language</b>
-        </field>
-        
+            <a>defaultLanguage.extId</a>
+            <b>defaultLanguage</b>
+        </field>     
     </mapping>
     
 </mappings>

@@ -7,7 +7,6 @@ package se.geomarket.backend.geomarket.dao;
 
 import java.util.List;
 import javax.ejb.Local;
-import se.geomarket.backend.geomarket.dto.EventTypeDto;
 import se.geomarket.backend.geomarket.dto.languagesupport.EventTypeTextDto;
 import se.geomarket.backend.geomarket.generics.BaseDao;
 import se.geomarket.backend.geomarket.generics.BaseDto;
@@ -27,6 +26,6 @@ public interface EventTypeDao<E extends BaseEntity, D extends BaseDto> extends B
 
     public Response<List<EventTypeTextDto>> getEventTypesByLanguage(String languageId);
 
-    public Response<String> updateEventTypeName(EventTypeDto name, String eventTypeNameId);
+    public Response<String> updateEventTypeDescription(String description, String eventTypeNameId);
 
 }

@@ -14,8 +14,8 @@ import se.geomarket.backend.geomarket.constants.DaoError;
 import se.geomarket.backend.geomarket.constants.DibblerNamedQueries;
 import se.geomarket.backend.geomarket.constants.TextType;
 import se.geomarket.backend.geomarket.dao.CategoryDao;
+import se.geomarket.backend.geomarket.dao.CategoryTextDao;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
-import se.geomarket.backend.geomarket.dao.LanguageTextDao;
 import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.entity.Category;
 import se.geomarket.backend.geomarket.entity.CategoryText;
@@ -37,7 +37,7 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
     @EJB
     CategoryDao category;
     @EJB
-    LanguageTextDao languageText;
+    CategoryTextDao languageText;
 
     public CategoryDaoBean() {
         super(Category.class);
@@ -48,12 +48,12 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
 
         Response<Language> languageEntity = languageDao.getByExtId(language);
         if (languageEntity.hasErrors) {
-            return Response.error(languageEntity.getErrorCode());
+            return Response.error(languageEntity.getError());
         }
 
         Response<Category> category = super.getByExtId(categoryId);
         if (category.hasErrors) {
-            return Response.error(category.getErrorCode());
+            return Response.error(category.getError());
         }
 
         try {
@@ -76,7 +76,7 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
 
         Response<Language> languageEntity = languageDao.getByExtId(languageId);
         if (languageEntity.hasErrors) {
-            return Response.error(languageEntity.getErrorCode());
+            return Response.error(languageEntity.getError());
         }
 
         try {
@@ -86,7 +86,7 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
             Response<List<LanguageText>> categoryTexts = languageText.getListByNamedQuery(DibblerNamedQueries.CATEGORY_FINDBY_LANGUAGE_EXTID, params);
 
             if (categoryTexts.hasErrors) {
-                return Response.error(categoryTexts.getErrorCode());
+                return Response.error(categoryTexts.getError());
             }
 
             return Response.success(categoryTexts.getData());
@@ -101,21 +101,20 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
     @Override
     public Response<String> create(CategoryDto dto) {
 
-        Response<Language> languageEntity = languageDao.getByExtId(dto.getLanguage());
+        Response<Language> languageEntity = languageDao.getByExtId(dto.getDefaultLanguage());
         if (languageEntity.hasErrors) {
-            return Response.error(languageEntity.getErrorCode());
+            return Response.error(languageEntity.getError());
         }
 
         try {
             Category category = new Category();
             category.setDescription(dto.getDescription());
-            category.setDefaultName(dto.getValue());
             category.setDefaultLanguage(languageEntity.getData());
 
             List<CategoryText> cetegoryNames = new ArrayList<>();
             CategoryText categoryName = new CategoryText();
             categoryName.setLanguage(languageEntity.getData());
-            categoryName.setValue(dto.getValue());
+            categoryName.setValue(dto.getDefaultName());
             categoryName.setCategory(category);
             categoryName.setTextType(TextType.NAME);
             category.setCateoryTexts(cetegoryNames);

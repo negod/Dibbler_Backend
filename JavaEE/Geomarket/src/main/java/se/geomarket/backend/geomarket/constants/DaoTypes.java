@@ -32,6 +32,10 @@ public enum DaoTypes {
     @XmlEnumValue("ROLES")
     ROLES,
     @XmlEnumValue("USERS")
-    USERS;
+    USERS,
+    @XmlEnumValue("EVENTTYPE")
+    EVENTTYPE,
+    @XmlEnumValue("EVENTTEXT")
+    EVENTTEXT;
 
 }

@@ -14,6 +14,8 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 /**
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
+ * @param <E>
+ * @param <D>
  */
 @Local
 public interface CategoryTextDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {

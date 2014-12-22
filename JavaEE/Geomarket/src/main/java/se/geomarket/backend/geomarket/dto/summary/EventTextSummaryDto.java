@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import se.geomarket.backend.geomarket.generics.BaseDtoEmpty;
+import se.geomarket.backend.geomarket.generics.BaseDtoNoId;
 
 /**
  *
@@ -20,7 +20,7 @@ import se.geomarket.backend.geomarket.generics.BaseDtoEmpty;
 @ApiModel(value = "The eventText for the event")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "eventTextSummary")
-public class EventTextSummaryDto extends BaseDtoEmpty {
+public class EventTextSummaryDto extends BaseDtoNoId {
 
     @ApiModelProperty(value = "The heading for the event", required = true)
     @XmlElement(required = false)

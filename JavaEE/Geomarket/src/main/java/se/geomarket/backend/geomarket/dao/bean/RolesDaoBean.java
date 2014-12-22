@@ -28,7 +28,7 @@ public class RolesDaoBean extends BaseDaoBean<Roles, RolesDto> implements RolesD
     public Response create(RolesDto dto) {
         Response<Roles> entity = RolesMapper.getInstance().mapFromDtoToEntity(dto);
         if (entity.hasErrors) {
-            return Response.error(entity.getErrorCode());
+            return Response.error(entity.getError());
         }
         return super.create(entity.getData());
     }

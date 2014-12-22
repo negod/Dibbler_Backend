@@ -18,21 +18,11 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @MappedSuperclass
 public class BaseType extends BaseEntity {
 
-    @NotNull(message = "defaultName cannot be null")
-    private String defaultName;
     @NotNull(message = "description cannot be null")
     private String description;
     @OneToOne
     @NotNull(message = "language cannot be null")
     private Language defaultLanguage;
-
-    public String getDefaultName() {
-        return defaultName;
-    }
-
-    public void setDefaultName(String defaultName) {
-        this.defaultName = defaultName;
-    }
 
     public String getDescription() {
         return description;

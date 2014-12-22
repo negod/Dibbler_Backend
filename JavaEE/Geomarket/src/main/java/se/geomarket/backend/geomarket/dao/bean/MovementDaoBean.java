@@ -28,7 +28,7 @@ public class MovementDaoBean extends BaseDaoBean<Movement, MovementDto> implemen
     public Response create(MovementDto dto) {
         Response<Movement> entity = MovementMapper.getInstance().mapFromDtoToEntity(dto);
         if (entity.hasErrors) {
-            return Response.error(entity.getErrorCode());
+            return Response.error(entity.getError());
         }
         return super.create(entity.getData());
     }
