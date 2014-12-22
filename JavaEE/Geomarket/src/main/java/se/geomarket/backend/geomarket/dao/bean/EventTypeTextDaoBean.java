@@ -30,6 +30,7 @@ public class EventTypeTextDaoBean extends BaseDaoBean<EventTypeText, EventTypeTe
 
     @Override
     public Response<String> updateEventTypeNameByEventTextId(String name, String eventTypeTextId) {
+        
         Response<EventTypeText> evetTypeText = super.getByExtId(eventTypeTextId);
 
         if (evetTypeText.hasErrors) {

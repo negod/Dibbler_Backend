@@ -56,14 +56,13 @@ public class EventTypeDaoBean extends BaseDaoBean<EventType, EventTypeDto> imple
 
         try {
             //TODO check that language does not exist in category
-            EventTypeText languageText = new EventTypeText();
-            languageText.setLanguage(languageEntity.getData());
-            languageText.setValue(name);
-            languageText.setTextType(TextType.NAME);
-            languageText.setEventType(eventType.getData());
-            eventType.getData().getEventTexts().add(languageText);
+            EventTypeText languageTextEntity = new EventTypeText();
+            languageTextEntity.setLanguage(languageEntity.getData());
+            languageTextEntity.setValue(name);
+            languageTextEntity.setTextType(TextType.NAME);
+            languageTextEntity.setEventType(eventType.getData());
+            return languageText.create(languageTextEntity);
 
-            return Response.success(eventType.getData().getExtId());
         } catch (Exception e) {
             getLogger().error("[ Error when adding language to EventType ]", e);
             return Response.error(DaoError.EVENTTYPE_ADD_LANGUAGE);

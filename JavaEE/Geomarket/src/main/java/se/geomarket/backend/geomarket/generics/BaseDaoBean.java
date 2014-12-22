@@ -16,6 +16,7 @@ import javax.ejb.TransactionAttribute;
 import static javax.ejb.TransactionAttributeType.REQUIRES_NEW;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -108,6 +109,9 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
             Query q = em.createNativeQuery("select * from " + entityClass.getSimpleName() + " where id = ?", entityClass);
             q.setParameter(1, id);
             return Response.success((E) q.getSingleResult());
+        } catch (NoResultException e) {
+            LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [  ByID: " + id + " ] [ ERROR ]: {}", e.getMessage());
+            return Response.error(GenericError.NO_RESULT);
         } catch (Exception e) {
             LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [  ByID: " + id + " ] [ ERROR ]: {}", e.getMessage());
             return Response.error(GenericError.READ);
@@ -120,6 +124,9 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
             Query q = em.createNativeQuery("select * from " + entityClass.getSimpleName() + " where extId = ?", entityClass);
             q.setParameter(1, id);
             return Response.success((E) q.getSingleResult());
+        } catch (NoResultException e) {
+            LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [  ByExtID: " + id + " ] [ ERROR ]: {}", e.getMessage());
+            return Response.error(GenericError.NO_RESULT);
         } catch (Exception e) {
             LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ ByExtID: " + id + " ] [ ERROR ]: {}", e.getMessage());
             return Response.error(GenericError.READ);
@@ -135,7 +142,18 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
                 q.setParameter(param.getKey(), param.getValue());
             }
 
-            return Response.success((List<E>) q.getResultList());
+            List<E> resultList = (List<E>) q.getResultList();
+
+            if (resultList.isEmpty()) {
+                LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By named query: " + query + " ] [ ERROR ]: List empty");
+                return Response.error(GenericError.NO_RESULT);
+            } else {
+                return Response.success(resultList);
+            }
+
+        } catch (NoResultException e) {
+            LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By named query: " + query + " ] [ ERROR ]: {}", e.getMessage());
+            return Response.error(GenericError.NO_RESULT);
         } catch (Exception e) {
             LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By named query: " + query + " ] [ ERROR ]: {}", e.getMessage());
             return Response.error(GenericError.READ);
@@ -153,6 +171,9 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
             }
 
             return Response.success((E) q.getSingleResult());
+        } catch (NoResultException e) {
+            LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By named query: " + query + " ] [ ERROR ]: {}", e.getMessage());
+            return Response.error(GenericError.NO_RESULT);
         } catch (Exception e) {
             LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By named query: " + query + " ] [ ERROR ]: {}", e.getMessage());
             return Response.error(GenericError.READ);
@@ -164,7 +185,17 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
     public Response<List<E>> getByNativeQuery(String query) {
         try {
             Query q = getEntityManager().createNativeQuery(query, entityClass);
-            return Response.success((List<E>) q.getResultList());
+            List<E> resultList = (List<E>) q.getResultList();
+
+            if (resultList.isEmpty()) {
+                LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By native query: " + query + " ] [ ERROR ]: List empty");
+                return Response.error(GenericError.NO_RESULT);
+            } else {
+                return Response.success(resultList);
+            }
+        } catch (NoResultException e) {
+            LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By native query: " + query + " ] [ ERROR ]: {}", e.getMessage());
+            return Response.error(GenericError.NO_RESULT);
         } catch (Exception e) {
             LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [ By native query: " + query + " ] [ ERROR ]: {}", e.getMessage());
             return Response.error(GenericError.READ);
@@ -172,14 +203,27 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
     }
 
     @Override
-    public Response<String> delete(E entity) {
+    public Response delete(E entity) {
         try {
             getEntityManager().remove(entity);
+            getEntityManager().flush();
             return Response.success(null);
+        } catch (PersistenceException e) {
+
+            Response<String> constraintError = getSQLIntegrityConstraintViolation(e);
+            if (constraintError.hasNoErrors) {
+                LOG.error("[ Failed to delete " + entityClass.getSimpleName() + " with ID: {} ] due to constraint violations [ ERROR ]: {}", entity.getId(), e.getMessage());
+                return Response.error(GenericError.CONSTRAINT_VIOLATION, constraintError.getData());
+            }
+
+        } catch (ConstraintViolationException ex) {
+            LOG.error("[ Failed to delete " + entityClass.getSimpleName() + " with ID: {} ] due to constraint violations [ ERROR ]: {}", entity.getId(), ex.getMessage());
+            return Response.error(GenericError.CONSTRAINT_VIOLATION, buildViolationResponse(ex.getConstraintViolations()));
         } catch (Exception e) {
             LOG.error("[ Failed to delete " + entityClass.getSimpleName() + " ] [ Id: " + entity.getId() + " ] [ ERROR ]: {}", e.getMessage());
             return Response.error(GenericError.DELETE);
         }
+        return Response.error(GenericError.DELETE);
     }
 
     @Override
@@ -189,8 +233,7 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
             if (entity.hasErrors) {
                 return Response.error(entity.getError());
             }
-            getEntityManager().remove(entity);
-            return Response.success(null);
+            return this.delete(entity.getData());
         } catch (Exception e) {
             LOG.error("[ Failed to delete " + entityClass.getSimpleName() + " ] [ Id: " + id + " ] [ ERROR ]: {}", e.getMessage());
             return Response.error(GenericError.DELETE);
@@ -217,7 +260,14 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
     public Response<List<E>> getAll() {
         try {
             Query q = em.createQuery("select d from " + entityClass.getSimpleName() + " d", entityClass);
-            return Response.success((List<E>) q.getResultList());
+            List<E> resultList = (List<E>) q.getResultList();
+
+            if (resultList.isEmpty()) {
+                LOG.error("[ Failed to get all from  " + entityClass.getSimpleName() + " ] [ ERROR ]: List empty");
+                return Response.error(GenericError.NO_RESULT);
+            } else {
+                return Response.success(resultList);
+            }
         } catch (Exception e) {
             LOG.error("[ Failed to get all from " + entityClass.getSimpleName() + " ] [ ERROR ]: {}", e.getMessage());
             return Response.error(GenericError.READ);

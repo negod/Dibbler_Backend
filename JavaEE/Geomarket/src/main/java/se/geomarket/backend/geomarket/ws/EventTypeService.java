@@ -149,13 +149,13 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
         @ApiResponse(code = 200, message = "Method not accessible"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public WsResponse update(
-            @ApiParam(value = "The new descripton of the EventType", required = true) String description,
+            @ApiParam(value = "The new descripton of the EventType", required = true) @QueryParam("description") String description,
             @ApiParam(value = "The id of the EventType", required = true) @PathParam("id") String id) {
         return eventTypeDao.updateEventTypeDescription(description, id).getWsResponse();
     }
 
     @DELETE
-    @Path("language/{id}")
+    @Path("/language/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @ApiOperation(httpMethod = "DELETE", value = "Deletes an eventtyes language by Id", response = String.class, nickname = "delete")
@@ -177,7 +177,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     public WsResponse updateLanguage(
             @ApiParam(value = "The new descripton of the EventType", required = true) String description,
             @ApiParam(value = "The id of the EventType", required = true) @PathParam("id") String id,
-            @ApiParam(value = "The id of the EventType", required = true) @PathParam("name") String name) {
+            @ApiParam(value = "The id of the EventType", required = true) @QueryParam("name") String name) {
         return eventTypeText.updateEventTypeNameByEventTextId(name, id).getWsResponse();
     }
 
