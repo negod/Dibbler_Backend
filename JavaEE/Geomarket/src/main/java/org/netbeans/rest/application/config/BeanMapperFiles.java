@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.geomarket.backend.geomarket.constants;
+package org.netbeans.rest.application.config;
 
 /**
  *
@@ -19,7 +19,8 @@ public enum BeanMapperFiles {
     LANGUAGE("languageMapper.xml"),
     USER("usersMapper.xml"),
     BASE_TYPE("baseTypeMapper.xml"),
-    ROLE("roleMapper.xml");
+    ROLE("roleMapper.xml"),
+    CATEGORY("categoryMapper.xml");
 
     private final String fileName;
 

@@ -18,6 +18,8 @@ public enum DaoTypes {
     @XmlEnumValue("CATEGORY")
     CATEGORY,
     @XmlEnumValue("CATEGORY_NAME")
+    CATEGORY_NAME,
+    @XmlEnumValue("COMPANY")
     COMPANY,
     @XmlEnumValue("COMPANY_USERS")
     COMPANY_USERS,

@@ -18,15 +18,15 @@ import se.geomarket.backend.geomarket.entity.superclass.BaseType;
 @Entity
 public class Category extends BaseType {
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    List<CategoryText> cateoryTexts;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<CategoryText> categoryTexts;
 
-    public List<CategoryText> getCateoryTexts() {
-        return cateoryTexts;
+    public List<CategoryText> getCategoryTexts() {
+        return categoryTexts;
     }
 
-    public void setCateoryTexts(List<CategoryText> cateoryTexts) {
-        this.cateoryTexts = cateoryTexts;
+    public void setCategoryTexts(List<CategoryText> categoryTexts) {
+        this.categoryTexts = categoryTexts;
     }
 
 }

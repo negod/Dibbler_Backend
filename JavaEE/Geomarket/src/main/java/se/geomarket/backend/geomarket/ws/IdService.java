@@ -18,6 +18,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import se.geomarket.backend.geomarket.constants.DaoTypes;
 import se.geomarket.backend.geomarket.dao.CategoryDao;
+import se.geomarket.backend.geomarket.dao.CategoryTextDao;
 import se.geomarket.backend.geomarket.dao.CompanyDao;
 import se.geomarket.backend.geomarket.dao.CompanyUsersDao;
 import se.geomarket.backend.geomarket.dao.EventDao;
@@ -43,6 +44,8 @@ public class IdService {
 
     @EJB
     CategoryDao category;
+    @EJB
+    CategoryTextDao categoryText;
     @EJB
     CompanyDao company;
     @EJB
@@ -78,6 +81,8 @@ public class IdService {
         switch (daoType) {
             case CATEGORY:
                 return category.getId(id).getWsResponse();
+            case CATEGORY_NAME:
+                return categoryText.getId(id).getWsResponse();
             case COMPANY:
                 return company.getId(id).getWsResponse();
             case COMPANY_USERS:

@@ -24,10 +24,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import se.geomarket.backend.geomarket.dao.EventTypeDao;
 import se.geomarket.backend.geomarket.dao.EventTypeTextDao;
-import se.geomarket.backend.geomarket.dto.EventDto;
 import se.geomarket.backend.geomarket.dto.EventTypeDto;
 import se.geomarket.backend.geomarket.dto.languagesupport.EventTypeTextDto;
-import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.entity.EventType;
 import se.geomarket.backend.geomarket.generics.BaseMapper;
 import se.geomarket.backend.geomarket.generics.BaseWs;
@@ -217,7 +215,6 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
         @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
     })
     public WsResponse updateLanguage(
-            @ApiParam(value = "The new descripton of the EventType", required = true) String description,
             @ApiParam(value = "The id of the EventTypeName", required = true) @PathParam("id") String id,
             @ApiParam(value = "The id of the EventTypeName", required = true) @QueryParam("name") String name) {
         return eventTypeText.updateEventTypeNameByEventTextId(name, id).getWsResponse();

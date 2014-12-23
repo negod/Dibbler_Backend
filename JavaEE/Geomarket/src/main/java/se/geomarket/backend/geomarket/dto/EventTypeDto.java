@@ -9,21 +9,25 @@ import se.geomarket.backend.geomarket.dto.languagesupport.EventTextDto;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import se.geomarket.backend.geomarket.dto.languagesupport.BaseTypeDto;
+import se.geomarket.backend.geomarket.dto.languagesupport.EventTypeTextDto;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
-@ApiModel(value = "Defines a type of event that can be published")
 @XmlRootElement(name = "eventType")
+@XmlAccessorType(XmlAccessType.FIELD)
+@ApiModel(value = "Defines a type of event that can be published")
 public class EventTypeDto extends BaseTypeDto {
 
     @XmlElement(type = EventTextDto.class, required = true, name = "languages")
     @ApiModelProperty(value = "Language support for the EventType", required = true)
-    List<EventTextDto> eventTexts;
+    List<EventTypeTextDto> eventTexts;
 
     public EventTypeDto(String language, String value, String description) {
         super(language, value, description);
@@ -32,11 +36,11 @@ public class EventTypeDto extends BaseTypeDto {
     public EventTypeDto() {
     }
 
-    public List<EventTextDto> getEventTexts() {
+    public List<EventTypeTextDto> getEventTexts() {
         return eventTexts;
     }
 
-    public void setEventTexts(List<EventTextDto> eventTexts) {
+    public void setEventTexts(List<EventTypeTextDto> eventTexts) {
         this.eventTexts = eventTexts;
     }
 

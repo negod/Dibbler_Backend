@@ -16,7 +16,6 @@ import se.geomarket.backend.geomarket.generics.Response;
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-
 @Stateless
 public class CategoryTextDaoBean extends BaseDaoBean<CategoryText, CategoryTextDto> implements CategoryTextDao<CategoryText, CategoryTextDto> {
 
@@ -27,6 +26,19 @@ public class CategoryTextDaoBean extends BaseDaoBean<CategoryText, CategoryTextD
     @Override
     public Response<String> create(CategoryTextDto dto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Response<String> updateCategoryTypeNameByEventTextId(String name, String categoryTypeTextId) {
+        Response<CategoryText> evetTypeText = super.getByExtId(categoryTypeTextId);
+
+        if (evetTypeText.hasErrors) {
+            return Response.error(evetTypeText.getError());
+        }
+
+        evetTypeText.getData().setValue(name);
+
+        return Response.success(evetTypeText.getData().getExtId());
     }
 
 }

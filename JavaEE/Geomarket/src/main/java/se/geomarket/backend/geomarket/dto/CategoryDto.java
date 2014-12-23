@@ -28,11 +28,11 @@ public class CategoryDto extends BaseTypeDto {
     @ApiModelProperty(value = "Language support for the Category", required = true)
     List<CategoryTextDto> categoryTexts;
 
-    public CategoryDto() {
-    }
-
     public CategoryDto(String language, String value, String description) {
         super(language, value, description);
+    }
+
+    public CategoryDto() {
     }
 
     public List<CategoryTextDto> getCategoryTexts() {

@@ -8,7 +8,7 @@ package se.geomarket.backend.geomarket.generics;
 import java.util.ArrayList;
 import java.util.List;
 import org.dozer.DozerBeanMapper;
-import se.geomarket.backend.geomarket.constants.BeanMapperFiles;
+import org.netbeans.rest.application.config.BeanMapperFiles;
 
 /**
  *

@@ -13,15 +13,15 @@ import se.geomarket.backend.geomarket.generics.BaseMapper;
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-public class CateoryTextMapper extends BaseMapper<CategoryTextDto, CategoryText> {
+public class CategoryTextMapper extends BaseMapper<CategoryTextDto, CategoryText> {
 
-    private static final CateoryTextMapper INSTANCE = new CateoryTextMapper();
+    private static final CategoryTextMapper INSTANCE = new CategoryTextMapper();
 
-    public static CateoryTextMapper getInstance() {
+    public static CategoryTextMapper getInstance() {
         return INSTANCE;
     }
 
-    public CateoryTextMapper() {
+    public CategoryTextMapper() {
         super(CategoryTextDto.class, CategoryText.class);
     }
 

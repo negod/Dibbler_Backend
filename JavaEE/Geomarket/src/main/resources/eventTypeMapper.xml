@@ -9,4 +9,5 @@
         <class-b>se.geomarket.backend.geomarket.dto.EventTypeDto</class-b>
     </mapping>
     
+    
 </mappings>

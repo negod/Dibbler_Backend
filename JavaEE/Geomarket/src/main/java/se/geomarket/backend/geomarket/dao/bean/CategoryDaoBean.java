@@ -17,13 +17,13 @@ import se.geomarket.backend.geomarket.dao.CategoryDao;
 import se.geomarket.backend.geomarket.dao.CategoryTextDao;
 import se.geomarket.backend.geomarket.dao.LanguageDao;
 import se.geomarket.backend.geomarket.dto.CategoryDto;
+import se.geomarket.backend.geomarket.dto.languagesupport.CategoryTextDto;
 import se.geomarket.backend.geomarket.entity.Category;
 import se.geomarket.backend.geomarket.entity.CategoryText;
 import se.geomarket.backend.geomarket.entity.Language;
-import se.geomarket.backend.geomarket.entity.LanguageText;
 import se.geomarket.backend.geomarket.generics.BaseDaoBean;
-import se.geomarket.backend.geomarket.generics.GenericError;
 import se.geomarket.backend.geomarket.generics.Response;
+import se.geomarket.backend.geomarket.mapper.CategoryTextMapper;
 
 /**
  *
@@ -34,8 +34,6 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
 
     @EJB
     LanguageDao languageDao;
-    @EJB
-    CategoryDao category;
     @EJB
     CategoryTextDao languageText;
 
@@ -63,8 +61,8 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
             categoryname.setValue(name);
             categoryname.setCategory(category.getData());
             categoryname.setTextType(TextType.NAME);
-            category.getData().getCateoryTexts().add(categoryname);
-            return Response.success(category.getData().getExtId());
+
+            return languageText.create(categoryname);
         } catch (Exception e) {
             getLogger().error(DaoError.CATEGORY_ADD_LANGUAGE.getErrorText(), e);
             return Response.error(DaoError.CATEGORY_ADD_LANGUAGE);
@@ -72,24 +70,18 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
     }
 
     @Override
-    public Response<List<LanguageText>> getCategoriesByLanguage(String languageId) {
-
-        Response<Language> languageEntity = languageDao.getByExtId(languageId);
-        if (languageEntity.hasErrors) {
-            return Response.error(languageEntity.getError());
-        }
-
+    public Response<List<CategoryTextDto>> getCategoriesByLanguage(String languageId) {
         try {
 
             HashMap<String, Object> params = new HashMap<>();
-            params.put("language", languageEntity.getData());
-            Response<List<LanguageText>> categoryTexts = languageText.getListByNamedQuery(DibblerNamedQueries.CATEGORY_FINDBY_LANGUAGE_EXTID, params);
+            params.put("languageExtId", languageId);
+            Response<List<CategoryText>> categoryTexts = languageText.getListByNamedQuery(DibblerNamedQueries.CATEGORY_FINDBY_LANGUAGE_EXTID, params);
 
             if (categoryTexts.hasErrors) {
                 return Response.error(categoryTexts.getError());
             }
 
-            return Response.success(categoryTexts.getData());
+            return CategoryTextMapper.getInstance().mapToDtoList(categoryTexts.getData());
 
         } catch (Exception e) {
             getLogger().error(DaoError.CATEGORY_GET_BY_LANGUAGE.getErrorText(), e.getMessage());
@@ -117,7 +109,8 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
             categoryName.setValue(dto.getDefaultName());
             categoryName.setCategory(category);
             categoryName.setTextType(TextType.NAME);
-            category.setCateoryTexts(cetegoryNames);
+            cetegoryNames.add(categoryName);
+            category.setCategoryTexts(cetegoryNames);
 
             return super.create(category);
         } catch (Exception e) {
@@ -127,19 +120,15 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
     }
 
     @Override
-    public Response<String> updateCategoryName(CategoryDto name, String categoryNameId) {
-        /*Response<CategoryName> categoryName = categoryNameDao.getByExtId(categoryNameId);
-         if (categoryName.hasErrors) {
-         return Response.error(categoryName.getErrorCode());
-         }
+    public Response<String> updateCategoryDescription(String description, String categoryId) {
+        Response<Category> category = super.getByExtId(categoryId);
+        if (category.hasErrors) {
+            return Response.error(category.getError());
+        }
 
-         //TODO FIX THIS WITH LANGUAGE SUPPORT!
-         /*MethodResponse updatedCategoryName = NameMapper.getInstance().updateEntityFromDto(categoryName, name);
-         if (updatedCategoryName.hasErrors) {
-         return MethodResponse.error(updatedCategoryName.getErrorCode());
-         }
-         return categoryNameDao.update(categoryName.getData());*/
-        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
+        category.getData().setDescription(description);
+
+        return Response.success(category.getData().getExtId());
     }
 
 }
