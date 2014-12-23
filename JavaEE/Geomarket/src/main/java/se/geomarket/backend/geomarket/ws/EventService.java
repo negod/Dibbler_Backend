@@ -76,10 +76,10 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the created Event", response = String.class),
         @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1000, message = "Error when inserting to database ( Generic Dao Error )", response = String.class),
-        @ApiResponse(code = 1001, message = "Contraint violation when inserting to database ( Generic Dao Error )", response = String.class),
-        @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity ( Generic Dao Error )", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request ( Generic Dao Error )", response = String.class)
+        @ApiResponse(code = 1000, message = "Error when inserting to database", response = String.class),
+        @ApiResponse(code = 1001, message = "Contraint violation when inserting to database", response = String.class),
+        @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity", response = String.class),
+        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class)
     })
     public WsResponse insert(@ApiParam(value = "The event to be inserted", required = true) EventDto data) {
         return super.insert(data);
@@ -92,8 +92,13 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Override
     @ApiOperation(httpMethod = "GET", value = "Gets an Event by Id", response = EventDto.class, nickname = "getById")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns a Event"),
-        @ApiResponse(code = 500, message = "Internal server error")})
+        @ApiResponse(code = 200, message = "Returns a Event", response = EventDto.class),
+        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
+        @ApiResponse(code = 1002, message = "Error when reading from database", response = String.class),
+        @ApiResponse(code = 1006, message = "Error when mapping from Entity to Dto", response = String.class),
+        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
+        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
+    })
     public WsResponse getById(@PathParam("id") String id) {
         return super.getById(id);
     }

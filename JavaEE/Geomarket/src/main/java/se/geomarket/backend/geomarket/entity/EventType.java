@@ -18,7 +18,7 @@ import se.geomarket.backend.geomarket.entity.superclass.BaseType;
 @Entity
 public class EventType extends BaseType {
 
-    @OneToMany(mappedBy = "eventType", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "eventType", cascade = CascadeType.ALL, orphanRemoval = true)
     List<EventTypeText> eventTexts;
 
     public List<EventTypeText> getEventTexts() {

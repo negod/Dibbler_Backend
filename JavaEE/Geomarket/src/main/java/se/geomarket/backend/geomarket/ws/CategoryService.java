@@ -23,6 +23,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import se.geomarket.backend.geomarket.dao.CategoryDao;
+import se.geomarket.backend.geomarket.dao.CategoryTextDao;
 import se.geomarket.backend.geomarket.dto.CategoryDto;
 import se.geomarket.backend.geomarket.dto.summary.NameSummaryDto;
 import se.geomarket.backend.geomarket.entity.Category;
@@ -42,6 +43,9 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
 
     @EJB
     CategoryDao categoryDao;
+    
+    @EJB
+    CategoryTextDao categoryText;
 
     @Override
     public CategoryDao getDao() {
@@ -152,7 +156,7 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     }
 
     @PUT
-    @Path("/updateCategoryName/{categoryNameId}")
+    @Path("/language/{categoryNameId}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @ApiOperation(httpMethod = "PUT", value = "Updates a category", response = String.class, nickname = "update", notes = "This Method is not supported")
