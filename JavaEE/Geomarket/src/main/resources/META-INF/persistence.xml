@@ -3,17 +3,17 @@
   <persistence-unit name="geomarket_PU" transaction-type="JTA">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>java:/jdbc/geomarket</jta-data-source>
-    <class>se.geomarket.backend.geomarket.entity.Company</class>
-    <class>se.geomarket.backend.geomarket.entity.CompanyUsers</class>
-    <class>se.geomarket.backend.geomarket.entity.Event</class>
-    <class>se.geomarket.backend.geomarket.entity.EventType</class>
     <class>se.geomarket.backend.geomarket.entity.EventTypeName</class>
-    <class>se.geomarket.backend.geomarket.entity.Filter</class>
-    <class>se.geomarket.backend.geomarket.entity.Movement</class>
-    <class>se.geomarket.backend.geomarket.entity.Roles</class>
-    <class>se.geomarket.backend.geomarket.entity.Users</class>
-    <class>se.geomarket.backend.geomarket.entity.Language</class>
-    <class>se.geomarket.backend.geomarket.entity.Category</class>
+    <class>se.dibbler.backend.geomarket.entity.Language</class>
+    <class>se.dibbler.backend.geomarket.entity.Event</class>
+    <class>se.dibbler.backend.geomarket.entity.EventType</class>
+    <class>se.dibbler.backend.geomarket.entity.Movement</class>
+    <class>se.dibbler.backend.geomarket.entity.Filter</class>
+    <class>se.dibbler.backend.geomarket.entity.CompanyUsers</class>
+    <class>se.dibbler.backend.geomarket.entity.Users</class>
+    <class>se.dibbler.backend.geomarket.entity.Roles</class>
+    <class>se.dibbler.backend.geomarket.entity.Category</class>
+    <class>se.dibbler.backend.geomarket.entity.Company</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties>
