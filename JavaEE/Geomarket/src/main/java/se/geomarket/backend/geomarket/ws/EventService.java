@@ -69,10 +69,9 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     }
 
     @POST
-    @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Add a new Event", response = String.class, nickname = "insert")
+    @ApiOperation(httpMethod = "POST", value = "Add a new Event", response = String.class, nickname = "create")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the created Event", response = String.class),
         @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
@@ -81,7 +80,16 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity", response = String.class),
         @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class)
     })
-    public WsResponse insert(@ApiParam(value = "The event to be inserted", required = true) EventDto data) {
+    public WsResponse create(
+            @ApiParam(value = "The event to be inserted", required = true) EventDto data,
+            @ApiParam(value = "Id of the company that publishes the event", required = true) @QueryParam("companyId") String companyId,
+            @ApiParam(value = "Id of the events category", required = true) @QueryParam("categoryId") String categoryId,
+            @ApiParam(value = "Id of the events type", required = true) @QueryParam("eventTypeId") String eventTypeId,
+            @ApiParam(value = "The default language of the event", required = true) @QueryParam("languageId") String languageId) {
+        data.setCategoryId(categoryId);
+        data.setCompanyId(companyId);
+        data.setEventTypeId(eventTypeId);
+        data.setLanguageId(languageId);
         return super.insert(data);
     }
 
@@ -114,9 +122,12 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     public WsResponse getEventsByLocation(
             @ApiParam(value = "The present longitude", required = true)
             @QueryParam("longitude") Double longitude,
-            @ApiParam(value = "The present latitude", required = true) @QueryParam("latitude") Double latitude,
-            @ApiParam(value = "How large area of Events that should return ( In KM )", required = true) @QueryParam("radius") Double radius,
-            @ApiParam(value = "The default language the events will be presented in", required = true) @QueryParam("language") String languageId) {
+            @ApiParam(value = "The present latitude", required = true)
+            @QueryParam("latitude") Double latitude,
+            @ApiParam(value = "How large area of Events that should return ( In KM )", required = true)
+            @QueryParam("radius") Double radius,
+            @ApiParam(value = "The default language the events will be presented in", required = true)
+            @QueryParam("language") String languageId) {
         return eventDao.getEventsByLocation(longitude, latitude, radius, languageId).getWsResponse();
     }
 

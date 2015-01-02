@@ -16,6 +16,7 @@ public enum BeanMapperFiles {
     LANGUAGETEXT("languageTextMapper.xml"),
     COMPANY_SUMMARY("companySummaryMapper.xml"),
     EVENT_TYPE("eventTypeMapper.xml"),
+    EVENT("eventMapper.xml"),
     LANGUAGE("languageMapper.xml"),
     USER("usersMapper.xml"),
     BASE_TYPE("baseTypeMapper.xml"),

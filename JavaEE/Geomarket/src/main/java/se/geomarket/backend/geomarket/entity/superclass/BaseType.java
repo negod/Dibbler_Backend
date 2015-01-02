@@ -18,10 +18,10 @@ import se.geomarket.backend.geomarket.generics.BaseEntity;
 @MappedSuperclass
 public class BaseType extends BaseEntity {
 
-    @NotNull(message = "description cannot be null")
+    @NotNull(message = "cannot be null")
     private String description;
     @OneToOne
-    @NotNull(message = "language cannot be null")
+    @NotNull(message = "cannot be null")
     private Language defaultLanguage;
 
     public String getDescription() {

@@ -48,6 +48,19 @@ public class ApplicationConfig extends Application {
      * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(se.geomarket.backend.geomarket.ws.CategoryService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.CompanyService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.CompanyUsersService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.EventService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.EventTypeService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.FilterService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.IdService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.IndexService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.LanguageService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.MovementService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.RolesService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.SettingService.class);
+        resources.add(se.geomarket.backend.geomarket.ws.UsersService.class);
     }
 
 }

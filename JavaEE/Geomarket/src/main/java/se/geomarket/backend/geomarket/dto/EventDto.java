@@ -8,10 +8,13 @@ package se.geomarket.backend.geomarket.dto;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Date;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import se.geomarket.backend.geomarket.dto.languagesupport.EventTextDto;
+import se.geomarket.backend.geomarket.entity.EventText;
 import se.geomarket.backend.geomarket.generics.BaseDto;
 
 /**
@@ -23,29 +26,33 @@ import se.geomarket.backend.geomarket.generics.BaseDto;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EventDto extends BaseDto {
 
-    @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "Id of the company that publishes the event", required = true)
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "Id of the company that publishes the event", required = false, hidden = true)
     String companyId;
 
-    @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "Id of the events category", required = true)
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "Id of the events category", required = false, hidden = true)
     String categoryId;
 
-    @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "Id of the events type", required = true)
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "Id of the events type", required = false, hidden = true)
     String eventTypeId;
 
-    @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "The default language of the event [ Will be refactored to support several languages ]", required = true)
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "The default language of the event", required = false, hidden = true)
     String languageId;
 
     @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "A short header to the event [ Will be refactored to support several languages ]", required = true)
+    @ApiModelProperty(value = "The default event header", required = true)
     String eventHeader;
 
     @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "Informative text about the event [ Will be refactored to support several languages ]", required = true)
+    @ApiModelProperty(value = "The default eventText Bodys", required = true)
     String eventTextBody;
+
+    @XmlElement(type = EventTextDto.class, required = false)
+    @ApiModelProperty(value = "The eventtexts in different languages", required = false, hidden = true)
+    List<EventTextDto> eventTexts;
 
     @XmlElement(type = Date.class, required = true)
     @ApiModelProperty(value = "The startdate of the event", required = true)
@@ -57,7 +64,15 @@ public class EventDto extends BaseDto {
 
     @XmlElement(type = Integer.class, defaultValue = "0", required = false)
     @ApiModelProperty(value = "The number of times this event can be used", required = false)
-    Integer maxredeem;
+    Integer maxRedeem;
+
+    public List<EventTextDto> getEventTexts() {
+        return eventTexts;
+    }
+
+    public void setEventTexts(List<EventTextDto> eventTexts) {
+        this.eventTexts = eventTexts;
+    }
 
     public String getCompanyId() {
         return companyId;
@@ -123,12 +138,12 @@ public class EventDto extends BaseDto {
         this.endDate = endDate;
     }
 
-    public Integer getMaxredeem() {
-        return maxredeem;
+    public Integer getMaxRedeem() {
+        return maxRedeem;
     }
 
-    public void setMaxredeem(Integer maxredeem) {
-        this.maxredeem = maxredeem;
+    public void setMaxRedeem(Integer maxredeem) {
+        this.maxRedeem = maxredeem;
     }
 
 }

@@ -16,14 +16,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
-import se.geomarket.backend.geomarket.entity.superclass.BaseType;
+import se.geomarket.backend.geomarket.generics.BaseEntity;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Entity
-public class Event extends BaseType {
+public class Event extends BaseEntity {
+
+    @OneToOne()
+    @NotNull(message = "cannot be null must be an existing language")
+    private Language defaultLanguage;
 
     @NotNull(message = "cannot be null, must be an existing company")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -53,8 +57,16 @@ public class Event extends BaseType {
     @Column
     private Integer maxRedeem;
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     List<EventText> eventTexts;
+
+    public Language getDefaultLanguage() {
+        return defaultLanguage;
+    }
+
+    public void setDefaultLanguage(Language defaultLanguage) {
+        this.defaultLanguage = defaultLanguage;
+    }
 
     public Company getCompany() {
         return company;

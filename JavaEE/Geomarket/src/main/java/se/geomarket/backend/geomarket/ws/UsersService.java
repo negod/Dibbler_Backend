@@ -84,7 +84,12 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @ApiOperation(httpMethod = "GET", value = "Gets a User by Id", response = UserSummaryDto.class, nickname = "getById")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns a User"),
-        @ApiResponse(code = 500, message = "Internal server error")})
+        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
+        @ApiResponse(code = 1002, message = "Error when reading from database", response = String.class),
+        @ApiResponse(code = 1006, message = "Error when mapping from Entity to Dto", response = String.class),
+        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
+        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
+    })
     public WsResponse getById(@PathParam("id") String id) {
         return getDao().getUserSummaryById(id).getWsResponse();
     }
@@ -97,7 +102,11 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @ApiOperation(httpMethod = "DELETE", value = "Deletes a User by Id", response = String.class, nickname = "delete")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = ""),
-        @ApiResponse(code = 500, message = "Internal server error")})
+        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
+        @ApiResponse(code = 1004, message = "Error when deleting from database", response = String.class),
+        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
+        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
+    })
     public WsResponse delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
@@ -109,7 +118,12 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @ApiOperation(httpMethod = "PUT", value = "Update a User", response = String.class, nickname = "update")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the id of the User"),
-        @ApiResponse(code = 500, message = "Internal server error")})
+        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
+        @ApiResponse(code = 1003, message = "Error when updating in database", response = String.class),
+        @ApiResponse(code = 1004, message = "Contraint violation when inserting to database", response = String.class),
+        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
+        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
+    })
     public WsResponse update(UserSummaryDto data, @PathParam("id") String id) {
         UsersDto dto = Mapper.getInstance().getMapper().map(data, UsersDto.class);
         return super.update(dto, id);
@@ -119,8 +133,13 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @Produces({MediaType.APPLICATION_JSON})
     @ApiOperation(httpMethod = "GET", value = "Gets a list of all users", response = UsersDto.class, nickname = "getAll")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "All Users found"),
-        @ApiResponse(code = 500, message = "Could not get Users")})
+        @ApiResponse(code = 200, message = "Returns all users"),
+        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
+        @ApiResponse(code = 1002, message = "Error when reading from database", response = String.class),
+        @ApiResponse(code = 1006, message = "Error when mapping from Entity to Dto", response = String.class),
+        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
+        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
+    })
     @Override
     public WsResponse getAll() {
         return getDao().getAllUserSummary().getWsResponse();
@@ -129,14 +148,21 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @PUT
     @Path("/changePass/{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "PUT", value = "Gets a list of all users", response = String.class, nickname = "changePassword")
+    @ApiOperation(httpMethod = "PUT", value = "Change the password for a user", response = String.class, nickname = "changePassword")
     @ApiResponses(value = {
-        @ApiResponse(code = 701, message = "Incorrect parameters or null values!"),
-        @ApiResponse(code = 701, message = "Old password not same!")})
+        @ApiResponse(code = 200, message = "Returns the id of the updated User"),
+        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
+        @ApiResponse(code = 701, message = "Wrong parameters or null in request"),
+        @ApiResponse(code = 701, message = "Old password not same!"),
+        @ApiResponse(code = 1003, message = "Error when updating in database", response = String.class),
+        @ApiResponse(code = 1004, message = "Contraint violation when inserting to database", response = String.class),
+        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
+        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
+    })
     public WsResponse changePassword(@PathParam("id") String id, @QueryParam("old") String oldPass, @QueryParam("new") String newPass) {
 
         if (oldPass == null || newPass == null) {
-            return Response.error(GenericError.WRONG_PARAMETER, "Incorrect parameters or null values!").getWsResponse();
+            return Response.error(GenericError.WRONG_PARAMETER).getWsResponse();
         }
 
         Response<Users> entity = getDao().getByExtId(id);
