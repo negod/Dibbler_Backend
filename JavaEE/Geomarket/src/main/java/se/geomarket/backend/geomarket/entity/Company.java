@@ -50,7 +50,7 @@ public class Company extends BaseEntity {
     @Column
     private String phone;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER, orphanRemoval = true)
     private Location location;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

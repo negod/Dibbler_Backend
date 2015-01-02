@@ -150,7 +150,7 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
@@ -167,7 +167,7 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     }
 
     @PUT
-    @Path("{id}")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @ApiOperation(httpMethod = "PUT", value = "Updates a category", response = String.class, nickname = "update", notes = "This Method is not supported")

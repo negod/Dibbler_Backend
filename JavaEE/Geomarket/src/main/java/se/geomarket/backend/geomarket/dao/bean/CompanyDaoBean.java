@@ -14,7 +14,7 @@ import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.hibernate.search.query.dsl.Unit;
-import se.geomarket.backend.geomarket.constants.DaoError;
+import se.geomarket.backend.geomarket.error.DaoError;
 import se.geomarket.backend.geomarket.dao.CompanyDao;
 import se.geomarket.backend.geomarket.dto.CompanyDto;
 import se.geomarket.backend.geomarket.entity.Company;

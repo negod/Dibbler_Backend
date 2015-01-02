@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.geomarket.backend.geomarket.constants;
+package se.geomarket.backend.geomarket.error;
 
 import se.geomarket.backend.geomarket.generics.ErrorCode;
 

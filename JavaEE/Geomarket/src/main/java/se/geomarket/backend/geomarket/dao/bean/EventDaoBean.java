@@ -10,7 +10,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.hibernate.search.query.dsl.Unit;
-import se.geomarket.backend.geomarket.constants.DaoError;
+import se.geomarket.backend.geomarket.error.DaoError;
 import se.geomarket.backend.geomarket.constants.TextType;
 import se.geomarket.backend.geomarket.dao.CategoryDao;
 import se.geomarket.backend.geomarket.dao.CompanyDao;

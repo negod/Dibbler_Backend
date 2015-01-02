@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import se.geomarket.backend.geomarket.constants.DaoError;
+import se.geomarket.backend.geomarket.error.DaoError;
 import se.geomarket.backend.geomarket.constants.DibblerNamedQueries;
 import se.geomarket.backend.geomarket.constants.TextType;
 import se.geomarket.backend.geomarket.dao.CategoryDao;

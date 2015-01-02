@@ -68,40 +68,55 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     }
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
     @ApiOperation(httpMethod = "GET", value = "Gets a Company by id", response = CompanyDto.class, nickname = "getById")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns a company"),
-        @ApiResponse(code = 500, message = "Internal server error")})
+        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
+        @ApiResponse(code = 1002, message = "Error when reading from database", response = String.class),
+        @ApiResponse(code = 1006, message = "Error when mapping from Entity to Dto", response = String.class),
+        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
+        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
+    })
     public WsResponse getById(@PathParam("id") String id) {
         return super.getById(id);
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
     @ApiOperation(httpMethod = "DELETE", value = "Deletes a company by Id", response = String.class, nickname = "delete")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = ""),
-        @ApiResponse(code = 500, message = "Internal server error")})
+        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
+        @ApiResponse(code = 1004, message = "Error when deleting from database", response = String.class),
+        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
+        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
+    })
     public WsResponse delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
 
     @PUT
-    @Path("{id}")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
     @ApiOperation(httpMethod = "PUT", value = "Updates a company", response = String.class, nickname = "update")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the id of the updated company"),
-        @ApiResponse(code = 500, message = "Internal server error")})
+        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
+        @ApiResponse(code = 1003, message = "Error when updating in database", response = String.class),
+        @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity", response = String.class),
+        @ApiResponse(code = 1004, message = "Contraint violation when inserting to database", response = String.class),
+        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
+        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
+    })
     public WsResponse update(CompanyDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
@@ -112,7 +127,12 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @ApiOperation(httpMethod = "GET", value = "Gets a list of all Companies", response = CompanyDto.class, nickname = "getAll")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns all companies that exists in db"),
-        @ApiResponse(code = 500, message = "Could not get the companies")})
+        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
+        @ApiResponse(code = 1002, message = "Error when reading from database", response = String.class),
+        @ApiResponse(code = 1006, message = "Error when mapping from Entity to Dto", response = String.class),
+        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
+        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
+    })
     public WsResponse getAll() {
         return super.getAll();
     }
