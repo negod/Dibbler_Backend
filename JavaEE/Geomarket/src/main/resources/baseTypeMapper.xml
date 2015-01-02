@@ -7,8 +7,8 @@
     <!-- IF YOU UPDATE THIS DO NOT FORGET TO UPDATE IT IN THE companyMapper.xml -->
     
     <mapping map-null="false" map-empty-string="false">
-        <class-a>se.geomarket.backend.geomarket.entity.superclass.BaseType</class-a>
-        <class-b>se.geomarket.backend.geomarket.dto.languagesupport.BaseTypeDto</class-b>  
+        <class-a>se.dibbler.backend.entity.superclass.BaseType</class-a>
+        <class-b>se.dibbler.backend.dto.languagesupport.BaseTypeDto</class-b>  
         <field>
             <a>defaultLanguage.extId</a>
             <b>defaultLanguage</b>

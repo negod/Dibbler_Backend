@@ -132,7 +132,7 @@
                 <configuration>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
                     <webAppConfig>
-                        <contextPath>/geomarket</contextPath>
+                        <contextPath>/dibbler</contextPath>
                     </webAppConfig>
                 </configuration>
             </plugin>

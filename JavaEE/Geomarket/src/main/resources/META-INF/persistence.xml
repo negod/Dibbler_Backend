@@ -4,16 +4,16 @@
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>java:/jdbc/geomarket</jta-data-source>
     <class>se.geomarket.backend.geomarket.entity.EventTypeName</class>
-    <class>se.dibbler.backend.geomarket.entity.Language</class>
-    <class>se.dibbler.backend.geomarket.entity.Event</class>
-    <class>se.dibbler.backend.geomarket.entity.EventType</class>
-    <class>se.dibbler.backend.geomarket.entity.Movement</class>
-    <class>se.dibbler.backend.geomarket.entity.Filter</class>
-    <class>se.dibbler.backend.geomarket.entity.CompanyUsers</class>
-    <class>se.dibbler.backend.geomarket.entity.Users</class>
-    <class>se.dibbler.backend.geomarket.entity.Roles</class>
-    <class>se.dibbler.backend.geomarket.entity.Category</class>
-    <class>se.dibbler.backend.geomarket.entity.Company</class>
+    <class>se.dibbler.backend.entity.EventType</class>
+    <class>se.dibbler.backend.entity.Event</class>
+    <class>se.dibbler.backend.entity.Language</class>
+    <class>se.dibbler.backend.entity.CompanyUsers</class>
+    <class>se.dibbler.backend.entity.Filter</class>
+    <class>se.dibbler.backend.entity.Movement</class>
+    <class>se.dibbler.backend.entity.Company</class>
+    <class>se.dibbler.backend.entity.Category</class>
+    <class>se.dibbler.backend.entity.Roles</class>
+    <class>se.dibbler.backend.entity.Users</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties>

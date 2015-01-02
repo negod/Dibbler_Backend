@@ -23,21 +23,6 @@ public class ApplicationConfig extends Application {
         resources.add(com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider.class);
         resources.add(com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON.class);
         resources.add(com.wordnik.swagger.jaxrs.listing.ResourceListingProvider.class);
-
-        //Added resources
-        resources.add(se.dibbler.backend.geomarket.ws.CategoryService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.CompanyService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.CompanyUsersService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.EventService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.EventTypeService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.FilterService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.IdService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.IndexService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.LanguageService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.MovementService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.RolesService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.SettingService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.UsersService.class);
         addRestResourceClasses(resources);
         return resources;
     }
@@ -48,19 +33,19 @@ public class ApplicationConfig extends Application {
      * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(se.dibbler.backend.geomarket.ws.CategoryService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.CompanyService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.CompanyUsersService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.EventService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.EventTypeService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.FilterService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.IdService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.IndexService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.LanguageService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.MovementService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.RolesService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.SettingService.class);
-        resources.add(se.dibbler.backend.geomarket.ws.UsersService.class);
+        resources.add(se.dibbler.backend.ws.CategoryService.class);
+        resources.add(se.dibbler.backend.ws.CompanyService.class);
+        resources.add(se.dibbler.backend.ws.CompanyUsersService.class);
+        resources.add(se.dibbler.backend.ws.EventService.class);
+        resources.add(se.dibbler.backend.ws.EventTypeService.class);
+        resources.add(se.dibbler.backend.ws.FilterService.class);
+        resources.add(se.dibbler.backend.ws.IdService.class);
+        resources.add(se.dibbler.backend.ws.IndexService.class);
+        resources.add(se.dibbler.backend.ws.LanguageService.class);
+        resources.add(se.dibbler.backend.ws.MovementService.class);
+        resources.add(se.dibbler.backend.ws.RolesService.class);
+        resources.add(se.dibbler.backend.ws.SettingService.class);
+        resources.add(se.dibbler.backend.ws.UsersService.class);
     }
 
 }

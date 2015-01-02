@@ -7,8 +7,8 @@
     <!-- IF YOU UPDATE THIS DO NOT FORGET TO UPDATE IT IN THE companyMapper.xml -->
     
     <mapping map-null="false" type="one-way">
-        <class-a>se.geomarket.backend.geomarket.generics.BaseEntity</class-a>
-        <class-b>se.geomarket.backend.geomarket.generics.BaseDto</class-b>
+        <class-a>se.dibbler.backend.generics.BaseEntity</class-a>
+        <class-b>se.dibbler.backend.generics.BaseDto</class-b>
         <field>
             <a>extId</a>
             <b>id</b>

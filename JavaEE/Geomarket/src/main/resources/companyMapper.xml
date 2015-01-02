@@ -7,18 +7,18 @@
     <!-- SUPERCLASS -->
     
     <mapping map-null="false" map-empty-string="false">
-        <class-a>se.geomarket.backend.geomarket.entity.Company</class-a>
-        <class-b>se.geomarket.backend.geomarket.dto.CompanyDto</class-b>
+        <class-a>se.dibbler.backend.entity.Company</class-a>
+        <class-b>se.dibbler.backend.dto.CompanyDto</class-b>
     </mapping>
     
     <mapping map-null="false" map-empty-string="false">
-        <class-a>se.geomarket.backend.geomarket.entity.Location</class-a>
-        <class-b>se.geomarket.backend.geomarket.dto.LocationDto</class-b>            
+        <class-a>se.dibbler.backend.entity.Location</class-a>
+        <class-b>se.dibbler.backend.dto.LocationDto</class-b>            
     </mapping>
     
     <mapping map-null="false" map-empty-string="false">
-        <class-a>se.geomarket.backend.geomarket.entity.Location</class-a>
-        <class-b>se.geomarket.backend.geomarket.dto.summary.LocationSummaryDto</class-b>            
+        <class-a>se.dibbler.backend.entity.Location</class-a>
+        <class-b>se.dibbler.backend.dto.summary.LocationSummaryDto</class-b>            
     </mapping>
     
 </mappings>
