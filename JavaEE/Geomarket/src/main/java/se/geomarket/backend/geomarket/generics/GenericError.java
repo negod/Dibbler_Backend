@@ -21,7 +21,7 @@ public enum GenericError implements ErrorCode {
     READ(1002, "Error when reading from database"),
     UPDATE(1003, "Error when updating in database"),
     DELETE(1004, "Error when deleting from database"),
-    NO_RESULT(1009, "Could not find any data for the requested id"),
+    NO_RESULT(1009, "Could not find any data for the requested resource"),
     //MAPPING
     DTO_TO_ENTITY(1005, "Error when mapping from Dto to Entity"),
     ENTITY_TO_DTO(1006, "Error when mapping from Entity to Dto"),
