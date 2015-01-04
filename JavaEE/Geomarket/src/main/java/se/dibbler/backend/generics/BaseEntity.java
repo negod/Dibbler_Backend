@@ -37,11 +37,11 @@ public class BaseEntity implements Serializable {
     private String extId;
     @NotNull(message = "cannot be null")
     @Column(updatable = false, insertable = true)
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date createdDate;
     @NotNull(message = "cannot be null")
     @Column
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date updatedDate;
 
     @PreUpdate

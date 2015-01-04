@@ -111,6 +111,15 @@ public class PublishedEvent extends BaseEntity {
     @NotNull(message = "cannot be null")
     private String body;
 
+    @Column
+    private String imageUrl;
+
+    @Column
+    private String imageLargeUrl;
+
+    @Column
+    private String imageSmallUrl;
+
     public Company getCompany() {
         return company;
     }
@@ -277,6 +286,30 @@ public class PublishedEvent extends BaseEntity {
 
     public void setEventId(String eventId) {
         this.eventId = eventId;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageLargeUrl() {
+        return imageLargeUrl;
+    }
+
+    public void setImageLargeUrl(String imageLargeUrl) {
+        this.imageLargeUrl = imageLargeUrl;
+    }
+
+    public String getImageSmallUrl() {
+        return imageSmallUrl;
+    }
+
+    public void setImageSmallUrl(String imageSmallUrl) {
+        this.imageSmallUrl = imageSmallUrl;
     }
 
 }

@@ -60,6 +60,15 @@ public class Event extends BaseEntity {
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     List<EventText> eventTexts;
 
+    @Column
+    private String imageUrl;
+
+    @Column
+    private String imageLargeUrl;
+
+    @Column
+    private String imageSmallUrl;
+
     public Language getDefaultLanguage() {
         return defaultLanguage;
     }
@@ -130,6 +139,30 @@ public class Event extends BaseEntity {
 
     public void setEventTexts(List<EventText> eventTexts) {
         this.eventTexts = eventTexts;
+    }
+
+    public String getImageLargeUrl() {
+        return imageLargeUrl;
+    }
+
+    public void setImageLargeUrl(String imageLargeUrl) {
+        this.imageLargeUrl = imageLargeUrl;
+    }
+
+    public String getImageSmallUrl() {
+        return imageSmallUrl;
+    }
+
+    public void setImageSmallUrl(String imageSmallUrl) {
+        this.imageSmallUrl = imageSmallUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
 }

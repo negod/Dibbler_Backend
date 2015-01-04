@@ -27,7 +27,9 @@ public enum GenericError implements ErrorCode {
     ENTITY_TO_DTO(1006, "Error when mapping from Entity to Dto"),
     UPDATE_ENTITY(1007, "Error when updating entity in mapper"),
     //PARAMETERS
-    WRONG_PARAMETER(1008, "Wrong parameters or null in request");
+    WRONG_PARAMETER(1008, "Wrong parameters or null in request"),
+    //FILEHANDLING
+    FILE_HANDLING(1009, "Error when handling file");
 
     private final Integer errorCode;
     private final String errorText;

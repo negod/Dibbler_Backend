@@ -21,7 +21,7 @@ import se.dibbler.backend.dto.summary.CompanySummaryDto;
 @XmlRootElement(name = "company")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CompanyDto extends CompanySummaryDto {
-    
+
     @XmlElement(type = String.class, required = true)
     @ApiModelProperty(value = "Organization number of the company", required = true)
     private String orgNr;
@@ -33,6 +33,10 @@ public class CompanyDto extends CompanySummaryDto {
     @XmlElement(type = LocationDto.class, required = true)
     @ApiModelProperty(value = "The exact location of the company", required = true)
     private LocationDto location;
+
+    @XmlElement(type = String.class, required = true)
+    @ApiModelProperty(value = "The picture for the company in Base64 format", required = true)
+    private String picture;
 
     public String getOrgNr() {
         return orgNr;
@@ -56,6 +60,14 @@ public class CompanyDto extends CompanySummaryDto {
 
     public void setFollowerClaim(String followerClaim) {
         this.followerClaim = followerClaim;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
 }

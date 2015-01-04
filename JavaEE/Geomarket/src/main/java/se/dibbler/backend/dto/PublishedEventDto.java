@@ -6,6 +6,7 @@
 package se.dibbler.backend.dto;
 
 import com.wordnik.swagger.annotations.ApiModel;
+import javax.persistence.Column;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -31,6 +32,9 @@ public class PublishedEventDto extends BaseDto {
     private Long expires;
     private String category;
     private String event;
+    private String imageUrl;
+    private String imageLargeUrl;
+    private String imageSmallUrl;
 
     public String getLanguage() {
         return language;
@@ -94,6 +98,30 @@ public class PublishedEventDto extends BaseDto {
 
     public void setEvent(String event) {
         this.event = event;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageLargeUrl() {
+        return imageLargeUrl;
+    }
+
+    public void setImageLargeUrl(String imageLargeUrl) {
+        this.imageLargeUrl = imageLargeUrl;
+    }
+
+    public String getImageSmallUrl() {
+        return imageSmallUrl;
+    }
+
+    public void setImageSmallUrl(String imageSmallUrl) {
+        this.imageSmallUrl = imageSmallUrl;
     }
 
 }

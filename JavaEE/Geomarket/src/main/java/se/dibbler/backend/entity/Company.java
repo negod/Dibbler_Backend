@@ -26,7 +26,7 @@ import se.dibbler.backend.generics.BaseEntity;
 public class Company extends BaseEntity {
 
     @NotNull(message = "cannot be null and must be unique")
-    //@Column(unique = true)
+    @Column(unique = true)
     private String orgNr;
     @NotNull(message = "cannot be null")
     @Column
@@ -49,6 +49,12 @@ public class Company extends BaseEntity {
     private String www;
     @Column
     private String phone;
+    @Column
+    private String imageUrl;
+    @Column
+    private String smallImageUrl;
+    @Column
+    private String largeImageUrl;
 
     @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY, orphanRemoval = true)
     private Location location;
@@ -194,6 +200,38 @@ public class Company extends BaseEntity {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getSmallImageUrl() {
+        return smallImageUrl;
+    }
+
+    public void setSmallImageUrl(String smallImageUrl) {
+        this.smallImageUrl = smallImageUrl;
+    }
+
+    public String getLargeImageUrl() {
+        return largeImageUrl;
+    }
+
+    public void setLargeImageUrl(String largeImageUrl) {
+        this.largeImageUrl = largeImageUrl;
+    }
+
+    public List<PublishedEvent> getPublishedEvents() {
+        return publishedEvents;
+    }
+
+    public void setPublishedEvents(List<PublishedEvent> publishedEvents) {
+        this.publishedEvents = publishedEvents;
     }
 
     @PrePersist

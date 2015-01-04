@@ -65,6 +65,10 @@ public class EventDto extends BaseDto {
     @ApiModelProperty(value = "The number of times this event can be used", required = false)
     Integer maxRedeem;
 
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "The picrure for the event in Base64 format", required = false)
+    String picture;
+
     public List<EventTextDto> getEventTexts() {
         return eventTexts;
     }
@@ -143,6 +147,14 @@ public class EventDto extends BaseDto {
 
     public void setMaxRedeem(Integer maxredeem) {
         this.maxRedeem = maxredeem;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
 }

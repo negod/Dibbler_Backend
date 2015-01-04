@@ -7,6 +7,7 @@ package se.dibbler.backend.dto.summary;
 
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.persistence.Column;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -57,6 +58,18 @@ public class CompanySummaryDto extends BaseDto {
     @XmlElement(type = String.class, required = false)
     @ApiModelProperty(value = "The phone number of the company", required = false)
     private String phone;
+
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "The url of the image", required = false)
+    private String imageUrl;
+
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "The url of the image smal format 40*40", required = false)
+    private String smallImageUrl;
+
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "The url of the image smal format 80*80", required = false)
+    private String largeImageUrl;
 
     public String getName() {
         return name;
@@ -129,5 +142,29 @@ public class CompanySummaryDto extends BaseDto {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getSmallImageUrl() {
+        return smallImageUrl;
+    }
+
+    public void setSmallImageUrl(String smallImageUrl) {
+        this.smallImageUrl = smallImageUrl;
+    }
+
+    public String getLargeImageUrl() {
+        return largeImageUrl;
+    }
+
+    public void setLargeImageUrl(String largeImageUrl) {
+        this.largeImageUrl = largeImageUrl;
+    }
+
 }

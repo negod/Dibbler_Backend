@@ -5,11 +5,21 @@
  */
 package se.dibbler.backend.dao.bean;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.imageio.ImageIO;
+import org.apache.commons.codec.binary.Base64;
 import org.hibernate.search.query.dsl.Unit;
+import se.dibbler.backend.constants.DibblerConstants;
+import se.dibbler.backend.constants.DibblerFileType;
+import se.dibbler.backend.constants.PictureUrl;
 import se.dibbler.backend.error.DaoError;
 import se.dibbler.backend.constants.TextType;
 import se.dibbler.backend.dao.CategoryDao;
@@ -32,6 +42,7 @@ import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.mapper.EventMapper;
 import se.dibbler.backend.mapper.summary.EventSummaryMapper;
+import se.dibbler.backend.utils.FileCreator;
 
 /**
  *
@@ -154,6 +165,19 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
             eventsTexts.add(body);
             event.setEventTexts(eventsTexts);
 
+            if (dto.getPicture() != null && !dto.getPicture().isEmpty()) {
+                Response<Map<PictureUrl, String>> createImage = FileCreator.createFilesFromBase64String(dto.getPicture(), DibblerConstants.IMAGE_URL, 80, 40, DibblerFileType.EVENT);
+                if (createImage.hasNoErrors) {
+                    event.setImageUrl("N/A");
+                    event.setImageSmallUrl("/pictures/" + createImage.getData().get(PictureUrl.PICTURE_NAME_SMALl));
+                    event.setImageLargeUrl("/pictures/" + createImage.getData().get(PictureUrl.PICTURE_NAME_LARGE));
+                }
+            } else {
+                event.setImageUrl("N/A");
+                event.setImageSmallUrl("N/A");
+                event.setImageLargeUrl("N/A");
+            }
+
             if (company.getData().getEvents() == null) {
                 List<Event> events = new ArrayList<>();
                 events.add(event);
@@ -161,6 +185,7 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
             } else {
                 company.getData().getEvents().add(event);
             }
+
         } catch (Exception e) {
             getLogger().error("[ Error when creating event ] [ ERROR ]", e);
             return Response.error(DaoError.EVENT_CREATE);

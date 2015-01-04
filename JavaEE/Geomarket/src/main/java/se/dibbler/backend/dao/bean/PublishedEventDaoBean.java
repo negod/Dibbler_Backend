@@ -63,6 +63,8 @@ public class PublishedEventDaoBean extends BaseDaoBean<PublishedEvent, Published
             bq.add(q3, BooleanClause.Occur.MUST);
 
             org.hibernate.Query hibQuery = fullTextSession.createFullTextQuery(query, PublishedEvent.class);
+            //hibQuery.
+
             System.out.println(hibQuery.getQueryString());
             List<PublishedEvent> results = hibQuery.list();
             return PublishedEventMapper.getInstance().mapToDtoList(results);

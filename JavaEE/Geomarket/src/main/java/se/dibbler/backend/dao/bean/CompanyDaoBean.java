@@ -5,23 +5,40 @@
  */
 package se.dibbler.backend.dao.bean;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import javax.ejb.Stateless;
+import javax.imageio.ImageIO;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.lucene.search.Query;
 import org.hibernate.Session;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.hibernate.search.query.dsl.Unit;
+import static scala.xml.Null.value;
+import se.dibbler.backend.constants.DibblerConstants;
+import se.dibbler.backend.constants.DibblerFileType;
+import se.dibbler.backend.constants.PictureUrl;
 import se.dibbler.backend.error.DaoError;
 import se.dibbler.backend.dao.CompanyDao;
 import se.dibbler.backend.dto.CompanyDto;
 import se.dibbler.backend.entity.Company;
 import se.dibbler.backend.entity.Location;
 import se.dibbler.backend.generics.BaseDaoBean;
+import se.dibbler.backend.generics.DibblerFileUtil;
+import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.mapper.CompanyMapper;
+import se.dibbler.backend.utils.FileCreator;
+import sun.misc.BASE64Decoder;
 
 /**
  *
@@ -69,11 +86,29 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
 
     @Override
     public Response create(CompanyDto dto) {
-        Response<Company> entity = CompanyMapper.getInstance().mapFromDtoToEntity(dto);
-        if (entity.hasErrors) {
-            return Response.error(entity.getError());
-        }
-        return super.create(entity.getData());
-    }
+        try {
+            Response<Company> entity = CompanyMapper.getInstance().mapFromDtoToEntity(dto);
 
+            if (entity.hasErrors) {
+                return Response.error(entity.getError());
+            }
+
+            if (dto.getPicture() != null && !dto.getPicture().isEmpty()) {
+                Response<Map<PictureUrl, String>> createImage = FileCreator.createFilesFromBase64String(dto.getPicture(), DibblerConstants.IMAGE_URL, 80, 40, DibblerFileType.COMPANY);
+                if (createImage.hasNoErrors) {
+                    entity.getData().setSmallImageUrl("/pictures/" + createImage.getData().get(PictureUrl.PICTURE_NAME_SMALl));
+                    entity.getData().setLargeImageUrl("/pictures/" + createImage.getData().get(PictureUrl.PICTURE_NAME_LARGE));
+                }
+            } else {
+                entity.getData().setImageUrl("N/A");
+                entity.getData().setSmallImageUrl("N/A");
+                entity.getData().setLargeImageUrl("N/A");
+            }
+
+            return super.create(entity.getData());
+        } catch (Exception e) {
+            super.getLogger().error("[ Error when creating company ] [ ERROR: ]", e.getMessage());
+            return Response.error(GenericError.CREATE);
+        }
+    }
 }
