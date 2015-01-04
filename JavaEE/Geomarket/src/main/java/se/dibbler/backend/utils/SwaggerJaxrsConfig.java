@@ -30,7 +30,7 @@ public class SwaggerJaxrsConfig extends HttpServlet {
             super.init(servletConfig);
             SwaggerConfig swaggerConfig = new SwaggerConfig();
             ConfigFactory.setConfig(swaggerConfig);
-            swaggerConfig.setBasePath("http://127.0.0.1:8080/dibbler/resource");
+            swaggerConfig.setBasePath("http://109.74.2.250:7200/dibbler/resource");
             swaggerConfig.setApiVersion("1.0.0");
             ScannerFactory.setScanner(new DefaultJaxrsScanner());
             ClassReaders.setReader(new DefaultJaxrsApiReader());
