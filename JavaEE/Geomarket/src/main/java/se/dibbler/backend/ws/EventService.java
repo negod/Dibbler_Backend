@@ -130,23 +130,6 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
             @ApiParam(value = "How large area of Events that should return ( In KM )", required = true) @QueryParam("radius") Double radius,
             @ApiParam(value = "The default language the events will be presented in", required = true) @QueryParam("language") String languageId) {
         return publishEvent.getEventsByLocation(longitude, latitude, radius, Unit.KM).getWsResponse();
-        //return eventDao.getEventsByLocation(longitude, latitude, radius, languageId).getWsResponse();
-    }
-
-    @GET
-    @Path("/published")
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "GET", value = "Gets all events based on the users position", response = EventSummaryDto.class, nickname = "getEventsByLocation")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns a list of events in the requested radius"),
-        @ApiResponse(code = 500, message = "Internal server error")})
-    public WsResponse getPublishedEventsByLocation(
-            @ApiParam(value = "The present longitude", required = true) @QueryParam("longitude") Double longitude,
-            @ApiParam(value = "The present latitude", required = true) @QueryParam("latitude") Double latitude,
-            @ApiParam(value = "How large area of Events that should return ( In KM )", required = true) @QueryParam("radius") Double radius,
-            @ApiParam(value = "The default language the events will be presented in", required = true) @QueryParam("language") String languageId) {
-        return eventDao.getPublishedEventsByLocation(longitude, latitude, radius, languageId).getWsResponse();
     }
 
     @DELETE
@@ -197,7 +180,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         return eventDao.getEventByCompany(companyId).getWsResponse();
     }
 
-    @GET
+    @POST
     @Path("/publish/{eventId}")
     @Produces({MediaType.APPLICATION_JSON})
     @ApiOperation(httpMethod = "GET", value = "Publishes an event to public", response = String.class, nickname = "get All")

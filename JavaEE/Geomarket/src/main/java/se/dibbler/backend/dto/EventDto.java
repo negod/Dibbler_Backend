@@ -14,7 +14,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import se.dibbler.backend.dto.languagesupport.EventTextDto;
-import se.dibbler.backend.entity.EventText;
 import se.dibbler.backend.generics.BaseDto;
 
 /**
