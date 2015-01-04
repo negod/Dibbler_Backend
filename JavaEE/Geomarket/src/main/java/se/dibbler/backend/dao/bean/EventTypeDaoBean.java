@@ -17,13 +17,13 @@ import se.dibbler.backend.dao.EventTypeDao;
 import se.dibbler.backend.dao.EventTypeTextDao;
 import se.dibbler.backend.dao.LanguageDao;
 import se.dibbler.backend.dto.EventTypeDto;
-import se.dibbler.backend.dto.languagesupport.EventTypeTextDto;
+import se.dibbler.backend.dto.summary.NameSummaryDto;
 import se.dibbler.backend.entity.EventType;
 import se.dibbler.backend.entity.EventTypeText;
 import se.dibbler.backend.entity.Language;
 import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.Response;
-import se.dibbler.backend.mapper.EventTypeTextMapper;
+import se.dibbler.backend.mapper.summary.EventTypeSummaryMapper;
 
 /**
  *
@@ -70,7 +70,7 @@ public class EventTypeDaoBean extends BaseDaoBean<EventType, EventTypeDto> imple
     }
 
     @Override
-    public Response<List<EventTypeTextDto>> getEventTypesByLanguage(String languageId) {
+    public Response<List<NameSummaryDto>> getEventTypesByLanguage(String languageId) {
         try {
 
             HashMap<String, Object> params = new HashMap<>();
@@ -81,7 +81,7 @@ public class EventTypeDaoBean extends BaseDaoBean<EventType, EventTypeDto> imple
                 return Response.error(eventTypeTexts.getError());
             }
 
-            return EventTypeTextMapper.getInstance().mapToDtoList(eventTypeTexts.getData());
+            return EventTypeSummaryMapper.getInstance().mapToDtoList(eventTypeTexts.getData());
 
         } catch (Exception e) {
             getLogger().error(DaoError.CATEGORY_GET_BY_LANGUAGE.getErrorText(), e.getMessage());

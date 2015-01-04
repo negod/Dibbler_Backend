@@ -14,6 +14,8 @@ import se.dibbler.backend.generics.BaseEntity;
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
+ * @param <E>
+ * @param <D>
  */
 @Local
 public interface MovementDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D>{

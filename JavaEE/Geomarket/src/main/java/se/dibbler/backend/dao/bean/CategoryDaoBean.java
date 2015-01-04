@@ -17,13 +17,13 @@ import se.dibbler.backend.dao.CategoryDao;
 import se.dibbler.backend.dao.CategoryTextDao;
 import se.dibbler.backend.dao.LanguageDao;
 import se.dibbler.backend.dto.CategoryDto;
-import se.dibbler.backend.dto.languagesupport.CategoryTextDto;
+import se.dibbler.backend.dto.summary.NameSummaryDto;
 import se.dibbler.backend.entity.Category;
 import se.dibbler.backend.entity.CategoryText;
 import se.dibbler.backend.entity.Language;
 import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.Response;
-import se.dibbler.backend.mapper.CategoryTextMapper;
+import se.dibbler.backend.mapper.summary.CategorySummaryMapper;
 
 /**
  *
@@ -70,7 +70,7 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
     }
 
     @Override
-    public Response<List<CategoryTextDto>> getCategoriesByLanguage(String languageId) {
+    public Response<List<NameSummaryDto>> getCategoriesByLanguage(String languageId) {
         try {
 
             HashMap<String, Object> params = new HashMap<>();
@@ -81,7 +81,7 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
                 return Response.error(categoryTexts.getError());
             }
 
-            return CategoryTextMapper.getInstance().mapToDtoList(categoryTexts.getData());
+            return CategorySummaryMapper.getInstance().mapToDtoList(categoryTexts.getData());
 
         } catch (Exception e) {
             getLogger().error(DaoError.CATEGORY_GET_BY_LANGUAGE.getErrorText(), e.getMessage());

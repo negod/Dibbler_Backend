@@ -7,8 +7,7 @@ package se.dibbler.backend.dao;
 
 import java.util.List;
 import javax.ejb.Local;
-import se.dibbler.backend.dto.languagesupport.CategoryTextDto;
-import se.dibbler.backend.entity.LanguageText;
+import se.dibbler.backend.dto.summary.NameSummaryDto;
 import se.dibbler.backend.generics.BaseDao;
 import se.dibbler.backend.generics.BaseDto;
 import se.dibbler.backend.generics.BaseEntity;
@@ -25,7 +24,7 @@ public interface CategoryDao<E extends BaseEntity, D extends BaseDto> extends Ba
 
     public Response<String> addLanguage(String categoryId, String name, String language);
 
-    public Response<List<CategoryTextDto>> getCategoriesByLanguage(String languageId);
+    public Response<List<NameSummaryDto>> getCategoriesByLanguage(String languageId);
 
     public Response<String> updateCategoryDescription(String description, String eventTypeNameId);
 

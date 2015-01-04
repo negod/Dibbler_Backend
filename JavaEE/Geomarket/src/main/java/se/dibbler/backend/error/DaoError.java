@@ -31,6 +31,10 @@ public enum DaoError implements ErrorCode {
     EVENT_GET_EVENT_BY_LOCATION(2021, "Error when getting events by location"),
     EVENT_CREATE(2022, "Error when creating event"),
     EVENT_MORE_EVENTTEXTS_THAN_ALOWED(2023, "More than 2 EventTexts for the specified language"),
+    EVENT_GET_BY_COMPANY(2024, "Error when retreiving event by company"),
+    EVENT_BY_LOCATION(2025, "Error when getting events by location"),
+    EVENT_PUBLISH(2026, "Error when getting events by location"),
+    EVENT_PUBLISH_BY_EXPIRED_DATE(2026, "Error when getting events by location"),
     /**
      * EventType DAO Errors
      */

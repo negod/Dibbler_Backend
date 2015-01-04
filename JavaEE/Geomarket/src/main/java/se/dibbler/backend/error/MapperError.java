@@ -18,7 +18,8 @@ public enum MapperError implements ErrorCode {
      */
     EVENT_SUMMARY_GET_EVENTTEXT(3000, "Error when mapping default EventText"),
     EVENT_SUMMARY_GET_EVENT(3001, "Error when mapping EventSummary event"),
-    EVENT_EXTRACT_EVENTS(3002, "Error when mapping EventSummaryLIST for company");
+    EVENT_EXTRACT_EVENTS(3002, "Error when mapping EventSummaryLIST for company"),
+    EVENT_NO_TEXT_FOR_LANGUAGE(3003, "There are not eventtexts for the required language");
 
     private final Integer errorCode;
     private final String errorText;

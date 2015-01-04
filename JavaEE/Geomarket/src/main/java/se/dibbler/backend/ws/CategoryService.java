@@ -25,7 +25,7 @@ import javax.ws.rs.core.MediaType;
 import se.dibbler.backend.dao.CategoryDao;
 import se.dibbler.backend.dao.CategoryTextDao;
 import se.dibbler.backend.dto.CategoryDto;
-import se.dibbler.backend.dto.languagesupport.CategoryTextDto;
+import se.dibbler.backend.dto.summary.NameSummaryDto;
 import se.dibbler.backend.entity.Category;
 import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
@@ -79,7 +79,7 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @Path("/language/{languageId}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "GET", value = "Gets all Categorytypes in a certain language", response = CategoryTextDto.class, nickname = "getAllByLanguage")
+    @ApiOperation(httpMethod = "GET", value = "Gets all Categorytypes in a certain language", response = NameSummaryDto.class, nickname = "getAllByLanguage")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns a list of categories in the requested language"),
         @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),

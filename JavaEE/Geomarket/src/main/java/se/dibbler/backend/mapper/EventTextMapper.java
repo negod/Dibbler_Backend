@@ -64,7 +64,7 @@ public class EventTextMapper extends BaseMapper<EventTextDto, EventText> {
         }
     }
 
-    private Response<List<EventText>> getEventTextsInLanguage(Event event, String languageId) {
+    public Response<List<EventText>> getEventTextsInLanguage(Event event, String languageId) {
         try {
             List<EventText> texts = new ArrayList<>();
             for (EventText text : event.getEventTexts()) {
@@ -74,7 +74,7 @@ public class EventTextMapper extends BaseMapper<EventTextDto, EventText> {
             }
 
             if (texts.isEmpty()) {
-                return Response.error(MapperError.EVENT_SUMMARY_GET_EVENTTEXT);
+                return Response.error(MapperError.EVENT_NO_TEXT_FOR_LANGUAGE);
             }
 
             return Response.success(texts);

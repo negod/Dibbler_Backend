@@ -26,6 +26,7 @@ import se.dibbler.backend.dao.EventTypeDao;
 import se.dibbler.backend.dao.EventTypeTextDao;
 import se.dibbler.backend.dto.EventTypeDto;
 import se.dibbler.backend.dto.languagesupport.EventTypeTextDto;
+import se.dibbler.backend.dto.summary.NameSummaryDto;
 import se.dibbler.backend.entity.EventType;
 import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
@@ -79,7 +80,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @Path("/language/{languageId}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "GET", value = "Gets all EventTypes in a certain language", response = EventTypeTextDto.class, nickname = "getAllByLanguage")
+    @ApiOperation(httpMethod = "GET", value = "Gets all EventTypes in a certain language", response = NameSummaryDto.class, nickname = "getAllByLanguage")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns a list of EventTypeNames but only in the requested language", response = EventTypeTextDto.class),
         @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),

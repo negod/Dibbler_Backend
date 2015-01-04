@@ -6,13 +6,8 @@
 package se.dibbler.backend.mapper;
 
 import se.dibbler.backend.dto.EventDto;
-import se.dibbler.backend.dto.summary.EventTextSummaryDto;
 import se.dibbler.backend.entity.Event;
-import se.dibbler.backend.entity.EventText;
-import se.dibbler.backend.error.MapperError;
 import se.dibbler.backend.generics.BaseMapper;
-import se.dibbler.backend.generics.GenericError;
-import se.dibbler.backend.generics.Response;
 
 /**
  *

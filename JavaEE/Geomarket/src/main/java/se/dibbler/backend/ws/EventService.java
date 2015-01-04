@@ -22,13 +22,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.hibernate.search.query.dsl.Unit;
 import se.dibbler.backend.dao.EventDao;
+import se.dibbler.backend.dao.PublishedEventDao;
 import se.dibbler.backend.dto.EventDto;
 import se.dibbler.backend.dto.languagesupport.LanguageTextDto;
 import se.dibbler.backend.dto.summary.EventSummaryDto;
 import se.dibbler.backend.entity.Event;
 import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
+import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.generics.WsResponse;
 import se.dibbler.backend.mapper.EventMapper;
 
@@ -43,6 +46,8 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
 
     @EJB
     EventDao eventDao;
+    @EJB
+    PublishedEventDao publishEvent;
 
     @Override
     public EventDao getDao() {
@@ -94,7 +99,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     }
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
@@ -120,19 +125,32 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         @ApiResponse(code = 200, message = "Returns a list of events in the requested radius"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public WsResponse getEventsByLocation(
-            @ApiParam(value = "The present longitude", required = true)
-            @QueryParam("longitude") Double longitude,
-            @ApiParam(value = "The present latitude", required = true)
-            @QueryParam("latitude") Double latitude,
-            @ApiParam(value = "How large area of Events that should return ( In KM )", required = true)
-            @QueryParam("radius") Double radius,
-            @ApiParam(value = "The default language the events will be presented in", required = true)
-            @QueryParam("language") String languageId) {
-        return eventDao.getEventsByLocation(longitude, latitude, radius, languageId).getWsResponse();
+            @ApiParam(value = "The present longitude", required = true) @QueryParam("longitude") Double longitude,
+            @ApiParam(value = "The present latitude", required = true) @QueryParam("latitude") Double latitude,
+            @ApiParam(value = "How large area of Events that should return ( In KM )", required = true) @QueryParam("radius") Double radius,
+            @ApiParam(value = "The default language the events will be presented in", required = true) @QueryParam("language") String languageId) {
+        return publishEvent.getEventsByLocation(longitude, latitude, radius, Unit.KM).getWsResponse();
+        //return eventDao.getEventsByLocation(longitude, latitude, radius, languageId).getWsResponse();
+    }
+
+    @GET
+    @Path("/published")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(httpMethod = "GET", value = "Gets all events based on the users position", response = EventSummaryDto.class, nickname = "getEventsByLocation")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns a list of events in the requested radius"),
+        @ApiResponse(code = 500, message = "Internal server error")})
+    public WsResponse getPublishedEventsByLocation(
+            @ApiParam(value = "The present longitude", required = true) @QueryParam("longitude") Double longitude,
+            @ApiParam(value = "The present latitude", required = true) @QueryParam("latitude") Double latitude,
+            @ApiParam(value = "How large area of Events that should return ( In KM )", required = true) @QueryParam("radius") Double radius,
+            @ApiParam(value = "The default language the events will be presented in", required = true) @QueryParam("language") String languageId) {
+        return eventDao.getPublishedEventsByLocation(longitude, latitude, radius, languageId).getWsResponse();
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
@@ -145,7 +163,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     }
 
     @PUT
-    @Path("{id}")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
@@ -166,6 +184,36 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         @ApiResponse(code = 500, message = "Internal server error")})
     public WsResponse getAll() {
         return super.getAll();
+    }
+
+    @GET
+    @Path("/company/{companyId}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(httpMethod = "GET", value = "Gets all events that is connected to a company", response = EventDto.class, nickname = "get All")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns all the events in all languages"),
+        @ApiResponse(code = 500, message = "Internal server error")})
+    public WsResponse getEventsByCompany(@PathParam("companyId") String companyId) {
+        return eventDao.getEventByCompany(companyId).getWsResponse();
+    }
+
+    @GET
+    @Path("/publish/{eventId}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(httpMethod = "GET", value = "Publishes an event to public", response = String.class, nickname = "get All")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns all the events in all languages"),
+        @ApiResponse(code = 500, message = "Internal server error")})
+    public WsResponse publishEvent(
+            @ApiParam(value = "The id of the event that will be published", required = true) @PathParam("eventId") String eventId,
+            @ApiParam(value = "The language that the event will be published in", required = true) @QueryParam("language") String language,
+            @ApiParam(value = "The startdate of the published event", required = true) @QueryParam("startDate") Long startDate,
+            @ApiParam(value = "The stopdate of the published event", required = true) @QueryParam("endDate") Long endDate) {
+        Response<Event> event = eventDao.getByExtId(eventId);
+        if (event.hasErrors) {
+            return Response.error(event.getError()).getWsResponse();
+        }
+        return publishEvent.publishEvent(event.getData(), language).getWsResponse();
     }
 
 }

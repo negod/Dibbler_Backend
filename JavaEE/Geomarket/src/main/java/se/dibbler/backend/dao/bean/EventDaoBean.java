@@ -17,6 +17,7 @@ import se.dibbler.backend.dao.CompanyDao;
 import se.dibbler.backend.dao.EventDao;
 import se.dibbler.backend.dao.EventTypeDao;
 import se.dibbler.backend.dao.LanguageDao;
+import se.dibbler.backend.dao.PublishedEventDao;
 import se.dibbler.backend.dto.EventDto;
 import se.dibbler.backend.dto.languagesupport.LanguageTextDto;
 import se.dibbler.backend.dto.summary.EventSummaryDto;
@@ -26,9 +27,10 @@ import se.dibbler.backend.entity.Event;
 import se.dibbler.backend.entity.EventText;
 import se.dibbler.backend.entity.EventType;
 import se.dibbler.backend.entity.Language;
-import se.dibbler.backend.entity.LanguageText;
 import se.dibbler.backend.generics.BaseDaoBean;
+import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
+import se.dibbler.backend.mapper.EventMapper;
 import se.dibbler.backend.mapper.summary.EventSummaryMapper;
 
 /**
@@ -46,6 +48,8 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
     LanguageDao languageDao;
     @EJB
     CompanyDao companyDao;
+    @EJB
+    PublishedEventDao publishedEvent;
 
     public EventDaoBean() {
         super(Event.class);
@@ -163,6 +167,47 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
         }
 
         return super.create(event);
+    }
+
+    @Override
+    public Response<String> publishEvent(Event event, String languageId) {
+        return publishedEvent.publishEvent(event, languageId);
+    }
+
+    @Override
+    public Response<List<EventDto>> getEventByCompany(String companyId) {
+        try {
+            Response<Company> company = companyDao.getByExtId(companyId);
+            if (company.hasErrors) {
+                return Response.error(company.getError());
+            }
+
+            List<EventDto> events = new ArrayList<>();
+            for (Event event : company.getData().getEvents()) {
+                Response<EventDto> eventDto = EventMapper.getInstance().mapFromEntityToDto(event);
+                if (eventDto.hasNoErrors) {
+                    events.add(eventDto.getData());
+                } else {
+                    getLogger().error("[ Error when mapping event to EventDto ] [ ERRORCODE {} ]", eventDto.getError());
+                }
+            }
+
+            if (events.isEmpty()) {
+                return Response.error(GenericError.NO_RESULT);
+            } else {
+                return Response.success(events);
+            }
+
+        } catch (Exception e) {
+            getLogger().error("[ Error when creating event ] [ ERROR ]", e);
+            return Response.error(DaoError.EVENT_GET_BY_COMPANY);
+        }
+
+    }
+
+    @Override
+    public Response<List<EventSummaryDto>> getPublishedEventsByLocation(Double longitude, Double latitude, Double radius, String languageId) {
+        return publishedEvent.getEventsByLocation(longitude, latitude, radius, Unit.KM);
     }
 
 }

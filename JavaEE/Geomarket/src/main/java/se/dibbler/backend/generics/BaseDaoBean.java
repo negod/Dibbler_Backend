@@ -6,6 +6,7 @@
 package se.dibbler.backend.generics;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +21,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
@@ -139,7 +141,12 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
             Query q = getEntityManager().createNamedQuery(query, entityClass);
 
             for (Entry<String, ? extends Object> param : params.entrySet()) {
-                q.setParameter(param.getKey(), param.getValue());
+
+                if (param.getValue() instanceof Date) {
+                    q.setParameter(param.getKey(), (Date) param.getValue(), TemporalType.TIMESTAMP);
+                } else {
+                    q.setParameter(param.getKey(), param.getValue());
+                }
             }
 
             List<E> resultList = (List<E>) q.getResultList();

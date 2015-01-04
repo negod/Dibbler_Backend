@@ -26,7 +26,7 @@ import se.dibbler.backend.generics.BaseEntity;
 public class Company extends BaseEntity {
 
     @NotNull(message = "cannot be null and must be unique")
-    @Column(unique = true)
+    //@Column(unique = true)
     private String orgNr;
     @NotNull(message = "cannot be null")
     @Column
@@ -50,14 +50,17 @@ public class Company extends BaseEntity {
     @Column
     private String phone;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY, orphanRemoval = true)
     private Location location;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<CompanyUsers> companyUsers;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "company")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "company", orphanRemoval = true)
     private List<Event> events;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "company", orphanRemoval = true)
+    private List<PublishedEvent> publishedEvents;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Filter filter;
