@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.dibbler.backend.ws;
+package se.dibbler.backend.service;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -20,52 +20,50 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import se.dibbler.backend.dao.CompanyUsersDao;
-import se.dibbler.backend.dto.CategoryDto;
-import se.dibbler.backend.dto.CompanyUsersDto;
-import se.dibbler.backend.entity.CompanyUsers;
+import se.dibbler.backend.dao.RolesDao;
+import se.dibbler.backend.dto.RolesDto;
+import se.dibbler.backend.entity.Roles;
 import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
 import se.dibbler.backend.generics.WsResponse;
-import se.dibbler.backend.mapper.CompanyUsersMapper;
+import se.dibbler.backend.mapper.RolesMapper;
 
 /**
- * KOLLA ÖVER DENNA!!
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Stateless
-@Path("/companyUsers")
-@Api(value = "/companyUsers", description = "Handles all users in relation to a company", hidden = true)
-public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, CompanyUsersDao> {
+@Path("/roles")
+@Api(value = "/roles", description = "Handles all roles", hidden = true)
+public class RolesService extends BaseWs<RolesDto, Roles, RolesDao> {
 
     @EJB
-    CompanyUsersDao companyUsersDao;
+    RolesDao roleDao;
 
     @Override
-    public CompanyUsersDao getDao() {
-        return companyUsersDao;
+    public RolesDao getDao() {
+        return roleDao;
     }
 
     @Override
-    public BaseMapper<CompanyUsersDto, CompanyUsers> getMapper() {
-        return CompanyUsersMapper.getInstance();
+    public BaseMapper<RolesDto, Roles> getMapper() {
+        return RolesMapper.getInstance();
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Add a new Company", response = String.class, nickname = "insert")
+    @ApiOperation(httpMethod = "POST", value = "Add a new Role", response = String.class, nickname = "insert", hidden = true)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the Id of the created Company", response = String.class),
+        @ApiResponse(code = 200, message = "Returns the Id of the created Role", response = String.class),
         @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
         @ApiResponse(code = 1000, message = "Error when inserting to database ( Generic Dao Error )", response = String.class),
         @ApiResponse(code = 1001, message = "Contraint violation when inserting to database ( Generic Dao Error )", response = String.class),
         @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity ( Generic Dao Error )", response = String.class),
         @ApiResponse(code = 1008, message = "Wrong parameters or null in request ( Generic Dao Error )", response = String.class)
     })
-    public WsResponse insert(CompanyUsersDto data) {
+    public WsResponse insert(RolesDto data) {
         return super.insert(data);
     }
 
@@ -74,9 +72,9 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a Company User by Id", response = CategoryDto.class, nickname = "getById")
+    @ApiOperation(httpMethod = "GET", value = "Gets a Role by Id", response = RolesDto.class, nickname = "getById")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns a Category"),
+        @ApiResponse(code = 200, message = "Returns a Role"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public WsResponse getById(@PathParam("id") String id) {
         return super.getById(id);
@@ -87,7 +85,7 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "DELETE", value = "Deletes a CompanyUser by Id", response = String.class, nickname = "delete")
+    @ApiOperation(httpMethod = "DELETE", value = "Deletes a Role by Id", response = String.class, nickname = "delete")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = ""),
         @ApiResponse(code = 500, message = "Internal server error")})
@@ -100,21 +98,21 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "PUT", value = "Updates a Company", response = String.class, nickname = "update")
+    @ApiOperation(httpMethod = "PUT", value = "Update a Role", response = String.class, nickname = "update")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the Company ID"),
+        @ApiResponse(code = 200, message = "Returns the id of the Role"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public WsResponse update(CompanyUsersDto data, @PathParam("id") String id) {
+    public WsResponse update(RolesDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a list of all CompanyUsers", response = CategoryDto.class, nickname = "getAll")
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all Roles", response = RolesDto.class, nickname = "getAll")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "All CompanyUsers found"),
-        @ApiResponse(code = 500, message = "Could not get the CompanyUsers")})
+        @ApiResponse(code = 200, message = "All Roles found"),
+        @ApiResponse(code = 500, message = "Could not get the Roles")})
+    @Override
     public WsResponse getAll() {
         return super.getAll();
     }

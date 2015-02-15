@@ -6,14 +6,17 @@
 package se.dibbler.backend.entity;
 
 import java.util.Date;
-import javax.persistence.CascadeType;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.DateBridge;
@@ -44,13 +47,18 @@ public class PublishedEvent extends BaseEntity {
     @NotNull(message = "cannot be null")
     @Longitude
     private Double longitude;
+
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     @NotNull(message = "cannot be null")
     @Latitude
     private Double latitude;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Company.class)
+    @NotNull(message = "cannot be null")
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Company.class)
     private Company company;
+
+    @Transient
+    private Language language;
 
     @Column
     @NotNull(message = "cannot be null")
@@ -64,12 +72,16 @@ public class PublishedEvent extends BaseEntity {
     @NotNull(message = "cannot be null")
     private String categoryId;
 
+    @Transient
+    private Event event;
+
     @Column
     @NotNull(message = "cannot be null")
     private String eventId;
 
     @Column
     @NotNull(message = "cannot be null")
+    
     private String companyName;
     @Column
     private String companyStreet;
@@ -120,20 +132,48 @@ public class PublishedEvent extends BaseEntity {
     @Column
     private String imageSmallUrl;
 
-    public Company getCompany() {
-        return company;
+    @PreUpdate
+    @Override
+    protected void onUpdate() {
+        this.companyName = company.getName();
+        this.companyStreet = company.getStreet();
+        this.companyStreetNr = company.getStreetNr();
+        this.companyCity = company.getCity();
+        this.companyState = company.getState();
+        this.companyCountry = company.getCountry();
+        this.companyPostalCode = company.getPostalCode();
+        this.companyWww = company.getWww();
+        this.companyPhone = company.getPhone();
+
+        this.eventId = event.getExtId();
+        this.categoryId = event.getCategory().getExtId();
+        this.eventTypeId = event.getEventType().getExtId();
+        this.languageId = language.getExtId();
+
+        this.setUpdatedDate(new Date());
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
-    }
+    @PrePersist
+    @Override
+    protected void onCreate() {
+        this.companyName = company.getName();
+        this.companyStreet = company.getStreet();
+        this.companyStreetNr = company.getStreetNr();
+        this.companyCity = company.getCity();
+        this.companyState = company.getState();
+        this.companyCountry = company.getCountry();
+        this.companyPostalCode = company.getPostalCode();
+        this.companyWww = company.getWww();
+        this.companyPhone = company.getPhone();
 
-    public Boolean getActive() {
-        return active;
-    }
+        this.eventId = event.getExtId();
+        this.categoryId = event.getCategory().getExtId();
+        this.eventTypeId = event.getEventType().getExtId();
+        this.languageId = language.getExtId();
 
-    public void setActive(Boolean active) {
-        this.active = active;
+        this.setCreatedDate(new Date());
+        this.setUpdatedDate(new Date());
+        this.setExtId(UUID.randomUUID().toString());
     }
 
     public Double getLongitude() {
@@ -150,6 +190,22 @@ public class PublishedEvent extends BaseEntity {
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 
     public String getLanguageId() {
@@ -174,6 +230,22 @@ public class PublishedEvent extends BaseEntity {
 
     public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 
     public String getCompanyName() {
@@ -248,6 +320,14 @@ public class PublishedEvent extends BaseEntity {
         this.companyPhone = companyPhone;
     }
 
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     public Date getExpires() {
         return expires;
     }
@@ -278,14 +358,6 @@ public class PublishedEvent extends BaseEntity {
 
     public void setBody(String body) {
         this.body = body;
-    }
-
-    public String getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(String eventId) {
-        this.eventId = eventId;
     }
 
     public String getImageUrl() {

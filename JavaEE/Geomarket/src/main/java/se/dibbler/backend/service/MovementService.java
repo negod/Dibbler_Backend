@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.dibbler.backend.ws;
+package se.dibbler.backend.service;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -20,50 +20,50 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import se.dibbler.backend.dao.RolesDao;
-import se.dibbler.backend.dto.RolesDto;
-import se.dibbler.backend.entity.Roles;
+import se.dibbler.backend.dao.MovementDao;
+import se.dibbler.backend.dto.MovementDto;
+import se.dibbler.backend.entity.Movement;
 import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
 import se.dibbler.backend.generics.WsResponse;
-import se.dibbler.backend.mapper.RolesMapper;
+import se.dibbler.backend.mapper.MovementMapper;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Stateless
-@Path("/roles")
-@Api(value = "/roles", description = "Handles all roles", hidden = true)
-public class RolesService extends BaseWs<RolesDto, Roles, RolesDao> {
+@Path("/movements")
+@Api(value = "/movements", description = "Handles all users movements", hidden = true)
+public class MovementService extends BaseWs<MovementDto, Movement, MovementDao> {
 
     @EJB
-    RolesDao roleDao;
+    MovementDao movementDao;
 
     @Override
-    public RolesDao getDao() {
-        return roleDao;
+    public MovementDao getDao() {
+        return movementDao;
     }
 
     @Override
-    public BaseMapper<RolesDto, Roles> getMapper() {
-        return RolesMapper.getInstance();
+    public BaseMapper<MovementDto, Movement> getMapper() {
+        return MovementMapper.getInstance();
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Add a new Role", response = String.class, nickname = "insert", hidden = true)
+    @ApiOperation(httpMethod = "POST", value = "Add a new Movement", response = String.class, nickname = "insert")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the Id of the created Role", response = String.class),
+        @ApiResponse(code = 200, message = "Returns the Id of the created Movement", response = String.class),
         @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
         @ApiResponse(code = 1000, message = "Error when inserting to database ( Generic Dao Error )", response = String.class),
         @ApiResponse(code = 1001, message = "Contraint violation when inserting to database ( Generic Dao Error )", response = String.class),
         @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity ( Generic Dao Error )", response = String.class),
         @ApiResponse(code = 1008, message = "Wrong parameters or null in request ( Generic Dao Error )", response = String.class)
     })
-    public WsResponse insert(RolesDto data) {
+    public WsResponse insert(MovementDto data) {
         return super.insert(data);
     }
 
@@ -72,9 +72,9 @@ public class RolesService extends BaseWs<RolesDto, Roles, RolesDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a Role by Id", response = RolesDto.class, nickname = "getById")
+    @ApiOperation(httpMethod = "GET", value = "Gets a Movement by Id", response = MovementDto.class, nickname = "getById")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns a Role"),
+        @ApiResponse(code = 200, message = "Returns a Movement"),
         @ApiResponse(code = 500, message = "Internal server error")})
     public WsResponse getById(@PathParam("id") String id) {
         return super.getById(id);
@@ -85,7 +85,7 @@ public class RolesService extends BaseWs<RolesDto, Roles, RolesDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "DELETE", value = "Deletes a Role by Id", response = String.class, nickname = "delete")
+    @ApiOperation(httpMethod = "DELETE", value = "Deletes a Movement by Id", response = String.class, nickname = "delete")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = ""),
         @ApiResponse(code = 500, message = "Internal server error")})
@@ -98,20 +98,20 @@ public class RolesService extends BaseWs<RolesDto, Roles, RolesDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "PUT", value = "Update a Role", response = String.class, nickname = "update")
+    @ApiOperation(httpMethod = "PUT", value = "Update a Movement", response = String.class, nickname = "update")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the id of the Role"),
+        @ApiResponse(code = 200, message = "Returns the id of the Movement"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public WsResponse update(RolesDto data, @PathParam("id") String id) {
+    public WsResponse update(MovementDto data, @PathParam("id") String id) {
         return super.update(data, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "GET", value = "Gets a list of all Roles", response = RolesDto.class, nickname = "getAll")
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all movements", response = MovementDto.class, nickname = "getAll")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "All Roles found"),
-        @ApiResponse(code = 500, message = "Could not get the Roles")})
+        @ApiResponse(code = 200, message = "All CompanyUsers found"),
+        @ApiResponse(code = 500, message = "Could not get the Languages")})
     @Override
     public WsResponse getAll() {
         return super.getAll();

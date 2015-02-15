@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.Local;
 import org.hibernate.search.query.dsl.Unit;
 import se.dibbler.backend.dto.PublishedEventDto;
+import se.dibbler.backend.dto.create.PublishEventCreateDto;
 import se.dibbler.backend.entity.Event;
 import se.dibbler.backend.entity.PublishedEvent;
 import se.dibbler.backend.generics.BaseDao;
@@ -28,7 +29,7 @@ public interface PublishedEventDao<E extends BaseEntity, D extends BaseDto> exte
 
     public Response<List<PublishedEventDto>> getEventsByLocation(Double longitude, Double latitude, Double radius, Unit unit);
 
-    public Response<String> publishEvent(Event eventEntity, String language);
+    public Response<String> publishEvent(PublishEventCreateDto dto);
 
     public Response<List<PublishedEvent>> getPublishedEventsByExpiredDate(Date expired);
 

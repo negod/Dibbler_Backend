@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.dibbler.backend.ws;
+package se.dibbler.backend.service;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -26,12 +26,12 @@ import org.hibernate.search.query.dsl.Unit;
 import se.dibbler.backend.dao.EventDao;
 import se.dibbler.backend.dao.PublishedEventDao;
 import se.dibbler.backend.dto.EventDto;
+import se.dibbler.backend.dto.create.PublishEventCreateDto;
 import se.dibbler.backend.dto.languagesupport.LanguageTextDto;
 import se.dibbler.backend.dto.summary.EventSummaryDto;
 import se.dibbler.backend.entity.Event;
 import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
-import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.generics.WsResponse;
 import se.dibbler.backend.mapper.EventMapper;
 
@@ -181,22 +181,14 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     }
 
     @POST
-    @Path("/publish/{eventId}")
+    @Path("/publish")
     @Produces({MediaType.APPLICATION_JSON})
     @ApiOperation(httpMethod = "GET", value = "Publishes an event to public", response = String.class, nickname = "get All")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns all the events in all languages"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public WsResponse publishEvent(
-            @ApiParam(value = "The id of the event that will be published", required = true) @PathParam("eventId") String eventId,
-            @ApiParam(value = "The language that the event will be published in", required = true) @QueryParam("language") String language,
-            @ApiParam(value = "The startdate of the published event", required = true) @QueryParam("startDate") Long startDate,
-            @ApiParam(value = "The stopdate of the published event", required = true) @QueryParam("endDate") Long endDate) {
-        Response<Event> event = eventDao.getByExtId(eventId);
-        if (event.hasErrors) {
-            return Response.error(event.getError()).getWsResponse();
-        }
-        return publishEvent.publishEvent(event.getData(), language).getWsResponse();
+    public WsResponse publishEvent(PublishEventCreateDto data) {       
+        return publishEvent.publishEvent(data).getWsResponse();
     }
 
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.dibbler.backend.ws;
+package se.dibbler.backend.service;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -19,71 +19,62 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
-import se.dibbler.backend.dao.UsersDao;
-import se.dibbler.backend.dto.UsersDto;
-import se.dibbler.backend.dto.summary.UserSummaryDto;
-import se.dibbler.backend.entity.Users;
+import se.dibbler.backend.dao.CompanyDao;
+import se.dibbler.backend.dto.CompanyDto;
+import se.dibbler.backend.entity.Company;
 import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
-import se.dibbler.backend.generics.GenericError;
-import se.dibbler.backend.generics.Mapper;
-import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.generics.WsResponse;
-import se.dibbler.backend.mapper.UsersMapper;
+import se.dibbler.backend.mapper.CompanyMapper;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Stateless
-@Path("users")
-@Api(value = "/users", description = "Handles all Dibbler users")
-public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
+@Path("/companies")
+@Api(value = "/companies", description = "Handles all companies")
+public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
 
-    @Context
-    private UriInfo context;
     @EJB
-    private UsersDao userDao;
+    CompanyDao companyDao;
 
     @Override
-    public UsersDao getDao() {
-        return userDao;
+    public CompanyDao getDao() {
+        return companyDao;
     }
 
     @Override
-    public BaseMapper<UsersDto, Users> getMapper() {
-        return UsersMapper.getInstance();
+    public BaseMapper<CompanyDto, Company> getMapper() {
+        return CompanyMapper.getInstance();
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Add a new User", response = String.class, nickname = "insert")
+    @ApiOperation(httpMethod = "POST", value = "Add a new Company", response = String.class, nickname = "insert")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the Id of the created User", response = String.class),
+        @ApiResponse(code = 200, message = "Returns the Id of the created Company", response = String.class),
         @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
         @ApiResponse(code = 1000, message = "Error when inserting to database ( Generic Dao Error )", response = String.class),
         @ApiResponse(code = 1001, message = "Contraint violation when inserting to database ( Generic Dao Error )", response = String.class),
         @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity ( Generic Dao Error )", response = String.class),
         @ApiResponse(code = 1008, message = "Wrong parameters or null in request ( Generic Dao Error )", response = String.class)
     })
-    public WsResponse insert(UsersDto data) {
+    public WsResponse insert(CompanyDto data) {
         return super.insert(data);
     }
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a User by Id", response = UserSummaryDto.class, nickname = "getById")
+    @ApiOperation(httpMethod = "GET", value = "Gets a Company by id", response = CompanyDto.class, nickname = "getById")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns a User"),
+        @ApiResponse(code = 200, message = "Returns a company"),
         @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
         @ApiResponse(code = 1002, message = "Error when reading from database", response = String.class),
         @ApiResponse(code = 1006, message = "Error when mapping from Entity to Dto", response = String.class),
@@ -91,15 +82,15 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
         @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
     })
     public WsResponse getById(@PathParam("id") String id) {
-        return getDao().getUserSummaryById(id).getWsResponse();
+        return super.getById(id);
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "DELETE", value = "Deletes a User by Id", response = String.class, nickname = "delete")
+    @ApiOperation(httpMethod = "DELETE", value = "Deletes a company by Id", response = String.class, nickname = "delete")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = ""),
         @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
@@ -112,73 +103,38 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     }
 
     @PUT
-    @Path("{id}")
+    @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "PUT", value = "Update a User", response = String.class, nickname = "update")
+    @Override
+    @ApiOperation(httpMethod = "PUT", value = "Updates a company", response = String.class, nickname = "update")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the id of the User"),
+        @ApiResponse(code = 200, message = "Returns the id of the updated company"),
         @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
         @ApiResponse(code = 1003, message = "Error when updating in database", response = String.class),
+        @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity", response = String.class),
         @ApiResponse(code = 1004, message = "Contraint violation when inserting to database", response = String.class),
         @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
         @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
     })
-    public WsResponse update(UserSummaryDto data, @PathParam("id") String id) {
-        UsersDto dto = Mapper.getInstance().getMapper().map(data, UsersDto.class);
-        return super.update(dto, id);
+    public WsResponse update(CompanyDto data, @PathParam("id") String id) {
+        return super.update(data, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "GET", value = "Gets a list of all users", response = UsersDto.class, nickname = "getAll")
+    @Override
+    @ApiOperation(httpMethod = "GET", value = "Gets a list of all Companies", response = CompanyDto.class, nickname = "getAll")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns all users"),
+        @ApiResponse(code = 200, message = "Returns all companies that exists in db"),
         @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
         @ApiResponse(code = 1002, message = "Error when reading from database", response = String.class),
         @ApiResponse(code = 1006, message = "Error when mapping from Entity to Dto", response = String.class),
         @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
         @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
     })
-    @Override
     public WsResponse getAll() {
-        return getDao().getAllUserSummary().getWsResponse();
-    }
-
-    @PUT
-    @Path("/changePass/{id}")
-    @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "PUT", value = "Change the password for a user", response = String.class, nickname = "changePassword")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the id of the updated User"),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 701, message = "Wrong parameters or null in request"),
-        @ApiResponse(code = 701, message = "Old password not same!"),
-        @ApiResponse(code = 1003, message = "Error when updating in database", response = String.class),
-        @ApiResponse(code = 1004, message = "Contraint violation when inserting to database", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
-    public WsResponse changePassword(@PathParam("id") String id, @QueryParam("old") String oldPass, @QueryParam("new") String newPass) {
-
-        if (oldPass == null || newPass == null) {
-            return Response.error(GenericError.WRONG_PARAMETER).getWsResponse();
-        }
-
-        Response<Users> entity = getDao().getByExtId(id);
-        if (entity.hasNoErrors) {
-
-            if (entity.getData().getPassword().equals(oldPass)) {
-                entity.getData().setPassword(newPass);
-                return getDao().update(entity.getData()).getWsResponse();
-            } else {
-                return Response.error(GenericError.FAILURE, "Old password not same!").getWsResponse();
-            }
-
-        } else {
-            return entity.getWsResponse();
-        }
-
+        return super.getAll();
     }
 
 }

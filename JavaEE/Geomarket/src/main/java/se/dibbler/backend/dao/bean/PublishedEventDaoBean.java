@@ -8,6 +8,7 @@ package se.dibbler.backend.dao.bean;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
@@ -18,10 +19,14 @@ import org.hibernate.search.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.hibernate.search.query.dsl.Unit;
 import se.dibbler.backend.constants.DibblerNamedQueries;
+import se.dibbler.backend.dao.EventDao;
+import se.dibbler.backend.dao.LanguageDao;
 import se.dibbler.backend.dao.PublishedEventDao;
 import se.dibbler.backend.dto.PublishedEventDto;
+import se.dibbler.backend.dto.create.PublishEventCreateDto;
 import se.dibbler.backend.entity.Event;
 import se.dibbler.backend.entity.EventText;
+import se.dibbler.backend.entity.Language;
 import se.dibbler.backend.entity.PublishedEvent;
 import se.dibbler.backend.error.DaoError;
 import se.dibbler.backend.generics.BaseDaoBean;
@@ -36,6 +41,12 @@ import se.dibbler.backend.mapper.PublishedEventMapper;
  */
 @Stateless
 public class PublishedEventDaoBean extends BaseDaoBean<PublishedEvent, PublishedEventDto> implements PublishedEventDao<PublishedEvent, PublishedEventDto> {
+
+    @EJB
+    EventDao eventDao;
+
+    @EJB
+    LanguageDao languageDao;
 
     public PublishedEventDaoBean() {
         super(PublishedEvent.class);
@@ -80,19 +91,38 @@ public class PublishedEventDaoBean extends BaseDaoBean<PublishedEvent, Published
     }
 
     @Override
-    public Response<String> publishEvent(Event eventEntity, String language) {
+    public Response<String> publishEvent(PublishEventCreateDto dto) {
         try {
 
-            Response<List<EventText>> eventTexts = EventTextMapper.getInstance().getEventTextsInLanguage(eventEntity, language);
+            Response<Event> eventEntity = eventDao.getByExtId(dto.getEventId());
+            if (eventEntity.hasErrors) {
+                return Response.error(eventEntity.getError());
+            }
+
+            Response<Language> languageEntity = languageDao.getByExtId(dto.getLanguageId());
+            if (languageEntity.hasErrors) {
+                return Response.error(languageEntity.getError());
+            }
+
+            Response<List<EventText>> eventTexts = EventTextMapper.getInstance().getEventTextsInLanguage(eventEntity.getData(), dto.getLanguageId());
             if (eventTexts.hasErrors) {
                 return Response.error(eventTexts.getError());
             }
 
-            PublishedEvent publishedEvent = Mapper.getInstance().getMapper().map(eventEntity, PublishedEvent.class);
-            publishedEvent.setCompany(eventEntity.getCompany());
+            PublishedEvent publishedEvent = Mapper.getInstance().getMapper().map(eventEntity.getData(), PublishedEvent.class);
+            
+            publishedEvent.setCompany(eventEntity.getData().getCompany());
+            publishedEvent.setLanguage(languageEntity.getData());
+            publishedEvent.setEvent(eventEntity.getData());
+
+            publishedEvent.setId(null);
+            publishedEvent.setExtId(null);
+            
+            publishedEvent.setStarts(dto.getStartDate());
+            publishedEvent.setExpires(dto.getExpireDate());
 
             for (EventText text : eventTexts.getData()) {
-                if (text.getLanguage().getExtId().equalsIgnoreCase(language)) {
+                if (text.getLanguage().getExtId().equalsIgnoreCase(dto.getLanguageId())) {
                     switch (text.getTextType()) {
                         case HEADER:
                             publishedEvent.setHeading(text.getValue());
@@ -104,10 +134,9 @@ public class PublishedEventDaoBean extends BaseDaoBean<PublishedEvent, Published
                 }
             }
 
-            publishedEvent.setLanguageId(language);
-            publishedEvent.setEventId(eventEntity.getExtId());
+            
 
-            return super.update(publishedEvent);
+            return super.create(publishedEvent);
         } catch (Exception e) {
             super.getLogger().error("[ Error when publishing event ] [ERROR: {}] ", e.getMessage());
             return Response.error(DaoError.EVENT_PUBLISH);

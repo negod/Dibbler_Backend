@@ -124,6 +124,14 @@ public class Users extends BaseEntity {
         this.filter = filter;
     }
 
+    public List<Roles> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Roles> roles) {
+        this.roles = roles;
+    }
+
     @PrePersist
     @Override
     protected void onCreate() {

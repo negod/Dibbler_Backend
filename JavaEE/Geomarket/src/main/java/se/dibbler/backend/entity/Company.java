@@ -15,8 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
-
 import se.dibbler.backend.generics.BaseEntity;
+
 
 /**
  *
@@ -49,6 +49,8 @@ public class Company extends BaseEntity {
     private String www;
     @Column
     private String phone;
+    @Column
+    private String cellPhone;
     @Column
     private String imageUrl;
     @Column

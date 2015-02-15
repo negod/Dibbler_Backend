@@ -37,7 +37,7 @@ public class CompanyDto extends CompanySummaryDto {
     @XmlElement(type = String.class, required = true)
     @ApiModelProperty(value = "The picture for the company in Base64 format", required = true)
     private String picture;
-
+    
     public String getOrgNr() {
         return orgNr;
     }
