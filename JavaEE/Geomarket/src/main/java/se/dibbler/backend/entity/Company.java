@@ -17,7 +17,6 @@ import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 import se.dibbler.backend.generics.BaseEntity;
 
-
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
@@ -61,7 +60,7 @@ public class Company extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY, orphanRemoval = true)
     private Location location;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "company", orphanRemoval = true)
     private List<CompanyUsers> companyUsers;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "company", orphanRemoval = true)
@@ -69,6 +68,12 @@ public class Company extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "company", orphanRemoval = true)
     private List<PublishedEvent> publishedEvents;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "company", orphanRemoval = true)
+    private List<LocationGroup> locationGroups;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "company", orphanRemoval = true)
+    private List<Location> locations;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Filter filter;
@@ -234,6 +239,30 @@ public class Company extends BaseEntity {
 
     public void setPublishedEvents(List<PublishedEvent> publishedEvents) {
         this.publishedEvents = publishedEvents;
+    }
+
+    public String getCellPhone() {
+        return cellPhone;
+    }
+
+    public void setCellPhone(String cellPhone) {
+        this.cellPhone = cellPhone;
+    }
+
+    public List<LocationGroup> getLocationGroups() {
+        return locationGroups;
+    }
+
+    public void setLocationGroups(List<LocationGroup> locationGroups) {
+        this.locationGroups = locationGroups;
+    }
+
+    public List<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
     }
 
     @PrePersist

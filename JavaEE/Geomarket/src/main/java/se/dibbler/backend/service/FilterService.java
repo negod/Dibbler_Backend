@@ -21,7 +21,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import se.dibbler.backend.dao.FilterDao;
-import se.dibbler.backend.dto.CategoryDto;
 import se.dibbler.backend.dto.FilterDto;
 import se.dibbler.backend.entity.Filter;
 import se.dibbler.backend.generics.BaseMapper;
@@ -36,7 +35,7 @@ import se.dibbler.backend.mapper.FilterMapper;
  */
 @Stateless
 @Path("/filters")
-@Api(value = "/filters", description = "Handles the users filters", hidden = true)
+@Api(value = "/filters", description = "Handles the users filters")
 public class FilterService extends BaseWs<FilterDto, Filter, FilterDao> {
 
     @EJB

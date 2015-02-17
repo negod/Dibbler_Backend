@@ -34,7 +34,7 @@ import se.dibbler.backend.mapper.MovementMapper;
  */
 @Stateless
 @Path("/movements")
-@Api(value = "/movements", description = "Handles all users movements", hidden = true)
+@Api(value = "/movements", description = "Handles all users movements")
 public class MovementService extends BaseWs<MovementDto, Movement, MovementDao> {
 
     @EJB

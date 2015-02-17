@@ -34,7 +34,7 @@ import se.dibbler.backend.mapper.RolesMapper;
  */
 @Stateless
 @Path("/roles")
-@Api(value = "/roles", description = "Handles all roles", hidden = true)
+@Api(value = "/roles", description = "Handles all roles")
 public class RolesService extends BaseWs<RolesDto, Roles, RolesDao> {
 
     @EJB

@@ -36,7 +36,7 @@ import se.dibbler.backend.mapper.CompanyUsersMapper;
  */
 @Stateless
 @Path("/companyUsers")
-@Api(value = "/companyUsers", description = "Handles all users in relation to a company", hidden = true)
+@Api(value = "/companyUsers", description = "Handles all users in relation to a company")
 public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, CompanyUsersDao> {
 
     @EJB

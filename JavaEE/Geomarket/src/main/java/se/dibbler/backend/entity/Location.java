@@ -29,11 +29,12 @@ import se.dibbler.backend.generics.BaseEntity;
 @Indexed
 public class Location extends BaseEntity {
 
-    @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     @NotNull(message = "cannot be null")
     @Latitude
     Double latitude;
-    @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     @NotNull(message = "cannot be null")
     @Longitude
     Double longitude;

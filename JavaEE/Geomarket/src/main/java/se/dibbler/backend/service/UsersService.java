@@ -23,6 +23,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
+import se.dibbler.backend.constants.ShowSwaggerApis;
 import se.dibbler.backend.dao.UsersDao;
 import se.dibbler.backend.dto.UsersDto;
 import se.dibbler.backend.dto.summary.UserSummaryDto;
@@ -41,7 +42,7 @@ import se.dibbler.backend.mapper.UsersMapper;
  */
 @Stateless
 @Path("users")
-@Api(value = "/users", description = "Handles all Dibbler users")
+@Api(value = "/users", description = "Handles all Dibbler users" )
 public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
 
     @Context

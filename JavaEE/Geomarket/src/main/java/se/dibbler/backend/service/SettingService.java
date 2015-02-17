@@ -33,7 +33,7 @@ import se.dibbler.backend.generics.WsResponse;
  */
 @Stateless
 @Path("/settings")
-@Api(value = "/settings", description = "Handles all users application settings", hidden = true)
+@Api(value = "/settings", description = "Handles all users application settings")
 public class SettingService extends BaseWs<SettingDto, Setting, SettingDao> {
 
     @EJB
