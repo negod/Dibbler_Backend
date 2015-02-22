@@ -34,7 +34,7 @@ import se.dibbler.backend.generics.WsResponse;
  */
 @Stateless
 @Path("/locationGroups")
-@Api(value = "/locationGroups", description = "Handles all LocationGroups in relation to Company")
+@Api(value = "/locationGroups", description = "Handles all LocationGroups in relation to Company", hidden = false)
 public class LocationGroupService extends BaseWs<LocationGroupDto, LocationGroup, LocationGroupDao> {
 
     @EJB
