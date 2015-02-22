@@ -49,7 +49,7 @@ public class LocationService extends BaseWs<LocationDto, Location, LocationDao> 
     @Path("{companyId}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Adds a Location to a Company", response = String.class, nickname = "add location to company")
+    @ApiOperation(httpMethod = "POST", value = "Adds a Location to a Companys location list", response = String.class, nickname = "insert")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the updated Company", response = String.class),
         @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
@@ -58,7 +58,9 @@ public class LocationService extends BaseWs<LocationDto, Location, LocationDao> 
         @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity ( Generic Dao Error )", response = String.class),
         @ApiResponse(code = 1008, message = "Wrong parameters or null in request ( Generic Dao Error )", response = String.class)
     })
-    public WsResponse insert(LocationDto data, @PathParam("companyId") String companyId) {
+    public WsResponse insert(
+            @ApiParam(value = "The Location", required = true) LocationDto data,
+            @ApiParam(value = "The Id of the company", required = true) @PathParam("companyId") String companyId) {
         return locationDao.addLocationToCompany(data, companyId).getWsResponse();
     }
 
@@ -66,7 +68,7 @@ public class LocationService extends BaseWs<LocationDto, Location, LocationDao> 
     @Path("{companyId}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Adds a Location to a Company", response = String.class, nickname = "add location to company")
+    @ApiOperation(httpMethod = "PUT", value = "Updates a location in the Companys locations list", response = String.class, nickname = "update")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the updated Company", response = String.class),
         @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
@@ -76,7 +78,9 @@ public class LocationService extends BaseWs<LocationDto, Location, LocationDao> 
         @ApiResponse(code = 1008, message = "Wrong parameters or null in request ( Generic Dao Error )", response = String.class)
     })
     @Override
-    public WsResponse update(LocationDto data, @PathParam("companyId") String companyId) {
+    public WsResponse update(
+            @ApiParam(value = "The Location", required = true) LocationDto data,
+            @ApiParam(value = "The Id of the company", required = true) @PathParam("companyId") String companyId) {
         return locationDao.updateLocationInCompany(data, companyId).getWsResponse();
     }
 
@@ -93,9 +97,8 @@ public class LocationService extends BaseWs<LocationDto, Location, LocationDao> 
         @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
     })
     public WsResponse delete(
-            @ApiParam(value = "The id for the location", required = true)
-            @PathParam("companyId") String companyId,
-            @QueryParam("locationId") String locationId) {
+            @ApiParam(value = "The id of company in which the location shall be removed", required = true) @PathParam("companyId") String companyId,
+            @ApiParam(value = "The Id of the location", required = true) @QueryParam("locationId") String locationId) {
         return locationDao.removeLocationInCompany(locationId, companyId).getWsResponse();
     }
 

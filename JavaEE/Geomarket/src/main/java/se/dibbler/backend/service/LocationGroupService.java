@@ -49,7 +49,7 @@ public class LocationGroupService extends BaseWs<LocationGroupDto, LocationGroup
     @Path("{companyId}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Created a LocationGroup", response = String.class, nickname = "add location to company")
+    @ApiOperation(httpMethod = "POST", value = "Creates a LocationGroup", response = String.class, nickname = "insert")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns the Id of the updated Company", response = String.class),
         @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),

@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-@WebFilter
+@WebFilter("/*")
 public class CorsFilter implements Filter {
 
     @Override
