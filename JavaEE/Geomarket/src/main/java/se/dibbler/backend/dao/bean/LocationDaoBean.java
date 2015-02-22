@@ -48,6 +48,11 @@ public class LocationDaoBean extends BaseDaoBean<Location, LocationDto> implemen
     }
 
     @Override
+    public Response<String> update(LocationDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
+    }
+
+    @Override
     public Response<String> addLocationToCompany(LocationDto dto, String companyId) {
         try {
 
@@ -95,20 +100,17 @@ public class LocationDaoBean extends BaseDaoBean<Location, LocationDto> implemen
                 return Response.error(company.getError());
             }
 
-            //List<Location> locations = new ArrayList<Location>();
-            for (Location location : company.getData().getLocations()) {
-                if (location.getExtId().equalsIgnoreCase(locationId)) {
-                    company.getData().getLocations().remove(location);
+            for (int i = company.getData().getLocations().size() - 1; i >= 0; i--) {
+                if (company.getData().getLocations().get(i).getExtId().equalsIgnoreCase(locationId)) {
+                    company.getData().getLocations().remove(company.getData().getLocations().get(i));
                 }
             }
 
-            /*company.getData().getLocations().clear();
-             company.getData().setLocations(locations);*/
-            return companyDao.update(company.getData());
+            return Response.success(company.getData().getExtId());
 
         } catch (Exception e) {
-            getLogger().error("[ " + DaoError.LOCATION_REMOVE_LOCATION_FROM_GROUP.getErrorText() + " ]", e.getMessage());
-            return Response.error(DaoError.LOCATION_REMOVE_LOCATION_FROM_GROUP);
+            getLogger().error("[ " + DaoError.LOCATION_REMOVE_IN_COMPANY.getErrorText() + " ] {}", e.getMessage());
+            return Response.error(DaoError.LOCATION_REMOVE_IN_COMPANY);
         }
     }
 
@@ -133,46 +135,6 @@ public class LocationDaoBean extends BaseDaoBean<Location, LocationDto> implemen
             return Response.error(DaoError.LOCATION_UPDATE_IN_COMPANY);
         }
 
-    }
-
-    @Override
-    public Response<String> addLocationGroup(String name, String companyId) {
-        try {
-
-            Response<Company> company = companyDao.getByExtId(companyId);
-            if (company.hasErrors) {
-                return Response.error(company.getError());
-            }
-            return null;
-        } catch (Exception e) {
-            getLogger().error("[ " + DaoError.LOCATION_REMOVE_LOCATION_FROM_GROUP.getErrorText() + " ]", e.getMessage());
-            return Response.error(DaoError.LOCATION_REMOVE_LOCATION_FROM_GROUP);
-        }
-    }
-
-    @Override
-    public Response<String> removeLocationFromLocationGroup(String locationGroupId, String location) {
-        try {
-            return null;
-        } catch (Exception e) {
-            getLogger().error("[ " + DaoError.LOCATION_REMOVE_LOCATION_FROM_GROUP.getErrorText() + " ]", e.getMessage());
-            return Response.error(DaoError.LOCATION_REMOVE_LOCATION_FROM_GROUP);
-        }
-    }
-
-    @Override
-    public Response<String> addLocationsToLocationGroup(String locationGroupId, List<String> locationId) {
-        try {
-            return null;
-        } catch (Exception e) {
-            getLogger().error("[ " + DaoError.LOCATION_ADD_TO_LOCATION_GROUP.getErrorText() + " ]", e.getMessage());
-            return Response.error(DaoError.LOCATION_ADD_TO_LOCATION_GROUP);
-        }
-    }
-
-    @Override
-    public Response<String> update(LocationDto dto, String extId) {
-        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }

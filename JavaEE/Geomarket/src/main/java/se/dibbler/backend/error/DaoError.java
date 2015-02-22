@@ -55,7 +55,8 @@ public enum DaoError implements ErrorCode {
     LOCATION_REMOVE_LOCATION_FROM_GROUP(2052, "Error when removing Location from LocationGroup"),
     LOCATION_ADD_LOCATION_GROUP(2053, "Error when adding Location to LocationGroup"),
     LOCATION_UPDATE_IN_COMPANY(2054, "Error when updating Location in Company LocationList"),
-    LOCATION_REMOVE_IN_COMPANY(2055, "Error when removing Location in Company LocationList");
+    LOCATION_REMOVE_IN_COMPANY(2055, "Error when removing Location in Company LocationList"),
+    LOCATION_GENERIC_ERROR(2056, "Generic error, see log for more details");
 
     private final Integer errorCode;
     private final String errorText;

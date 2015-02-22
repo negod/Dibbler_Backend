@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.dibbler.backend.dto;
+package se.dibbler.backend.dto.create;
 
 import java.util.List;
-import se.dibbler.backend.generics.BaseDto;
+import se.dibbler.backend.dto.LocationDto;
 
 /**
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-public class LocationGroupDto extends BaseDto {
+public class LocationGroupCreateDto {
 
     private String name;
-    private List<LocationDto> locations;
+    private List<String> locations;
 
     public String getName() {
         return name;
@@ -25,11 +25,11 @@ public class LocationGroupDto extends BaseDto {
         this.name = name;
     }
 
-    public List<LocationDto> getLocations() {
+    public List<String> getLocations() {
         return locations;
     }
 
-    public void setLocations(List<LocationDto> locations) {
+    public void setLocations(List<String> locations) {
         this.locations = locations;
     }
 

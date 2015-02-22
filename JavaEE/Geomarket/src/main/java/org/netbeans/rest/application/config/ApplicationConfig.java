@@ -42,6 +42,7 @@ public class ApplicationConfig extends Application {
         resources.add(se.dibbler.backend.service.IdService.class);
         resources.add(se.dibbler.backend.service.IndexService.class);
         resources.add(se.dibbler.backend.service.LanguageService.class);
+        resources.add(se.dibbler.backend.service.LocationGroupService.class);
         resources.add(se.dibbler.backend.service.LocationService.class);
         resources.add(se.dibbler.backend.service.MovementService.class);
         resources.add(se.dibbler.backend.service.PublishedEventService.class);
