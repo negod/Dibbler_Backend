@@ -27,13 +27,11 @@ import se.dibbler.backend.dao.UsersDao;
 import se.dibbler.backend.dto.UsersDto;
 import se.dibbler.backend.dto.summary.UserSummaryDto;
 import se.dibbler.backend.entity.Users;
-import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
 import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Mapper;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.generics.WsResponse;
-import se.dibbler.backend.mapper.UsersMapper;
 
 /**
  *
@@ -52,11 +50,6 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @Override
     public UsersDao getDao() {
         return userDao;
-    }
-
-    @Override
-    public BaseMapper<UsersDto, Users> getMapper() {
-        return UsersMapper.getInstance();
     }
 
     @POST

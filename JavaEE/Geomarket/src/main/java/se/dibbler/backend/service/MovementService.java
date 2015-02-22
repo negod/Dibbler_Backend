@@ -23,10 +23,8 @@ import javax.ws.rs.core.MediaType;
 import se.dibbler.backend.dao.MovementDao;
 import se.dibbler.backend.dto.MovementDto;
 import se.dibbler.backend.entity.Movement;
-import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
 import se.dibbler.backend.generics.WsResponse;
-import se.dibbler.backend.mapper.MovementMapper;
 
 /**
  *
@@ -43,11 +41,6 @@ public class MovementService extends BaseWs<MovementDto, Movement, MovementDao> 
     @Override
     public MovementDao getDao() {
         return movementDao;
-    }
-
-    @Override
-    public BaseMapper<MovementDto, Movement> getMapper() {
-        return MovementMapper.getInstance();
     }
 
     @POST

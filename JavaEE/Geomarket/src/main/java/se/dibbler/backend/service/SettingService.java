@@ -44,11 +44,6 @@ public class SettingService extends BaseWs<SettingDto, Setting, SettingDao> {
         return settingDao;
     }
 
-    @Override
-    public BaseMapper<SettingDto, Setting> getMapper() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_JSON})

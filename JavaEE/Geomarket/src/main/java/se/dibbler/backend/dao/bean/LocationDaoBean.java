@@ -18,7 +18,6 @@ import se.dibbler.backend.error.DaoError;
 import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
-import se.dibbler.backend.mapper.LocationMapper;
 
 /**
  *
@@ -31,12 +30,12 @@ public class LocationDaoBean extends BaseDaoBean<Location, LocationDto> implemen
     CompanyDao companyDao;
 
     public LocationDaoBean() {
-        super(Location.class);
+        super(Location.class, LocationDto.class);
     }
 
     @Override
     public Response<String> create(LocationDto dto) {
-        Response<Location> location = LocationMapper.getInstance().mapFromDtoToEntity(dto);
+        Response<Location> location = super.mapFromDtoToEntity(dto);
         if (location.hasNoErrors) {
             return super.create(location.getData());
         } else {
@@ -56,7 +55,7 @@ public class LocationDaoBean extends BaseDaoBean<Location, LocationDto> implemen
 
             if (location.hasErrors) {
 
-                location = LocationMapper.getInstance().mapFromDtoToEntity(dto);
+                location = super.mapFromDtoToEntity(dto);
                 if (location.hasErrors) {
                     return Response.error(location.getError());
                 }

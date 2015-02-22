@@ -21,7 +21,7 @@ import se.dibbler.backend.generics.Response;
 public class CategoryTextDaoBean extends BaseDaoBean<CategoryText, CategoryTextDto> implements CategoryTextDao<CategoryText, CategoryTextDto> {
 
     public CategoryTextDaoBean() {
-        super(CategoryText.class);
+        super(CategoryText.class, CategoryTextDto.class);
     }
 
     @Override

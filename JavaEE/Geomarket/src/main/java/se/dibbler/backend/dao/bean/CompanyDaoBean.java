@@ -6,23 +6,20 @@
 package se.dibbler.backend.dao.bean;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.ejb.Stateless;
 import se.dibbler.backend.constants.DibblerConstants;
 import se.dibbler.backend.constants.DibblerFileType;
 import se.dibbler.backend.constants.DibblerNamedQueries;
 import se.dibbler.backend.constants.PictureUrl;
+import se.dibbler.backend.constants.RegExp;
 import se.dibbler.backend.dao.CompanyDao;
 import se.dibbler.backend.dto.CompanyDto;
 import se.dibbler.backend.entity.Company;
-import se.dibbler.backend.entity.EventText;
-import se.dibbler.backend.entity.Location;
 import se.dibbler.backend.error.DaoError;
 import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
-import se.dibbler.backend.mapper.CompanyMapper;
 import se.dibbler.backend.utils.FileCreator;
 
 /**
@@ -34,7 +31,7 @@ import se.dibbler.backend.utils.FileCreator;
 public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements CompanyDao<Company, CompanyDto> {
 
     public CompanyDaoBean() {
-        super(Company.class);
+        super(Company.class, CompanyDto.class);
     }
 
     @Override
@@ -48,7 +45,16 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
                 return Response.error(DaoError.COMPANY_CREATE_UNIQUE_ORGNO);
             }
 
-            Response<Company> entity = CompanyMapper.getInstance().mapFromDtoToEntity(dto);
+            if (dto.getParentCompanyId() != null && !dto.getParentCompanyId().isEmpty()) {
+                if (dto.getParentCompanyId().matches(RegExp.GUID)) {
+                    Response<Company> parentCompany = super.getByExtId(dto.getParentCompanyId());
+                    if (parentCompany.hasErrors) {
+                        return Response.error(parentCompany.getError());
+                    }
+                }
+            }
+
+            Response<Company> entity = super.mapFromDtoToEntity(dto);
 
             if (entity.hasErrors) {
                 return Response.error(entity.getError());

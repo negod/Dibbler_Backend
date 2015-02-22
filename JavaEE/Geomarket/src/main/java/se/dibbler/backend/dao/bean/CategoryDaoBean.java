@@ -39,7 +39,7 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
     CategoryTextDao languageText;
 
     public CategoryDaoBean() {
-        super(Category.class);
+        super(Category.class, CategoryDto.class);
     }
 
     @Override

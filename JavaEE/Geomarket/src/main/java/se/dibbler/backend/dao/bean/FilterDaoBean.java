@@ -12,7 +12,6 @@ import se.dibbler.backend.entity.Filter;
 import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
-import se.dibbler.backend.mapper.FilterMapper;
 
 /**
  *
@@ -22,12 +21,12 @@ import se.dibbler.backend.mapper.FilterMapper;
 public class FilterDaoBean extends BaseDaoBean<Filter, FilterDto> implements FilterDao<Filter, FilterDto> {
 
     public FilterDaoBean() {
-        super(Filter.class);
+        super(Filter.class, FilterDto.class);
     }
 
     @Override
     public Response create(FilterDto dto) {
-        Response<Filter> filter = FilterMapper.getInstance().mapFromDtoToEntity(dto);
+        Response<Filter> filter = super.mapFromDtoToEntity(dto);
         if (filter.hasErrors) {
             return Response.error(filter.getError());
         }

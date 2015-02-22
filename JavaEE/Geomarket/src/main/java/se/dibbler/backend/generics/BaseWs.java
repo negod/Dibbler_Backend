@@ -23,8 +23,6 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
 
     public abstract DAO getDao();
 
-    public abstract BaseMapper<D, E> getMapper();
-
     public WsResponse insert(D data) {
         try {
             if (data == null) {
@@ -43,7 +41,7 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
             if (response.hasErrors) {
                 return response.getWsResponse();
             }
-            return getMapper().mapFromEntityToDto(response.getData()).getWsResponse();
+            return getDao().getMapper().mapFromEntityToDto(response.getData()).getWsResponse();
         } catch (Exception e) {
             LOGGER.error("[ Failed to get data with id: {} from: {}] Error : {} ", id, getDao().getEntityClass().getSimpleName(), e.getMessage());
             return Response.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
@@ -69,7 +67,7 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
             if (oldEntity.hasErrors) {
                 return oldEntity.getWsResponse();
             }
-            Response<E> updatedEntity = getMapper().updateEntityFromDto(oldEntity.getData(), data);
+            Response<E> updatedEntity = getDao().getMapper().updateEntityFromDto(oldEntity.getData(), data);
             if (updatedEntity.hasErrors) {
                 return updatedEntity.getWsResponse();
             }
@@ -87,7 +85,7 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
             if (entities.hasErrors) {
                 return entities.getWsResponse();
             }
-            return getMapper().mapToDtoList(entities.getData()).getWsResponse();
+            return getDao().getMapper().mapToDtoList(entities.getData()).getWsResponse();
         } catch (Exception e) {
             LOGGER.error("[ Failed to get all data from {} ] Error : {} ", getDao().getEntityClass().getSimpleName(), e.getMessage());
             return Response.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();

@@ -27,10 +27,8 @@ import se.dibbler.backend.dao.CategoryTextDao;
 import se.dibbler.backend.dto.CategoryDto;
 import se.dibbler.backend.dto.summary.NameSummaryDto;
 import se.dibbler.backend.entity.Category;
-import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
 import se.dibbler.backend.generics.WsResponse;
-import se.dibbler.backend.mapper.CategoryMapper;
 
 /**
  *
@@ -50,11 +48,6 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @Override
     public CategoryDao getDao() {
         return categoryDao;
-    }
-
-    @Override
-    public BaseMapper<CategoryDto, Category> getMapper() {
-        return CategoryMapper.getInstance();
     }
 
     @GET

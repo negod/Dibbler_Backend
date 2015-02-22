@@ -12,7 +12,6 @@ import se.dibbler.backend.entity.LocationGroup;
 import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
-import se.dibbler.backend.mapper.LocationGroupMapper;
 
 /**
  *
@@ -22,12 +21,12 @@ import se.dibbler.backend.mapper.LocationGroupMapper;
 public class LocationGroupDaoBean extends BaseDaoBean<LocationGroup, LocationGroupDto> implements LocationGroupDao<LocationGroup, LocationGroupDto> {
 
     public LocationGroupDaoBean() {
-        super(LocationGroup.class);
+        super(LocationGroup.class, LocationGroupDto.class);
     }
 
     @Override
     public Response<String> create(LocationGroupDto dto) {
-        Response<LocationGroup> locationGroup = LocationGroupMapper.getInstance().mapFromDtoToEntity(dto);
+        Response<LocationGroup> locationGroup = super.mapFromDtoToEntity(dto);
         if (locationGroup.hasErrors) {
             return Response.error(locationGroup.getError());
         }

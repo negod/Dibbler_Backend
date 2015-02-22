@@ -23,10 +23,8 @@ import javax.ws.rs.core.MediaType;
 import se.dibbler.backend.dao.RolesDao;
 import se.dibbler.backend.dto.RolesDto;
 import se.dibbler.backend.entity.Roles;
-import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
 import se.dibbler.backend.generics.WsResponse;
-import se.dibbler.backend.mapper.RolesMapper;
 
 /**
  *
@@ -43,11 +41,6 @@ public class RolesService extends BaseWs<RolesDto, Roles, RolesDao> {
     @Override
     public RolesDao getDao() {
         return roleDao;
-    }
-
-    @Override
-    public BaseMapper<RolesDto, Roles> getMapper() {
-        return RolesMapper.getInstance();
     }
 
     @POST

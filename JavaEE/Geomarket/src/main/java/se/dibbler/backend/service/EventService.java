@@ -30,10 +30,8 @@ import se.dibbler.backend.dto.create.PublishEventCreateDto;
 import se.dibbler.backend.dto.languagesupport.LanguageTextDto;
 import se.dibbler.backend.dto.summary.EventSummaryDto;
 import se.dibbler.backend.entity.Event;
-import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
 import se.dibbler.backend.generics.WsResponse;
-import se.dibbler.backend.mapper.EventMapper;
 
 /**
  *
@@ -52,11 +50,6 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Override
     public EventDao getDao() {
         return eventDao;
-    }
-
-    @Override
-    public BaseMapper<EventDto, Event> getMapper() {
-        return EventMapper.getInstance();
     }
 
     @POST

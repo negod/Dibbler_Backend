@@ -21,7 +21,7 @@ import se.dibbler.backend.generics.Response;
 public class LanguageTextDaoBean extends BaseDaoBean<LanguageText, LanguageTextDto> implements LanguageTextDao<LanguageText, LanguageTextDto> {
 
     public LanguageTextDaoBean() {
-        super(LanguageText.class);
+        super(LanguageText.class, LanguageTextDto.class);
     }
 
     @Override

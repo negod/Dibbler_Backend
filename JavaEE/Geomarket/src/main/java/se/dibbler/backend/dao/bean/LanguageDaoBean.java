@@ -12,7 +12,6 @@ import se.dibbler.backend.entity.Language;
 import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
-import se.dibbler.backend.mapper.LanguageMapper;
 
 /**
  *
@@ -22,12 +21,12 @@ import se.dibbler.backend.mapper.LanguageMapper;
 public class LanguageDaoBean extends BaseDaoBean<Language, LanguageDto> implements LanguageDao<Language, LanguageDto> {
 
     public LanguageDaoBean() {
-        super(Language.class);
+        super(Language.class, LanguageDto.class);
     }
 
     @Override
     public Response create(LanguageDto dto) {
-        Response<Language> entity = LanguageMapper.getInstance().mapFromDtoToEntity(dto);
+        Response<Language> entity = super.mapFromDtoToEntity(dto);
         if (entity.hasErrors) {
             return Response.error(entity.getError());
         }

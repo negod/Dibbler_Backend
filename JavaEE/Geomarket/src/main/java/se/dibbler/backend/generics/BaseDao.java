@@ -50,5 +50,7 @@ public interface BaseDao<E extends BaseEntity, D extends BaseDto> {
     public Response<Long> getId(String id);
 
     public Class getEntityClass();
+    
+    public BaseMapper<D, E> getMapper();
 
 }

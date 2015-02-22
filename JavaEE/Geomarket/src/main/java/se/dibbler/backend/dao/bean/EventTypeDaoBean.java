@@ -39,7 +39,7 @@ public class EventTypeDaoBean extends BaseDaoBean<EventType, EventTypeDto> imple
     EventTypeTextDao languageText;
 
     public EventTypeDaoBean() {
-        super(EventType.class);
+        super(EventType.class, EventTypeDto.class);
     }
 
     @Override

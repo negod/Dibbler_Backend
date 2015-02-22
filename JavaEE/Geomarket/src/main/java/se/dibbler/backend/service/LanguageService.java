@@ -25,10 +25,8 @@ import se.dibbler.backend.dao.LanguageDao;
 import se.dibbler.backend.dto.CategoryDto;
 import se.dibbler.backend.dto.LanguageDto;
 import se.dibbler.backend.entity.Language;
-import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
 import se.dibbler.backend.generics.WsResponse;
-import se.dibbler.backend.mapper.LanguageMapper;
 
 /**
  *
@@ -45,11 +43,6 @@ public class LanguageService extends BaseWs<LanguageDto, Language, LanguageDao> 
     @Override
     public LanguageDao getDao() {
         return languageDao;
-    }
-
-    @Override
-    public BaseMapper<LanguageDto, Language> getMapper() {
-        return LanguageMapper.getInstance();
     }
 
     @POST

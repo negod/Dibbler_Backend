@@ -36,7 +36,6 @@ import se.dibbler.backend.entity.Language;
 import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
-import se.dibbler.backend.mapper.EventFullMapper;
 import se.dibbler.backend.utils.FileCreator;
 
 /**
@@ -58,7 +57,7 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
     PublishedEventDao publishedEvent;
 
     public EventDaoBean() {
-        super(Event.class);
+        super(Event.class, EventDto.class);
     }
 
     @Override
@@ -86,29 +85,6 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
             return Response.error(DaoError.EVENT_ADD_EVENT_TEXT);
         }
     }
-
-    /*@Override
-    public Response<List<EventSummaryDto>> getEventsByLocation(Double longitude, Double latitude, Double radius, String languageId) {
-        Response<List<Company>> locations = companyDao.getCompanyByLocation(longitude, latitude, radius, Unit.KM);
-        if (locations.hasErrors) {
-            return Response.error(locations.getError());
-        }
-
-        try {
-            List<EventSummaryDto> allEvents = new ArrayList<>();
-            for (Company company : locations.getData()) {
-                Response<List<EventSummaryDto>> events = EventSummaryMapper.getInstance().extractEvents(company, languageId);
-                if (events.hasNoErrors) {
-                    allEvents.addAll(events.getData());
-                }
-            }
-            return Response.success(allEvents);
-        } catch (Exception e) {
-            getLogger().error("[ Error when getting events by location ] [ ERROR ]", e);
-            return Response.error(DaoError.EVENT_GET_EVENT_BY_LOCATION);
-        }
-
-    }*/
 
     @Override
     public Response<String> create(EventDto dto) {
@@ -197,16 +173,16 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
     @Override
     public Response<List<EventDtoFull>> getEventByCompany(String companyId) {
         try {
-            
+
             Response<Company> company = companyDao.getByExtId(companyId);
             if (company.hasErrors) {
                 return Response.error(company.getError());
             }
 
             List<EventDtoFull> events = new ArrayList<>();
-            
+
             for (Event event : company.getData().getEvents()) {
-                Response<EventDtoFull> eventDto = EventFullMapper.getInstance().mapFromEntityToDto(event);
+                Response<EventDtoFull> eventDto = eventTypeDao.getMapper().mapFromEntityToDto(event);
                 if (eventDto.hasNoErrors) {
                     events.add(eventDto.getData());
                 } else {

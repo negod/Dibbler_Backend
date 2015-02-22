@@ -14,7 +14,6 @@ import se.dibbler.backend.entity.Users;
 import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
-import se.dibbler.backend.mapper.UsersMapper;
 import se.dibbler.backend.mapper.summary.UserSummaryMapper;
 
 /**
@@ -25,12 +24,12 @@ import se.dibbler.backend.mapper.summary.UserSummaryMapper;
 public class UsersDaoBean extends BaseDaoBean<Users, UsersDto> implements UsersDao<Users, UsersDto> {
 
     public UsersDaoBean() {
-        super(Users.class);
+        super(Users.class, UsersDto.class);
     }
 
     @Override
     public Response create(UsersDto dto) {
-        Response<Users> entity = UsersMapper.getInstance().mapFromDtoToEntity(dto);
+        Response<Users> entity = super.mapFromDtoToEntity(dto);
         if (entity.hasErrors) {
             return Response.error(entity.getError());
         }

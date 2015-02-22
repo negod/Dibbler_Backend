@@ -20,10 +20,8 @@ import javax.ws.rs.core.MediaType;
 import se.dibbler.backend.dao.LocationDao;
 import se.dibbler.backend.dto.LocationDto;
 import se.dibbler.backend.entity.Location;
-import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
 import se.dibbler.backend.generics.WsResponse;
-import se.dibbler.backend.mapper.LocationMapper;
 
 /**
  *
@@ -40,11 +38,6 @@ public class LocationService extends BaseWs<LocationDto, Location, LocationDao> 
     @Override
     public LocationDao getDao() {
         return locationDao;
-    }
-
-    @Override
-    public BaseMapper<LocationDto, Location> getMapper() {
-        return LocationMapper.getInstance();
     }
 
     @POST

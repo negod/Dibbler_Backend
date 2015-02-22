@@ -46,11 +46,6 @@ public class PublishedEventService extends BaseWs<PublishedEventSummaryDto, Publ
         return publishedEventDao;
     }
 
-    @Override
-    public BaseMapper<PublishedEventSummaryDto, PublishedEvent> getMapper() {
-        return PublishedEventSummaryMapper.getInstance();
-    }
-
     @GET
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})

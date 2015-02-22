@@ -21,7 +21,7 @@ import se.dibbler.backend.generics.Response;
 public class EventTypeTextDaoBean extends BaseDaoBean<EventTypeText, EventTypeTextDto> implements EventTypeTextDao<EventTypeText, EventTypeTextDto> {
 
     public EventTypeTextDaoBean() {
-        super(EventTypeText.class);
+        super(EventTypeText.class, EventTypeTextDto.class);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class EventTypeTextDaoBean extends BaseDaoBean<EventTypeText, EventTypeTe
 
     @Override
     public Response<String> updateEventTypeNameByEventTextId(String name, String eventTypeTextId) {
-        
+
         Response<EventTypeText> evetTypeText = super.getByExtId(eventTypeTextId);
 
         if (evetTypeText.hasErrors) {

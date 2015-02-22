@@ -23,10 +23,8 @@ import javax.ws.rs.core.MediaType;
 import se.dibbler.backend.dao.FilterDao;
 import se.dibbler.backend.dto.FilterDto;
 import se.dibbler.backend.entity.Filter;
-import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
 import se.dibbler.backend.generics.WsResponse;
-import se.dibbler.backend.mapper.FilterMapper;
 
 /**
  * KOLLA DENNA!
@@ -44,11 +42,6 @@ public class FilterService extends BaseWs<FilterDto, Filter, FilterDao> {
     @Override
     public FilterDao getDao() {
         return filterDao;
-    }
-
-    @Override
-    public BaseMapper<FilterDto, Filter> getMapper() {
-        return FilterMapper.getInstance();
     }
 
     @POST

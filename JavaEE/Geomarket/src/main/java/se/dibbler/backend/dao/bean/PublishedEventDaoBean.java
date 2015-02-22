@@ -20,6 +20,7 @@ import org.hibernate.search.query.dsl.QueryBuilder;
 import org.hibernate.search.query.dsl.Unit;
 import se.dibbler.backend.constants.DibblerNamedQueries;
 import se.dibbler.backend.dao.EventDao;
+import se.dibbler.backend.dao.EventTextDao;
 import se.dibbler.backend.dao.LanguageDao;
 import se.dibbler.backend.dao.PublishedEventDao;
 import se.dibbler.backend.dto.PublishedEventDto;
@@ -34,7 +35,6 @@ import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Mapper;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.mapper.EventTextMapper;
-import se.dibbler.backend.mapper.PublishedEventMapper;
 
 /**
  *
@@ -48,9 +48,12 @@ public class PublishedEventDaoBean extends BaseDaoBean<PublishedEvent, Published
 
     @EJB
     LanguageDao languageDao;
+    
+    @EJB
+    EventTextDao eventTextDao;
 
     public PublishedEventDaoBean() {
-        super(PublishedEvent.class);
+        super(PublishedEvent.class, PublishedEventDto.class);
     }
 
     @Override
@@ -79,7 +82,7 @@ public class PublishedEventDaoBean extends BaseDaoBean<PublishedEvent, Published
 
             System.out.println(hibQuery.getQueryString());
             List<PublishedEvent> results = hibQuery.list();
-            return PublishedEventMapper.getInstance().mapToDtoList(results);
+            return super.mapToDtoList(results);
         } catch (Exception e) {
             super.getLogger().error("[ Error when getting events by location ] [LONG: {}] [LAT: {}] [RADIUS: {}] [ ERROR: {}]", longitude, latitude, radius, e.getMessage());
             return Response.error(DaoError.EVENT_BY_LOCATION);

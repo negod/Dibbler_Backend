@@ -43,9 +43,13 @@ public class CompanyDto extends CompanySummaryDto {
     @ApiModelProperty(value = "Locationgroups attacehd to the company", required = false)
     private List<LocationGroupDto> locationGroups;
 
-    @XmlElement(type = String.class, required = true)
+    @XmlElement(type = String.class, required = false)
     @ApiModelProperty(value = "The picture for the company in Base64 format", required = true)
     private String picture;
+
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "The id of the parent company", required = true)
+    private String parentCompanyId;
 
     public String getOrgNr() {
         return orgNr;
@@ -77,6 +81,30 @@ public class CompanyDto extends CompanySummaryDto {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public List<LocationDto> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<LocationDto> locations) {
+        this.locations = locations;
+    }
+
+    public List<LocationGroupDto> getLocationGroups() {
+        return locationGroups;
+    }
+
+    public void setLocationGroups(List<LocationGroupDto> locationGroups) {
+        this.locationGroups = locationGroups;
+    }
+
+    public String getParentCompanyId() {
+        return parentCompanyId;
+    }
+
+    public void setParentCompanyId(String parentCompanyId) {
+        this.parentCompanyId = parentCompanyId;
     }
 
 }

@@ -12,7 +12,6 @@ import se.dibbler.backend.entity.Roles;
 import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
-import se.dibbler.backend.mapper.RolesMapper;
 
 /**
  *
@@ -22,12 +21,12 @@ import se.dibbler.backend.mapper.RolesMapper;
 public class RolesDaoBean extends BaseDaoBean<Roles, RolesDto> implements RolesDao<Roles, RolesDto> {
 
     public RolesDaoBean() {
-        super(Roles.class);
+        super(Roles.class, RolesDto.class);
     }
 
     @Override
     public Response create(RolesDto dto) {
-        Response<Roles> entity = RolesMapper.getInstance().mapFromDtoToEntity(dto);
+        Response<Roles> entity = super.mapFromDtoToEntity(dto);
         if (entity.hasErrors) {
             return Response.error(entity.getError());
         }

@@ -24,10 +24,8 @@ import se.dibbler.backend.dao.CompanyUsersDao;
 import se.dibbler.backend.dto.CategoryDto;
 import se.dibbler.backend.dto.CompanyUsersDto;
 import se.dibbler.backend.entity.CompanyUsers;
-import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
 import se.dibbler.backend.generics.WsResponse;
-import se.dibbler.backend.mapper.CompanyUsersMapper;
 
 /**
  * KOLLA ÖVER DENNA!!
@@ -45,11 +43,6 @@ public class CompanyUsersService extends BaseWs<CompanyUsersDto, CompanyUsers, C
     @Override
     public CompanyUsersDao getDao() {
         return companyUsersDao;
-    }
-
-    @Override
-    public BaseMapper<CompanyUsersDto, CompanyUsers> getMapper() {
-        return CompanyUsersMapper.getInstance();
     }
 
     @POST

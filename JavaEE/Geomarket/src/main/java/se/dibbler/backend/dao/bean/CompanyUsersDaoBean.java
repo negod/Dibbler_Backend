@@ -21,7 +21,7 @@ import se.dibbler.backend.generics.Response;
 public class CompanyUsersDaoBean extends BaseDaoBean<CompanyUsers, CompanyUsersDto> implements CompanyUsersDao<CompanyUsers, CompanyUsersDto> {
 
     public CompanyUsersDaoBean() {
-        super(CompanyUsers.class);
+        super(CompanyUsers.class, CompanyUsersDto.class);
     }
 
     @Override

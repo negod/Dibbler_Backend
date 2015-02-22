@@ -23,10 +23,8 @@ import javax.ws.rs.core.MediaType;
 import se.dibbler.backend.dao.CompanyDao;
 import se.dibbler.backend.dto.CompanyDto;
 import se.dibbler.backend.entity.Company;
-import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.BaseWs;
 import se.dibbler.backend.generics.WsResponse;
-import se.dibbler.backend.mapper.CompanyMapper;
 
 /**
  *
@@ -43,11 +41,6 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @Override
     public CompanyDao getDao() {
         return companyDao;
-    }
-
-    @Override
-    public BaseMapper<CompanyDto, Company> getMapper() {
-        return CompanyMapper.getInstance();
     }
 
     @POST
