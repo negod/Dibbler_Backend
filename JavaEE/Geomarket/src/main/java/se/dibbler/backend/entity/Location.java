@@ -6,8 +6,6 @@
 package se.dibbler.backend.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Field;
@@ -39,9 +37,6 @@ public class Location extends BaseEntity {
     @Longitude
     Double longitude;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    Company company;
-
     public Double getLatitude() {
         return latitude;
     }
@@ -56,14 +51,6 @@ public class Location extends BaseEntity {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
     }
 
 }

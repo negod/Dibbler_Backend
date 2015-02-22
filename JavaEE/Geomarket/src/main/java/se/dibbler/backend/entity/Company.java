@@ -11,10 +11,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
+import se.dibbler.backend.constants.DibblerNamedQueries;
 import se.dibbler.backend.generics.BaseEntity;
 
 /**
@@ -22,6 +24,8 @@ import se.dibbler.backend.generics.BaseEntity;
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = DibblerNamedQueries.COMPANY_GET_BY_ORGNO, query = "SELECT c FROM Company c where c.orgNr =:orgNr")})
 public class Company extends BaseEntity {
 
     @NotNull(message = "cannot be null and must be unique")
@@ -57,22 +61,22 @@ public class Company extends BaseEntity {
     @Column
     private String largeImageUrl;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, optional = false)
     private Location location;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "company", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "company", orphanRemoval = true)
     private List<CompanyUsers> companyUsers;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "company", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "company", orphanRemoval = true)
     private List<Event> events;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "company", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "company", orphanRemoval = true)
     private List<PublishedEvent> publishedEvents;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "company", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<LocationGroup> locationGroups;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "company", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Location> locations;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -263,15 +267,6 @@ public class Company extends BaseEntity {
 
     public void setLocations(List<Location> locations) {
         this.locations = locations;
-    }
-
-    @PrePersist
-    @Override
-    protected void onCreate() {
-        super.onCreate();
-        if (location != null) {
-            location.setCompany(this);
-        }
     }
 
 }

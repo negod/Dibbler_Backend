@@ -69,6 +69,9 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
     @Override
     public abstract Response<String> create(D dto);
 
+    @Override
+    public abstract Response<String> update(D dto, String extId);
+
     private Response<String> getSQLIntegrityConstraintViolation(Throwable exception) {
         Throwable t = exception.getCause();
         while ((t != null) && !(t instanceof SQLIntegrityConstraintViolationException)) {

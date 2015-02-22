@@ -10,6 +10,7 @@ import se.dibbler.backend.dao.RolesDao;
 import se.dibbler.backend.dto.RolesDto;
 import se.dibbler.backend.entity.Roles;
 import se.dibbler.backend.generics.BaseDaoBean;
+import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.mapper.RolesMapper;
 
@@ -31,6 +32,11 @@ public class RolesDaoBean extends BaseDaoBean<Roles, RolesDto> implements RolesD
             return Response.error(entity.getError());
         }
         return super.create(entity.getData());
+    }
+
+    @Override
+    public Response<String> update(RolesDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }

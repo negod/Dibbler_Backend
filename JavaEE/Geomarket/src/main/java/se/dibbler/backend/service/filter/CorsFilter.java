@@ -36,16 +36,8 @@ public class CorsFilter implements Filter {
             response.setHeader("Access-Control-Max-Age", "3600");
             response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
             chain.doFilter(req, res);
-
-            /*responseCtx.getHeaders().add("Access-Control-Allow-Origin", "*");
-             responseCtx.getHeaders().add("Access-Control-Allow-Credentials", "true");
-             responseCtx.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
-             chain.doFilter(request, response);*/
-        } catch (IOException e) {
-            System.out.println("CORS FILTER EXCEPTION");
-
-        } catch (ServletException e) {
-            System.out.println("CORS FILTER EXCEPTION");
+        } catch (IOException | ServletException e) {
+            System.out.println("CORS FILTER EXCEPTION" + e.getMessage());
         }
     }
 

@@ -10,6 +10,7 @@ import se.dibbler.backend.dao.LanguageDao;
 import se.dibbler.backend.dto.LanguageDto;
 import se.dibbler.backend.entity.Language;
 import se.dibbler.backend.generics.BaseDaoBean;
+import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.mapper.LanguageMapper;
 
@@ -31,5 +32,10 @@ public class LanguageDaoBean extends BaseDaoBean<Language, LanguageDto> implemen
             return Response.error(entity.getError());
         }
         return super.create(entity.getData());
+    }
+
+    @Override
+    public Response<String> update(LanguageDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 }

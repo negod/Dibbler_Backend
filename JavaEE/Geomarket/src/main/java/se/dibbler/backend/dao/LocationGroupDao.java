@@ -12,12 +12,10 @@ import se.dibbler.backend.generics.BaseEntity;
 
 /**
  *
- * @author Joakikm Johansson (joakimjohansson@outlook.com)
+ * @author Joakim Johansson (joakimjohansson@outlook.com)
  * @param <E>
  * @param <D>
- *
  */
 @Local
-public interface CompanyDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
-
+public interface LocationGroupDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
 }

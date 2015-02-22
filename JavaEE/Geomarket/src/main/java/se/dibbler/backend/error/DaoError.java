@@ -45,7 +45,17 @@ public enum DaoError implements ErrorCode {
     /**
      * Company DAO Errors
      */
-    COMPANY_BY_LOCATION(2040, "Error when getting company by location");
+    COMPANY_BY_LOCATION(2040, "Error when getting company by location"),
+    COMPANY_CREATE_UNIQUE_ORGNO(2041, "Company with orgNr already exists, orgNr must be unique!"),
+    /**
+     * Location DAO Errors
+     */
+    LOCATION_ADD_TO_COMPANY(2050, "Error when adding location to locationlist in company"),
+    LOCATION_ADD_TO_LOCATION_GROUP(2051, "Error when adding location to LocationGroup in company"),
+    LOCATION_REMOVE_LOCATION_FROM_GROUP(2052, "Error when removing Location from LocationGroup"),
+    LOCATION_ADD_LOCATION_GROUP(2053, "Error when adding Location to LocationGroup"),
+    LOCATION_UPDATE_IN_COMPANY(2053, "Error when updating Location in Company LocationList"),
+    LOCATION_REMOVE_IN_COMPANY(2053, "Error when removing Location in Company LocationList");
 
     private final Integer errorCode;
     private final String errorText;
@@ -62,7 +72,7 @@ public enum DaoError implements ErrorCode {
 
     @Override
     public String getErrorText() {
-        return "[ DAO ERROR ( Not generic DAO ) ] " + errorText;
+        return "[ ERROR ] " + errorText;
     }
 
 }

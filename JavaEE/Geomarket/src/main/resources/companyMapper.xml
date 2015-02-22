@@ -17,6 +17,12 @@
     </mapping>
     
     <mapping map-null="false" map-empty-string="false">
+        <class-a>se.dibbler.backend.entity.LocationGroup</class-a>
+        <class-b>se.dibbler.backend.dto.LocationGroupDto</class-b>            
+    </mapping>
+    
+    
+    <mapping map-null="false" map-empty-string="false">
         <class-a>se.dibbler.backend.entity.Location</class-a>
         <class-b>se.dibbler.backend.dto.summary.LocationSummaryDto</class-b>            
     </mapping>

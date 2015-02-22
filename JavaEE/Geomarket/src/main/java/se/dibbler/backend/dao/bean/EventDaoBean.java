@@ -37,7 +37,6 @@ import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.mapper.EventFullMapper;
-import se.dibbler.backend.mapper.summary.EventSummaryMapper;
 import se.dibbler.backend.utils.FileCreator;
 
 /**
@@ -88,7 +87,7 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
         }
     }
 
-    @Override
+    /*@Override
     public Response<List<EventSummaryDto>> getEventsByLocation(Double longitude, Double latitude, Double radius, String languageId) {
         Response<List<Company>> locations = companyDao.getCompanyByLocation(longitude, latitude, radius, Unit.KM);
         if (locations.hasErrors) {
@@ -109,7 +108,7 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
             return Response.error(DaoError.EVENT_GET_EVENT_BY_LOCATION);
         }
 
-    }
+    }*/
 
     @Override
     public Response<String> create(EventDto dto) {
@@ -231,6 +230,11 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
     @Override
     public Response<List<EventSummaryDto>> getPublishedEventsByLocation(Double longitude, Double latitude, Double radius, String languageId) {
         return publishedEvent.getEventsByLocation(longitude, latitude, radius, Unit.KM);
+    }
+
+    @Override
+    public Response<String> update(EventDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }

@@ -12,12 +12,11 @@ import se.dibbler.backend.constants.DibblerNamedQueries;
 import se.dibbler.backend.dao.EventTextDao;
 import se.dibbler.backend.dto.languagesupport.EventTextDto;
 import se.dibbler.backend.dto.summary.EventTextSummaryDto;
-import se.dibbler.backend.entity.CategoryText;
 import se.dibbler.backend.entity.EventText;
 import se.dibbler.backend.error.DaoError;
 import se.dibbler.backend.generics.BaseDaoBean;
+import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
-import se.dibbler.backend.mapper.CategoryTextMapper;
 
 /**
  *
@@ -70,5 +69,10 @@ public class EventTextDaoBean extends BaseDaoBean<EventText, EventTextDto> imple
             return Response.error(DaoError.CATEGORY_GET_BY_LANGUAGE);
         }
 
+    }
+
+    @Override
+    public Response<String> update(EventTextDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 }

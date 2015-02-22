@@ -7,6 +7,7 @@ package se.dibbler.backend.dto;
 
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -34,10 +35,18 @@ public class CompanyDto extends CompanySummaryDto {
     @ApiModelProperty(value = "The exact location of the company", required = true)
     private LocationDto location;
 
+    @XmlElement(type = LocationDto.class, required = false)
+    @ApiModelProperty(value = "Locations attached the company", required = false)
+    private List<LocationDto> locations;
+
+    @XmlElement(type = LocationGroupDto.class, required = false)
+    @ApiModelProperty(value = "Locationgroups attacehd to the company", required = false)
+    private List<LocationGroupDto> locationGroups;
+
     @XmlElement(type = String.class, required = true)
     @ApiModelProperty(value = "The picture for the company in Base64 format", required = true)
     private String picture;
-    
+
     public String getOrgNr() {
         return orgNr;
     }

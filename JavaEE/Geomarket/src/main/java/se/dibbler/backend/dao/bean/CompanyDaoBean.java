@@ -5,24 +5,20 @@
  */
 package se.dibbler.backend.dao.bean;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.Stateless;
-import org.apache.lucene.search.Query;
-import org.hibernate.Session;
-import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
-import org.hibernate.search.query.dsl.QueryBuilder;
-import org.hibernate.search.query.dsl.Unit;
 import se.dibbler.backend.constants.DibblerConstants;
 import se.dibbler.backend.constants.DibblerFileType;
+import se.dibbler.backend.constants.DibblerNamedQueries;
 import se.dibbler.backend.constants.PictureUrl;
-import se.dibbler.backend.error.DaoError;
 import se.dibbler.backend.dao.CompanyDao;
 import se.dibbler.backend.dto.CompanyDto;
 import se.dibbler.backend.entity.Company;
+import se.dibbler.backend.entity.EventText;
 import se.dibbler.backend.entity.Location;
+import se.dibbler.backend.error.DaoError;
 import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
@@ -42,40 +38,16 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
     }
 
     @Override
-    public Response<List<Company>> getCompanyByLocation(Double longitude, Double latitude, Double radius, Unit unit) {
-        try {
-            Session session = (Session) super.getEntityManager().getDelegate();
-            FullTextSession fullTextSession = Search.getFullTextSession(session);
-            QueryBuilder builder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(Location.class).get();
-            Query query = builder.spatial().onDefaultCoordinates()
-                    .within(radius, unit)
-                    .ofLatitude(latitude)
-                    .andLongitude(longitude)
-                    .createQuery();
-            org.hibernate.Query hibQuery = fullTextSession.createFullTextQuery(query, Location.class);
-            List<Location> results = hibQuery.list();
-            return extractCompanies(results);
-        } catch (Exception e) {
-            super.getLogger().error("[ Error when getting company by location ] [LONG: {}] [LAT: {}] [RADIUS: {}]", longitude, latitude, radius);
-            return Response.error(DaoError.COMPANY_BY_LOCATION);
-        }
-    }
-
-    private Response<List<Company>> extractCompanies(List<Location> locations) {
-        List<Company> companies = new ArrayList<>();
-        for (Location loc : locations) {
-            if (loc.getCompany() != null) {
-                companies.add(loc.getCompany());
-            } else {
-                super.getLogger().debug("[ (Extract companies) Failed to get Company from location with ID: {} }", loc.getExtId());
-            }
-        }
-        return Response.success(companies);
-    }
-
-    @Override
     public Response create(CompanyDto dto) {
         try {
+
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("orgNr", dto.getOrgNr());
+            Response<Company> categoryTexts = super.getSingleByNamedQuery(DibblerNamedQueries.COMPANY_GET_BY_ORGNO, params);
+            if (categoryTexts.hasNoErrors) {
+                return Response.error(DaoError.COMPANY_CREATE_UNIQUE_ORGNO);
+            }
+
             Response<Company> entity = CompanyMapper.getInstance().mapFromDtoToEntity(dto);
 
             if (entity.hasErrors) {
@@ -100,4 +72,10 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
             return Response.error(GenericError.CREATE);
         }
     }
+
+    @Override
+    public Response<String> update(CompanyDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
+    }
+
 }

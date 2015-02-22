@@ -29,4 +29,9 @@ public class CompanyUsersDaoBean extends BaseDaoBean<CompanyUsers, CompanyUsersD
         return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
+    @Override
+    public Response<String> update(CompanyUsersDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
+    }
+
 }

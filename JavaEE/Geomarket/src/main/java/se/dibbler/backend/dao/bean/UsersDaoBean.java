@@ -12,6 +12,7 @@ import se.dibbler.backend.dto.UsersDto;
 import se.dibbler.backend.dto.summary.UserSummaryDto;
 import se.dibbler.backend.entity.Users;
 import se.dibbler.backend.generics.BaseDaoBean;
+import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.mapper.UsersMapper;
 import se.dibbler.backend.mapper.summary.UserSummaryMapper;
@@ -52,6 +53,11 @@ public class UsersDaoBean extends BaseDaoBean<Users, UsersDto> implements UsersD
             return Response.error(entityList.getError());
         }
         return UserSummaryMapper.getInstance().mapToDtoList(entityList.getData());
+    }
+
+    @Override
+    public Response<String> update(UsersDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }

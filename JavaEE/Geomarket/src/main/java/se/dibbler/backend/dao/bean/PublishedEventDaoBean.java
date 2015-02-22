@@ -30,6 +30,7 @@ import se.dibbler.backend.entity.Language;
 import se.dibbler.backend.entity.PublishedEvent;
 import se.dibbler.backend.error.DaoError;
 import se.dibbler.backend.generics.BaseDaoBean;
+import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Mapper;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.mapper.EventTextMapper;
@@ -160,6 +161,11 @@ public class PublishedEventDaoBean extends BaseDaoBean<PublishedEvent, Published
             return Response.error(DaoError.EVENT_PUBLISH);
         }
 
+    }
+
+    @Override
+    public Response<String> update(PublishedEventDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }

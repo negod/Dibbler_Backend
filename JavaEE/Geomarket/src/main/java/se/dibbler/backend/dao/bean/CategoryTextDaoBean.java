@@ -10,6 +10,7 @@ import se.dibbler.backend.dao.CategoryTextDao;
 import se.dibbler.backend.dto.languagesupport.CategoryTextDto;
 import se.dibbler.backend.entity.CategoryText;
 import se.dibbler.backend.generics.BaseDaoBean;
+import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
 
 /**
@@ -25,7 +26,7 @@ public class CategoryTextDaoBean extends BaseDaoBean<CategoryText, CategoryTextD
 
     @Override
     public Response<String> create(CategoryTextDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
     @Override
@@ -39,6 +40,11 @@ public class CategoryTextDaoBean extends BaseDaoBean<CategoryText, CategoryTextD
         evetTypeText.getData().setValue(name);
 
         return Response.success(evetTypeText.getData().getExtId());
+    }
+
+    @Override
+    public Response<String> update(CategoryTextDto dto, String extId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
