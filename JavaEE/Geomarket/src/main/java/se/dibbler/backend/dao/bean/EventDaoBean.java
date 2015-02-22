@@ -55,6 +55,8 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
     CompanyDao companyDao;
     @EJB
     PublishedEventDao publishedEvent;
+    @EJB
+    EventDao eventDao;
 
     public EventDaoBean() {
         super(Event.class, EventDto.class);
@@ -182,7 +184,7 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
             List<EventDtoFull> events = new ArrayList<>();
 
             for (Event event : company.getData().getEvents()) {
-                Response<EventDtoFull> eventDto = eventTypeDao.getMapper().mapFromEntityToDto(event);
+                Response<EventDtoFull> eventDto = eventDao.getMapper().mapFromEntityToDto(event);
                 if (eventDto.hasNoErrors) {
                     events.add(eventDto.getData());
                 } else {

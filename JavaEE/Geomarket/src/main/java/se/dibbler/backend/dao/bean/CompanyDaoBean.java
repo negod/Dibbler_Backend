@@ -41,6 +41,7 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
             HashMap<String, Object> params = new HashMap<>();
             params.put("orgNr", dto.getOrgNr());
             Response<Company> categoryTexts = super.getSingleByNamedQuery(DibblerNamedQueries.COMPANY_GET_BY_ORGNO, params);
+            
             if (categoryTexts.hasNoErrors) {
                 return Response.error(DaoError.COMPANY_CREATE_UNIQUE_ORGNO);
             }

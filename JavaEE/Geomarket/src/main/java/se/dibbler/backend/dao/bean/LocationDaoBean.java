@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import se.dibbler.backend.constants.RegExp;
 import se.dibbler.backend.dao.CompanyDao;
 import se.dibbler.backend.dao.LocationDao;
 import se.dibbler.backend.dto.LocationDto;
@@ -28,6 +29,9 @@ public class LocationDaoBean extends BaseDaoBean<Location, LocationDto> implemen
 
     @EJB
     CompanyDao companyDao;
+
+    @EJB
+    LocationDao locationDao;
 
     public LocationDaoBean() {
         super(Location.class, LocationDto.class);
@@ -49,17 +53,17 @@ public class LocationDaoBean extends BaseDaoBean<Location, LocationDto> implemen
 
             Response<Location> location = Response.error(GenericError.NO_RESULT);
 
-            if (dto.getId() != null) {
-                location = super.getByExtId(dto.getId());
+            if (dto.getId() != null && !dto.getId().isEmpty()) {
+                if (dto.getId().matches(RegExp.GUID)) {
+                    location = super.getByExtId(dto.getId());
+                }
             }
 
             if (location.hasErrors) {
-
                 location = super.mapFromDtoToEntity(dto);
                 if (location.hasErrors) {
                     return Response.error(location.getError());
                 }
-
             }
 
             Response<Company> company = companyDao.getByExtId(companyId);
@@ -75,7 +79,7 @@ public class LocationDaoBean extends BaseDaoBean<Location, LocationDto> implemen
                 company.getData().getLocations().add(location.getData());
             }
 
-            return companyDao.update(company.getData());
+            return Response.success(company.getData().getExtId());
         } catch (Exception e) {
             getLogger().error("[ " + DaoError.LOCATION_ADD_TO_COMPANY.getErrorText() + " ]", e);
             return Response.error(DaoError.LOCATION_ADD_TO_COMPANY);
@@ -84,13 +88,24 @@ public class LocationDaoBean extends BaseDaoBean<Location, LocationDto> implemen
     }
 
     @Override
-    public Response<String> removeLocationInCompany(LocationDto dto, String companyId) {
+    public Response<String> removeLocationInCompany(String locationId, String companyId) {
         try {
             Response<Company> company = companyDao.getByExtId(companyId);
             if (company.hasErrors) {
                 return Response.error(company.getError());
             }
-            return null;
+
+            //List<Location> locations = new ArrayList<Location>();
+            for (Location location : company.getData().getLocations()) {
+                if (location.getExtId().equalsIgnoreCase(locationId)) {
+                    company.getData().getLocations().remove(location);
+                }
+            }
+
+            /*company.getData().getLocations().clear();
+             company.getData().setLocations(locations);*/
+            return companyDao.update(company.getData());
+
         } catch (Exception e) {
             getLogger().error("[ " + DaoError.LOCATION_REMOVE_LOCATION_FROM_GROUP.getErrorText() + " ]", e.getMessage());
             return Response.error(DaoError.LOCATION_REMOVE_LOCATION_FROM_GROUP);
@@ -104,10 +119,18 @@ public class LocationDaoBean extends BaseDaoBean<Location, LocationDto> implemen
             if (company.hasErrors) {
                 return Response.error(company.getError());
             }
-            return null;
+
+            for (Location location : company.getData().getLocations()) {
+                if (location.getExtId().equalsIgnoreCase(dto.getId())) {
+                    location.setLatitude(dto.getLatitude());
+                    location.setLongitude(dto.getLongitude());
+                }
+            }
+
+            return Response.success(company.getData().getExtId());
         } catch (Exception e) {
-            getLogger().error("[ " + DaoError.LOCATION_REMOVE_LOCATION_FROM_GROUP.getErrorText() + " ]", e.getMessage());
-            return Response.error(DaoError.LOCATION_REMOVE_LOCATION_FROM_GROUP);
+            getLogger().error("[ " + DaoError.LOCATION_UPDATE_IN_COMPANY.getErrorText() + " ]", e.getMessage());
+            return Response.error(DaoError.LOCATION_UPDATE_IN_COMPANY);
         }
 
     }

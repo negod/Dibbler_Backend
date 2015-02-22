@@ -24,7 +24,7 @@ public interface LocationDao<E extends BaseEntity, D extends BaseDto> extends Ba
 
     public Response<String> addLocationToCompany(LocationDto dto, String companyId);
 
-    public Response<String> removeLocationInCompany(LocationDto dto, String companyId);
+    public Response<String> removeLocationInCompany(String locationId, String companyId);
 
     public Response<String> updateLocationInCompany(LocationDto dto, String companyId);
 
