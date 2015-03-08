@@ -43,12 +43,12 @@ public class Event extends BaseEntity {
 
     @NotNull(message = "cannot be null")
     @Column
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date startDate;
 
     @NotNull(message = "cannot be null")
     @Column
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date endDate;
 
     @Column

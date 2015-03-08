@@ -7,6 +7,7 @@ package se.dibbler.backend.dto;
 
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -34,9 +35,21 @@ public class CompanyDto extends CompanySummaryDto {
     @ApiModelProperty(value = "The exact location of the company", required = true)
     private LocationDto location;
 
-    @XmlElement(type = String.class, required = true)
+    @XmlElement(type = LocationDto.class, required = false)
+    @ApiModelProperty(value = "Locations attached the company", required = false)
+    private List<LocationDto> locations;
+
+    @XmlElement(type = LocationGroupDto.class, required = false)
+    @ApiModelProperty(value = "Locationgroups attacehd to the company", required = false)
+    private List<LocationGroupDto> locationGroups;
+
+    @XmlElement(type = String.class, required = false)
     @ApiModelProperty(value = "The picture for the company in Base64 format", required = true)
     private String picture;
+
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "The id of the parent company", required = true)
+    private String parentCompanyId;
 
     public String getOrgNr() {
         return orgNr;
@@ -68,6 +81,30 @@ public class CompanyDto extends CompanySummaryDto {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public List<LocationDto> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<LocationDto> locations) {
+        this.locations = locations;
+    }
+
+    public List<LocationGroupDto> getLocationGroups() {
+        return locationGroups;
+    }
+
+    public void setLocationGroups(List<LocationGroupDto> locationGroups) {
+        this.locationGroups = locationGroups;
+    }
+
+    public String getParentCompanyId() {
+        return parentCompanyId;
+    }
+
+    public void setParentCompanyId(String parentCompanyId) {
+        this.parentCompanyId = parentCompanyId;
     }
 
 }

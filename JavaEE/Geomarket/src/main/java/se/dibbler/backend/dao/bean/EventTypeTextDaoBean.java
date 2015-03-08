@@ -10,6 +10,7 @@ import se.dibbler.backend.dao.EventTypeTextDao;
 import se.dibbler.backend.dto.languagesupport.EventTypeTextDto;
 import se.dibbler.backend.entity.EventTypeText;
 import se.dibbler.backend.generics.BaseDaoBean;
+import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
 
 /**
@@ -20,7 +21,7 @@ import se.dibbler.backend.generics.Response;
 public class EventTypeTextDaoBean extends BaseDaoBean<EventTypeText, EventTypeTextDto> implements EventTypeTextDao<EventTypeText, EventTypeTextDto> {
 
     public EventTypeTextDaoBean() {
-        super(EventTypeText.class);
+        super(EventTypeText.class, EventTypeTextDto.class);
     }
 
     @Override
@@ -30,7 +31,7 @@ public class EventTypeTextDaoBean extends BaseDaoBean<EventTypeText, EventTypeTe
 
     @Override
     public Response<String> updateEventTypeNameByEventTextId(String name, String eventTypeTextId) {
-        
+
         Response<EventTypeText> evetTypeText = super.getByExtId(eventTypeTextId);
 
         if (evetTypeText.hasErrors) {
@@ -41,6 +42,11 @@ public class EventTypeTextDaoBean extends BaseDaoBean<EventTypeText, EventTypeTe
 
         return Response.success(evetTypeText.getData().getExtId());
 
+    }
+
+    @Override
+    public Response<String> update(EventTypeTextDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }

@@ -10,8 +10,8 @@ import se.dibbler.backend.dao.MovementDao;
 import se.dibbler.backend.dto.MovementDto;
 import se.dibbler.backend.entity.Movement;
 import se.dibbler.backend.generics.BaseDaoBean;
+import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
-import se.dibbler.backend.mapper.MovementMapper;
 
 /**
  *
@@ -21,16 +21,21 @@ import se.dibbler.backend.mapper.MovementMapper;
 public class MovementDaoBean extends BaseDaoBean<Movement, MovementDto> implements MovementDao<Movement, MovementDto> {
 
     public MovementDaoBean() {
-        super(Movement.class);
+        super(Movement.class, MovementDto.class);
     }
 
     @Override
     public Response create(MovementDto dto) {
-        Response<Movement> entity = MovementMapper.getInstance().mapFromDtoToEntity(dto);
+        Response<Movement> entity = super.mapFromDtoToEntity(dto);
         if (entity.hasErrors) {
             return Response.error(entity.getError());
         }
         return super.create(entity.getData());
+    }
+
+    @Override
+    public Response<String> update(MovementDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }

@@ -22,6 +22,7 @@ import se.dibbler.backend.entity.Category;
 import se.dibbler.backend.entity.CategoryText;
 import se.dibbler.backend.entity.Language;
 import se.dibbler.backend.generics.BaseDaoBean;
+import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.mapper.summary.CategorySummaryMapper;
 
@@ -38,7 +39,7 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
     CategoryTextDao languageText;
 
     public CategoryDaoBean() {
-        super(Category.class);
+        super(Category.class, CategoryDto.class);
     }
 
     @Override
@@ -129,6 +130,11 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
         category.getData().setDescription(description);
 
         return Response.success(category.getData().getExtId());
+    }
+
+    @Override
+    public Response<String> update(CategoryDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }

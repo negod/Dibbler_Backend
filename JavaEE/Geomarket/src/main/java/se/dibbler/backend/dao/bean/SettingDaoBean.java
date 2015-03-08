@@ -10,8 +10,8 @@ import se.dibbler.backend.dao.SettingDao;
 import se.dibbler.backend.dto.SettingDto;
 import se.dibbler.backend.entity.Setting;
 import se.dibbler.backend.generics.BaseDaoBean;
+import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
-import se.dibbler.backend.mapper.SettingsMapper;
 
 /**
  *
@@ -21,16 +21,21 @@ import se.dibbler.backend.mapper.SettingsMapper;
 public class SettingDaoBean extends BaseDaoBean<Setting, SettingDto> implements SettingDao<Setting, SettingDto> {
 
     public SettingDaoBean() {
-        super(Setting.class);
+        super(Setting.class, SettingDto.class);
     }
 
     @Override
     public Response create(SettingDto dto) {
-        Response<Setting> entity = SettingsMapper.getInstance().mapFromDtoToEntity(dto);
+        Response<Setting> entity = super.mapFromDtoToEntity(dto);
         if (entity.hasErrors) {
             return Response.error(entity.getError());
         }
         return super.create(entity.getData());
+    }
+
+    @Override
+    public Response<String> update(SettingDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }

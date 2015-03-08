@@ -5,14 +5,10 @@
  */
 package se.dibbler.backend.dao;
 
-import java.util.List;
 import javax.ejb.Local;
-import org.hibernate.search.query.dsl.Unit;
-import se.dibbler.backend.entity.Company;
 import se.dibbler.backend.generics.BaseDao;
 import se.dibbler.backend.generics.BaseDto;
 import se.dibbler.backend.generics.BaseEntity;
-import se.dibbler.backend.generics.Response;
 
 /**
  *
@@ -23,7 +19,5 @@ import se.dibbler.backend.generics.Response;
  */
 @Local
 public interface CompanyDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
-
-    public Response<List<Company>> getCompanyByLocation(Double longitude, Double latitude, Double radius, Unit unit);
 
 }

@@ -5,17 +5,11 @@
  */
 package se.dibbler.backend.dao.bean;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.imageio.ImageIO;
-import org.apache.commons.codec.binary.Base64;
 import org.hibernate.search.query.dsl.Unit;
 import se.dibbler.backend.constants.DibblerConstants;
 import se.dibbler.backend.constants.DibblerFileType;
@@ -29,6 +23,8 @@ import se.dibbler.backend.dao.EventTypeDao;
 import se.dibbler.backend.dao.LanguageDao;
 import se.dibbler.backend.dao.PublishedEventDao;
 import se.dibbler.backend.dto.EventDto;
+import se.dibbler.backend.dto.create.PublishEventCreateDto;
+import se.dibbler.backend.dto.full.EventDtoFull;
 import se.dibbler.backend.dto.languagesupport.LanguageTextDto;
 import se.dibbler.backend.dto.summary.EventSummaryDto;
 import se.dibbler.backend.entity.Category;
@@ -40,8 +36,6 @@ import se.dibbler.backend.entity.Language;
 import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
-import se.dibbler.backend.mapper.EventMapper;
-import se.dibbler.backend.mapper.summary.EventSummaryMapper;
 import se.dibbler.backend.utils.FileCreator;
 
 /**
@@ -61,9 +55,11 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
     CompanyDao companyDao;
     @EJB
     PublishedEventDao publishedEvent;
+    @EJB
+    EventDao eventDao;
 
     public EventDaoBean() {
-        super(Event.class);
+        super(Event.class, EventDto.class);
     }
 
     @Override
@@ -90,29 +86,6 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
             getLogger().error("[ Error when adding EventText ] [ ERROR ]", e);
             return Response.error(DaoError.EVENT_ADD_EVENT_TEXT);
         }
-    }
-
-    @Override
-    public Response<List<EventSummaryDto>> getEventsByLocation(Double longitude, Double latitude, Double radius, String languageId) {
-        Response<List<Company>> locations = companyDao.getCompanyByLocation(longitude, latitude, radius, Unit.KM);
-        if (locations.hasErrors) {
-            return Response.error(locations.getError());
-        }
-
-        try {
-            List<EventSummaryDto> allEvents = new ArrayList<>();
-            for (Company company : locations.getData()) {
-                Response<List<EventSummaryDto>> events = EventSummaryMapper.getInstance().extractEvents(company, languageId);
-                if (events.hasNoErrors) {
-                    allEvents.addAll(events.getData());
-                }
-            }
-            return Response.success(allEvents);
-        } catch (Exception e) {
-            getLogger().error("[ Error when getting events by location ] [ ERROR ]", e);
-            return Response.error(DaoError.EVENT_GET_EVENT_BY_LOCATION);
-        }
-
     }
 
     @Override
@@ -195,21 +168,23 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
     }
 
     @Override
-    public Response<String> publishEvent(Event event, String languageId) {
-        return publishedEvent.publishEvent(event, languageId);
+    public Response<String> publishEvent(PublishEventCreateDto data) {
+        return publishedEvent.publishEvent(data);
     }
 
     @Override
-    public Response<List<EventDto>> getEventByCompany(String companyId) {
+    public Response<List<EventDtoFull>> getEventByCompany(String companyId) {
         try {
+
             Response<Company> company = companyDao.getByExtId(companyId);
             if (company.hasErrors) {
                 return Response.error(company.getError());
             }
 
-            List<EventDto> events = new ArrayList<>();
+            List<EventDtoFull> events = new ArrayList<>();
+
             for (Event event : company.getData().getEvents()) {
-                Response<EventDto> eventDto = EventMapper.getInstance().mapFromEntityToDto(event);
+                Response<EventDtoFull> eventDto = eventDao.getMapper().mapFromEntityToDto(event);
                 if (eventDto.hasNoErrors) {
                     events.add(eventDto.getData());
                 } else {
@@ -233,6 +208,11 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
     @Override
     public Response<List<EventSummaryDto>> getPublishedEventsByLocation(Double longitude, Double latitude, Double radius, String languageId) {
         return publishedEvent.getEventsByLocation(longitude, latitude, radius, Unit.KM);
+    }
+
+    @Override
+    public Response<String> update(EventDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }

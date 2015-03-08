@@ -33,19 +33,22 @@ public class ApplicationConfig extends Application {
      * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(se.dibbler.backend.ws.CategoryService.class);
-        resources.add(se.dibbler.backend.ws.CompanyService.class);
-        resources.add(se.dibbler.backend.ws.CompanyUsersService.class);
-        resources.add(se.dibbler.backend.ws.EventService.class);
-        resources.add(se.dibbler.backend.ws.EventTypeService.class);
-        resources.add(se.dibbler.backend.ws.FilterService.class);
-        resources.add(se.dibbler.backend.ws.IdService.class);
-        resources.add(se.dibbler.backend.ws.IndexService.class);
-        resources.add(se.dibbler.backend.ws.LanguageService.class);
-        resources.add(se.dibbler.backend.ws.MovementService.class);
-        resources.add(se.dibbler.backend.ws.RolesService.class);
-        resources.add(se.dibbler.backend.ws.SettingService.class);
-        resources.add(se.dibbler.backend.ws.UsersService.class);
+        resources.add(se.dibbler.backend.service.CategoryService.class);
+        resources.add(se.dibbler.backend.service.CompanyService.class);
+        resources.add(se.dibbler.backend.service.CompanyUsersService.class);
+        resources.add(se.dibbler.backend.service.EventService.class);
+        resources.add(se.dibbler.backend.service.EventTypeService.class);
+        resources.add(se.dibbler.backend.service.FilterService.class);
+        resources.add(se.dibbler.backend.service.IdService.class);
+        resources.add(se.dibbler.backend.service.IndexService.class);
+        resources.add(se.dibbler.backend.service.LanguageService.class);
+        resources.add(se.dibbler.backend.service.LocationGroupService.class);
+        resources.add(se.dibbler.backend.service.LocationService.class);
+        resources.add(se.dibbler.backend.service.MovementService.class);
+        resources.add(se.dibbler.backend.service.PublishedEventService.class);
+        resources.add(se.dibbler.backend.service.RolesService.class);
+        resources.add(se.dibbler.backend.service.SettingService.class);
+        resources.add(se.dibbler.backend.service.UsersService.class);
     }
 
 }

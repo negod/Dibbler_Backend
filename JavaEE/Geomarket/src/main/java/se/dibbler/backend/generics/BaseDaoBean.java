@@ -35,17 +35,15 @@ import org.slf4j.LoggerFactory;
  * @param <E> The Entity to persist
  * @param <D> The Dto to manipulate before persisting as Entity
  */
-public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> implements BaseDao<E, D> {
+public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> extends BaseMapper<D, E> implements BaseDao<E, D> {
 
     private static final Logger LOG = LoggerFactory.getLogger(BaseDaoBean.class);
-
-    Class<E> entityClass;
 
     @Resource
     Validator validator;
 
-    public BaseDaoBean(Class<E> entityClass) {
-        this.entityClass = entityClass;
+    public BaseDaoBean(Class<E> entityClass, Class<D> dtoClass) {
+        super(dtoClass, entityClass);
     }
 
     @Override
@@ -68,6 +66,9 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
 
     @Override
     public abstract Response<String> create(D dto);
+
+    @Override
+    public abstract Response<String> update(D dto, String extId);
 
     private Response<String> getSQLIntegrityConstraintViolation(Throwable exception) {
         Throwable t = exception.getCause();
@@ -304,6 +305,11 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> imple
             }
         }
         return validations;
+    }
+
+    @Override
+    public BaseMapper<D, E> getMapper() {
+        return this;
     }
 
 }

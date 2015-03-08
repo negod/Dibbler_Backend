@@ -10,6 +10,7 @@ import se.dibbler.backend.dao.LanguageTextDao;
 import se.dibbler.backend.dto.languagesupport.LanguageTextDto;
 import se.dibbler.backend.entity.LanguageText;
 import se.dibbler.backend.generics.BaseDaoBean;
+import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
 
 /**
@@ -20,12 +21,17 @@ import se.dibbler.backend.generics.Response;
 public class LanguageTextDaoBean extends BaseDaoBean<LanguageText, LanguageTextDto> implements LanguageTextDao<LanguageText, LanguageTextDto> {
 
     public LanguageTextDaoBean() {
-        super(LanguageText.class);
+        super(LanguageText.class, LanguageTextDto.class);
     }
 
     @Override
     public Response<String> create(LanguageTextDto dto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Response<String> update(LanguageTextDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }

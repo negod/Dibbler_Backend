@@ -43,10 +43,14 @@ public interface BaseDao<E extends BaseEntity, D extends BaseDto> {
 
     public Response<String> update(E entity);
 
+    public Response<String> update(D dto, String extId);
+
     public Response<List<E>> getAll();
 
     public Response<Long> getId(String id);
 
     public Class getEntityClass();
+    
+    public BaseMapper<D, E> getMapper();
 
 }

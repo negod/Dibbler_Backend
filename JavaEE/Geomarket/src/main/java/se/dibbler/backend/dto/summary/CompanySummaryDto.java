@@ -7,7 +7,6 @@ package se.dibbler.backend.dto.summary;
 
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.persistence.Column;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -58,6 +57,10 @@ public class CompanySummaryDto extends BaseDto {
     @XmlElement(type = String.class, required = false)
     @ApiModelProperty(value = "The phone number of the company", required = false)
     private String phone;
+
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "The phone number of the company ( Cellphone )", required = false)
+    private String cellPhone;
 
     @XmlElement(type = String.class, required = false)
     @ApiModelProperty(value = "The url of the image", required = false)
@@ -167,4 +170,12 @@ public class CompanySummaryDto extends BaseDto {
         this.largeImageUrl = largeImageUrl;
     }
 
+    public String getCellPhone() {
+        return cellPhone;
+    }
+
+    public void setCellPhone(String cellPhone) {
+        this.cellPhone = cellPhone;
+    }
+    
 }

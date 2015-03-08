@@ -20,7 +20,7 @@ import se.dibbler.backend.generics.BaseDtoNoId;
 @ApiModel(value = "A location on a map with a fixed position")
 @XmlRootElement(name = "location")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class LocationSummaryDto extends BaseDtoNoId{
+public class LocationSummaryDto extends BaseDtoNoId {
 
     @XmlElement(type = Double.class, required = true)
     @ApiModelProperty(value = "The latitude of the location", required = true)

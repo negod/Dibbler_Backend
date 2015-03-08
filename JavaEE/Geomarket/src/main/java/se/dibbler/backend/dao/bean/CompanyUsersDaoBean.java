@@ -21,11 +21,16 @@ import se.dibbler.backend.generics.Response;
 public class CompanyUsersDaoBean extends BaseDaoBean<CompanyUsers, CompanyUsersDto> implements CompanyUsersDao<CompanyUsers, CompanyUsersDto> {
 
     public CompanyUsersDaoBean() {
-        super(CompanyUsers.class);
+        super(CompanyUsers.class, CompanyUsersDto.class);
     }
 
     @Override
     public Response create(CompanyUsersDto dto) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
+    }
+
+    @Override
+    public Response<String> update(CompanyUsersDto dto, String extId) {
         return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 

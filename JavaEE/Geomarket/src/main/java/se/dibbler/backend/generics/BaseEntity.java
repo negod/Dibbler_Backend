@@ -13,11 +13,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import se.dibbler.backend.entity.Users;
 
 /**
  *
@@ -27,10 +29,9 @@ import javax.validation.constraints.Pattern;
 public class BaseEntity implements Serializable {
 
     @Id
-    @NotNull(message = "Cannot be null!!, should be autoincrement!!")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, insertable = true)
-    private long id;
+    private Long id;
     @NotNull(message = "Cannot be null should be set to UUID")
     @Column(unique = true, updatable = false, insertable = true)
     @Pattern(regexp = "[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}")
@@ -43,6 +44,10 @@ public class BaseEntity implements Serializable {
     @Column
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date updatedDate;
+    @OneToOne
+    private Users createdUser;
+    @OneToOne
+    private Users updatedUser;
 
     @PreUpdate
     protected void onUpdate() {
@@ -56,11 +61,11 @@ public class BaseEntity implements Serializable {
         this.extId = UUID.randomUUID().toString();
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -86,6 +91,22 @@ public class BaseEntity implements Serializable {
 
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public Users getCreatedUser() {
+        return createdUser;
+    }
+
+    public void setCreatedUser(Users createdUser) {
+        this.createdUser = createdUser;
+    }
+
+    public Users getUpdatedUser() {
+        return updatedUser;
+    }
+
+    public void setUpdatedUser(Users updatedUser) {
+        this.updatedUser = updatedUser;
     }
 
 }

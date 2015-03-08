@@ -14,7 +14,7 @@ public enum GenericError implements ErrorCode {
     UNHANDELED_EXCEPTION(500, "Unhandled exception"),
     //GENERIC
     METHOD_NOT_IMPLEMENTED(700, "Method not yet implemented"),
-    FAILURE(701, "Generic error"),
+    FAILURE(701, "Generic error, see log for more details"),
     //CRUD
     CREATE(1000, "Error when inserting to database"),
     CONSTRAINT_VIOLATION(1001, "Contraint violation when inserting to database"),

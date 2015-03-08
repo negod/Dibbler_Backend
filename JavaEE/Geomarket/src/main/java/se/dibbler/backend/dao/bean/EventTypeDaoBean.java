@@ -22,6 +22,7 @@ import se.dibbler.backend.entity.EventType;
 import se.dibbler.backend.entity.EventTypeText;
 import se.dibbler.backend.entity.Language;
 import se.dibbler.backend.generics.BaseDaoBean;
+import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.mapper.summary.EventTypeSummaryMapper;
 
@@ -38,7 +39,7 @@ public class EventTypeDaoBean extends BaseDaoBean<EventType, EventTypeDto> imple
     EventTypeTextDao languageText;
 
     public EventTypeDaoBean() {
-        super(EventType.class);
+        super(EventType.class, EventTypeDto.class);
     }
 
     @Override
@@ -129,6 +130,11 @@ public class EventTypeDaoBean extends BaseDaoBean<EventType, EventTypeDto> imple
         eventType.getData().setDescription(description);
 
         return Response.success(eventType.getData().getExtId());
+    }
+
+    @Override
+    public Response<String> update(EventTypeDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
 }
