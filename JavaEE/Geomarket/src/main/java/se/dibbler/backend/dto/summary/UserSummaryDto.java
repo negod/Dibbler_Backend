@@ -22,7 +22,7 @@ import se.dibbler.backend.generics.BaseDto;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UserSummaryDto extends BaseDto {
 
-    @XmlElement(type = String.class, required = true)
+    @XmlElement(type = String.class, required = false)
     @ApiModelProperty(value = "The username of the user", required = true)
     private String username;
 
@@ -30,7 +30,7 @@ public class UserSummaryDto extends BaseDto {
     @ApiModelProperty(value = "The email of the user", required = true)
     private String email;
 
-    @XmlElement(type = String.class, required = true)
+    @XmlElement(type = String.class, required = false)
     @ApiModelProperty(value = "The users gender", required = true)
     private String gender;
 

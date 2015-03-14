@@ -6,12 +6,14 @@
 package se.dibbler.backend.entity;
 
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
+
 import se.dibbler.backend.generics.BaseEntity;
 
 /**
@@ -35,6 +37,10 @@ public class Users extends BaseEntity {
     private Integer age;
     @Column
     private String imageUrl;
+    @Column
+    private String googleId;
+    @Column
+    private String facebookId;
     @Column
     private boolean active;
     @OneToOne(fetch = FetchType.LAZY)
@@ -98,6 +104,22 @@ public class Users extends BaseEntity {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
     }
 
     public boolean isActive() {
