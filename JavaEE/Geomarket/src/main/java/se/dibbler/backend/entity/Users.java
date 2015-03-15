@@ -11,9 +11,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 
+import se.dibbler.backend.constants.DibblerNamedQueries;
 import se.dibbler.backend.generics.BaseEntity;
 
 /**
@@ -21,6 +24,11 @@ import se.dibbler.backend.generics.BaseEntity;
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = DibblerNamedQueries.USERS_FINDBY_FACEBOOK_ID, query = "SELECT u FROM Users u where u.facebookId = :facebookId"),
+    @NamedQuery(name = DibblerNamedQueries.USERS_FINDBY_GOOGLE_ID, query = "SELECT u FROM Users u where u.googleId = :googleId"),
+    @NamedQuery(name = DibblerNamedQueries.USERS_AUTHENTICATE, query = "SELECT u FROM Users u where u.username = :username and u.password = :password")
+})
 public class Users extends BaseEntity {
 
     @Column
@@ -37,9 +45,9 @@ public class Users extends BaseEntity {
     private Integer age;
     @Column
     private String imageUrl;
-    @Column
+    @Column(unique = true)
     private String googleId;
-    @Column
+    @Column(unique = true)
     private String facebookId;
     @Column
     private boolean active;
