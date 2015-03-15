@@ -5,6 +5,7 @@
  */
 package se.dibbler.backend.entity;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -27,15 +28,13 @@ import se.dibbler.backend.generics.BaseEntity;
 @NamedQueries({
     @NamedQuery(name = DibblerNamedQueries.USERS_FINDBY_FACEBOOK_ID, query = "SELECT u FROM Users u where u.facebookId = :facebookId"),
     @NamedQuery(name = DibblerNamedQueries.USERS_FINDBY_GOOGLE_ID, query = "SELECT u FROM Users u where u.googleId = :googleId"),
-    @NamedQuery(name = DibblerNamedQueries.USERS_AUTHENTICATE, query = "SELECT u FROM Users u where u.username = :username and u.password = :password")
+    @NamedQuery(name = DibblerNamedQueries.USERS_AUTHENTICATE, query = "SELECT u FROM Users u where u.email = :username and u.password = :password")
 })
 public class Users extends BaseEntity {
 
     @Column
-    private String username;
-    @Column
     private String displayName;
-    @Column
+    @Column(unique = true)
     private String email;
     @Column
     private String password;
@@ -44,7 +43,7 @@ public class Users extends BaseEntity {
     @Column
     private String gender;
     @Column
-    private Integer age;
+    private Date birthday;
     @Column
     private String imageUrl;
     @Column(unique = true)
@@ -59,14 +58,6 @@ public class Users extends BaseEntity {
     private Filter filter;
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Roles> roles;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getDisplayName() {
         return displayName;
@@ -108,12 +99,12 @@ public class Users extends BaseEntity {
         this.gender = gender;
     }
 
-    public Integer getAge() {
-        return age;
+    public Date getBirthday() {
+        return birthday;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public String getImageUrl() {

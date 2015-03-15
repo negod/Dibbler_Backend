@@ -5,12 +5,16 @@
  */
 package se.dibbler.backend.dto.summary;
 
+import java.util.Date;
+
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
 import se.dibbler.backend.generics.BaseDto;
 
 /**
@@ -22,9 +26,6 @@ import se.dibbler.backend.generics.BaseDto;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UserSummaryDto extends BaseDto {
 
-    @XmlElement(type = String.class, required = false)
-    @ApiModelProperty(value = "The username of the user", required = true)
-    private String username;
 
     @XmlElement(type = String.class, required = false)
     @ApiModelProperty(value = "The display name of the user", required = true)
@@ -38,9 +39,9 @@ public class UserSummaryDto extends BaseDto {
     @ApiModelProperty(value = "The users gender", required = true)
     private String gender;
 
-    @XmlElement(type = Integer.class, required = false)
-    @ApiModelProperty(value = "The users age", required = false)
-    private Integer age;
+    @XmlElement(type = Date.class, required = false)
+    @ApiModelProperty(value = "The users birthday", required = false)
+    private Date birthday;
 
     @XmlElement(type = String.class, required = false)
     @ApiModelProperty(value = "URL to the users avatar or image", required = false)
@@ -49,14 +50,6 @@ public class UserSummaryDto extends BaseDto {
     @XmlElement(required = true)
     @ApiModelProperty(value = "A flag to see if the user is active or not", required = true)
     private boolean active;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getDisplayName() {
         return displayName;
@@ -82,12 +75,12 @@ public class UserSummaryDto extends BaseDto {
         this.gender = gender;
     }
 
-    public Integer getAge() {
-        return age;
+    public Date getBirthday() {
+        return birthday;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public String getImageUrl() {
