@@ -34,6 +34,8 @@ public class Users extends BaseEntity {
     @Column
     private String username;
     @Column
+    private String displayName;
+    @Column
     private String email;
     @Column
     private String password;
@@ -64,6 +66,14 @@ public class Users extends BaseEntity {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getEmail() {

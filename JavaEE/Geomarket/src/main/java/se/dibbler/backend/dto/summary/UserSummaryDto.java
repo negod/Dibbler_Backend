@@ -26,6 +26,10 @@ public class UserSummaryDto extends BaseDto {
     @ApiModelProperty(value = "The username of the user", required = true)
     private String username;
 
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "The display name of the user", required = true)
+    private String displayName;
+
     @XmlElement(type = String.class, required = true)
     @ApiModelProperty(value = "The email of the user", required = true)
     private String email;
@@ -52,6 +56,14 @@ public class UserSummaryDto extends BaseDto {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getEmail() {
