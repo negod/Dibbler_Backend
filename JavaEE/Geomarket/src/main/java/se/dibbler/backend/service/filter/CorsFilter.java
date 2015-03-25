@@ -31,7 +31,7 @@ public class CorsFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         try {
             HttpServletResponse response = (HttpServletResponse) res;
-            response.setHeader("Access-Control-Allow-Origin", "*, http://puzzlestudio.com");
+            response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS, HEAD");
             response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With");
