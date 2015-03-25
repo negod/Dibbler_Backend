@@ -34,8 +34,7 @@ public class CorsFilter implements Filter {
             response.setHeader("Access-Control-Allow-Origin", "*");
             //response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS");
-            //response.setHeader("Access-Control-Allow-Headers", "Content-Type, Origin, Accept, X-Requested-With");
-            response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+            response.setHeader("Access-Control-Allow-Headers", "Content-Type, Origin, Accept, X-Requested-With");
             chain.doFilter(req, response);
         } catch (IOException | ServletException e) {
             System.out.println("CORS FILTER EXCEPTION" + e.getMessage());
