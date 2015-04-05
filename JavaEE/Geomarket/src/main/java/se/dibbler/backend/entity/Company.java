@@ -60,6 +60,8 @@ public class Company extends BaseEntity {
     private String smallImageUrl;
     @Column
     private String largeImageUrl;
+    @Column
+    private String siteManager;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, optional = false)
     private Location location;
@@ -82,7 +84,7 @@ public class Company extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Filter filter;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
     private Company parentCompany;
 
     public String getOrgNr() {
@@ -267,6 +269,14 @@ public class Company extends BaseEntity {
 
     public void setLocations(List<Location> locations) {
         this.locations = locations;
+    }
+
+    public String getSiteManager() {
+        return siteManager;
+    }
+
+    public void setSiteManager(String siteManager) {
+        this.siteManager = siteManager;
     }
 
 }

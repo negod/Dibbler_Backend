@@ -41,14 +41,15 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
             HashMap<String, Object> params = new HashMap<>();
             params.put("orgNr", dto.getOrgNr());
             Response<Company> categoryTexts = super.getSingleByNamedQuery(DibblerNamedQueries.COMPANY_GET_BY_ORGNO, params);
-            
+
             if (categoryTexts.hasNoErrors) {
                 return Response.error(DaoError.COMPANY_CREATE_UNIQUE_ORGNO);
             }
 
+            Response<Company> parentCompany = Response.error(DaoError.COMPANY_PARENT_NON_EXISTENT);
             if (dto.getParentCompanyId() != null && !dto.getParentCompanyId().isEmpty()) {
                 if (dto.getParentCompanyId().matches(RegExp.GUID)) {
-                    Response<Company> parentCompany = super.getByExtId(dto.getParentCompanyId());
+                    parentCompany = super.getByExtId(dto.getParentCompanyId());
                     if (parentCompany.hasErrors) {
                         return Response.error(parentCompany.getError());
                     }
@@ -56,6 +57,12 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
             }
 
             Response<Company> entity = super.mapFromDtoToEntity(dto);
+
+            if (parentCompany.hasNoErrors) {
+                entity.getData().setParentCompany(parentCompany.getData());
+            }else{
+                entity.getData().setParentCompany(null);
+            }
 
             if (entity.hasErrors) {
                 return Response.error(entity.getError());

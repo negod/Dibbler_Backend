@@ -8,6 +8,7 @@ package se.dibbler.backend.dto.full;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
 import javax.xml.bind.annotation.XmlElement;
 import se.dibbler.backend.constants.EventRecipientType;
 import se.dibbler.backend.dto.CategoryDto;
@@ -62,8 +63,12 @@ public class EventDtoFull extends BaseDto {
     Integer maxRedeem;
 
     @XmlElement(type = String.class, required = false)
-    @ApiModelProperty(value = "The picrure for the event in Base64 format", required = false)
-    String picture;
+    @ApiModelProperty(value = "The url for the picrure in 40*40 px", required = false)
+    private String imageLargeUrl;
+
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "The url for the picrure in  80*80 px", required = false)
+    private String imageSmallUrl;
 
     @XmlElement(type = EventRecipientType.class, required = false)
     @ApiModelProperty(value = "The recipient type", required = false)
@@ -149,12 +154,20 @@ public class EventDtoFull extends BaseDto {
         this.maxRedeem = maxRedeem;
     }
 
-    public String getPicture() {
-        return picture;
+    public String getImageLargeUrl() {
+        return imageLargeUrl;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setImageLargeUrl(String imageLargeUrl) {
+        this.imageLargeUrl = imageLargeUrl;
+    }
+
+    public String getImageSmallUrl() {
+        return imageSmallUrl;
+    }
+
+    public void setImageSmallUrl(String imageSmallUrl) {
+        this.imageSmallUrl = imageSmallUrl;
     }
 
     public EventRecipientType getRecipientType() {

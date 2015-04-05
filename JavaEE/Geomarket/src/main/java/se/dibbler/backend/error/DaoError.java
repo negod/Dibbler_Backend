@@ -47,6 +47,7 @@ public enum DaoError implements ErrorCode {
      */
     COMPANY_BY_LOCATION(2040, "Error when getting company by location"),
     COMPANY_CREATE_UNIQUE_ORGNO(2041, "Company with orgNr already exists, orgNr must be unique!"),
+    COMPANY_PARENT_NON_EXISTENT(2042, "Parent company does not exist"),
     /**
      * Location DAO Errors
      */

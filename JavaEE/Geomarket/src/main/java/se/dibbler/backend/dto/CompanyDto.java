@@ -51,6 +51,10 @@ public class CompanyDto extends CompanySummaryDto {
     @ApiModelProperty(value = "The id of the parent company", required = true)
     private String parentCompanyId;
 
+    @XmlElement(type = String.class, required = false)
+    @ApiModelProperty(value = "The name of the siteManager", required = true)
+    private String siteManager;
+
     public String getOrgNr() {
         return orgNr;
     }
@@ -105,6 +109,14 @@ public class CompanyDto extends CompanySummaryDto {
 
     public void setParentCompanyId(String parentCompanyId) {
         this.parentCompanyId = parentCompanyId;
+    }
+
+    public String getSiteManager() {
+        return siteManager;
+    }
+
+    public void setSiteManager(String siteManager) {
+        this.siteManager = siteManager;
     }
 
 }

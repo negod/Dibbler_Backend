@@ -102,6 +102,7 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> exten
             return Response.error(GenericError.CONSTRAINT_VIOLATION, buildViolationResponse(ex.getConstraintViolations()));
         } catch (Exception e) {
             LOG.error("[ Failed to create " + entityClass.getSimpleName() + " ] [ ERROR ] ", e.getMessage());
+            return Response.error(GenericError.CREATE, e.getMessage());
         }
         return Response.error(GenericError.CREATE);
     }
