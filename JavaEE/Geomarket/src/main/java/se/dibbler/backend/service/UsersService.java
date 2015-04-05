@@ -5,10 +5,6 @@
  */
 package se.dibbler.backend.service;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -23,7 +19,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
+
 import se.dibbler.backend.dao.UsersDao;
+import se.dibbler.backend.dto.AuthUserDto;
 import se.dibbler.backend.dto.UsersDto;
 import se.dibbler.backend.dto.summary.UserSummaryDto;
 import se.dibbler.backend.entity.Users;
@@ -32,6 +30,11 @@ import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Mapper;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.generics.WsResponse;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 /**
  *
@@ -66,7 +69,33 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
         @ApiResponse(code = 1008, message = "Wrong parameters or null in request ( Generic Dao Error )", response = String.class)
     })
     public WsResponse insert(UsersDto data) {
+        // If user has signed up with facebook or google before, we just return the id of that user
+        Response<UserSummaryDto> socialUser = getFacebookOrGoogleUser(data.getFacebookId(), data.getGoogleId());
+        if (socialUser.hasNoErrors) {
+            return new WsResponse<String>(socialUser.getData().getId(), 200);
+        }
         return super.insert(data);
+    }
+    
+    @POST
+    @Path("/authenticate")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @ApiOperation(httpMethod = "POST", value = "Authenticates a User", response = String.class, nickname = "authenticate")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Returns a user object", response = String.class),
+        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
+        @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity ( Generic Dao Error )", response = String.class),
+        @ApiResponse(code = 1008, message = "Wrong parameters or null in request ( Generic Dao Error )", response = String.class)
+    })
+    public WsResponse authenticate(AuthUserDto data) {
+        // If user has signed up with facebook or google before, we just return the id of that user
+        Response<UserSummaryDto> socialUser = getFacebookOrGoogleUser(data.getFacebookId(), data.getGoogleId());
+        if (socialUser.hasNoErrors) {
+            return socialUser.getWsResponse();
+        }
+        // TODO Password should not be sent as plain text!
+        return getDao().authenticate(data.getUsername(), data.getPassword()).getWsResponse();
     }
 
     @GET
@@ -172,6 +201,21 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
             return entity.getWsResponse();
         }
 
+    }
+    
+    private Response<UserSummaryDto> getFacebookOrGoogleUser(String facebookId, String googleId) {
+        if (facebookId != null) {
+            Response<UserSummaryDto> fbUser = getDao().getUserByFacebookId(facebookId);
+            if (fbUser.hasNoErrors && fbUser.getData() != null) {
+                return fbUser;
+            }
+        } else if (googleId != null) {
+            Response<UserSummaryDto> googleUser = getDao().getUserByGoogleId(googleId);
+            if (googleUser.hasNoErrors && googleUser.getData() != null) {
+                return googleUser;
+            }
+        }
+        return Response.error(GenericError.NO_RESULT);
     }
 
 }

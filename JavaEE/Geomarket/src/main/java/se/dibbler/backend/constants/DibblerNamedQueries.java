@@ -19,6 +19,10 @@ public class DibblerNamedQueries {
     public static final String EVENTTYPE_FINDBY_LANGUAGE_EXTID = "findEventTypeByLanguageExtId";
     public static final String EVENTTEXT_FINDBY_LANGUAGE_EXTID = "findEventTextsByLanguageExtId";
 
+    public static final String USERS_FINDBY_FACEBOOK_ID = "findUsersByFacebookId";
+    public static final String USERS_FINDBY_GOOGLE_ID = "findUsersByGoogleId";
+    public static final String USERS_AUTHENTICATE = "authenticateUser";
+
     public static final String PUBLISHED_EVENT_FINDBY_EXPIRED_DATE = "findEventByExpiredDate";
 
     public static final String COMPANY_GET_BY_ORGNO = "findByVatNo";

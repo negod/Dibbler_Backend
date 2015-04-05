@@ -6,7 +6,9 @@
 package se.dibbler.backend.dao;
 
 import java.util.List;
+
 import javax.ejb.Local;
+
 import se.dibbler.backend.dto.summary.UserSummaryDto;
 import se.dibbler.backend.generics.BaseDao;
 import se.dibbler.backend.generics.BaseDto;
@@ -25,5 +27,11 @@ public interface UsersDao<E extends BaseEntity, D extends BaseDto> extends BaseD
     public Response<UserSummaryDto> getUserSummaryById(String id);
 
     Response<List<UserSummaryDto>> getAllUserSummary();
+
+    Response<UserSummaryDto> authenticate(String username, String password);
+
+    Response<UserSummaryDto> getUserByFacebookId(String facebookId);
+
+    Response<UserSummaryDto> getUserByGoogleId(String googleId);
 
 }

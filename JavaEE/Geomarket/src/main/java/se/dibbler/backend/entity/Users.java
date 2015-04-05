@@ -5,13 +5,19 @@
  */
 package se.dibbler.backend.entity;
 
+import java.util.Date;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
+
+import se.dibbler.backend.constants.DibblerNamedQueries;
 import se.dibbler.backend.generics.BaseEntity;
 
 /**
@@ -19,11 +25,16 @@ import se.dibbler.backend.generics.BaseEntity;
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = DibblerNamedQueries.USERS_FINDBY_FACEBOOK_ID, query = "SELECT u FROM Users u where u.facebookId = :facebookId"),
+    @NamedQuery(name = DibblerNamedQueries.USERS_FINDBY_GOOGLE_ID, query = "SELECT u FROM Users u where u.googleId = :googleId"),
+    @NamedQuery(name = DibblerNamedQueries.USERS_AUTHENTICATE, query = "SELECT u FROM Users u where u.email = :username and u.password = :password")
+})
 public class Users extends BaseEntity {
 
     @Column
-    private String username;
-    @Column
+    private String displayName;
+    @Column(unique = true)
     private String email;
     @Column
     private String password;
@@ -32,9 +43,13 @@ public class Users extends BaseEntity {
     @Column
     private String gender;
     @Column
-    private Integer age;
+    private Date birthday;
     @Column
     private String imageUrl;
+    @Column(unique = true)
+    private String googleId;
+    @Column(unique = true)
+    private String facebookId;
     @Column
     private boolean active;
     @OneToOne(fetch = FetchType.LAZY)
@@ -44,12 +59,12 @@ public class Users extends BaseEntity {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Roles> roles;
 
-    public String getUsername() {
-        return username;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getEmail() {
@@ -84,12 +99,12 @@ public class Users extends BaseEntity {
         this.gender = gender;
     }
 
-    public Integer getAge() {
-        return age;
+    public Date getBirthday() {
+        return birthday;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public String getImageUrl() {
@@ -98,6 +113,22 @@ public class Users extends BaseEntity {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
     }
 
     public boolean isActive() {

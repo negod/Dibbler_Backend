@@ -5,8 +5,12 @@
  */
 package se.dibbler.backend.dao.bean;
 
+import java.util.HashMap;
 import java.util.List;
+
 import javax.ejb.Stateless;
+
+import se.dibbler.backend.constants.DibblerNamedQueries;
 import se.dibbler.backend.dao.UsersDao;
 import se.dibbler.backend.dto.UsersDto;
 import se.dibbler.backend.dto.summary.UserSummaryDto;
@@ -57,6 +61,40 @@ public class UsersDaoBean extends BaseDaoBean<Users, UsersDto> implements UsersD
     @Override
     public Response<String> update(UsersDto dto, String extId) {
         return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
+    }
+
+    @Override
+    public Response<UserSummaryDto> authenticate(String username, String password) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("username", username);
+        params.put("password", password);
+        Response<Users> user = super.getSingleByNamedQuery(DibblerNamedQueries.USERS_AUTHENTICATE, params);
+        if (user.hasErrors) {
+            return Response.error(user.getError());
+        }
+        return UserSummaryMapper.getInstance().mapFromEntityToDto(user.getData());
+    }
+
+    @Override
+    public Response<UserSummaryDto> getUserByFacebookId(String facebookId) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("facebookId", facebookId);
+        Response<Users> user = super.getSingleByNamedQuery(DibblerNamedQueries.USERS_FINDBY_FACEBOOK_ID, params);
+        if (user.hasErrors) {
+            return Response.error(user.getError());
+        }
+        return UserSummaryMapper.getInstance().mapFromEntityToDto(user.getData());
+    }
+
+    @Override
+    public Response<UserSummaryDto> getUserByGoogleId(String googleId) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("googleId", googleId);
+        Response<Users> user = super.getSingleByNamedQuery(DibblerNamedQueries.USERS_FINDBY_GOOGLE_ID, params);
+        if (user.hasErrors) {
+            return Response.error(user.getError());
+        }
+        return UserSummaryMapper.getInstance().mapFromEntityToDto(user.getData());
     }
 
 }
