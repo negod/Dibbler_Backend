@@ -1,0 +1,15 @@
+import groovy.json.JsonSlurper 
+def response = messageExchange.response.responseContent
+def slurper = new JsonSlurper()
+def json = slurper.parseText response 
+
+
+
+def testCaseProperty = messageExchange.modelItem.testStep.testCase.getPropertyValue("languageId")
+//log.info json.data.id
+
+assert json.data.id == testCaseProperty
+assert json.code == 200
+
+//assert json.data.shortName.size() == 2
+//assert json.data.fullName != null
