@@ -34,6 +34,7 @@ import se.dibbler.backend.entity.EventText;
 import se.dibbler.backend.entity.EventType;
 import se.dibbler.backend.entity.Language;
 import se.dibbler.backend.generics.BaseDaoBean;
+import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.utils.FileCreator;
@@ -57,6 +58,8 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
     PublishedEventDao publishedEvent;
     @EJB
     EventDao eventDao;
+
+    BaseMapper<EventDtoFull, Event> fullMapper = new BaseMapper(EventDtoFull.class, Event.class);
 
     public EventDaoBean() {
         super(Event.class, EventDto.class);
@@ -214,6 +217,16 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
     @Override
     public Response<String> update(EventDto dto, String extId) {
         return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
+    }
+
+    @Override
+    public Response<EventDtoFull> getEventById(String eventId) {
+        Response<Event> event = super.getByExtId(eventId);
+        if (event.hasNoErrors) {
+            return fullMapper.mapFromEntityToDto(event.getData());
+        } else {
+            return Response.error(event.getError());
+        }
     }
 
 }

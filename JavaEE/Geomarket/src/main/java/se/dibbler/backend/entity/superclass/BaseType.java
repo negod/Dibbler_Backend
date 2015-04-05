@@ -20,6 +20,8 @@ public class BaseType extends BaseEntity {
 
     @NotNull(message = "cannot be null")
     private String description;
+    @NotNull(message = "cannot be null")
+    private String defaultName;
     @OneToOne
     @NotNull(message = "cannot be null")
     private Language defaultLanguage;
@@ -38,6 +40,14 @@ public class BaseType extends BaseEntity {
 
     public void setDefaultLanguage(Language defaultLanguage) {
         this.defaultLanguage = defaultLanguage;
+    }
+
+    public String getDefaultName() {
+        return defaultName;
+    }
+
+    public void setDefaultName(String defaultName) {
+        this.defaultName = defaultName;
     }
 
 }

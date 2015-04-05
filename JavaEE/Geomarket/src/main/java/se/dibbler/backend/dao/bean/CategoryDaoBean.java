@@ -103,6 +103,7 @@ public class CategoryDaoBean extends BaseDaoBean<Category, CategoryDto> implemen
             Category category = new Category();
             category.setDescription(dto.getDescription());
             category.setDefaultLanguage(languageEntity.getData());
+            category.setDefaultName(dto.getDefaultName());
 
             List<CategoryText> cetegoryNames = new ArrayList<>();
             CategoryText categoryName = new CategoryText();

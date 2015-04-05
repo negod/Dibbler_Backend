@@ -27,6 +27,7 @@ import se.dibbler.backend.dao.EventDao;
 import se.dibbler.backend.dao.PublishedEventDao;
 import se.dibbler.backend.dto.EventDto;
 import se.dibbler.backend.dto.create.PublishEventCreateDto;
+import se.dibbler.backend.dto.full.EventDtoFull;
 import se.dibbler.backend.dto.languagesupport.LanguageTextDto;
 import se.dibbler.backend.dto.summary.EventSummaryDto;
 import se.dibbler.backend.entity.Event;
@@ -88,9 +89,9 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets an Event by Id", response = EventDto.class, nickname = "getById")
+    @ApiOperation(httpMethod = "GET", value = "Gets an Event by Id", response = EventDtoFull.class, nickname = "getById")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns a Event", response = EventDto.class),
+        @ApiResponse(code = 200, message = "Returns a Event", response = EventDtoFull.class),
         @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
         @ApiResponse(code = 1002, message = "Error when reading from database", response = String.class),
         @ApiResponse(code = 1006, message = "Error when mapping from Entity to Dto", response = String.class),
@@ -98,7 +99,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
     })
     public WsResponse getById(@PathParam("id") String id) {
-        return super.getById(id);
+        return getDao().getEventById(id).getWsResponse();
     }
 
     @GET
