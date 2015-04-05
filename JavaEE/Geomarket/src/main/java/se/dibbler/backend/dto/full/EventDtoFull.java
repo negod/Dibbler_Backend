@@ -9,6 +9,7 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
+import se.dibbler.backend.constants.EventRecipientType;
 import se.dibbler.backend.dto.CategoryDto;
 import se.dibbler.backend.dto.EventTypeDto;
 import se.dibbler.backend.dto.languagesupport.EventTextDto;
@@ -63,6 +64,10 @@ public class EventDtoFull extends BaseDto {
     @XmlElement(type = String.class, required = false)
     @ApiModelProperty(value = "The picrure for the event in Base64 format", required = false)
     String picture;
+
+    @XmlElement(type = EventRecipientType.class, required = false)
+    @ApiModelProperty(value = "The recipient type", required = false)
+    private EventRecipientType recipientType;
 
     public CategoryDto getCategory() {
         return category;
@@ -150,6 +155,14 @@ public class EventDtoFull extends BaseDto {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public EventRecipientType getRecipientType() {
+        return recipientType;
+    }
+
+    public void setRecipientType(EventRecipientType recipientType) {
+        this.recipientType = recipientType;
     }
 
 }

@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
+import se.dibbler.backend.constants.EventRecipientType;
 import se.dibbler.backend.generics.BaseEntity;
 
 /**
@@ -68,6 +69,9 @@ public class Event extends BaseEntity {
 
     @Column
     private String imageSmallUrl;
+
+    //@Convert(converter = EventRecipientConverter.class)
+    private EventRecipientType recipientType;
 
     public Language getDefaultLanguage() {
         return defaultLanguage;
@@ -163,6 +167,14 @@ public class Event extends BaseEntity {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public EventRecipientType getRecipientType() {
+        return recipientType;
+    }
+
+    public void setRecipientType(EventRecipientType recipientType) {
+        this.recipientType = recipientType;
     }
 
 }

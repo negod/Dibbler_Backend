@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import se.dibbler.backend.constants.EventRecipientType;
 import se.dibbler.backend.dto.languagesupport.EventTextDto;
 import se.dibbler.backend.generics.BaseDto;
 
@@ -68,6 +69,10 @@ public class EventDto extends BaseDto {
     @XmlElement(type = String.class, required = false)
     @ApiModelProperty(value = "The picrure for the event in Base64 format", required = false)
     String picture;
+
+    @XmlElement(type = EventRecipientType.class, required = false)
+    @ApiModelProperty(value = "The recipient type", required = false)
+    private EventRecipientType recipientType;
 
     public List<EventTextDto> getEventTexts() {
         return eventTexts;
@@ -155,6 +160,14 @@ public class EventDto extends BaseDto {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public EventRecipientType getRecipientType() {
+        return recipientType;
+    }
+
+    public void setRecipientType(EventRecipientType recipientType) {
+        this.recipientType = recipientType;
     }
 
 }

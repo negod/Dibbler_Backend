@@ -7,12 +7,10 @@ package se.dibbler.backend.dao;
 
 import java.util.List;
 import javax.ejb.Local;
-import se.dibbler.backend.dto.EventDto;
 import se.dibbler.backend.dto.create.PublishEventCreateDto;
 import se.dibbler.backend.dto.full.EventDtoFull;
 import se.dibbler.backend.dto.languagesupport.LanguageTextDto;
 import se.dibbler.backend.dto.summary.EventSummaryDto;
-import se.dibbler.backend.entity.Event;
 import se.dibbler.backend.generics.BaseDao;
 import se.dibbler.backend.generics.BaseDto;
 import se.dibbler.backend.generics.BaseEntity;

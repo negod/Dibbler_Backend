@@ -50,6 +50,7 @@ public class ApplicationConfig extends Application {
         resources.add(se.dibbler.backend.service.SettingService.class);
         resources.add(se.dibbler.backend.service.UsersService.class);
         //resources.add(se.dibbler.backend.service.filter.CORSFilterTest.class);
+        resources.add(se.dibbler.backend.service.filter.CORSFilterTest.class);
     }
 
 }

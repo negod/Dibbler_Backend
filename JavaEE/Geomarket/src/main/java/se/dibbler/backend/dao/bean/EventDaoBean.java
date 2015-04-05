@@ -132,6 +132,7 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
             event.setStartDate(dto.getStartDate());
             event.setMaxRedeem(dto.getMaxRedeem());
             event.setDefaultLanguage(language.getData());
+            event.setRecipientType(dto.getRecipientType());
 
             List<EventText> eventsTexts = new ArrayList<>();
             eventsTexts.add(heading);

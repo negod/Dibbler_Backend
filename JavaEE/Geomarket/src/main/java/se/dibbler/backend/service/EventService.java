@@ -79,15 +79,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class)
     })
     public WsResponse create(
-            @ApiParam(value = "The event to be inserted", required = true) EventDto data,
-            @ApiParam(value = "Id of the company that publishes the event", required = true) @QueryParam("companyId") String companyId,
-            @ApiParam(value = "Id of the events category", required = true) @QueryParam("categoryId") String categoryId,
-            @ApiParam(value = "Id of the events type", required = true) @QueryParam("eventTypeId") String eventTypeId,
-            @ApiParam(value = "The default language of the event", required = true) @QueryParam("languageId") String languageId) {
-        data.setCategoryId(categoryId);
-        data.setCompanyId(companyId);
-        data.setEventTypeId(eventTypeId);
-        data.setLanguageId(languageId);
+            @ApiParam(value = "The event to be inserted", required = true) EventDto data) {
         return super.insert(data);
     }
 
@@ -179,11 +171,11 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Path("/publish")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "GET", value = "Publishes an event to public", response = String.class, nickname = "get All")
+    @ApiOperation(httpMethod = "POST", value = "Publishes an event to public", response = String.class, nickname = "get All")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Returns all the events in all languages"),
         @ApiResponse(code = 500, message = "Internal server error")})
-    public WsResponse publishEvent(PublishEventCreateDto data) {       
+    public WsResponse publishEvent(PublishEventCreateDto data) {
         return publishEvent.publishEvent(data).getWsResponse();
     }
 

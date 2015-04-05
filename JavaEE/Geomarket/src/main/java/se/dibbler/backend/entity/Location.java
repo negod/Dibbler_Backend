@@ -5,6 +5,7 @@
  */
 package se.dibbler.backend.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import org.hibernate.search.annotations.Analyze;
@@ -37,6 +38,10 @@ public class Location extends BaseEntity {
     @Longitude
     Double longitude;
 
+    @Column
+    @NotNull(message = "location name cannot be null")
+    private String name;
+
     public Double getLatitude() {
         return latitude;
     }
@@ -51,6 +56,14 @@ public class Location extends BaseEntity {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }
