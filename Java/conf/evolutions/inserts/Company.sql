@@ -1,2 +1,0 @@
-INSERT INTO `geomarket`.`company` (`IDNR`, `COMPANY_NAME`, `STREET`, `STREETNR`, `CITY`, `STATE`, `COUNTRY`, `POSTALCODE`) VALUES ('123-456', 'Volvo AB', 'VolvoStreet', '45', 'Gothenburg', 'Vastra Gotaland', 'SWE', '487 98');
-INSERT INTO `geomarket`.`company` (`IDNR`, `COMPANY_NAME`, `STREET`, `STREETNR`, `CITY`, `STATE`, `COUNTRY`, `POSTALCODE`) VALUES ('456-789', 'SJ AB', 'SJ Street', '2', 'Stockholm', 'Losers', 'SWE', '080808');
