@@ -35,6 +35,7 @@ public enum DaoError implements ErrorCode {
     EVENT_BY_LOCATION(2025, "Error when getting events by location"),
     EVENT_PUBLISH(2026, "Error when publishing event"),
     EVENT_PUBLISH_BY_EXPIRED_DATE(2026, "Error when getting published events by expired date"),
+    EVENT_NO_EVENTS_IN_COMPANY(2027, "There are no events connected to the selected company"),
     /**
      * EventType DAO Errors
      */

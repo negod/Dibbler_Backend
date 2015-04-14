@@ -48,7 +48,7 @@ public class PublishedEventDaoBean extends BaseDaoBean<PublishedEvent, Published
 
     @EJB
     LanguageDao languageDao;
-    
+
     @EJB
     EventTextDao eventTextDao;
 
@@ -114,14 +114,14 @@ public class PublishedEventDaoBean extends BaseDaoBean<PublishedEvent, Published
             }
 
             PublishedEvent publishedEvent = Mapper.getInstance().getMapper().map(eventEntity.getData(), PublishedEvent.class);
-            
+
             publishedEvent.setCompany(eventEntity.getData().getCompany());
             publishedEvent.setLanguage(languageEntity.getData());
             publishedEvent.setEvent(eventEntity.getData());
 
             publishedEvent.setId(null);
             publishedEvent.setExtId(null);
-            
+
             publishedEvent.setStarts(dto.getStartDate());
             publishedEvent.setExpires(dto.getExpireDate());
 
@@ -137,8 +137,6 @@ public class PublishedEventDaoBean extends BaseDaoBean<PublishedEvent, Published
                     }
                 }
             }
-
-            
 
             return super.create(publishedEvent);
         } catch (Exception e) {

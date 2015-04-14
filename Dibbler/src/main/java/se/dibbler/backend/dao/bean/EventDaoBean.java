@@ -36,6 +36,7 @@ import se.dibbler.backend.entity.Language;
 import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.GenericError;
+import se.dibbler.backend.generics.Mapper;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.utils.FileCreator;
 
@@ -56,8 +57,6 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
     CompanyDao companyDao;
     @EJB
     PublishedEventDao publishedEvent;
-    @EJB
-    EventDao eventDao;
 
     BaseMapper<EventDtoFull, Event> fullMapper = new BaseMapper(EventDtoFull.class, Event.class);
 
@@ -156,8 +155,6 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
             }
 
             if (company.getData().getEvents() == null) {
-                List<Event> events = new ArrayList<>();
-                events.add(event);
                 company.getData().getEvents().add(event);
             } else {
                 company.getData().getEvents().add(event);
@@ -188,16 +185,15 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
             List<EventDtoFull> events = new ArrayList<>();
 
             for (Event event : company.getData().getEvents()) {
-                Response<EventDtoFull> eventDto = eventDao.getMapper().mapFromEntityToDto(event);
-                if (eventDto.hasNoErrors) {
-                    events.add(eventDto.getData());
-                } else {
-                    getLogger().error("[ Error when mapping event to EventDto ] [ ERRORCODE {} ]", eventDto.getError());
+
+                EventDtoFull eventDto = Mapper.getInstance().getMapper().map(event, EventDtoFull.class);
+                if (eventDto != null) {
+                    events.add(eventDto);
                 }
             }
 
             if (events.isEmpty()) {
-                return Response.error(GenericError.NO_RESULT);
+                return Response.error(DaoError.EVENT_NO_EVENTS_IN_COMPANY);
             } else {
                 return Response.success(events);
             }

@@ -8,7 +8,6 @@ package se.dibbler.backend.dto.full;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Column;
 import javax.xml.bind.annotation.XmlElement;
 import se.dibbler.backend.constants.EventRecipientType;
 import se.dibbler.backend.dto.CategoryDto;
