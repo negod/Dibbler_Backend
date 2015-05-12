@@ -12,8 +12,8 @@
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hostname>127.0.0.1</hostname>
-        <port>8080</port>
+        <swagger.hostname>127.0.0.1</swagger.hostname>
+        <swagger.port>8080</swagger.port>
     </properties>
 
     <dependencies>
@@ -137,8 +137,8 @@
                             <useStandardDocletOptions>false</useStandardDocletOptions>
                             <additionalparam>
                                 -apiVersion ${project.version}
-                                -docBasePath http://${hostname}:${port}/${project.artifactId}/apidocs
-                                -apiBasePath http://${hostname}:${port}/${project.artifactId}/resource 
+                                -docBasePath http://${swagger.hostname}:${swagger.port}/${project.artifactId}/apidocs
+                                -apiBasePath http://${swagger.hostname}:${swagger.port}/${project.artifactId}/resource 
                             </additionalparam>
                         </configuration>
                         <goals>
