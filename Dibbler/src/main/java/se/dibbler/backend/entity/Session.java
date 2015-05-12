@@ -39,4 +39,8 @@ public class Session extends BaseEntity {
         this.deviceId = deviceId;
     }
 
+    @Override
+    public void inactivate() {
+    }
+
 }

@@ -51,4 +51,8 @@ public class LanguageText extends BaseEntity {
         this.textType = textType;
     }
 
+    @Override
+    public void inactivate() {
+    }
+
 }

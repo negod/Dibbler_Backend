@@ -177,4 +177,8 @@ public class Event extends BaseEntity {
         this.recipientType = recipientType;
     }
 
+    @Override
+    public void inactivate() {
+    }
+
 }

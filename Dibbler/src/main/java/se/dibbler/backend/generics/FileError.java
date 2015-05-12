@@ -3,28 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.dibbler.backend.error;
-
-import se.dibbler.backend.generics.ErrorCode;
+package se.dibbler.backend.generics;
 
 /**
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-public enum MapperError implements ErrorCode {
+public enum FileError implements ErrorCode {
 
-    /**
-     * EventSummary Mapper ERRORS
-     */
-    EVENT_SUMMARY_GET_EVENTTEXT(3000, "Error when mapping default EventText"),
-    EVENT_SUMMARY_GET_EVENT(3001, "Error when mapping EventSummary event"),
-    EVENT_EXTRACT_EVENTS(3002, "Error when mapping EventSummaryLIST for company"),
-    EVENT_NO_TEXT_FOR_LANGUAGE(3003, "There are not eventtexts for the required language");
+    NOT_FOLDER(2000, "Target must be a folder"),
+    UNHANDELED_EXCEPTION(2001, "Unhandeled exception");
 
     private final Integer errorCode;
     private final String errorText;
 
-    MapperError(Integer code, String errorText) {
+    FileError(Integer code, String errorText) {
         this.errorCode = code;
         this.errorText = errorText;
     }
@@ -36,7 +29,7 @@ public enum MapperError implements ErrorCode {
 
     @Override
     public String getErrorText() {
-        return "[ MAPPER ERROR ] " + errorText;
+        return errorText;
     }
 
     @Override

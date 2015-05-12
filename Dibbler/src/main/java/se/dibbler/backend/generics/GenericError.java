@@ -49,4 +49,9 @@ public enum GenericError implements ErrorCode {
         return errorText;
     }
 
+    @Override
+    public String getErrorType() {
+        return this.getClass().getSimpleName();
+    }
+
 }

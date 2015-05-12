@@ -19,6 +19,8 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import se.dibbler.backend.entity.Users;
 
 /**
@@ -26,7 +28,10 @@ import se.dibbler.backend.entity.Users;
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
 @MappedSuperclass
-public class BaseEntity implements Serializable {
+@FilterDef(name = "getOnlyActive",
+        parameters = {
+            @ParamDef(name = "isActive", type = "active")})
+public abstract class BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +41,9 @@ public class BaseEntity implements Serializable {
     @Column(unique = true, updatable = false, insertable = true)
     @Pattern(regexp = "[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}")
     private String extId;
+    @Column
+    @NotNull(message = "cannot be null")
+    private boolean active;
     @NotNull(message = "cannot be null")
     @Column(updatable = false, insertable = true)
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -49,6 +57,8 @@ public class BaseEntity implements Serializable {
     @OneToOne
     private Users updatedUser;
 
+    public abstract void inactivate();
+
     @PreUpdate
     protected void onUpdate() {
         this.updatedDate = new Date();
@@ -59,6 +69,7 @@ public class BaseEntity implements Serializable {
         this.createdDate = new Date();
         this.updatedDate = new Date();
         this.extId = UUID.randomUUID().toString();
+        this.active = true;
     }
 
     public Long getId() {
@@ -107,6 +118,14 @@ public class BaseEntity implements Serializable {
 
     public void setUpdatedUser(Users updatedUser) {
         this.updatedUser = updatedUser;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

@@ -18,9 +18,6 @@ import se.dibbler.backend.generics.BaseEntity;
 @Entity
 public class Filter extends BaseEntity {
 
-    @Column
-    private Boolean active;
-
     @OneToOne(fetch = FetchType.LAZY)
     private Users user;
     @OneToOne(fetch = FetchType.LAZY)
@@ -29,14 +26,6 @@ public class Filter extends BaseEntity {
     private Category category;
     @OneToOne
     private EventType eventType;
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
 
     public Users getUser() {
         return user;
@@ -68,6 +57,10 @@ public class Filter extends BaseEntity {
 
     public void setEventType(EventType eventType) {
         this.eventType = eventType;
+    }
+
+    @Override
+    public void inactivate() {
     }
 
 }

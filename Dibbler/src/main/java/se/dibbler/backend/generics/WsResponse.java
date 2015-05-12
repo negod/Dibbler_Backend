@@ -5,8 +5,6 @@
  */
 package se.dibbler.backend.generics;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -24,14 +22,12 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(propOrder = {
     "code",
     "data"})
-@ApiModel(value = "A generic response for Dibbler")
 public class WsResponse<T> implements Serializable {
 
     @XmlElement(required = true)
-    @ApiModelProperty(value = "The data payload of the response", required = true)
     private final T data;
+    
     @XmlElement(type = Integer.class, required = true)
-    @ApiModelProperty(value = "The code provided from the service", required = true)
     private final Integer code;
 
     public WsResponse(T data, Integer code) {

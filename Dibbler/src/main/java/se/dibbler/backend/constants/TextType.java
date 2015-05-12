@@ -12,4 +12,5 @@ package se.dibbler.backend.constants;
 public enum TextType {
 
     NAME, TEXT_BODY, HEADER;
+    
 }

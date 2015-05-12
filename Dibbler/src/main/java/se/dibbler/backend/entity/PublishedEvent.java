@@ -54,7 +54,7 @@ public class PublishedEvent extends BaseEntity {
     private Double latitude;
 
     @NotNull(message = "cannot be null")
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Company.class)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
 
     @Transient
@@ -81,7 +81,7 @@ public class PublishedEvent extends BaseEntity {
 
     @Column
     @NotNull(message = "cannot be null")
-    
+
     private String companyName;
     @Column
     private String companyStreet;
@@ -99,8 +99,6 @@ public class PublishedEvent extends BaseEntity {
     private String companyWww;
     @Column
     private String companyPhone;
-    @Column
-    private Boolean active;
 
     @Column
     @NotNull(message = "cannot be null")
@@ -165,7 +163,6 @@ public class PublishedEvent extends BaseEntity {
         this.companyPostalCode = company.getPostalCode();
         this.companyWww = company.getWww();
         this.companyPhone = company.getPhone();
-
         this.eventId = event.getExtId();
         this.categoryId = event.getCategory().getExtId();
         this.eventTypeId = event.getEventType().getExtId();
@@ -320,14 +317,6 @@ public class PublishedEvent extends BaseEntity {
         this.companyPhone = companyPhone;
     }
 
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
     public Date getExpires() {
         return expires;
     }
@@ -382,6 +371,10 @@ public class PublishedEvent extends BaseEntity {
 
     public void setImageSmallUrl(String imageSmallUrl) {
         this.imageSmallUrl = imageSmallUrl;
+    }
+
+    @Override
+    public void inactivate() {
     }
 
 }

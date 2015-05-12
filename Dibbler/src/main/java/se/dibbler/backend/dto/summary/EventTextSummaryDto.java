@@ -5,8 +5,6 @@
  */
 package se.dibbler.backend.dto.summary;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -17,16 +15,13 @@ import se.dibbler.backend.generics.BaseDtoNoId;
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-@ApiModel(value = "The eventText for the event")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "eventTextSummary")
 public class EventTextSummaryDto extends BaseDtoNoId {
 
-    @ApiModelProperty(value = "The heading for the event", required = true)
     @XmlElement(required = false)
     private String heading;
 
-    @ApiModelProperty(value = "The description and body for the event", required = true)
     @XmlElement(required = false)
     private String body;
 

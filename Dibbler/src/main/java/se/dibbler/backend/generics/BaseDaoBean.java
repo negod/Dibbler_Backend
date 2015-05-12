@@ -6,6 +6,7 @@
 package se.dibbler.backend.generics;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,6 +27,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import org.hibernate.NonUniqueResultException;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +55,11 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> exten
 
     @PersistenceContext(unitName = "geomarket_PU")
     private EntityManager em;
+
+    @Override
+    public Session getHibernateSession() {
+        return em.unwrap(Session.class);
+    }
 
     @Override
     public EntityManager getEntityManager() {
@@ -84,6 +91,37 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> exten
 
     @Override
     @TransactionAttribute(REQUIRES_NEW)
+    public Response createBatch(List<E> entityList) {
+        try {
+
+            List<String> listAdded = new ArrayList<>();
+            for (E entity : entityList) {
+                getEntityManager().persist(entity);
+                listAdded.add(entity.getExtId());
+            }
+            getEntityManager().flush();
+
+            return Response.success(listAdded);
+        } catch (PersistenceException e) {
+
+            Response<String> constraintError = getSQLIntegrityConstraintViolation(e);
+            if (constraintError.hasNoErrors) {
+                LOG.error("[ Failed to create " + entityClass.getSimpleName() + " ] due to constraint violations [ ERROR ]: {}", e.getMessage());
+                return Response.error(GenericError.CONSTRAINT_VIOLATION, constraintError.getData());
+            }
+
+        } catch (ConstraintViolationException ex) {
+            LOG.error("[ Failed to create " + entityClass.getSimpleName() + " ] due to constraint violations [ ERROR ]: {}", ex.getMessage());
+            return Response.error(GenericError.CONSTRAINT_VIOLATION, buildViolationResponse(ex.getConstraintViolations()));
+        } catch (Exception e) {
+            LOG.error("[ Failed to create " + entityClass.getSimpleName() + " ] [ ERROR ] ", e.getMessage());
+            return Response.error(GenericError.CREATE, e.getMessage());
+        }
+        return Response.error(GenericError.CREATE);
+    }
+
+    @Override
+    @TransactionAttribute(REQUIRES_NEW)
     public Response create(E entity) {
         try {
             getEntityManager().persist(entity);
@@ -110,8 +148,9 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> exten
     @Override
     public Response<E> getById(Long id) {
         try {
-            Query q = em.createNativeQuery("select * from " + entityClass.getSimpleName() + " where id = ?", entityClass);
+            Query q = em.createNativeQuery("select * from " + entityClass.getSimpleName() + " where id = ? and active = ?", entityClass);
             q.setParameter(1, id);
+            q.setParameter(2, true);
             return Response.success((E) q.getSingleResult());
         } catch (NoResultException e) {
             LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [  ByID: " + id + " ] [ ERROR ]: {}", e.getMessage());
@@ -125,8 +164,9 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> exten
     @Override
     public Response<E> getByExtId(String id) {
         try {
-            Query q = em.createNativeQuery("select * from " + entityClass.getSimpleName() + " where extId = ?", entityClass);
+            Query q = em.createNativeQuery("select * from " + entityClass.getSimpleName() + " where extId = ? and active = ?", entityClass);
             q.setParameter(1, id);
+            q.setParameter(2, true);
             return Response.success((E) q.getSingleResult());
         } catch (NoResultException e) {
             LOG.error("[ Failed to get " + entityClass.getSimpleName() + " ] [  ByExtID: " + id + " ] [ ERROR ]: {}", e.getMessage());
@@ -143,7 +183,6 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> exten
             Query q = getEntityManager().createNamedQuery(query, entityClass);
 
             for (Entry<String, ? extends Object> param : params.entrySet()) {
-
                 if (param.getValue() instanceof Date) {
                     q.setParameter(param.getKey(), (Date) param.getValue(), TemporalType.TIMESTAMP);
                 } else {
@@ -214,17 +253,17 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> exten
     @Override
     public Response delete(E entity) {
         try {
-            getEntityManager().remove(entity);
+            entity.inactivate();
+            entity.setActive(false);
+            getEntityManager().merge(entity);
             getEntityManager().flush();
             return Response.success(null);
         } catch (PersistenceException e) {
-
             Response<String> constraintError = getSQLIntegrityConstraintViolation(e);
             if (constraintError.hasNoErrors) {
                 LOG.error("[ Failed to delete " + entityClass.getSimpleName() + " with ID: {} ] due to constraint violations [ ERROR ]: {}", entity.getId(), e.getMessage());
                 return Response.error(GenericError.CONSTRAINT_VIOLATION, constraintError.getData());
             }
-
         } catch (ConstraintViolationException ex) {
             LOG.error("[ Failed to delete " + entityClass.getSimpleName() + " with ID: {} ] due to constraint violations [ ERROR ]: {}", entity.getId(), ex.getMessage());
             return Response.error(GenericError.CONSTRAINT_VIOLATION, buildViolationResponse(ex.getConstraintViolations()));
@@ -236,13 +275,15 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> exten
     }
 
     @Override
-    public Response<String> delete(Long id) {
+    public Response delete(Long id) {
         try {
             Response<E> entity = this.getById(id);
             if (entity.hasErrors) {
                 return Response.error(entity.getError());
             }
-            return this.delete(entity.getData());
+            entity.getData().inactivate();
+            entity.getData().setActive(false);
+            return update(entity.getData());
         } catch (Exception e) {
             LOG.error("[ Failed to delete " + entityClass.getSimpleName() + " ] [ Id: " + id + " ] [ ERROR ]: {}", e.getMessage());
             return Response.error(GenericError.DELETE);
@@ -257,7 +298,7 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> exten
             getEntityManager().flush();
             return Response.success(entity.getExtId());
         } catch (ConstraintViolationException ex) {
-            LOG.error("[ Failed to create " + entityClass.getSimpleName() + " ] due to constraint violations [ ERROR ]: {}", ex.getMessage());
+            LOG.error("[ Failed to update " + entityClass.getSimpleName() + " ] due to constraint violations [ ERROR ]: {}", ex.getMessage());
             return Response.error(GenericError.CONSTRAINT_VIOLATION, buildViolationResponse(ex.getConstraintViolations()));
         } catch (Exception e) {
             LOG.error("[ Failed to update " + entityClass.getSimpleName() + " ] [ Id: " + entity.getId() + " ] [ ERROR ]: {}", e.getMessage());

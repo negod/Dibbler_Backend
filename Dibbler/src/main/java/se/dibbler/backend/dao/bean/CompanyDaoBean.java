@@ -5,8 +5,10 @@
  */
 package se.dibbler.backend.dao.bean;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import se.dibbler.backend.constants.DibblerConstants;
 import se.dibbler.backend.constants.DibblerFileType;
@@ -14,6 +16,7 @@ import se.dibbler.backend.constants.DibblerNamedQueries;
 import se.dibbler.backend.constants.PictureUrl;
 import se.dibbler.backend.constants.RegExp;
 import se.dibbler.backend.dao.CompanyDao;
+import se.dibbler.backend.dao.LocationDao;
 import se.dibbler.backend.dto.CompanyDto;
 import se.dibbler.backend.entity.Company;
 import se.dibbler.backend.error.DaoError;
@@ -30,9 +33,14 @@ import se.dibbler.backend.utils.FileCreator;
 @Stateless
 public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements CompanyDao<Company, CompanyDto> {
 
+    @EJB
+    LocationDao location;
+
     public CompanyDaoBean() {
         super(Company.class, CompanyDto.class);
     }
+    
+    
 
     @Override
     public Response create(CompanyDto dto) {
@@ -60,7 +68,8 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
 
             if (parentCompany.hasNoErrors) {
                 entity.getData().setParentCompany(parentCompany.getData());
-            }else{
+                parentCompany.getData().getBranchCompanies().add(entity.getData());
+            } else {
                 entity.getData().setParentCompany(null);
             }
 
@@ -80,9 +89,11 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
                 entity.getData().setLargeImageUrl("N/A");
             }
 
+            entity.getData().setLocations(Arrays.asList(entity.getData().getLocation()));
             return super.create(entity.getData());
+
         } catch (Exception e) {
-            super.getLogger().error("[ Error when creating company ] [ ERROR: ]", e.getMessage());
+            super.getLogger().error("[ Error when creating company ( companyDaoBean ) ] [ ERROR: ]", e.getMessage());
             return Response.error(GenericError.CREATE);
         }
     }

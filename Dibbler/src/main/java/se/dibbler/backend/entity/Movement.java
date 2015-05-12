@@ -39,4 +39,8 @@ public class Movement extends BaseEntity {
         this.location = location;
     }
 
+    @Override
+    public void inactivate() {
+    }
+
 }

@@ -5,7 +5,6 @@
  */
 package se.dibbler.backend.dto;
 
-import com.wordnik.swagger.annotations.ApiModel;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,7 +17,6 @@ import se.dibbler.backend.generics.BaseDto;
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-@ApiModel(value = "A published event")
 @XmlRootElement(name = "event")
 
 @XmlAccessorType(XmlAccessType.FIELD)

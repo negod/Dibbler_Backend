@@ -102,7 +102,8 @@ public class LocationDaoBean extends BaseDaoBean<Location, LocationDto> implemen
             
             for (int i = company.getData().getLocations().size() - 1; i >= 0; i--) {
                 if (company.getData().getLocations().get(i).getExtId().equalsIgnoreCase(locationId)) {
-                    company.getData().getLocations().remove(company.getData().getLocations().get(i));
+                    Location location = company.getData().getLocations().get(i);
+                    location.setActive(false);
                 }
             }
             

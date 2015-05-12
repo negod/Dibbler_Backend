@@ -50,4 +50,8 @@ public class BaseType extends BaseEntity {
         this.defaultName = defaultName;
     }
 
+    @Override
+    public void inactivate() {
+    }
+
 }

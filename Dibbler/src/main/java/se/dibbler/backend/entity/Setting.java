@@ -76,4 +76,8 @@ public class Setting extends BaseEntity {
         this.language = language;
     }
 
+    @Override
+    public void inactivate() {
+    }
+
 }

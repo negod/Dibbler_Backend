@@ -14,17 +14,32 @@ public class Response<T> {
 
     private final ErrorCode error;
     private final T data;
+
     public final boolean hasNoErrors;
     public final boolean hasErrors;
+
+    public final boolean dataIsNotNull;
+    public final boolean dataIsNull;
 
     private Response(ErrorCode error) {
         this.error = error;
         this.data = null;
         this.hasNoErrors = false;
         this.hasErrors = true;
+        this.dataIsNotNull = false;
+        this.dataIsNull = true;
     }
 
     private Response(ErrorCode error, T data) {
+
+        if (data == null) {
+            this.dataIsNotNull = false;
+            this.dataIsNull = true;
+        } else {
+            this.dataIsNotNull = true;
+            this.dataIsNull = false;
+        }
+
         this.error = error;
         this.data = data;
         this.hasNoErrors = false;
@@ -32,6 +47,15 @@ public class Response<T> {
     }
 
     private Response(T data) {
+
+        if (data == null) {
+            this.dataIsNotNull = false;
+            this.dataIsNull = true;
+        } else {
+            this.dataIsNotNull = true;
+            this.dataIsNull = false;
+        }
+
         this.data = data;
         this.error = null;
         this.hasNoErrors = true;
@@ -55,7 +79,7 @@ public class Response<T> {
             if (data != null) {
                 return new WsResponse(data, error.getErrorCode());
             } else {
-                return new WsResponse(error.getErrorText(), error.getErrorCode());
+                return new WsResponse("[ " + error.getErrorType() + " ]" + error.getErrorText(), error.getErrorCode());
             }
         } else {
             return new WsResponse(data, 200);

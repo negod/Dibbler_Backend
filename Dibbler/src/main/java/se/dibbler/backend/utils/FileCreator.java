@@ -13,9 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.dibbler.backend.constants.DibblerFileType;
 import se.dibbler.backend.constants.FileAccess;
-import se.dibbler.backend.constants.FileType;
+import se.dibbler.backend.generics.FileType;
 import se.dibbler.backend.constants.PictureUrl;
-import se.dibbler.backend.generics.DibblerFileUtil;
+import se.dibbler.backend.generics.DibblerImageUtil;
 import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
 
@@ -29,7 +29,7 @@ public class FileCreator {
 
     public static Response<Map<PictureUrl, String>> createFilesFromBase64String(String base64, String url, Integer largeImageSize, Integer smallImageSize, DibblerFileType fileType) {
         try {
-            Response<BufferedImage> originalImage = DibblerFileUtil.getBufferedImageFromBase64String(base64);
+            Response<BufferedImage> originalImage = DibblerImageUtil.getBufferedImageFromBase64String(base64);
             if (originalImage.hasErrors) {
                 return Response.error(originalImage.getError());
             }
@@ -40,22 +40,22 @@ public class FileCreator {
             String smallPictureNameFull = url + smallPictuerName;
             String largePictureNameFull = url + largePictuerName;
 
-            Response<BufferedImage> smallImage = DibblerFileUtil.resizeImage(originalImage.getData(), smallImageSize, smallImageSize);
+            Response<BufferedImage> smallImage = DibblerImageUtil.resizeImage(originalImage.getData(), smallImageSize, smallImageSize);
             if (smallImage.hasErrors) {
                 return Response.error(smallImage.getError());
             }
 
-            Response<BufferedImage> largeImage = DibblerFileUtil.resizeImage(originalImage.getData(), largeImageSize, largeImageSize);
+            Response<BufferedImage> largeImage = DibblerImageUtil.resizeImage(originalImage.getData(), largeImageSize, largeImageSize);
             if (largeImage.hasErrors) {
                 return Response.error(largeImage.getError());
             }
 
-            Response<Boolean> writeSmallFile = DibblerFileUtil.writeFile(smallImage.getData(), smallPictureNameFull, FileAccess.READONLY, FileType.PNG);
+            Response<Boolean> writeSmallFile = DibblerImageUtil.writeFile(smallImage.getData(), smallPictureNameFull, FileAccess.READONLY, FileType.PNG);
             if (writeSmallFile.hasErrors) {
                 return writeSmallFile.error(largeImage.getError());
             }
 
-            Response<Boolean> writeLargeFile = DibblerFileUtil.writeFile(largeImage.getData(), largePictureNameFull, FileAccess.READONLY, FileType.PNG);
+            Response<Boolean> writeLargeFile = DibblerImageUtil.writeFile(largeImage.getData(), largePictureNameFull, FileAccess.READONLY, FileType.PNG);
             if (writeLargeFile.hasErrors) {
                 return writeLargeFile.error(largeImage.getError());
             }

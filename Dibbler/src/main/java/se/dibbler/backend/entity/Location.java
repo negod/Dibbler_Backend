@@ -66,4 +66,8 @@ public class Location extends BaseEntity {
         this.name = name;
     }
 
+    @Override
+    public void inactivate() {
+    }
+
 }

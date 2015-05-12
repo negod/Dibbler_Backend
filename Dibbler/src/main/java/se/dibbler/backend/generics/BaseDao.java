@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 
 /**
@@ -20,10 +21,14 @@ import org.slf4j.Logger;
 public interface BaseDao<E extends BaseEntity, D extends BaseDto> {
 
     public EntityManager getEntityManager();
+    
+    public Session getHibernateSession();
 
     public Logger getLogger();
 
     public Response<String> create(E entity);
+
+    public Response<String> createBatch(List<E> entityList);
 
     public Response<String> create(D dto);
 
@@ -50,7 +55,7 @@ public interface BaseDao<E extends BaseEntity, D extends BaseDto> {
     public Response<Long> getId(String id);
 
     public Class getEntityClass();
-    
+
     public BaseMapper<D, E> getMapper();
 
 }

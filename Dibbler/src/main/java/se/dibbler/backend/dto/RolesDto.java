@@ -5,8 +5,6 @@
  */
 package se.dibbler.backend.dto;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -17,17 +15,14 @@ import se.dibbler.backend.generics.BaseDto;
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
-@ApiModel(value = "Defines a role that a user can have")
 @XmlRootElement(name = "role")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RolesDto extends BaseDto {
 
     @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "The name of the role", required = true)
     private String roleName;
 
     @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "The description of the role", required = true)
     private String description;
 
     public String getRoleName() {

@@ -5,8 +5,6 @@
  */
 package se.dibbler.backend.dto.languagesupport;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -17,16 +15,14 @@ import se.dibbler.backend.generics.BaseDto;
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-@ApiModel(value = "Generic model for texts")
 @XmlRootElement(name = "text")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LanguageTextDto extends BaseDto {
 
     @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "The language of the type", required = true)
     private String language;
+
     @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "The text for the type", required = true)
     private String value;
 
     public LanguageTextDto() {

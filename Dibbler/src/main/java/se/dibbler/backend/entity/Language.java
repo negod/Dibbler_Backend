@@ -40,4 +40,8 @@ public class Language extends BaseEntity {
         this.fullName = fullName;
     }
 
+    @Override
+    public void inactivate() {
+    }
+
 }

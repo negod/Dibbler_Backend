@@ -5,11 +5,6 @@
  */
 package se.dibbler.backend.service;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -18,9 +13,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+
 import se.dibbler.backend.constants.IndexingClasses;
+import se.dibbler.backend.dao.ErrorLogDao;
 import se.dibbler.backend.dao.bean.IndexDaoBean;
+import se.dibbler.backend.dto.ErrorLogDto;
+import se.dibbler.backend.generics.GenericError;
+import se.dibbler.backend.generics.Response;
+import se.dibbler.backend.generics.WsResponse;
 
 /**
  *
@@ -28,26 +28,28 @@ import se.dibbler.backend.dao.bean.IndexDaoBean;
  */
 @Stateless
 @Path("/indexes")
-@Api(value = "/indexes", description = "Handles all indexing on the server")
 public class IndexService {
 
     @EJB
     IndexDaoBean indexer;
 
+    @EJB
+    ErrorLogDao errorLog;
+
+    public ErrorLogDao getErrorLog() {
+        return errorLog;
+    }
+
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Reindex Location table", response = String.class, nickname = "reindex")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Reindexing complete wihtout errors", response = String.class),
-        @ApiResponse(code = 500, message = "Internal server error")})
-    public Response reindex(@ApiParam(value = "The class to index", allowableValues = "Location", required = true) @QueryParam(value = "class") String className) {
+    public WsResponse reindex(@QueryParam(value = "class") String className) {
         try {
             IndexingClasses clazz = IndexingClasses.fromValue(className);
             indexer.reIndex(clazz.getClassToIndex());
-            return Response.ok("Reindexing table Location").build();
+            return Response.success("Reindexing complete without errors").getWsResponse();
         } catch (Exception e) {
-            return Response.serverError().build();
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
     }
 

@@ -54,4 +54,8 @@ public class LocationGroup extends BaseEntity {
         this.company = company;
     }
 
+    @Override
+    public void inactivate() {
+    }
+
 }

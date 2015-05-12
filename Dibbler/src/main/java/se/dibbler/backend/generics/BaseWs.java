@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.dibbler.backend.dao.ErrorLogDao;
 
 /**
  *
@@ -23,7 +24,9 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
 
     public abstract DAO getDao();
 
-    public WsResponse insert(D data) {
+    public abstract ErrorLogDao getErrorLog();
+
+    public WsResponse<String> insert(D data) {
         try {
             if (data == null) {
                 return Response.error(GenericError.WRONG_PARAMETER).getWsResponse();
@@ -35,7 +38,7 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
         }
     }
 
-    public WsResponse getById(String id) {
+    public WsResponse<D> getById(String id) {
         try {
             Response<E> response = getDao().getByExtId(id);
             if (response.hasErrors) {
@@ -48,7 +51,7 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
         }
     }
 
-    public WsResponse delete(Long id) {
+    public WsResponse<String> delete(Long id) {
         try {
             Response<E> entity = getDao().getById(id);
             if (entity.hasErrors) {
@@ -61,7 +64,7 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
         }
     }
 
-    public WsResponse update(D data, String id) {
+    public WsResponse<String> update(D data, String id) {
         try {
             Response<E> oldEntity = getDao().getByExtId(id);
             if (oldEntity.hasErrors) {
@@ -71,14 +74,14 @@ public abstract class BaseWs<D extends BaseDto, E extends BaseEntity, DAO extend
             if (updatedEntity.hasErrors) {
                 return updatedEntity.getWsResponse();
             }
-            return getDao().update(oldEntity.getData()).getWsResponse();
+            return getDao().update(updatedEntity.getData()).getWsResponse();
         } catch (Exception e) {
             LOGGER.error("[ Failed to update data with id: {} table: {} ] Error : {} ", id, getDao().getEntityClass().getSimpleName(), e.getMessage());
             return Response.error(GenericError.UNHANDELED_EXCEPTION).getWsResponse();
         }
     }
 
-    public WsResponse getAll() {
+    public WsResponse<List<D>> getAll() {
         List<D> dtos = new ArrayList<>();
         try {
             Response<List<E>> entities = getDao().getAll();

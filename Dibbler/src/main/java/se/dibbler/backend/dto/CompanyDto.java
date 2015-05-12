@@ -5,55 +5,48 @@
  */
 package se.dibbler.backend.dto;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import se.dibbler.backend.dto.summary.CompanySummaryDto;
+import se.dibbler.backend.generics.BaseDto;
 
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)
  */
-@ApiModel(value = "A definition of a company")
 @XmlRootElement(name = "company")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CompanyDto extends CompanySummaryDto {
 
     @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "Organization number of the company", required = true)
     private String orgNr;
 
     @XmlElement(type = String.class, required = false)
-    @ApiModelProperty(value = "If the user that wants to follow the company has to meet certain criterias", required = false)
     private String followerClaim;
 
     @XmlElement(type = LocationDto.class, required = true)
-    @ApiModelProperty(value = "The exact location of the company", required = true)
     private LocationDto location;
 
     @XmlElement(type = LocationDto.class, required = false)
-    @ApiModelProperty(value = "Locations attached the company", required = false)
     private List<LocationDto> locations;
 
     @XmlElement(type = LocationGroupDto.class, required = false)
-    @ApiModelProperty(value = "Locationgroups attacehd to the company", required = false)
     private List<LocationGroupDto> locationGroups;
 
     @XmlElement(type = String.class, required = false)
-    @ApiModelProperty(value = "The picture for the company in Base64 format", required = true)
     private String picture;
 
     @XmlElement(type = String.class, required = false)
-    @ApiModelProperty(value = "The id of the parent company", required = true)
     private String parentCompanyId;
 
     @XmlElement(type = String.class, required = false)
-    @ApiModelProperty(value = "The name of the siteManager", required = true)
     private String siteManager;
+
+    @XmlElement(type = BaseDto.class, required = false)
+    private List<BaseDto> branchCompanies;
 
     public String getOrgNr() {
         return orgNr;
@@ -117,6 +110,14 @@ public class CompanyDto extends CompanySummaryDto {
 
     public void setSiteManager(String siteManager) {
         this.siteManager = siteManager;
+    }
+
+    public List<BaseDto> getBranchCompanies() {
+        return branchCompanies;
+    }
+
+    public void setBranchCompanies(List<BaseDto> branchCompanies) {
+        this.branchCompanies = branchCompanies;
     }
 
 }

@@ -18,11 +18,6 @@ public class ApplicationConfig extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
-        //Swagger
-        resources.add(com.wordnik.swagger.jaxrs.listing.ApiListingResource.class);
-        resources.add(com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider.class);
-        resources.add(com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON.class);
-        resources.add(com.wordnik.swagger.jaxrs.listing.ResourceListingProvider.class);
         addRestResourceClasses(resources);
         return resources;
     }
@@ -49,7 +44,6 @@ public class ApplicationConfig extends Application {
         resources.add(se.dibbler.backend.service.RolesService.class);
         resources.add(se.dibbler.backend.service.SettingService.class);
         resources.add(se.dibbler.backend.service.UsersService.class);
-        //resources.add(se.dibbler.backend.service.filter.CORSFilterTest.class);
         resources.add(se.dibbler.backend.service.filter.CORSFilterTest.class);
     }
 

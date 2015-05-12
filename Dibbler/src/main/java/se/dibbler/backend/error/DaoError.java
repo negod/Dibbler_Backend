@@ -36,6 +36,7 @@ public enum DaoError implements ErrorCode {
     EVENT_PUBLISH(2026, "Error when publishing event"),
     EVENT_PUBLISH_BY_EXPIRED_DATE(2026, "Error when getting published events by expired date"),
     EVENT_NO_EVENTS_IN_COMPANY(2027, "There are no events connected to the selected company"),
+    EVENT_PUBLISH_COMPANY_HAS_NOT_LOCATION(2026, "Only locations attached to the Company are allowed!"),
     /**
      * EventType DAO Errors
      */
@@ -76,6 +77,11 @@ public enum DaoError implements ErrorCode {
     @Override
     public String getErrorText() {
         return "[ ERROR ] " + errorText;
+    }
+    
+    @Override
+    public String getErrorType() {
+        return this.getClass().getName();
     }
 
 }

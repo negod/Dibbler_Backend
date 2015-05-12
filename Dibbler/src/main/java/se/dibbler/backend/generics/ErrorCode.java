@@ -14,5 +14,7 @@ public interface ErrorCode {
     public Integer getErrorCode();
 
     public String getErrorText();
+    
+    public String getErrorType();
 
 }

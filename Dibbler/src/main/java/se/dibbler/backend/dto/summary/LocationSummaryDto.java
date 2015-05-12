@@ -5,8 +5,6 @@
  */
 package se.dibbler.backend.dto.summary;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -17,17 +15,14 @@ import se.dibbler.backend.generics.BaseDtoNoId;
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-@ApiModel(value = "A location on a map with a fixed position")
 @XmlRootElement(name = "location")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LocationSummaryDto extends BaseDtoNoId {
 
     @XmlElement(type = Double.class, required = true)
-    @ApiModelProperty(value = "The latitude of the location", required = true)
     Double latitude;
 
     @XmlElement(type = Double.class, required = true)
-    @ApiModelProperty(value = "The longitude of the location", required = true)
     Double longitude;
 
     public Double getLatitude() {

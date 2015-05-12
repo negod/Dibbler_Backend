@@ -5,9 +5,6 @@
  */
 package se.dibbler.backend.service;
 
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -21,6 +18,7 @@ import se.dibbler.backend.dao.CategoryDao;
 import se.dibbler.backend.dao.CategoryTextDao;
 import se.dibbler.backend.dao.CompanyDao;
 import se.dibbler.backend.dao.CompanyUsersDao;
+import se.dibbler.backend.dao.ErrorLogDao;
 import se.dibbler.backend.dao.EventDao;
 import se.dibbler.backend.dao.EventTypeDao;
 import se.dibbler.backend.dao.EventTypeTextDao;
@@ -30,6 +28,7 @@ import se.dibbler.backend.dao.MovementDao;
 import se.dibbler.backend.dao.RolesDao;
 import se.dibbler.backend.dao.SettingDao;
 import se.dibbler.backend.dao.UsersDao;
+import se.dibbler.backend.dto.ErrorLogDto;
 import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.generics.WsResponse;
@@ -69,42 +68,49 @@ public class IdService {
     @EJB
     EventTypeDao eventType;
 
+    @EJB
+    ErrorLogDao errorLog;
+
+    public ErrorLogDao getErrorLog() {
+        return errorLog;
+    }
+
     @GET
     @Path("/{id}/{type}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "GET", value = "Gets a Object by Id", response = Long.class, nickname = "getIdByExtId")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "The databaseId for the selected type", response = Long.class),
-        @ApiResponse(code = 500, message = "")})
     public WsResponse getById(@PathParam("id") String id, @PathParam("type") DaoTypes daoType) {
-        switch (daoType) {
-            case CATEGORY:
-                return category.getId(id).getWsResponse();
-            case CATEGORY_NAME:
-                return categoryText.getId(id).getWsResponse();
-            case COMPANY:
-                return company.getId(id).getWsResponse();
-            case COMPANY_USERS:
-                return companyUser.getId(id).getWsResponse();
-            case EVENT:
-                return event.getId(id).getWsResponse();
-            case FILTER:
-                return filter.getId(id).getWsResponse();
-            case LANGUAGE:
-                return language.getId(id).getWsResponse();
-            case MOVMENT:
-                return movement.getId(id).getWsResponse();
-            case ROLES:
-                return roles.getId(id).getWsResponse();
-            case USERS:
-                return users.getId(id).getWsResponse();
-            case EVENTTYPE:
-                return eventType.getId(id).getWsResponse();
-            case EVENTTEXT:
-                return eventTypeText.getId(id).getWsResponse();
-            default:
-                return Response.error(GenericError.WRONG_PARAMETER).getWsResponse();
+        try {
+            switch (daoType) {
+                case CATEGORY:
+                    return category.getId(id).getWsResponse();
+                case CATEGORY_NAME:
+                    return categoryText.getId(id).getWsResponse();
+                case COMPANY:
+                    return company.getId(id).getWsResponse();
+                case COMPANY_USERS:
+                    return companyUser.getId(id).getWsResponse();
+                case EVENT:
+                    return event.getId(id).getWsResponse();
+                case FILTER:
+                    return filter.getId(id).getWsResponse();
+                case LANGUAGE:
+                    return language.getId(id).getWsResponse();
+                case MOVMENT:
+                    return movement.getId(id).getWsResponse();
+                case ROLES:
+                    return roles.getId(id).getWsResponse();
+                case USERS:
+                    return users.getId(id).getWsResponse();
+                case EVENTTYPE:
+                    return eventType.getId(id).getWsResponse();
+                case EVENTTEXT:
+                    return eventTypeText.getId(id).getWsResponse();
+                default:
+                    return Response.error(GenericError.WRONG_PARAMETER).getWsResponse();
+            }
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
     }
 

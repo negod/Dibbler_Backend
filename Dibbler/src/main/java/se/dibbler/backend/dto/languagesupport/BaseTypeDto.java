@@ -5,7 +5,6 @@
  */
 package se.dibbler.backend.dto.languagesupport;
 
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
 import se.dibbler.backend.generics.BaseDto;
 
@@ -16,13 +15,12 @@ import se.dibbler.backend.generics.BaseDto;
 public class BaseTypeDto extends BaseDto {
 
     @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "The default name of the type", required = true)
     private String defaultName;
+    
     @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "The default description of the type", required = true)
     private String description;
+    
     @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "The default language ( id ) of the type", required = true)
     private String defaultLanguage;
 
     public BaseTypeDto() {

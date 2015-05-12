@@ -51,4 +51,8 @@ public class Roles extends BaseEntity {
         this.users = users;
     }
 
+    @Override
+    public void inactivate() {
+    }
+
 }

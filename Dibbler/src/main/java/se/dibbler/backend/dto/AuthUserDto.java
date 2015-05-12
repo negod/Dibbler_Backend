@@ -1,12 +1,8 @@
 package se.dibbler.backend.dto;
 
 import javax.xml.bind.annotation.XmlRootElement;
-
 import se.dibbler.backend.generics.BaseDto;
 
-import com.wordnik.swagger.annotations.ApiModel;
-
-@ApiModel(value = "Defines a authentication user for Dibbler, used for authentication request")
 @XmlRootElement(name = "authUser")
 public class AuthUserDto extends BaseDto {
 

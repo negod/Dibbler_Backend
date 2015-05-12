@@ -5,11 +5,6 @@
  */
 package se.dibbler.backend.service;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -22,13 +17,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import se.dibbler.backend.dao.ErrorLogDao;
 import se.dibbler.backend.dao.EventTypeDao;
 import se.dibbler.backend.dao.EventTypeTextDao;
+import se.dibbler.backend.dto.ErrorLogDto;
 import se.dibbler.backend.dto.EventTypeDto;
-import se.dibbler.backend.dto.languagesupport.EventTypeTextDto;
-import se.dibbler.backend.dto.summary.NameSummaryDto;
 import se.dibbler.backend.entity.EventType;
 import se.dibbler.backend.generics.BaseWs;
+import se.dibbler.backend.generics.GenericError;
 import se.dibbler.backend.generics.WsResponse;
 
 /**
@@ -37,7 +33,6 @@ import se.dibbler.backend.generics.WsResponse;
  */
 @Stateless
 @Path("/eventTypes")
-@Api(value = "/eventTypes", description = "Handles all EventTypes")
 public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeDao> {
 
     @EJB
@@ -45,6 +40,14 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
 
     @EJB
     EventTypeTextDao eventTypeText;
+
+    @EJB
+    ErrorLogDao errorLog;
+
+    @Override
+    public ErrorLogDao getErrorLog() {
+        return errorLog;
+    }
 
     @Override
     public EventTypeDao getDao() {
@@ -56,91 +59,64 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a eventtype by Id", response = EventTypeDto.class, nickname = "getById")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns a EventType and all of its added languages", response = EventTypeDto.class),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1002, message = "Error when reading from database", response = String.class),
-        @ApiResponse(code = 1006, message = "Error when mapping from Entity to Dto", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
-    public WsResponse getById(@ApiParam(value = "The id of the EventType", required = true) @PathParam("id") String id) {
-        return super.getById(id);
+    public WsResponse getById(@PathParam("id") String id) {
+        try {
+            return super.getById(id);
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
     }
 
     @GET
     @Path("/language/{languageId}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "GET", value = "Gets all EventTypes in a certain language", response = NameSummaryDto.class, nickname = "getAllByLanguage")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns a list of EventTypeNames but only in the requested language", response = EventTypeTextDto.class),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1002, message = "Error when reading from database", response = String.class),
-        @ApiResponse(code = 1006, message = "Error when mapping from Entity to Dto", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
-    public WsResponse getAllByLanguage(@ApiParam(value = "The id of the language", required = true) @PathParam("languageId") String languageId) {
-        return eventTypeDao.getEventTypesByLanguage(languageId).getWsResponse();
+    public WsResponse getAllByLanguage(@PathParam("languageId") String languageId) {
+        try {
+            return eventTypeDao.getEventTypesByLanguage(languageId).getWsResponse();
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a list of all eventtypes", response = EventTypeDto.class, nickname = "getAll")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns a all EventTypes and all of it´s added languages", response = EventTypeDto.class),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1002, message = "Error when reading from database", response = String.class),
-        @ApiResponse(code = 1006, message = "Error when mapping from Entity to Dto", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
     public WsResponse getAll() {
-        return super.getAll();
+        try {
+            return super.getAll();
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
     }
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Adds a new EventType and also creates a new LanguageText in the default language", response = String.class, nickname = "create")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the id of the created EventType", response = String.class),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1000, message = "Error when inserting to database", response = String.class),
-        @ApiResponse(code = 1001, message = "Contraint violation when inserting to database", response = String.class),
-        @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
     public WsResponse insert(
-            @ApiParam(value = "The description of the EventType", required = true) @QueryParam("description") String description,
-            @ApiParam(value = "The default name of the eventtype", required = true) @QueryParam("defaultName") String defaultName,
-            @ApiParam(value = "The id of the default language", required = true) @QueryParam("languageId") String languageId) {
-        return super.insert(new EventTypeDto(languageId, defaultName, description));
+            @QueryParam("description") String description,
+            @QueryParam("defaultName") String defaultName,
+            @QueryParam("languageId") String languageId) {
+        try {
+            return super.insert(new EventTypeDto(languageId, defaultName, description));
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
     }
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/addlanguage")
-    @ApiOperation(httpMethod = "POST", value = "Adds a description to the eventtype in the specified language", response = String.class, nickname = "addlanguage")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the id of the created EventTypeText ( This is not the same as the EventTypes id!", response = String.class),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1000, message = "Error when inserting to database", response = String.class),
-        @ApiResponse(code = 1001, message = "Contraint violation when inserting to database", response = String.class),
-        @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
     public WsResponse addLanguage(
-            @ApiParam(value = "The id for the eventtype that the new language will be added to", required = true) @QueryParam("eventTypeId") String categoryId,
-            @ApiParam(value = "The name of the eventtype in the requested language", required = true) @QueryParam("name") String name,
-            @ApiParam(value = "The id of the language to add", required = true) @QueryParam("languageId") String language) {
-        return eventTypeDao.addLanguage(categoryId, name, language).getWsResponse();
+            @QueryParam("eventTypeId") String categoryId,
+            @QueryParam("name") String name,
+            @QueryParam("languageId") String language) {
+        try {
+            return eventTypeDao.addLanguage(categoryId, name, language).getWsResponse();
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
     }
 
     @DELETE
@@ -148,70 +124,52 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "DELETE", value = "Deletes an eventtype by Id", response = String.class, nickname = "delete")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "", response = String.class),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1004, message = "Error when deleting from database", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
-    public WsResponse delete(@ApiParam(value = "The id for the EventType to delete", required = true) @PathParam("id") Long id) {
-        return super.delete(id);
+    public WsResponse delete(@PathParam("id") Long id) {
+        try {
+            return super.delete(id);
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
     }
 
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "PUT", value = "Updates an eventtype", response = String.class, nickname = "update", notes = "This Method is not supported yet")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the id of the updated EventType", response = String.class),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1003, message = "Error when updating in database", response = String.class),
-        @ApiResponse(code = 1004, message = "Contraint violation when inserting to database", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
     public WsResponse update(
-            @ApiParam(value = "The new descripton of the EventType", required = true) @QueryParam("description") String description,
-            @ApiParam(value = "The id of the EventType", required = true) @PathParam("id") String id) {
-        return eventTypeDao.updateEventTypeDescription(description, id).getWsResponse();
+            @QueryParam("description") String description,
+            @PathParam("id") String id) {
+        try {
+            return eventTypeDao.updateEventTypeDescription(description, id).getWsResponse();
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
     }
 
     @DELETE
     @Path("/language/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "DELETE", value = "Deletes an EventTypeName language by Id", response = String.class, nickname = "delete")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "", response = String.class),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1004, message = "Error when deleting from database", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
-    public WsResponse deleteLanguage(@ApiParam(value = "The id of the language for the EventTypeName", required = true) @PathParam("id") Long id) {
-        return eventTypeText.delete(id).getWsResponse();
+    public WsResponse deleteLanguage(@PathParam("id") Long id) {
+        try {
+            return eventTypeText.delete(id).getWsResponse();
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
     }
 
     @PUT
     @Path("/language/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "PUT", value = "Updates an events language type", response = String.class, nickname = "update", notes = "This Method is not supported yet")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the id of the updated EventType", response = String.class),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1003, message = "Error when updating in database", response = String.class),
-        @ApiResponse(code = 1004, message = "Contraint violation when inserting to database", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
     public WsResponse updateLanguage(
-            @ApiParam(value = "The id of the EventTypeName", required = true) @PathParam("id") String id,
-            @ApiParam(value = "The id of the EventTypeName", required = true) @QueryParam("name") String name) {
-        return eventTypeText.updateEventTypeNameByEventTextId(name, id).getWsResponse();
+            @PathParam("id") String id,
+            @QueryParam("name") String name) {
+        try {
+            return eventTypeText.updateEventTypeNameByEventTextId(name, id).getWsResponse();
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
     }
 
 }

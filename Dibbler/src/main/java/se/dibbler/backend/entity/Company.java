@@ -5,6 +5,7 @@
  */
 package se.dibbler.backend.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +17,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Where;
 import se.dibbler.backend.constants.DibblerNamedQueries;
 import se.dibbler.backend.generics.BaseEntity;
 
@@ -63,29 +65,66 @@ public class Company extends BaseEntity {
     @Column
     private String siteManager;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, optional = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false, optional = false)
     private Location location;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "company", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
+    @Where(clause="active='true'") 
     private List<CompanyUsers> companyUsers;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "company", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
+    @Where(clause="active='true'") 
     private List<Event> events;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "company", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
+    @Where(clause="active='true'") 
     private List<PublishedEvent> publishedEvents;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
+    @Where(clause="active='true'") 
     private List<LocationGroup> locationGroups;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
+    @Where(clause="active='true'") 
     private List<Location> locations;
+    
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
+    @Where(clause="active='true'") 
+    private List<Company> branchCompanies;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Filter filter;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
+    @ManyToOne
     private Company parentCompany;
+
+    @Override
+    public void inactivate() {
+
+        location.setActive(false);
+
+        if (filter != null) {
+            filter.setActive(false);
+        }
+
+        for (Event event : getEvents()) {
+            event.setActive(false);
+        }
+
+        for (PublishedEvent pubEvent : getPublishedEvents()) {
+            pubEvent.setActive(false);
+        }
+
+        for (LocationGroup locGroup : getLocationGroups()) {
+            locGroup.setActive(false);
+        }
+
+        for (Location loc : getLocations()) {
+            loc.setActive(false);
+        }
+
+    }
 
     public String getOrgNr() {
         return orgNr;
@@ -160,6 +199,9 @@ public class Company extends BaseEntity {
     }
 
     public List<CompanyUsers> getCompanyUsers() {
+        if (companyUsers == null) {
+            return new ArrayList<>();
+        }
         return companyUsers;
     }
 
@@ -168,10 +210,14 @@ public class Company extends BaseEntity {
     }
 
     public List<Event> getEvents() {
+        if (events == null) {
+            return new ArrayList<>();
+        }
         return events;
     }
 
     public void setEvents(List<Event> events) {
+
         this.events = events;
     }
 
@@ -240,6 +286,9 @@ public class Company extends BaseEntity {
     }
 
     public List<PublishedEvent> getPublishedEvents() {
+        if (publishedEvents == null) {
+            return new ArrayList<>();
+        }
         return publishedEvents;
     }
 
@@ -256,6 +305,9 @@ public class Company extends BaseEntity {
     }
 
     public List<LocationGroup> getLocationGroups() {
+        if (locationGroups == null) {
+            return new ArrayList<>();
+        }
         return locationGroups;
     }
 
@@ -264,6 +316,9 @@ public class Company extends BaseEntity {
     }
 
     public List<Location> getLocations() {
+        if (locations == null) {
+            return new ArrayList<>();
+        }
         return locations;
     }
 
@@ -277,6 +332,17 @@ public class Company extends BaseEntity {
 
     public void setSiteManager(String siteManager) {
         this.siteManager = siteManager;
+    }
+
+    public List<Company> getBranchCompanies() {
+        if (branchCompanies == null) {
+            return new ArrayList<>();
+        }
+        return branchCompanies;
+    }
+
+    public void setBranchCompanies(List<Company> branchCompanies) {
+        this.branchCompanies = branchCompanies;
     }
 
 }

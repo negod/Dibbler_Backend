@@ -5,9 +5,11 @@
  */
 package se.dibbler.backend.dao.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.apache.lucene.search.BooleanClause;
@@ -25,9 +27,11 @@ import se.dibbler.backend.dao.LanguageDao;
 import se.dibbler.backend.dao.PublishedEventDao;
 import se.dibbler.backend.dto.PublishedEventDto;
 import se.dibbler.backend.dto.create.PublishEventCreateDto;
+import se.dibbler.backend.entity.Company;
 import se.dibbler.backend.entity.Event;
 import se.dibbler.backend.entity.EventText;
 import se.dibbler.backend.entity.Language;
+import se.dibbler.backend.entity.Location;
 import se.dibbler.backend.entity.PublishedEvent;
 import se.dibbler.backend.error.DaoError;
 import se.dibbler.backend.generics.BaseDaoBean;
@@ -78,7 +82,6 @@ public class PublishedEventDaoBean extends BaseDaoBean<PublishedEvent, Published
             bq.add(q3, BooleanClause.Occur.MUST);
 
             org.hibernate.Query hibQuery = fullTextSession.createFullTextQuery(query, PublishedEvent.class);
-            //hibQuery.
 
             System.out.println(hibQuery.getQueryString());
             List<PublishedEvent> results = hibQuery.list();
@@ -113,36 +116,70 @@ public class PublishedEventDaoBean extends BaseDaoBean<PublishedEvent, Published
                 return Response.error(eventTexts.getError());
             }
 
-            PublishedEvent publishedEvent = Mapper.getInstance().getMapper().map(eventEntity.getData(), PublishedEvent.class);
+            Company company = eventEntity.getData().getCompany();
 
-            publishedEvent.setCompany(eventEntity.getData().getCompany());
-            publishedEvent.setLanguage(languageEntity.getData());
-            publishedEvent.setEvent(eventEntity.getData());
-
-            publishedEvent.setId(null);
-            publishedEvent.setExtId(null);
-
-            publishedEvent.setStarts(dto.getStartDate());
-            publishedEvent.setExpires(dto.getExpireDate());
-
-            for (EventText text : eventTexts.getData()) {
-                if (text.getLanguage().getExtId().equalsIgnoreCase(dto.getLanguageId())) {
-                    switch (text.getTextType()) {
-                        case HEADER:
-                            publishedEvent.setHeading(text.getValue());
-                            break;
-                        case TEXT_BODY:
-                            publishedEvent.setBody(text.getValue());
-                            break;
-                    }
-                }
+            Response<List<Location>> controlledLocations = checkCompanyHasLocations(company, dto.getLocations());
+            if (controlledLocations.hasErrors) {
+                return Response.error(controlledLocations.getError());
             }
 
-            return super.create(publishedEvent);
+            List<PublishedEvent> events = new ArrayList<>();
+            for (Location location : controlledLocations.getData()) {
+
+                PublishedEvent publishedEvent = Mapper.getInstance().getMapper().map(eventEntity.getData(), PublishedEvent.class);
+                publishedEvent.setCompany(eventEntity.getData().getCompany());
+                publishedEvent.setLanguage(languageEntity.getData());
+                publishedEvent.setEvent(eventEntity.getData());
+
+                publishedEvent.setId(null);
+                publishedEvent.setExtId(null);
+
+                publishedEvent.setStarts(dto.getStartDate());
+                publishedEvent.setExpires(dto.getExpireDate());
+
+                publishedEvent.setLatitude(location.getLatitude());
+                publishedEvent.setLongitude(location.getLongitude());
+
+                for (EventText text : eventTexts.getData()) {
+                    if (text.getLanguage().getExtId().equalsIgnoreCase(dto.getLanguageId())) {
+                        switch (text.getTextType()) {
+                            case HEADER:
+                                publishedEvent.setHeading(text.getValue());
+                                break;
+                            case TEXT_BODY:
+                                publishedEvent.setBody(text.getValue());
+                                break;
+                        }
+                    }
+                }
+                events.add(publishedEvent);
+            }
+
+            return super.createBatch(events);
+
         } catch (Exception e) {
             super.getLogger().error("[ Error when publishing event ] [ERROR: {}] ", e.getMessage());
             return Response.error(DaoError.EVENT_PUBLISH);
         }
+    }
+
+    private Response<List<Location>> checkCompanyHasLocations(Company company, List<String> locationIds) {
+
+        List<Location> locations = new ArrayList<>();
+        Map<String, Location> uniqueLocations = new HashMap<>();
+        for (Location companyLocation : company.getLocations()) {
+            uniqueLocations.put(companyLocation.getExtId(), companyLocation);
+        }
+
+        for (String loc : locationIds) {
+            if (!uniqueLocations.containsKey(loc)) {
+                return Response.error(DaoError.EVENT_PUBLISH_COMPANY_HAS_NOT_LOCATION);
+            } else {
+                locations.add(uniqueLocations.get(loc));
+            }
+        }
+        return Response.success(locations);
+
     }
 
     @Override

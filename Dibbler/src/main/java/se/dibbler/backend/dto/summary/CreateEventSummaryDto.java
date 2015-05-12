@@ -5,7 +5,6 @@
  */
 package se.dibbler.backend.dto.summary;
 
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import javax.xml.bind.annotation.XmlElement;
 import se.dibbler.backend.generics.BaseDtoNoId;
@@ -17,19 +16,49 @@ import se.dibbler.backend.generics.BaseDtoNoId;
 public class CreateEventSummaryDto extends BaseDtoNoId {
 
     @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "The default event header", required = true)
     String eventHeader;
 
     @XmlElement(type = String.class, required = true)
-    @ApiModelProperty(value = "The default eventText Bodys", required = true)
     String eventTextBody;
 
     @XmlElement(type = Date.class, required = true)
-    @ApiModelProperty(value = "The startdate of the event", required = true)
     Date startDate;
 
     @XmlElement(type = Date.class, required = true)
-    @ApiModelProperty(value = "The enddate of the event", required = true)
     Date endDate;
+
+    public String getEventHeader() {
+        return eventHeader;
+    }
+
+    public void setEventHeader(String eventHeader) {
+        this.eventHeader = eventHeader;
+    }
+
+    public String getEventTextBody() {
+        return eventTextBody;
+    }
+
+    public void setEventTextBody(String eventTextBody) {
+        this.eventTextBody = eventTextBody;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+    
+    
 
 }

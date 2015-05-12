@@ -50,8 +50,6 @@ public class Users extends BaseEntity {
     private String googleId;
     @Column(unique = true)
     private String facebookId;
-    @Column
-    private boolean active;
     @OneToOne(fetch = FetchType.LAZY)
     private Setting setting;
     @OneToOne(fetch = FetchType.LAZY)
@@ -131,14 +129,6 @@ public class Users extends BaseEntity {
         this.facebookId = facebookId;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     public Setting getSetting() {
         return setting;
     }
@@ -163,11 +153,8 @@ public class Users extends BaseEntity {
         this.roles = roles;
     }
 
-    @PrePersist
     @Override
-    protected void onCreate() {
-        super.onCreate();
-        this.active = true;
+    public void inactivate() {
     }
 
 }

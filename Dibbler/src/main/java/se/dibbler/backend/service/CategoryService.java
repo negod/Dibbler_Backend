@@ -5,11 +5,6 @@
  */
 package se.dibbler.backend.service;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -24,19 +19,22 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import se.dibbler.backend.dao.CategoryDao;
 import se.dibbler.backend.dao.CategoryTextDao;
+import se.dibbler.backend.dao.ErrorLogDao;
 import se.dibbler.backend.dto.CategoryDto;
-import se.dibbler.backend.dto.summary.NameSummaryDto;
+import se.dibbler.backend.dto.ErrorLogDto;
 import se.dibbler.backend.entity.Category;
 import se.dibbler.backend.generics.BaseWs;
+import se.dibbler.backend.generics.GenericError;
+import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.generics.WsResponse;
 
 /**
  *
+ * @apiDescription Handles all Categories
  * @author Joakim
  */
-@Stateless
 @Path("/categories")
-@Api(value = "/categories", description = "Handles all categories")
+@Stateless
 public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> {
 
     @EJB
@@ -45,172 +43,163 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @EJB
     CategoryTextDao categoryText;
 
+    @EJB
+    ErrorLogDao errorLog;
+
+    @Override
+    public ErrorLogDao getErrorLog() {
+        return errorLog;
+    }
+
     @Override
     public CategoryDao getDao() {
         return categoryDao;
     }
 
+    /**
+     * @responseType java.util.List<se.dibbler.backend.dto.CategoryDto>
+     * @summary Gets a Category by its id
+     */
     @GET
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a Category by Id", response = CategoryDto.class, nickname = "getById")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns a Category"),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1002, message = "Error when reading from database", response = String.class),
-        @ApiResponse(code = 1006, message = "Error when mapping from Entity to Dto", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
     public WsResponse getById(@PathParam("id") String id) {
-        return super.getById(id);
+        try {
+            return super.getById(id);
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
     }
 
+    /**
+     * @responseType java.util.List<se.dibbler.backend.dto.CategoryDto>
+     * @summary Gets all the categories by language
+     */
     @GET
     @Path("/language/{languageId}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "GET", value = "Gets all Categorytypes in a certain language", response = NameSummaryDto.class, nickname = "getAllByLanguage")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns a list of categories in the requested language"),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1002, message = "Error when reading from database", response = String.class),
-        @ApiResponse(code = 1006, message = "Error when mapping from Entity to Dto", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
     public WsResponse getAllByLanguage(@PathParam("languageId") String languageId) {
-        return categoryDao.getCategoriesByLanguage(languageId).getWsResponse();
+        try {
+            return categoryDao.getCategoriesByLanguage(languageId).getWsResponse();
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
     }
 
+    /**
+     * @responseType java.util.List<se.dibbler.backend.dto.CategoryDto>
+     * @summary Gets all the Categories
+     */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "GET", value = "Gets a list of all Categories", response = CategoryDto.class, nickname = "getAll")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns all categories in all languages"),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1002, message = "Error when reading from database", response = String.class),
-        @ApiResponse(code = 1006, message = "Error when mapping from Entity to Dto", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
     public WsResponse getAll() {
-        return super.getAll();
+        try {
+            return super.getAll();
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
     }
 
+    /**
+     * @summary Creates a new category
+     */
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "POST", value = "Add a new category", response = String.class, nickname = "create")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the id of the created category", response = String.class),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1000, message = "Error when inserting to database", response = String.class),
-        @ApiResponse(code = 1001, message = "Contraint violation when inserting to database", response = String.class),
-        @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
     public WsResponse insert(
-            @ApiParam(value = "The category description", required = true) @QueryParam("description") String description,
-            @ApiParam(value = "The default name of the category", required = true) @QueryParam("defaultName") String defaultName,
-            @ApiParam(value = "The id of the default language", required = true) @QueryParam("languageId") String languageId) {
-        return super.insert(new CategoryDto(languageId, defaultName, description));
+            @QueryParam("description") String description,
+            @QueryParam("defaultName") String defaultName,
+            @QueryParam("languageId") String languageId) {
+        try {
+            return super.insert(new CategoryDto(languageId, defaultName, description));
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
     }
 
+    /**
+     * @summary Adds a language to the category
+     */
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/addlanguage")
-    @ApiOperation(httpMethod = "POST", value = "Adds a description to the Category in the specified language", response = String.class, nickname = "addlanguage")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the id of the updated category"),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1000, message = "Error when inserting to database", response = String.class),
-        @ApiResponse(code = 1001, message = "Contraint violation when inserting to database", response = String.class),
-        @ApiResponse(code = 1005, message = "Error when mapping from Dto to Entity", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
     public WsResponse addLanguage(
-            @ApiParam(value = "The id for the category that the new language will be added to", required = true) @QueryParam("categoryId") String categoryId,
-            @ApiParam(value = "The name of the category in a new language", required = true) @QueryParam("name") String name,
-            @ApiParam(value = "The id of the language to add", required = true) @QueryParam("languageId") String language) {
-        return categoryDao.addLanguage(categoryId, name, language).getWsResponse();
+            @QueryParam("categoryId") String categoryId,
+            @QueryParam("name") String name,
+            @QueryParam("languageId") String language) {
+        try {
+            return categoryDao.addLanguage(categoryId, name, language).getWsResponse();
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
     }
 
+    /**
+     * @summary Inactivates a category
+     */
     @DELETE
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    @ApiOperation(httpMethod = "DELETE", value = "Deletes a category bi Id", response = String.class, nickname = "delete")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = ""),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1004, message = "Error when deleting from database", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
     public WsResponse delete(@PathParam("id") Long id) {
-        return super.delete(id);
+        try {
+            return super.delete(id);
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
     }
 
+    /**
+     * @summary Updates a category
+     */
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "PUT", value = "Updates a category", response = String.class, nickname = "update", notes = "This Method is not supported")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Returns the id of the updated Category"),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1003, message = "Error when updating in database", response = String.class),
-        @ApiResponse(code = 1004, message = "Contraint violation when inserting to database", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
-    public WsResponse update(
-            @ApiParam(value = "The Category data", required = true) @QueryParam("description") String description,
-            @ApiParam(value = "The id of the Category", required = true) @PathParam("id") String id) {
-        return categoryDao.updateCategoryDescription(description, id).getWsResponse();
+    public WsResponse update(@QueryParam("description") String description, @PathParam("id") String id) {
+        try {
+            return categoryDao.updateCategoryDescription(description, id).getWsResponse();
+        } catch (Exception e) {
+            return Response.error(GenericError.UNHANDELED_EXCEPTION, e.getMessage()).getWsResponse();
+        }
     }
 
+    /**
+     * @summary Deletes a category in a specific language
+     */
     @DELETE
     @Path("/language/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "DELETE", value = "Deletes an CategoryName language by Id", response = String.class, nickname = "delete")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "", response = String.class),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1004, message = "Error when deleting from database", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
-    public WsResponse deleteLanguage(@ApiParam(value = "The id of the language for the CategoryName", required = true) @PathParam("id") Long id) {
-        return categoryText.delete(id).getWsResponse();
+    public WsResponse deleteLanguage(@PathParam("id") Long id) {
+        try {
+            return categoryText.delete(id).getWsResponse();
+        } catch (Exception e) {
+            return Response.error(GenericError.UNHANDELED_EXCEPTION, e.getMessage()).getWsResponse();
+        }
     }
 
+    /**
+     * @summary Updates a categoryname in a specific language
+     */
     @PUT
     @Path("/language/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @ApiOperation(httpMethod = "PUT", value = "Updates a category", response = String.class, nickname = "update", notes = "This Method is not supported")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Method not accessible"),
-        @ApiResponse(code = 500, message = "Unhandled exception", response = String.class),
-        @ApiResponse(code = 1003, message = "Error when updating in database", response = String.class),
-        @ApiResponse(code = 1004, message = "Contraint violation when inserting to database", response = String.class),
-        @ApiResponse(code = 1008, message = "Wrong parameters or null in request", response = String.class),
-        @ApiResponse(code = 1009, message = "Could not find any data for the requested id", response = String.class)
-    })
     public WsResponse updateCategoryName(
-            @ApiParam(value = "The new CategoryName data", required = true) @QueryParam("name") String name,
-            @ApiParam(value = "The id of the CategoryName", required = true) @PathParam("id") String categoryNameId) {
-        return categoryText.updateCategoryTypeNameByEventTextId(name, categoryNameId).getWsResponse();
+            @QueryParam("name") String name,
+            @PathParam("id") String categoryNameId) {
+        try {
+            return categoryText.updateCategoryTypeNameByEventTextId(name, categoryNameId).getWsResponse();
+        } catch (Exception e) {
+            return Response.error(GenericError.UNHANDELED_EXCEPTION, e.getMessage()).getWsResponse();
+        }
     }
 
 }

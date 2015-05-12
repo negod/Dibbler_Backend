@@ -5,8 +5,6 @@
  */
 package se.dibbler.backend.dto;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -21,11 +19,9 @@ import se.dibbler.backend.dto.languagesupport.CategoryTextDto;
  */
 @XmlRootElement(name = "category")
 @XmlAccessorType(XmlAccessType.FIELD)
-@ApiModel(value = "A category for different types of events that are created and published")
 public class CategoryDto extends BaseTypeDto {
 
     @XmlElement(type = CategoryTextDto.class, required = true, name = "languages")
-    @ApiModelProperty(value = "Language support for the Category", required = true)
     List<CategoryTextDto> categoryTexts;
 
     public CategoryDto(String language, String value, String description) {
