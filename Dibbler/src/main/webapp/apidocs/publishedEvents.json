@@ -12,6 +12,21 @@
       "produces" : [ "application/json" ]
     } ]
   }, {
+    "path" : "/publishedEvents/company/{id}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getByCompany",
+      "type" : "response",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      } ],
+      "consumes" : [ "application/json" ],
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
     "path" : "/publishedEvents/{id}",
     "operations" : [ {
       "method" : "GET",

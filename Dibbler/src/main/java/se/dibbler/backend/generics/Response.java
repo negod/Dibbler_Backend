@@ -77,7 +77,7 @@ public class Response<T> {
     public WsResponse getWsResponse() {
         if (hasErrors) {
             if (data != null) {
-                return new WsResponse(data, error.getErrorCode());
+                return new WsResponse("[ " + error.getErrorType() + " ]" + error.getErrorText() + data, error.getErrorCode());
             } else {
                 return new WsResponse("[ " + error.getErrorType() + " ]" + error.getErrorText(), error.getErrorCode());
             }

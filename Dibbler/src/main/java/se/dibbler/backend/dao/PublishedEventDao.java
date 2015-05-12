@@ -11,6 +11,7 @@ import javax.ejb.Local;
 import org.hibernate.search.query.dsl.Unit;
 import se.dibbler.backend.dto.PublishedEventDto;
 import se.dibbler.backend.dto.create.PublishEventCreateDto;
+import se.dibbler.backend.dto.summary.PublishedEventSummaryDto;
 import se.dibbler.backend.entity.Event;
 import se.dibbler.backend.entity.PublishedEvent;
 import se.dibbler.backend.generics.BaseDao;
@@ -32,5 +33,9 @@ public interface PublishedEventDao<E extends BaseEntity, D extends BaseDto> exte
     public Response<String> publishEvent(PublishEventCreateDto dto);
 
     public Response<List<PublishedEvent>> getPublishedEventsByExpiredDate(Date expired);
+
+    public Response<PublishedEventDto> updatePublishedEvent(PublishedEventSummaryDto event);
+
+    public Response<PublishedEventDto> getPublishedEventByCompany(String companyId);
 
 }

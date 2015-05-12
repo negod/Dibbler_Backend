@@ -69,27 +69,27 @@ public class Company extends BaseEntity {
     private Location location;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
-    @Where(clause="active='true'") 
+    @Where(clause="active=1") 
     private List<CompanyUsers> companyUsers;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
-    @Where(clause="active='true'") 
+    @Where(clause="active=1") 
     private List<Event> events;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
-    @Where(clause="active='true'") 
+    @Where(clause="active=1") 
     private List<PublishedEvent> publishedEvents;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
-    @Where(clause="active='true'") 
+    @Where(clause="active=1") 
     private List<LocationGroup> locationGroups;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
-    @Where(clause="active='true'") 
+    @Where(clause="active=1") 
     private List<Location> locations;
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
-    @Where(clause="active='true'") 
+    @Where(clause="active=1") 
     private List<Company> branchCompanies;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

@@ -107,7 +107,8 @@ public abstract class BaseDaoBean<E extends BaseEntity, D extends BaseDto> exten
             Response<String> constraintError = getSQLIntegrityConstraintViolation(e);
             if (constraintError.hasNoErrors) {
                 LOG.error("[ Failed to create " + entityClass.getSimpleName() + " ] due to constraint violations [ ERROR ]: {}", e.getMessage());
-                return Response.error(GenericError.CONSTRAINT_VIOLATION, constraintError.getData());
+                return Response.error(GenericError.CONSTRAINT_VIOLATION, "[" + entityClass.getSimpleName() + "]" + constraintError.getData()
+                );
             }
 
         } catch (ConstraintViolationException ex) {

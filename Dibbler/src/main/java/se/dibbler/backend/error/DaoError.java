@@ -34,9 +34,10 @@ public enum DaoError implements ErrorCode {
     EVENT_GET_BY_COMPANY(2024, "Error when retreiving event by company"),
     EVENT_BY_LOCATION(2025, "Error when getting events by location"),
     EVENT_PUBLISH(2026, "Error when publishing event"),
-    EVENT_PUBLISH_BY_EXPIRED_DATE(2026, "Error when getting published events by expired date"),
-    EVENT_NO_EVENTS_IN_COMPANY(2027, "There are no events connected to the selected company"),
-    EVENT_PUBLISH_COMPANY_HAS_NOT_LOCATION(2026, "Only locations attached to the Company are allowed!"),
+    EVENT_PUBLISH_BY_EXPIRED_DATE(2027, "Error when getting published events by expired date"),
+    EVENT_NO_EVENTS_IN_COMPANY(2028, "There are no events connected to the selected company"),
+    EVENT_PUBLISH_COMPANY_HAS_NOT_LOCATION(2029, "Only locations attached to the Company are allowed!"),
+    EVENT_PUBLISH_UPDATE(2030, "Error when updating published event"),
     /**
      * EventType DAO Errors
      */

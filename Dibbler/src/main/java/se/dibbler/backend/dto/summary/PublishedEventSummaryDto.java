@@ -5,7 +5,6 @@
  */
 package se.dibbler.backend.dto.summary;
 
-import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -46,7 +45,7 @@ public class PublishedEventSummaryDto extends BaseDto {
     @XmlElement(type = String.class, required = true)
     private String categoryId;
 
-    @XmlElement(type = String.class, required = true)
+    @XmlElement(type = String.class, required = true, nillable = false)
     private String eventId;
 
     @XmlElement(type = Long.class, required = true)

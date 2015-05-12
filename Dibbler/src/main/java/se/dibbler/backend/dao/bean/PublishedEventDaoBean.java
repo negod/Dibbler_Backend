@@ -21,15 +21,19 @@ import org.hibernate.search.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.hibernate.search.query.dsl.Unit;
 import se.dibbler.backend.constants.DibblerNamedQueries;
+import se.dibbler.backend.dao.CategoryDao;
 import se.dibbler.backend.dao.EventDao;
 import se.dibbler.backend.dao.EventTextDao;
+import se.dibbler.backend.dao.EventTypeDao;
 import se.dibbler.backend.dao.LanguageDao;
 import se.dibbler.backend.dao.PublishedEventDao;
 import se.dibbler.backend.dto.PublishedEventDto;
 import se.dibbler.backend.dto.create.PublishEventCreateDto;
+import se.dibbler.backend.dto.summary.PublishedEventSummaryDto;
 import se.dibbler.backend.entity.Company;
 import se.dibbler.backend.entity.Event;
 import se.dibbler.backend.entity.EventText;
+import se.dibbler.backend.entity.EventType;
 import se.dibbler.backend.entity.Language;
 import se.dibbler.backend.entity.Location;
 import se.dibbler.backend.entity.PublishedEvent;
@@ -55,6 +59,12 @@ public class PublishedEventDaoBean extends BaseDaoBean<PublishedEvent, Published
 
     @EJB
     EventTextDao eventTextDao;
+
+    @EJB
+    CategoryDao categorytDao;
+
+    @EJB
+    EventTypeDao eventTypeDao;
 
     public PublishedEventDaoBean() {
         super(PublishedEvent.class, PublishedEventDto.class);
@@ -204,6 +214,75 @@ public class PublishedEventDaoBean extends BaseDaoBean<PublishedEvent, Published
     @Override
     public Response<String> update(PublishedEventDto dto, String extId) {
         return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
+    }
+
+    @Override
+    public Response updatePublishedEvent(PublishedEventSummaryDto event) {
+        try {
+            Response<PublishedEvent> publishedEvent = super.getByExtId(event.getId());
+
+            if (publishedEvent.hasErrors) {
+                return Response.error(publishedEvent.getError());
+            }
+
+            if (event.getExpires() != null) {
+                publishedEvent.getData().setExpires(new Date(event.getExpires()));
+            }
+
+            if (event.getStarts() != null) {
+                publishedEvent.getData().setStarts(new Date(event.getStarts()));
+            }
+
+            if (event.getBody() != null) {
+                publishedEvent.getData().setBody(event.getBody());
+            }
+
+            if (event.getHeading() != null) {
+                publishedEvent.getData().setBody(event.getHeading());
+            }
+
+            if (event.getEventTypeId() != null) {
+                Response<EventType> eventType = eventTypeDao.getByExtId(event.getEventTypeId());
+                if (eventType.hasErrors) {
+                    return Response.error(eventType.getError());
+                }
+                publishedEvent.getData().setEventTypeId(eventType.getData().getExtId());
+            }
+
+            Response<PublishedEventDto> dto = getMapper().mapFromEntityToDto(publishedEvent.getData());
+            if (dto.hasErrors) {
+                return Response.error(dto.getError());
+            }
+
+            return Response.success(publishedEvent.getData().getExtId());
+
+        } catch (Exception e) {
+            return Response.error(DaoError.EVENT_PUBLISH_UPDATE, e.getMessage());
+        }
+    }
+
+    @Override
+    public Response getPublishedEventByCompany(String companyId) {
+        try {
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("companyId", companyId);
+            Response<List<PublishedEvent>> publishedEvent = super.getListByNamedQuery(DibblerNamedQueries.PUBLISHED_EVENT_FINDBY_COMPANY, params);
+
+            if (publishedEvent.hasErrors) {
+                return Response.error(publishedEvent.getError());
+            }
+
+            Response<List<PublishedEventDto>> publishedEventMapped = getMapper().mapToDtoList(publishedEvent.getData());
+            if (publishedEventMapped.hasErrors) {
+                return Response.error(publishedEventMapped.getError());
+            }
+
+            return Response.success(publishedEventMapped);
+
+        } catch (Exception e) {
+            return Response.error(GenericError.READ, e.getMessage());
+        }
+
     }
 
 }

@@ -40,7 +40,8 @@ import se.dibbler.backend.generics.BaseEntity;
 @Entity
 @Indexed
 @NamedQueries({
-    @NamedQuery(name = DibblerNamedQueries.PUBLISHED_EVENT_FINDBY_EXPIRED_DATE, query = "SELECT c FROM PublishedEvent c where c.expires <:expiryDate"),})
+    @NamedQuery(name = DibblerNamedQueries.PUBLISHED_EVENT_FINDBY_EXPIRED_DATE, query = "SELECT c FROM PublishedEvent c where c.expires <:expiryDate"),
+    @NamedQuery(name = DibblerNamedQueries.PUBLISHED_EVENT_FINDBY_COMPANY, query = "SELECT c FROM PublishedEvent c where c.company.extId =:companyId"),})
 public class PublishedEvent extends BaseEntity {
 
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)

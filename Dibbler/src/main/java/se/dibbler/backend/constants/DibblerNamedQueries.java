@@ -24,6 +24,7 @@ public class DibblerNamedQueries {
     public static final String USERS_AUTHENTICATE = "authenticateUser";
 
     public static final String PUBLISHED_EVENT_FINDBY_EXPIRED_DATE = "findEventByExpiredDate";
+    public static final String PUBLISHED_EVENT_FINDBY_COMPANY = "findEventByCompany";
 
     public static final String COMPANY_GET_BY_ORGNO = "findByVatNo";
 

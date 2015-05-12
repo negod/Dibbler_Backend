@@ -22,7 +22,9 @@ import se.dibbler.backend.dto.summary.PublishedEventSummaryDto;
 import se.dibbler.backend.entity.PublishedEvent;
 import se.dibbler.backend.generics.BaseWs;
 import se.dibbler.backend.generics.GenericError;
+import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.generics.WsResponse;
+import se.dibbler.backend.service.validator.PublishedEventValidator;
 
 /**
  *
@@ -63,6 +65,18 @@ public class PublishedEventService extends BaseWs<PublishedEventSummaryDto, Publ
         }
     }
 
+    @GET
+    @Path("/company/{id}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public WsResponse getByCompany(@PathParam("id") String id) {
+        try {
+            return publishedEventDao.getPublishedEventByCompany(id).getWsResponse();
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
+    }
+
     @DELETE
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
@@ -83,6 +97,12 @@ public class PublishedEventService extends BaseWs<PublishedEventSummaryDto, Publ
     @Override
     public WsResponse update(PublishedEventSummaryDto data, @PathParam("id") String id) {
         try {
+
+            Response validatedInput = PublishedEventValidator.validatePublishedEventSummaryDto(data);
+            if (validatedInput.hasErrors) {
+                return validatedInput.getWsResponse();
+            }
+
             return super.update(data, id);
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
