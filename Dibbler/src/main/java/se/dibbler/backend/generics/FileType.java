@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.dibbler.backend.constants;
+package se.dibbler.backend.generics;
 
 /**
  *
@@ -12,7 +12,8 @@ package se.dibbler.backend.constants;
 public enum FileType {
 
     JPG("jpg"),
-    PNG("png");
+    PNG("png"),
+    XML("xml");
 
     private final String id;
 

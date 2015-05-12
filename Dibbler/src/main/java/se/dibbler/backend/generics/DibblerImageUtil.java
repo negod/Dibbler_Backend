@@ -18,15 +18,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.dibbler.backend.constants.DibblerFileType;
 import se.dibbler.backend.constants.FileAccess;
-import se.dibbler.backend.constants.FileType;
 
 /**
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-public class DibblerFileUtil {
+public class DibblerImageUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DibblerFileUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DibblerImageUtil.class);
 
     public static Response<BufferedImage> resizeImage(BufferedImage originalImage, int height, int width) {
         try {
