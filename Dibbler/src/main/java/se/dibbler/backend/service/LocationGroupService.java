@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -50,6 +51,27 @@ public class LocationGroupService extends BaseWs<LocationGroupDto, LocationGroup
         return locationGroupDao;
     }
 
+    /**
+     * @responseType java.util.List<se.dibbler.backend.dto.LocationGroupDto>
+     * @summary Gets all locationGroups attached to a certain company
+     */
+    @GET
+    @Path("{companyId}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public WsResponse getByCompanyId(@PathParam("companyId") String companyId) {
+        try {
+            return locationGroupDao.getLocationGroupsByCompanyId(companyId).getWsResponse();
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
+    }
+
+    /**
+     *
+     * @summary Creates a locationgroup for a certain company
+     * @inputType se.dibbler.backend.dto.create.LocationGroupCreateDto
+     */
     @POST
     @Path("{companyId}")
     @Consumes({MediaType.APPLICATION_JSON})
@@ -62,6 +84,13 @@ public class LocationGroupService extends BaseWs<LocationGroupDto, LocationGroup
         }
     }
 
+    /**
+     * @summary Updates a locationgroup attached to a specific company
+     * @inputType se.dibbler.backend.dto.create.LocationGroupCreateDto
+     * @param data
+     * @param companyId
+     * @param groupId
+     */
     @PUT
     @Path("{companyId}")
     @Consumes({MediaType.APPLICATION_JSON})
@@ -74,6 +103,10 @@ public class LocationGroupService extends BaseWs<LocationGroupDto, LocationGroup
         }
     }
 
+    /**
+     * @summary Deletes a locationgroup attached to a specific company
+     * @return
+     */
     @DELETE
     @Path("/{companyId}")
     @Consumes({MediaType.APPLICATION_JSON})

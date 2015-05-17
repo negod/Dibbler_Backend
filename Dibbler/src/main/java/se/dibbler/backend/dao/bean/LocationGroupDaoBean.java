@@ -28,14 +28,14 @@ import se.dibbler.backend.generics.Response;
  */
 @Stateless
 public class LocationGroupDaoBean extends BaseDaoBean<LocationGroup, LocationGroupDto> implements LocationGroupDao<LocationGroup, LocationGroupDto> {
-    
+
     @EJB
     CompanyDao companyDao;
-    
+
     public LocationGroupDaoBean() {
         super(LocationGroup.class, LocationGroupDto.class);
     }
-    
+
     @Override
     public Response<String> create(LocationGroupDto dto) {
         Response<LocationGroup> locationGroup = super.mapFromDtoToEntity(dto);
@@ -44,24 +44,24 @@ public class LocationGroupDaoBean extends BaseDaoBean<LocationGroup, LocationGro
         }
         return super.create(locationGroup.getData());
     }
-    
+
     @Override
     public Response<String> update(LocationGroupDto dto, String extId) {
         return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
-    
+
     @Override
     public Response<String> addLocationGroup(LocationGroupCreateDto dto, String companyId) {
         try {
-            
+
             Response<Company> company = companyDao.getByExtId(companyId);
             if (company.hasErrors) {
                 return Response.error(company.getError());
             }
-            
+
             LocationGroup locationGroup = new LocationGroup();
             locationGroup.setName(dto.getName());
-            
+
             List<Location> locations = new ArrayList<>();
             for (String locationId : dto.getLocations()) {
                 for (Location location : company.getData().getLocations()) {
@@ -70,19 +70,19 @@ public class LocationGroupDaoBean extends BaseDaoBean<LocationGroup, LocationGro
                     }
                 }
             }
-            
+
             locationGroup.setLocations(locations);
             locationGroup.setCompany(company.getData());
             company.getData().getLocationGroups().add(locationGroup);
-            
+
             return Response.success(company.getData().getExtId());
-            
+
         } catch (Exception e) {
             getLogger().error("[ " + DaoError.LOCATION_ADD_TO_LOCATION_GROUP.getErrorText() + " ]", e.getMessage());
             return Response.error(DaoError.LOCATION_ADD_TO_LOCATION_GROUP);
         }
     }
-    
+
     @Override
     public Response<String> addLocationsToLocationGroup(LocationGroupCreateDto dto, String companyId, String locationGroupId) {
         try {
@@ -90,9 +90,9 @@ public class LocationGroupDaoBean extends BaseDaoBean<LocationGroup, LocationGro
             if (company.hasErrors) {
                 return Response.error(company.getError());
             }
-            
+
             Response<LocationGroup> group = Response.error(GenericError.NO_RESULT);
-            
+
             for (LocationGroup locationGroup : company.getData().getLocationGroups()) {
                 if (locationGroup.getExtId().equalsIgnoreCase(locationGroupId)) {
                     group = Response.success(locationGroup);
@@ -100,32 +100,32 @@ public class LocationGroupDaoBean extends BaseDaoBean<LocationGroup, LocationGro
                     break;
                 }
             }
-            
+
             if (group.hasNoErrors) {
-                
+
                 for (String loc : dto.getLocations()) {
                     for (Location location : company.getData().getLocations()) {
-                        
+
                         if (location.getExtId().equalsIgnoreCase(loc)) {
                             Response<Boolean> containsLocation = doesLocationGroupContainLocation(group.getData(), location.getExtId());
                             if (containsLocation.hasNoErrors) {
                                 group.getData().getLocations().add(location);
                             }
                         }
-                        
+
                     }
                 }
-                
+
             }
-            
+
             return Response.success(company.getData().getExtId());
-            
+
         } catch (Exception e) {
             getLogger().error("[ " + DaoError.LOCATION_ADD_TO_LOCATION_GROUP.getErrorText() + " ]", e.getMessage());
             return Response.error(DaoError.LOCATION_ADD_TO_LOCATION_GROUP);
         }
     }
-    
+
     private Response<Boolean> doesLocationGroupContainLocation(LocationGroup group, String locationId) {
         try {
             for (Location location : group.getLocations()) {
@@ -139,7 +139,7 @@ public class LocationGroupDaoBean extends BaseDaoBean<LocationGroup, LocationGro
             return Response.error(GenericError.FAILURE);
         }
     }
-    
+
     @Override
     public Response<String> removeLocationsFromLocationGroup(List<String> locationIds, String companyId) {
         try {
@@ -149,5 +149,20 @@ public class LocationGroupDaoBean extends BaseDaoBean<LocationGroup, LocationGro
             return Response.error(DaoError.LOCATION_REMOVE_LOCATION_FROM_GROUP);
         }
     }
-    
+
+    @Override
+    public Response<List<LocationGroupDto>> getLocationGroupsByCompanyId(String companyId) {
+        try {
+            Response<Company> company = companyDao.getByExtId(companyId);
+            if (company.hasErrors) {
+                return Response.error(company.getError());
+            }
+            return super.getMapper().mapToDtoList(company.getData().getLocationGroups());
+        } catch (Exception e) {
+            getLogger().error(e.getMessage());
+            return Response.error(GenericError.READ);
+        }
+
+    }
+
 }

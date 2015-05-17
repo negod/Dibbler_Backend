@@ -7,6 +7,7 @@ package se.dibbler.backend.dao.bean;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -47,9 +48,9 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
 
             HashMap<String, Object> params = new HashMap<>();
             params.put("orgNr", dto.getOrgNr());
-            Response<Company> categoryTexts = super.getSingleByNamedQuery(DibblerNamedQueries.COMPANY_GET_BY_ORGNO, params);
+            Response<Company> company = super.getSingleByNamedQuery(DibblerNamedQueries.COMPANY_GET_BY_ORGNO, params);
 
-            if (categoryTexts.hasNoErrors) {
+            if (company.hasNoErrors) {
                 return Response.error(DaoError.COMPANY_CREATE_UNIQUE_ORGNO);
             }
 
@@ -104,6 +105,58 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
     @Override
     public Response<String> create(CompanyDto dto) {
         return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
+    }
+
+    @Override
+    public Response<List<CompanyDto>> getBranches(String companyId) {
+        try {
+            Response<Company> company = super.getByExtId(companyId);
+            if (company.hasErrors) {
+                return Response.error(company.getError());
+            }
+            return getMapper().mapToDtoList(company.getData().getBranchCompanies());
+        } catch (Exception e) {
+            return Response.error(GenericError.READ);
+        }
+    }
+
+    @Override
+    public Response<CompanyDto> getParent(String companyId) {
+        try {
+            Response<Company> company = super.getByExtId(companyId);
+            if (company.hasErrors) {
+                return Response.error(company.getError());
+            }
+            return getMapper().mapFromEntityToDto(company.getData().getParentCompany());
+        } catch (Exception e) {
+            return Response.error(GenericError.READ);
+        }
+    }
+
+    @Override
+    public Response addBranch(String parentId, String branchId) {
+
+        Response<Company> parent = super.getByExtId(parentId);
+        Response<Company> branch = super.getByExtId(branchId);
+
+        branch.getData().setParentCompany(parent.getData());
+        parent.getData().getBranchCompanies().add(branch.getData());
+
+        return Response.success(parent.getData().getExtId());
+
+    }
+
+    @Override
+    public Response removeBranch(String parentId, String branchId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
+
+        /*Response<Company> parent = super.getByExtId(parentId);
+         Response<Company> branch = super.getByExtId(branchId);
+
+         branch.getData().setParentCompany(parent.getData());
+         parent.getData().getBranchCompanies().add(branch.getData());
+
+         return Response.success(parent.getData().getExtId());*/
     }
 
 }

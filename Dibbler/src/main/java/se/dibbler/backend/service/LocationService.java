@@ -50,13 +50,16 @@ public class LocationService extends BaseWs<LocationDto, Location, LocationDao> 
         return locationDao;
     }
 
+    /**
+     * @inputType se.dibbler.backend.dto.create.LocationDto
+     * @summary Creates and adds a location to a Company ( NOT the companies
+     * home location, that is done in the Company Service )
+     */
     @POST
     @Path("{companyId}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public WsResponse insert(
-            LocationDto data,
-            @PathParam("companyId") String companyId) {
+    public WsResponse insert(LocationDto data, @PathParam("companyId") String companyId) {
         try {
             return locationDao.addLocationToCompany(data, companyId).getWsResponse();
         } catch (Exception e) {
@@ -64,14 +67,46 @@ public class LocationService extends BaseWs<LocationDto, Location, LocationDao> 
         }
     }
 
+    /**
+     * @summary Gets all locations attached to a specific company
+     */
+    @GET
+    @Path("/company/{companyId}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public WsResponse getLocationsByCompanyId(@PathParam("companyId") String companyId) {
+        try {
+            return locationDao.getLocationsByCompanyId(companyId).getWsResponse();
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
+    }
+
+    /**
+     * @summary Gets all locations attached to a specific locationgroup
+     */
+    @GET
+    @Path("/locationgroup/{locationGroupId}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public WsResponse getLocationsByLocationGroupId(@PathParam("locationGroupId") String companyId) {
+        try {
+            return locationDao.getLocationsByCompanyId(companyId).getWsResponse();
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
+    }
+
+    /**
+     * @inputType se.dibbler.backend.dto.create.LocationDto
+     * @summary Updates a Location attached to a specific company
+     */
     @PUT
     @Path("{companyId}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Override
-    public WsResponse update(
-            LocationDto data,
-            @PathParam("companyId") String companyId) {
+    public WsResponse update(LocationDto data, @PathParam("companyId") String companyId) {
         try {
             return locationDao.updateLocationInCompany(data, companyId).getWsResponse();
         } catch (Exception e) {
@@ -79,6 +114,10 @@ public class LocationService extends BaseWs<LocationDto, Location, LocationDao> 
         }
     }
 
+    /**
+     * @summary Deletes a location attached to a specific Company ( The
+     * companies home location can not be deleted )
+     */
     @DELETE
     @Path("/{companyId}")
     @Consumes({MediaType.APPLICATION_JSON})
@@ -93,6 +132,10 @@ public class LocationService extends BaseWs<LocationDto, Location, LocationDao> 
         }
     }
 
+    /**
+     * @inputType se.dibbler.backend.dto.create.LocationDto
+     * @summary Gets all Locations
+     */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override

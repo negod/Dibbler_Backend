@@ -5,7 +5,9 @@
  */
 package se.dibbler.backend.dao;
 
+import java.util.List;
 import javax.ejb.Local;
+import se.dibbler.backend.dto.CompanyDto;
 import se.dibbler.backend.dto.create.CompanyCreateDto;
 import se.dibbler.backend.generics.BaseDao;
 import se.dibbler.backend.generics.BaseDto;
@@ -23,5 +25,13 @@ import se.dibbler.backend.generics.Response;
 public interface CompanyDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
 
     public Response create(CompanyCreateDto dto);
+
+    public Response<List<CompanyDto>> getBranches(String companyId);
+
+    public Response<CompanyDto> getParent(String companyId);
+
+    public Response addBranch(String parentId, String branchId);
+
+    public Response removeBranch(String parentId, String branchId);
 
 }

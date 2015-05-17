@@ -8,6 +8,7 @@ package se.dibbler.backend.dao;
 import java.util.List;
 import javax.ejb.Local;
 import se.dibbler.backend.dto.LocationDto;
+import se.dibbler.backend.dto.LocationGroupDto;
 import se.dibbler.backend.generics.BaseDao;
 import se.dibbler.backend.generics.BaseDto;
 import se.dibbler.backend.generics.BaseEntity;
@@ -28,6 +29,8 @@ public interface LocationDao<E extends BaseEntity, D extends BaseDto> extends Ba
 
     public Response<String> updateLocationInCompany(LocationDto dto, String companyId);
 
-    
+    public Response<List<LocationDto>> getLocationsByCompanyId(String companyId);
+
+    public Response<List<LocationDto>> getLocationsByLocationGroupId(String locationGroup);
 
 }

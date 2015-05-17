@@ -29,12 +29,6 @@ public class CompanyDto extends CompanySummaryDto {
     @XmlElement(type = LocationDto.class, required = true)
     private LocationDto location;
 
-    @XmlElement(type = LocationDto.class, required = false)
-    private List<LocationDto> locations;
-
-    @XmlElement(type = LocationGroupDto.class, required = false)
-    private List<LocationGroupDto> locationGroups;
-
     @XmlElement(type = String.class, required = false)
     private String picture;
 
@@ -43,9 +37,6 @@ public class CompanyDto extends CompanySummaryDto {
 
     @XmlElement(type = String.class, required = false)
     private String siteManager;
-
-    @XmlElement(type = CompanyDto.class, required = false)
-    private List<CompanyDto> branchCompanies;
 
     public String getOrgNr() {
         return orgNr;
@@ -79,22 +70,6 @@ public class CompanyDto extends CompanySummaryDto {
         this.picture = picture;
     }
 
-    public List<LocationDto> getLocations() {
-        return locations;
-    }
-
-    public void setLocations(List<LocationDto> locations) {
-        this.locations = locations;
-    }
-
-    public List<LocationGroupDto> getLocationGroups() {
-        return locationGroups;
-    }
-
-    public void setLocationGroups(List<LocationGroupDto> locationGroups) {
-        this.locationGroups = locationGroups;
-    }
-
     public String getParentCompanyId() {
         return parentCompanyId;
     }
@@ -111,12 +86,5 @@ public class CompanyDto extends CompanySummaryDto {
         this.siteManager = siteManager;
     }
 
-    public List<CompanyDto> getBranchCompanies() {
-        return branchCompanies;
-    }
-
-    public void setBranchCompanies(List<CompanyDto> branchCompanies) {
-        this.branchCompanies = branchCompanies;
-    }
 
 }

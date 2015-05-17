@@ -31,7 +31,7 @@ import se.dibbler.backend.generics.BaseEntity;
 public class Company extends BaseEntity {
 
     @NotNull(message = "cannot be null and must be unique")
-    @Column(unique = true)
+    @Column(unique = true) //this together with active should be unique
     private String orgNr;
     @NotNull(message = "cannot be null")
     @Column
@@ -64,32 +64,34 @@ public class Company extends BaseEntity {
     private String largeImageUrl;
     @Column
     private String siteManager;
+    @Column
+    private Boolean billAsUnique;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false, optional = false)
     private Location location;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
-    @Where(clause="active=1") 
+    @Where(clause = "active=1")
     private List<CompanyUsers> companyUsers;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
-    @Where(clause="active=1") 
+    @Where(clause = "active=1")
     private List<Event> events;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
-    @Where(clause="active=1") 
+    @Where(clause = "active=1")
     private List<PublishedEvent> publishedEvents;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
-    @Where(clause="active=1") 
+    @Where(clause = "active=1")
     private List<LocationGroup> locationGroups;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
-    @Where(clause="active=1") 
+    @Where(clause = "active=1")
     private List<Location> locations;
-    
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
-    @Where(clause="active=1") 
+    @Where(clause = "active=1")
     private List<Company> branchCompanies;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -343,6 +345,14 @@ public class Company extends BaseEntity {
 
     public void setBranchCompanies(List<Company> branchCompanies) {
         this.branchCompanies = branchCompanies;
+    }
+
+    public Boolean getBillAsUnique() {
+        return billAsUnique;
+    }
+
+    public void setBillAsUnique(Boolean billAsUnique) {
+        this.billAsUnique = billAsUnique;
     }
 
 }

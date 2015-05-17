@@ -24,7 +24,6 @@ import se.dibbler.backend.dto.create.CompanyCreateDto;
 import se.dibbler.backend.entity.Company;
 import se.dibbler.backend.generics.BaseWs;
 import se.dibbler.backend.generics.GenericError;
-import se.dibbler.backend.generics.Mapper;
 import se.dibbler.backend.generics.WsResponse;
 
 /**
@@ -53,7 +52,8 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
 
     /**
      * @inputType se.dibbler.backend.dto.create.CompanyCreateDto
-     * @summary Creates a Company
+     * @summary Creates a Company. Adds the company as a branch if
+     * parentCompanyId is attached in the request
      */
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
@@ -68,7 +68,7 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
 
     /**
      * @responseType java.util.List<se.dibbler.backend.dto.CompanyDto>
-     * @summary Gets a Category by its id
+     * @summary Gets a Company by its id
      */
     @GET
     @Path("/{id}")
@@ -78,6 +78,54 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     public WsResponse getById(@PathParam("id") String id) {
         try {
             return super.getById(id);
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
+    }
+
+    /**
+     * @inputType se.dibbler.backend.dto.create.CompanyCreateDto
+     * @summary Adds a company as a branchCompany to an existing company.
+     */
+    @POST
+    @Path("branch/{parentid}/{branchid}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public WsResponse insertNewBranchCompany(@PathParam("parentid") String parentCompany, @PathParam("branchid") String branch) {
+        try {
+            return companyDao.addBranch(parentCompany, branch).getWsResponse();
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
+    }
+
+    /**
+     * @responseType java.util.List<se.dibbler.backend.dto.CompanyDto>
+     * @summary Gets all branches connencted to a specific company
+     */
+    @GET
+    @Path("/branch/{companyId}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public WsResponse getBranchCompaniesByCompanyId(@PathParam("companyId") String companyId) {
+        try {
+            return companyDao.getBranches(companyId).getWsResponse();
+        } catch (Exception e) {
+            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
+        }
+    }
+
+    /**
+     * @responseType java.util.List<se.dibbler.backend.dto.CompanyDto>
+     * @summary Gets a parent company connencted to a specific company
+     */
+    @GET
+    @Path("/parent/{companyId}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public WsResponse getParentCompanyByCompanyId(@PathParam("companyId") String companyId) {
+        try {
+            return companyDao.getParent(companyId).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }

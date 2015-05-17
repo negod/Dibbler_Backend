@@ -57,6 +57,9 @@ public class CompanySummaryDto extends BaseDto {
 
     @XmlElement(type = String.class, required = false)
     private String largeImageUrl;
+    
+    @XmlElement(type = Boolean.class, required = false)
+    private Boolean billAsUnique;
 
     public String getName() {
         return name;
@@ -160,6 +163,14 @@ public class CompanySummaryDto extends BaseDto {
 
     public void setCellPhone(String cellPhone) {
         this.cellPhone = cellPhone;
+    }
+
+    public Boolean getBillAsUnique() {
+        return billAsUnique;
+    }
+
+    public void setBillAsUnique(Boolean billAsUnique) {
+        this.billAsUnique = billAsUnique;
     }
     
 }
