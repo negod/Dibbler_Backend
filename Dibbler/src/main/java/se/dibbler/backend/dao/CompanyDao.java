@@ -6,9 +6,11 @@
 package se.dibbler.backend.dao;
 
 import javax.ejb.Local;
+import se.dibbler.backend.dto.create.CompanyCreateDto;
 import se.dibbler.backend.generics.BaseDao;
 import se.dibbler.backend.generics.BaseDto;
 import se.dibbler.backend.generics.BaseEntity;
+import se.dibbler.backend.generics.Response;
 
 /**
  *
@@ -19,5 +21,7 @@ import se.dibbler.backend.generics.BaseEntity;
  */
 @Local
 public interface CompanyDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
+
+    public Response create(CompanyCreateDto dto);
 
 }

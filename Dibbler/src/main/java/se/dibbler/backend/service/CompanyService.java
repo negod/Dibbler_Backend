@@ -20,9 +20,11 @@ import se.dibbler.backend.dao.CompanyDao;
 import se.dibbler.backend.dao.ErrorLogDao;
 import se.dibbler.backend.dto.CompanyDto;
 import se.dibbler.backend.dto.ErrorLogDto;
+import se.dibbler.backend.dto.create.CompanyCreateDto;
 import se.dibbler.backend.entity.Company;
 import se.dibbler.backend.generics.BaseWs;
 import se.dibbler.backend.generics.GenericError;
+import se.dibbler.backend.generics.Mapper;
 import se.dibbler.backend.generics.WsResponse;
 
 /**
@@ -49,18 +51,25 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
         return companyDao;
     }
 
+    /**
+     * @inputType se.dibbler.backend.dto.create.CompanyCreateDto
+     * @summary Creates a Company
+     */
     @POST
-    @Override
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public WsResponse insert(CompanyDto data) {
+    public WsResponse insert(CompanyCreateDto data) {
         try {
-            return super.insert(data);
+            return companyDao.create(data).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
     }
 
+    /**
+     * @responseType java.util.List<se.dibbler.backend.dto.CompanyDto>
+     * @summary Gets a Category by its id
+     */
     @GET
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
@@ -74,6 +83,9 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
         }
     }
 
+    /**
+     * @summary Deletes a Company by its id
+     */
     @DELETE
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
@@ -87,6 +99,10 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
         }
     }
 
+    /**
+     * @inputType se.dibbler.backend.dto.CompanyDto
+     * @summary Updates A Company ( NOT Branch or parent )
+     */
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
@@ -100,6 +116,10 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
         }
     }
 
+    /**
+     * @responseType java.util.List<se.dibbler.backend.dto.CompanyDto>
+     * @summary Gets all Companies attached to the logged in user
+     */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Override

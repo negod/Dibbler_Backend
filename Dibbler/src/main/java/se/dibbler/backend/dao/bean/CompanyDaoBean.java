@@ -18,10 +18,12 @@ import se.dibbler.backend.constants.RegExp;
 import se.dibbler.backend.dao.CompanyDao;
 import se.dibbler.backend.dao.LocationDao;
 import se.dibbler.backend.dto.CompanyDto;
+import se.dibbler.backend.dto.create.CompanyCreateDto;
 import se.dibbler.backend.entity.Company;
 import se.dibbler.backend.error.DaoError;
 import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.GenericError;
+import se.dibbler.backend.generics.Mapper;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.utils.FileCreator;
 
@@ -39,11 +41,8 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
     public CompanyDaoBean() {
         super(Company.class, CompanyDto.class);
     }
-    
-    
 
-    @Override
-    public Response create(CompanyDto dto) {
+    public Response create(CompanyCreateDto dto) {
         try {
 
             HashMap<String, Object> params = new HashMap<>();
@@ -64,33 +63,32 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
                 }
             }
 
-            Response<Company> entity = super.mapFromDtoToEntity(dto);
+            Company entity = Mapper.getInstance().getMapper().map(dto, Company.class);
 
             if (parentCompany.hasNoErrors) {
-                entity.getData().setParentCompany(parentCompany.getData());
-                parentCompany.getData().getBranchCompanies().add(entity.getData());
+                entity.setParentCompany(parentCompany.getData());
+                parentCompany.getData().getBranchCompanies().add(entity);
             } else {
-                entity.getData().setParentCompany(null);
+                entity.setParentCompany(null);
             }
 
-            if (entity.hasErrors) {
-                return Response.error(entity.getError());
-            }
-
+            /*if (entity.hasErrors) {
+             return Response.error(entity.getError());
+             }*/
             if (dto.getPicture() != null && !dto.getPicture().isEmpty()) {
                 Response<Map<PictureUrl, String>> createImage = FileCreator.createFilesFromBase64String(dto.getPicture(), DibblerConstants.IMAGE_URL, 80, 40, DibblerFileType.COMPANY);
                 if (createImage.hasNoErrors) {
-                    entity.getData().setSmallImageUrl("/pictures/" + createImage.getData().get(PictureUrl.PICTURE_NAME_SMALl));
-                    entity.getData().setLargeImageUrl("/pictures/" + createImage.getData().get(PictureUrl.PICTURE_NAME_LARGE));
+                    entity.setSmallImageUrl("/pictures/" + createImage.getData().get(PictureUrl.PICTURE_NAME_SMALl));
+                    entity.setLargeImageUrl("/pictures/" + createImage.getData().get(PictureUrl.PICTURE_NAME_LARGE));
                 }
             } else {
-                entity.getData().setImageUrl("N/A");
-                entity.getData().setSmallImageUrl("N/A");
-                entity.getData().setLargeImageUrl("N/A");
+                entity.setImageUrl("N/A");
+                entity.setSmallImageUrl("N/A");
+                entity.setLargeImageUrl("N/A");
             }
 
-            entity.getData().setLocations(Arrays.asList(entity.getData().getLocation()));
-            return super.create(entity.getData());
+            entity.setLocations(Arrays.asList(entity.getLocation()));
+            return super.create(entity);
 
         } catch (Exception e) {
             super.getLogger().error("[ Error when creating company ( companyDaoBean ) ] [ ERROR: ]", e.getMessage());
@@ -100,6 +98,11 @@ public class CompanyDaoBean extends BaseDaoBean<Company, CompanyDto> implements 
 
     @Override
     public Response<String> update(CompanyDto dto, String extId) {
+        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
+    }
+
+    @Override
+    public Response<String> create(CompanyDto dto) {
         return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
     }
 
