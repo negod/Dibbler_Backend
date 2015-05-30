@@ -25,7 +25,7 @@ public class FileReader {
             File dir = new File(classLoader.getResource(folder).getFile());
 
             if (!dir.isDirectory()) {
-                System.out.println("File is no a directory: " + dir.getAbsolutePath());
+                System.out.println("File is no a directory: " + dir.getAbsolutePath() + "Application can read: " + dir.canRead());
                 return Response.error(FileError.NOT_FOLDER);
             }
 
