@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -16,18 +18,21 @@ import java.util.List;
  */
 public class FileReader {
 
+    private final Logger LOG = LoggerFactory.getLogger(FileReader.class);
+
     public Response<List<String>> getFilesWithExtensionInFolder(String folder, FileType fileType) {
 
         try {
+
             GenericExtFilter filter = new GenericExtFilter(fileType.getIdWithDot());
 
             ClassLoader classLoader = getClass().getClassLoader();
             File dir = new File(classLoader.getResource(folder).getFile());
 
-            System.out.println("Current classloader path: " + classLoader.getResource(folder).getPath());
+            LOG.info("Current classloader path: " + classLoader.getResource(folder).getPath());
 
             if (!dir.isDirectory()) {
-                System.out.println("File is no a directory: " + dir.getAbsolutePath() + " Application can read from directory: " + dir.canRead());
+                LOG.error("File is no a directory: " + dir.getAbsolutePath() + " Application can read from directory: " + dir.canRead());
                 return Response.error(FileError.NOT_FOLDER);
             }
 
