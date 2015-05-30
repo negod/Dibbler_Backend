@@ -22,7 +22,7 @@ public class Mapper {
     private static final FileReader fileReader = new FileReader();
     private static final Mapper INSTANCE = new Mapper();
     
-    private static final String FOLDER = "/mapper/";
+    private static final String FOLDER = "/mapper";
     
     public static Mapper getInstance() {
         return INSTANCE;
