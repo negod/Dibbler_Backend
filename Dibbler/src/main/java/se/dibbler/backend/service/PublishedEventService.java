@@ -97,12 +97,10 @@ public class PublishedEventService extends BaseWs<PublishedEventSummaryDto, Publ
     @Override
     public WsResponse update(PublishedEventSummaryDto data, @PathParam("id") String id) {
         try {
-
             Response validatedInput = PublishedEventValidator.validatePublishedEventSummaryDto(data);
             if (validatedInput.hasErrors) {
                 return validatedInput.getWsResponse();
             }
-
             return super.update(data, id);
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();

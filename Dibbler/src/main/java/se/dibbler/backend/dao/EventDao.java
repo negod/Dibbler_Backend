@@ -25,9 +25,6 @@ import se.dibbler.backend.generics.Response;
 @Local
 public interface EventDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
 
-    public Response<String> addEventText(LanguageTextDto eventText, String eventId);
-
-    //public Response<List<EventSummaryDto>> getEventsByLocation(Double longitude, Double latitude, Double radius, String languageId);
     public Response<List<EventSummaryDto>> getPublishedEventsByLocation(Double longitude, Double latitude, Double radius, String languageId);
 
     public Response<String> publishEvent(PublishEventCreateDto data);

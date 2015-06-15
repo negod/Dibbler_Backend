@@ -12,7 +12,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import se.dibbler.backend.dto.summary.UserSummaryDto;
 
-
 /**
  *
  * @author Joakikm Johansson (joakimjohansson@outlook.com)

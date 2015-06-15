@@ -38,6 +38,7 @@ public enum DaoError implements ErrorCode {
     EVENT_NO_EVENTS_IN_COMPANY(2028, "There are no events connected to the selected company"),
     EVENT_PUBLISH_COMPANY_HAS_NOT_LOCATION(2029, "Only locations attached to the Company are allowed!"),
     EVENT_PUBLISH_UPDATE(2030, "Error when updating published event"),
+    EVENT_UPDATE(2030, "Error when updating event"),
     /**
      * EventType DAO Errors
      */
@@ -79,7 +80,7 @@ public enum DaoError implements ErrorCode {
     public String getErrorText() {
         return "[ ERROR ] " + errorText;
     }
-    
+
     @Override
     public String getErrorType() {
         return this.getClass().getName();

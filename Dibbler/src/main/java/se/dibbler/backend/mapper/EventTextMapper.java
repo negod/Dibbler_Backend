@@ -47,13 +47,8 @@ public class EventTextMapper extends BaseMapper<EventTextDto, EventText> {
 
             for (EventText text : event.getEventTexts()) {
                 if (text.getLanguage().getExtId().equalsIgnoreCase(languageId)) {
-                    switch (text.getTextType()) {
-                        case HEADER:
-                            dto.setHeading(text.getValue());
-                            break;
-                        case TEXT_BODY:
-                            dto.setBody(text.getValue());
-                    }
+                    dto.setHeading(text.getHeader());
+                    dto.setBody(text.getDescription());
                 }
             }
 

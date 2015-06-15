@@ -58,7 +58,5 @@ public class SettingDto extends BaseDto {
     public void setLanguage(LanguageDto language) {
         this.language = language;
     }
-    
-    
 
 }

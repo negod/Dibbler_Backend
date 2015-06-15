@@ -24,7 +24,6 @@ import se.dibbler.backend.dao.PublishedEventDao;
 import se.dibbler.backend.dto.ErrorLogDto;
 import se.dibbler.backend.dto.EventDto;
 import se.dibbler.backend.dto.create.PublishEventCreateDto;
-import se.dibbler.backend.dto.languagesupport.LanguageTextDto;
 import se.dibbler.backend.entity.Event;
 import se.dibbler.backend.generics.BaseWs;
 import se.dibbler.backend.generics.GenericError;
@@ -40,6 +39,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
 
     @EJB
     EventDao eventDao;
+
     @EJB
     PublishedEventDao publishEvent;
 
@@ -56,20 +56,10 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         return eventDao;
     }
 
-    @POST
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    @Path("/addEventText")
-    public WsResponse addEventText(
-            LanguageTextDto data,
-            @QueryParam("eventId") String eventId) {
-        try {
-            return eventDao.addEventText(data, eventId).getWsResponse();
-        } catch (Exception e) {
-            return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
-        }
-    }
-
+    /**
+     * @inputType se.dibbler.backend.dto.EventDto
+     * @summary Creates a new event that can be published later
+     */
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
@@ -81,6 +71,10 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         }
     }
 
+    /**
+     * @responseType se.dibbler.backend.dto.full.EventDtoFull
+     * @summary Gets a Event by id
+     */
     @GET
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
@@ -94,6 +88,9 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         }
     }
 
+    /**
+     * @summary Gets published events by location
+     */
     @GET
     @Path("/byLocation")
     @Consumes({MediaType.APPLICATION_JSON})
@@ -110,6 +107,9 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         }
     }
 
+    /**
+     * @summary Archives a Event
+     */
     @DELETE
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
@@ -123,6 +123,10 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         }
     }
 
+    /**
+     * @inputType se.dibbler.backend.dto.EventDto
+     * @summary Updates a Event
+     */
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
@@ -130,12 +134,16 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Override
     public WsResponse update(EventDto data, @PathParam("id") String id) {
         try {
-            return super.update(data, id);
+            return eventDao.update(data, id).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
     }
 
+    /**
+     * @responseType java.util.List<se.dibbler.backend.dto.EventDto>
+     * @summary Gets all events
+     */
     @GET
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
@@ -148,6 +156,10 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         }
     }
 
+    /**
+     * @responseType java.util.List<se.dibbler.backend.dto.full.EventDtoFull>
+     * @summary Gets all events that belongs to a company
+     */
     @GET
     @Path("/company/{companyId}")
     @Consumes({MediaType.APPLICATION_JSON})
@@ -160,6 +172,10 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
         }
     }
 
+    /**
+     * @inputType se.dibbler.backend.dto.create.PublishEventCreateDto
+     * @summary Publishes an event to public
+     */
     @POST
     @Path("/publish")
     @Consumes({MediaType.APPLICATION_JSON})

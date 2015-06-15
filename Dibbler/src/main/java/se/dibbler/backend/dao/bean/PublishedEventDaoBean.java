@@ -152,14 +152,8 @@ public class PublishedEventDaoBean extends BaseDaoBean<PublishedEvent, Published
 
                 for (EventText text : eventTexts.getData()) {
                     if (text.getLanguage().getExtId().equalsIgnoreCase(dto.getLanguageId())) {
-                        switch (text.getTextType()) {
-                            case HEADER:
-                                publishedEvent.setHeading(text.getValue());
-                                break;
-                            case TEXT_BODY:
-                                publishedEvent.setBody(text.getValue());
-                                break;
-                        }
+                        publishedEvent.setHeading(text.getHeader());
+                        publishedEvent.setBody(text.getDescription());
                     }
                 }
                 events.add(publishedEvent);

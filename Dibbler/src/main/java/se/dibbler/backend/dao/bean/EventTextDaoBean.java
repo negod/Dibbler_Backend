@@ -53,13 +53,8 @@ public class EventTextDaoBean extends BaseDaoBean<EventText, EventTextDto> imple
             EventTextSummaryDto dto = new EventTextSummaryDto();
 
             for (EventText text : categoryTexts.getData()) {
-                switch (text.getTextType()) {
-                    case HEADER:
-                        dto.setHeading(text.getValue());
-                        break;
-                    case TEXT_BODY:
-                        dto.setBody(text.getValue());
-                }
+                dto.setHeading(text.getHeader());
+                dto.setBody(text.getDescription());
             }
 
             return Response.success(dto);

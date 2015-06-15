@@ -15,7 +15,6 @@ import se.dibbler.backend.constants.DibblerConstants;
 import se.dibbler.backend.constants.DibblerFileType;
 import se.dibbler.backend.constants.PictureUrl;
 import se.dibbler.backend.error.DaoError;
-import se.dibbler.backend.constants.TextType;
 import se.dibbler.backend.dao.CategoryDao;
 import se.dibbler.backend.dao.CompanyDao;
 import se.dibbler.backend.dao.EventDao;
@@ -23,9 +22,9 @@ import se.dibbler.backend.dao.EventTypeDao;
 import se.dibbler.backend.dao.LanguageDao;
 import se.dibbler.backend.dao.PublishedEventDao;
 import se.dibbler.backend.dto.EventDto;
+import se.dibbler.backend.dto.EventTextDto;
 import se.dibbler.backend.dto.create.PublishEventCreateDto;
 import se.dibbler.backend.dto.full.EventDtoFull;
-import se.dibbler.backend.dto.languagesupport.LanguageTextDto;
 import se.dibbler.backend.dto.summary.EventSummaryDto;
 import se.dibbler.backend.entity.Category;
 import se.dibbler.backend.entity.Company;
@@ -35,7 +34,7 @@ import se.dibbler.backend.entity.EventType;
 import se.dibbler.backend.entity.Language;
 import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.BaseMapper;
-import se.dibbler.backend.generics.GenericError;
+import se.dibbler.backend.generics.DibblerImageUtil;
 import se.dibbler.backend.generics.Mapper;
 import se.dibbler.backend.generics.Response;
 import se.dibbler.backend.utils.FileCreator;
@@ -65,33 +64,8 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
     }
 
     @Override
-    public Response<String> addEventText(LanguageTextDto text, String eventId) {
-
-        Response<Event> event = this.getByExtId(eventId);
-        if (event.hasErrors) {
-            return Response.error(event.getError());
-        }
-
-        Response<Language> language = languageDao.getByExtId(text.getLanguage());
-        if (language.hasErrors) {
-            return Response.error(language.getError());
-        }
-
-        try {
-            EventText eventText = new EventText();
-            eventText.setLanguage(language.getData());
-            eventText.setEvent(event.getData());
-            eventText.setTextType(TextType.NAME);
-            event.getData().getEventTexts().add(eventText);
-            return Response.success(event.getData().getExtId());
-        } catch (Exception e) {
-            getLogger().error("[ Error when adding EventText ] [ ERROR ]", e);
-            return Response.error(DaoError.EVENT_ADD_EVENT_TEXT);
-        }
-    }
-
-    @Override
     public Response<String> create(EventDto dto) {
+
         Event event = new Event();
 
         Response<Company> company = companyDao.getByExtId(dto.getCompanyId());
@@ -109,36 +83,28 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
             return Response.error(category.getError());
         }
 
-        Response<Language> language = languageDao.getByExtId(dto.getLanguageId());
-        if (language.hasErrors) {
-            return Response.error(language.getError());
-        }
-
         try {
-            EventText heading = new EventText();
-            heading.setLanguage(language.getData());
-            heading.setValue(dto.getEventHeader());
-            heading.setTextType(TextType.HEADER);
-            heading.setEvent(event);
-
-            EventText body = new EventText();
-            body.setLanguage(language.getData());
-            body.setValue(dto.getEventTextBody());
-            body.setTextType(TextType.TEXT_BODY);
-            body.setEvent(event);
-
             event.setCategory(category.getData());
             event.setCompany(company.getData());
             event.setEventType(eventType.getData());
             event.setEndDate(dto.getEndDate());
             event.setStartDate(dto.getStartDate());
             event.setMaxRedeem(dto.getMaxRedeem());
-            event.setDefaultLanguage(language.getData());
             event.setRecipientType(dto.getRecipientType());
 
             List<EventText> eventsTexts = new ArrayList<>();
-            eventsTexts.add(heading);
-            eventsTexts.add(body);
+            for (EventTextDto eventTextDto : dto.getEventTexts()) {
+                Response<Language> textLanguage = languageDao.getByExtId(eventTextDto.getLanguageId());
+                if (textLanguage.hasNoErrors) {
+                    EventText text = new EventText();
+                    text.setLanguage(textLanguage.getData());
+                    text.setEvent(event);
+                    text.setDescription(eventTextDto.getDescription());
+                    text.setHeader(eventTextDto.getHeader());
+                    eventsTexts.add(text);
+                }
+            }
+
             event.setEventTexts(eventsTexts);
 
             if (dto.getPicture() != null && !dto.getPicture().isEmpty()) {
@@ -212,7 +178,95 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
 
     @Override
     public Response<String> update(EventDto dto, String extId) {
-        return Response.error(GenericError.METHOD_NOT_IMPLEMENTED);
+
+        Response<Event> event = super.getByExtId(extId);
+        if (event.hasErrors) {
+            return Response.error(event.getError());
+        }
+
+        if (!dto.getCompanyId().equalsIgnoreCase(event.getData().getCompany().getExtId())) {
+            Response<Company> company = companyDao.getByExtId(dto.getCompanyId());
+            if (company.hasErrors) {
+                return Response.error(company.getError());
+            }
+            event.getData().setCompany(company.getData());
+        }
+
+        if (!dto.getEventTypeId().equalsIgnoreCase(event.getData().getEventType().getExtId())) {
+            Response<EventType> eventType = eventTypeDao.getByExtId(dto.getEventTypeId());
+            if (eventType.hasErrors) {
+                return Response.error(eventType.getError());
+            }
+            event.getData().setEventType(eventType.getData());
+        }
+
+        if (!dto.getCategoryId().equalsIgnoreCase(event.getData().getCategory().getExtId())) {
+            Response<Category> category = categoryDao.getByExtId(dto.getCategoryId());
+            if (category.hasErrors) {
+                return Response.error(category.getError());
+            }
+            event.getData().setCategory(category.getData());
+        }
+
+        try {
+
+            event.getData().setEndDate(dto.getEndDate());
+            event.getData().setStartDate(dto.getStartDate());
+            event.getData().setMaxRedeem(dto.getMaxRedeem());
+            event.getData().setRecipientType(dto.getRecipientType());
+
+            for (EventTextDto eventTextDto : dto.getEventTexts()) {
+
+                Response<EventText> text = getEventTextByLanguage(event.getData().getEventTexts(), eventTextDto.getLanguageId());
+                if (text.hasErrors) {
+                    Response<Language> textLanguage = languageDao.getByExtId(eventTextDto.getLanguageId());
+                    if (textLanguage.hasNoErrors) {
+                        EventText eventText = new EventText();
+                        eventText.setLanguage(textLanguage.getData());
+                        eventText.setEvent(event.getData());
+                        eventText.setDescription(eventTextDto.getDescription());
+                        eventText.setHeader(eventTextDto.getHeader());
+                        event.getData().getEventTexts().add(eventText);
+                    }
+                } else {
+                    text.getData().setDescription(eventTextDto.getDescription());
+                    text.getData().setHeader(eventTextDto.getHeader());
+                }
+
+            }
+
+            if (DibblerImageUtil.isStringBase64(dto.getPicture())) {
+                if (dto.getPicture() != null && !dto.getPicture().isEmpty()) {
+                    Response<Map<PictureUrl, String>> createImage = FileCreator.createFilesFromBase64String(dto.getPicture(), DibblerConstants.IMAGE_URL, 80, 40, DibblerFileType.EVENT);
+                    if (createImage.hasNoErrors) {
+                        event.getData().setImageUrl("N/A");
+                        event.getData().setImageSmallUrl("/pictures/" + createImage.getData().get(PictureUrl.PICTURE_NAME_SMALl));
+                        event.getData().setImageLargeUrl("/pictures/" + createImage.getData().get(PictureUrl.PICTURE_NAME_LARGE));
+                    }
+                } else {
+                    event.getData().setImageUrl("N/A");
+                    event.getData().setImageSmallUrl("N/A");
+                    event.getData().setImageLargeUrl("N/A");
+                }
+            } else {
+                getLogger().debug("[ File is not Base64! ]");
+            }
+
+        } catch (Exception e) {
+            getLogger().error("[ Error when creating event ] [ ERROR ]", e);
+            return Response.error(DaoError.EVENT_UPDATE);
+        }
+
+        return super.update(event.getData());
+    }
+
+    private Response<EventText> getEventTextByLanguage(List<EventText> eventText, String languageId) {
+        for (EventText text : eventText) {
+            if (text.getLanguage().getExtId().equalsIgnoreCase(languageId)) {
+                return Response.success(text);
+            }
+        }
+        return Response.error(DaoError.EVENT_UPDATE);
     }
 
     @Override

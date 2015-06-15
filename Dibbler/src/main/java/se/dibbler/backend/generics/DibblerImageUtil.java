@@ -27,6 +27,10 @@ public class DibblerImageUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(DibblerImageUtil.class);
 
+    public static boolean isStringBase64(String data) {
+        return Base64.isBase64(data);
+    }
+
     public static Response<BufferedImage> resizeImage(BufferedImage originalImage, int height, int width) {
         try {
             Response<Integer> fileType = getImageType(originalImage);

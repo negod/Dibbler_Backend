@@ -86,5 +86,4 @@ public class CompanyDto extends CompanySummaryDto {
         this.siteManager = siteManager;
     }
 
-
 }
