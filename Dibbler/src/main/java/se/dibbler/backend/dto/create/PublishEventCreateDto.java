@@ -17,7 +17,7 @@ import se.dibbler.backend.generics.BaseDtoNoId;
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-@XmlRootElement(name = "event")
+@XmlRootElement(name = "publishEvent")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PublishEventCreateDto extends BaseDtoNoId {
 

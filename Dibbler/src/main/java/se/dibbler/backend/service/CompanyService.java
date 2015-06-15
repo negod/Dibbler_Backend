@@ -51,7 +51,6 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     }
 
     /**
-     * @inputType se.dibbler.backend.dto.create.CompanyCreateDto
      * @summary Creates a Company. Adds the company as a branch if
      * parentCompanyId is attached in the request
      */

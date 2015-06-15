@@ -57,7 +57,6 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     }
 
     /**
-     * @inputType se.dibbler.backend.dto.EventDto
      * @summary Creates a new event that can be published later
      */
     @POST

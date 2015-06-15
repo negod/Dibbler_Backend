@@ -22,31 +22,31 @@ import se.dibbler.backend.generics.BaseDto;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EventDto extends BaseDto {
 
-    @XmlElement(type = String.class, required = false)
+    @XmlElement(type = String.class)
     String companyId;
 
-    @XmlElement(type = String.class, required = false)
+    @XmlElement(type = String.class)
     String categoryId;
 
-    @XmlElement(type = String.class, required = false)
+    @XmlElement(type = String.class)
     String eventTypeId;
 
-    @XmlElement(type = EventTextDto.class, required = false)
+    @XmlElement(type = EventTextDto.class)
     List<EventTextDto> eventTexts;
 
-    @XmlElement(type = Date.class, required = true)
+    @XmlElement(type = Date.class)
     Date startDate;
 
-    @XmlElement(type = Date.class, required = true)
+    @XmlElement(type = Date.class)
     Date endDate;
 
-    @XmlElement(type = Integer.class, defaultValue = "0", required = false)
+    @XmlElement(type = Integer.class, defaultValue = "0")
     Integer maxRedeem;
 
-    @XmlElement(type = String.class, required = false)
+    @XmlElement(type = String.class)
     String picture;
 
-    @XmlElement(type = EventRecipientType.class, required = false)
+    @XmlElement(type = EventRecipientType.class)
     private EventRecipientType recipientType;
 
     public List<EventTextDto> getEventTexts() {

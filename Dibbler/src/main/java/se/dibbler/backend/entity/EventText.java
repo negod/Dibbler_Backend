@@ -23,19 +23,19 @@ import se.dibbler.backend.generics.BaseEntity;
     @NamedQuery(name = DibblerNamedQueries.EVENTTEXT_FINDBY_LANGUAGE_EXTID, query = "SELECT c FROM EventText c where c.language.extId =:languageExtId")})
 public class EventText extends BaseEntity {
 
-    @Column(nullable = true)
+    @Column()
     private String name;
 
-    @Column(nullable = false)
+    @Column()
     private String header;
 
-    @Column(nullable = false)
+    @Column()
     private String description;
 
-    @OneToOne(optional = false)
+    @OneToOne()
     Language language;
 
-    @ManyToOne(optional = false)
+    @ManyToOne()
     Event event;
 
     public String getName() {

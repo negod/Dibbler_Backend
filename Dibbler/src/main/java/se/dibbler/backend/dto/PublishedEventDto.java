@@ -17,8 +17,7 @@ import se.dibbler.backend.generics.BaseDto;
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
  */
-@XmlRootElement(name = "event")
-
+@XmlRootElement(name = "publishedEvent")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PublishedEventDto extends BaseDto {
 

@@ -10,8 +10,8 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import se.dibbler.backend.constants.EventRecipientType;
 import se.dibbler.backend.dto.CategoryDto;
+import se.dibbler.backend.dto.EventTextDto;
 import se.dibbler.backend.dto.EventTypeDto;
-import se.dibbler.backend.dto.languagesupport.EventTextDto;
 import se.dibbler.backend.generics.BaseDto;
 
 /**
@@ -31,12 +31,6 @@ public class EventDtoFull extends BaseDto {
 
     @XmlElement(type = String.class, required = false)
     String languageId;
-
-    @XmlElement(type = String.class, required = true)
-    String eventHeader;
-
-    @XmlElement(type = String.class, required = true)
-    String eventTextBody;
 
     @XmlElement(type = EventTextDto.class, required = false)
     List<EventTextDto> eventTexts;
@@ -89,22 +83,6 @@ public class EventDtoFull extends BaseDto {
 
     public void setLanguageId(String languageId) {
         this.languageId = languageId;
-    }
-
-    public String getEventHeader() {
-        return eventHeader;
-    }
-
-    public void setEventHeader(String eventHeader) {
-        this.eventHeader = eventHeader;
-    }
-
-    public String getEventTextBody() {
-        return eventTextBody;
-    }
-
-    public void setEventTextBody(String eventTextBody) {
-        this.eventTextBody = eventTextBody;
     }
 
     public List<EventTextDto> getEventTexts() {

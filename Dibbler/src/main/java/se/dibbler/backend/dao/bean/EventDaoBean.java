@@ -105,6 +105,9 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
                 }
             }
 
+            //TODO set correct default language
+            event.setDefaultLanguage(eventsTexts.get(0).getLanguage());
+
             event.setEventTexts(eventsTexts);
 
             if (dto.getPicture() != null && !dto.getPicture().isEmpty()) {
