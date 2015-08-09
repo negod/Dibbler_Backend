@@ -61,7 +61,7 @@ public class LocationService extends BaseWs<LocationDto, Location, LocationDao> 
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse insert(LocationDto data, @PathParam("companyId") String companyId) {
         try {
-            return locationDao.addLocationToCompany(data, companyId).getWsResponse();
+            return getErrorLog().createLog(locationDao.addLocationToCompany(data, companyId)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -76,7 +76,7 @@ public class LocationService extends BaseWs<LocationDto, Location, LocationDao> 
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse getLocationsByCompanyId(@PathParam("companyId") String companyId) {
         try {
-            return locationDao.getLocationsByCompanyId(companyId).getWsResponse();
+            return getErrorLog().createLog(locationDao.getLocationsByCompanyId(companyId)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -91,7 +91,7 @@ public class LocationService extends BaseWs<LocationDto, Location, LocationDao> 
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse getLocationsByLocationGroupId(@PathParam("locationGroupId") String companyId) {
         try {
-            return locationDao.getLocationsByCompanyId(companyId).getWsResponse();
+            return getErrorLog().createLog(locationDao.getLocationsByCompanyId(companyId)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -108,7 +108,7 @@ public class LocationService extends BaseWs<LocationDto, Location, LocationDao> 
     @Override
     public WsResponse update(LocationDto data, @PathParam("companyId") String companyId) {
         try {
-            return locationDao.updateLocationInCompany(data, companyId).getWsResponse();
+            return getErrorLog().createLog(locationDao.updateLocationInCompany(data, companyId)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -126,7 +126,7 @@ public class LocationService extends BaseWs<LocationDto, Location, LocationDao> 
             @PathParam("companyId") String companyId,
             @QueryParam("locationId") String locationId) {
         try {
-            return locationDao.removeLocationInCompany(locationId, companyId).getWsResponse();
+            return getErrorLog().createLog(locationDao.removeLocationInCompany(locationId, companyId)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }

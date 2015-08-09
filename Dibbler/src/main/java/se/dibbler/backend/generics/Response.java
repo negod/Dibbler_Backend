@@ -5,6 +5,8 @@
  */
 package se.dibbler.backend.generics;
 
+import se.dibbler.backend.dto.ErrorLogDto;
+
 /**
  *
  * @author Joakim Johansson (joakimjohansson@outlook.com)
@@ -13,6 +15,7 @@ package se.dibbler.backend.generics;
 public class Response<T> {
 
     private final ErrorCode error;
+    private final Exception exception;
     private final T data;
 
     public final boolean hasNoErrors;
@@ -24,6 +27,7 @@ public class Response<T> {
     private Response(ErrorCode error) {
         this.error = error;
         this.data = null;
+        this.exception = null;
         this.hasNoErrors = false;
         this.hasErrors = true;
         this.dataIsNotNull = false;
@@ -42,6 +46,24 @@ public class Response<T> {
 
         this.error = error;
         this.data = data;
+        this.exception = null;
+        this.hasNoErrors = false;
+        this.hasErrors = true;
+    }
+
+    private Response(ErrorCode error, Exception exception, T data) {
+
+        if (data == null) {
+            this.dataIsNotNull = false;
+            this.dataIsNull = true;
+        } else {
+            this.dataIsNotNull = true;
+            this.dataIsNull = false;
+        }
+
+        this.error = error;
+        this.data = data;
+        this.exception = exception;
         this.hasNoErrors = false;
         this.hasErrors = true;
     }
@@ -58,8 +80,17 @@ public class Response<T> {
 
         this.data = data;
         this.error = null;
+        this.exception = null;
         this.hasNoErrors = true;
         this.hasErrors = false;
+    }
+
+    public static Response error(ErrorCode error, Exception ex, String message) {
+        return new Response<>(error, ex, message);
+    }
+
+    public static Response error(ErrorCode error, String data) {
+        return new Response<>(error, data);
     }
 
     public static <T> Response<T> error(ErrorCode error, T data) {
@@ -92,6 +123,10 @@ public class Response<T> {
 
     public ErrorCode getError() {
         return error;
+    }
+
+    public Exception getException() {
+        return exception;
     }
 
 }

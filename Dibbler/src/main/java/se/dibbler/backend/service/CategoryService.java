@@ -83,7 +83,7 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse getAllByLanguage(@PathParam("languageId") String languageId) {
         try {
-            return categoryDao.getCategoriesByLanguage(languageId).getWsResponse();
+            return getErrorLog().createLog(categoryDao.getCategoriesByLanguage(languageId)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -133,7 +133,7 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
             @QueryParam("name") String name,
             @QueryParam("languageId") String language) {
         try {
-            return categoryDao.addLanguage(categoryId, name, language).getWsResponse();
+            return getErrorLog().createLog(categoryDao.addLanguage(categoryId, name, language)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -164,7 +164,7 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse update(@QueryParam("description") String description, @PathParam("id") String id) {
         try {
-            return categoryDao.updateCategoryDescription(description, id).getWsResponse();
+            return getErrorLog().createLog(categoryDao.updateCategoryDescription(description, id)).getWsResponse();
         } catch (Exception e) {
             return Response.error(GenericError.UNHANDELED_EXCEPTION, e.getMessage()).getWsResponse();
         }
@@ -179,7 +179,7 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse deleteLanguage(@PathParam("id") Long id) {
         try {
-            return categoryText.delete(id).getWsResponse();
+            return getErrorLog().createLog(categoryText.delete(id)).getWsResponse();
         } catch (Exception e) {
             return Response.error(GenericError.UNHANDELED_EXCEPTION, e.getMessage()).getWsResponse();
         }
@@ -196,7 +196,7 @@ public class CategoryService extends BaseWs<CategoryDto, Category, CategoryDao> 
             @QueryParam("name") String name,
             @PathParam("id") String categoryNameId) {
         try {
-            return categoryText.updateCategoryTypeNameByEventTextId(name, categoryNameId).getWsResponse();
+            return getErrorLog().createLog(categoryText.updateCategoryTypeNameByEventTextId(name, categoryNameId)).getWsResponse();
         } catch (Exception e) {
             return Response.error(GenericError.UNHANDELED_EXCEPTION, e.getMessage()).getWsResponse();
         }

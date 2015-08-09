@@ -85,7 +85,7 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
                 return socialUser.getWsResponse();
             }
             // TODO Password should not be sent as plain text!
-            return getDao().authenticate(data.getUsername(), data.getPassword()).getWsResponse();
+            return getErrorLog().createLog(getDao().authenticate(data.getUsername(), data.getPassword())).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -98,7 +98,7 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @Override
     public WsResponse getById(@PathParam("id") String id) {
         try {
-            return getDao().getUserSummaryById(id).getWsResponse();
+            return getErrorLog().createLog(getDao().getUserSummaryById(id)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -135,7 +135,7 @@ public class UsersService extends BaseWs<UsersDto, Users, UsersDao> {
     @Override
     public WsResponse getAll() {
         try {
-            return getDao().getAllUserSummary().getWsResponse();
+            return getErrorLog().createLog(getDao().getAllUserSummary()).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }

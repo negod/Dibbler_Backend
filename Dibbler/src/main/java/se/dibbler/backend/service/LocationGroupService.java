@@ -61,7 +61,7 @@ public class LocationGroupService extends BaseWs<LocationGroupDto, LocationGroup
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse getByCompanyId(@PathParam("companyId") String companyId) {
         try {
-            return locationGroupDao.getLocationGroupsByCompanyId(companyId).getWsResponse();
+            return getErrorLog().createLog(locationGroupDao.getLocationGroupsByCompanyId(companyId)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -78,7 +78,7 @@ public class LocationGroupService extends BaseWs<LocationGroupDto, LocationGroup
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse insert(LocationGroupCreateDto data, @PathParam("companyId") String companyId) {
         try {
-            return locationGroupDao.addLocationGroup(data, companyId).getWsResponse();
+            return getErrorLog().createLog(locationGroupDao.addLocationGroup(data, companyId)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -97,7 +97,7 @@ public class LocationGroupService extends BaseWs<LocationGroupDto, LocationGroup
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse update(LocationGroupCreateDto data, @PathParam("companyId") String companyId, @QueryParam("groupId") String groupId) {
         try {
-            return locationGroupDao.addLocationsToLocationGroup(data, companyId, groupId).getWsResponse();
+            return getErrorLog().createLog(locationGroupDao.addLocationsToLocationGroup(data, companyId, groupId)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }

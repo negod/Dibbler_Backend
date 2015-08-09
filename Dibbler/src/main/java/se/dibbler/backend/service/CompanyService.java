@@ -59,7 +59,7 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse insert(CompanyCreateDto data) {
         try {
-            return companyDao.create(data).getWsResponse();
+            return getErrorLog().createLog(companyDao.create(data)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -92,7 +92,7 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse insertNewBranchCompany(@PathParam("parentid") String parentCompany, @PathParam("branchid") String branch) {
         try {
-            return companyDao.addBranch(parentCompany, branch).getWsResponse();
+            return getErrorLog().createLog(companyDao.addBranch(parentCompany, branch)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -108,7 +108,7 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse getBranchCompaniesByCompanyId(@PathParam("companyId") String companyId) {
         try {
-            return companyDao.getBranches(companyId).getWsResponse();
+            return getErrorLog().createLog(companyDao.getBranches(companyId)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -124,7 +124,7 @@ public class CompanyService extends BaseWs<CompanyDto, Company, CompanyDao> {
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse getParentCompanyByCompanyId(@PathParam("companyId") String companyId) {
         try {
-            return companyDao.getParent(companyId).getWsResponse();
+            return getErrorLog().createLog(companyDao.getParent(companyId)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }

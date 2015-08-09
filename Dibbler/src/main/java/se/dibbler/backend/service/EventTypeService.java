@@ -73,7 +73,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse getAllByLanguage(@PathParam("languageId") String languageId) {
         try {
-            return eventTypeDao.getEventTypesByLanguage(languageId).getWsResponse();
+            return getErrorLog().createLog(eventTypeDao.getEventTypesByLanguage(languageId)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -113,7 +113,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
             @QueryParam("name") String name,
             @QueryParam("languageId") String language) {
         try {
-            return eventTypeDao.addLanguage(categoryId, name, language).getWsResponse();
+            return getErrorLog().createLog(eventTypeDao.addLanguage(categoryId, name, language)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -140,7 +140,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
             @QueryParam("description") String description,
             @PathParam("id") String id) {
         try {
-            return eventTypeDao.updateEventTypeDescription(description, id).getWsResponse();
+            return getErrorLog().createLog(eventTypeDao.updateEventTypeDescription(description, id)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -152,7 +152,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse deleteLanguage(@PathParam("id") Long id) {
         try {
-            return eventTypeText.delete(id).getWsResponse();
+            return getErrorLog().createLog(eventTypeText.delete(id)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -166,7 +166,7 @@ public class EventTypeService extends BaseWs<EventTypeDto, EventType, EventTypeD
             @PathParam("id") String id,
             @QueryParam("name") String name) {
         try {
-            return eventTypeText.updateEventTypeNameByEventTextId(name, id).getWsResponse();
+            return getErrorLog().createLog(eventTypeText.updateEventTypeNameByEventTextId(name, id)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }

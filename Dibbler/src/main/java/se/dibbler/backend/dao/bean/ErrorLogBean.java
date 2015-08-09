@@ -5,6 +5,7 @@
  */
 package se.dibbler.backend.dao.bean;
 
+import java.util.Arrays;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -49,14 +50,51 @@ public class ErrorLogBean extends BaseDaoBean<ErrorLog, ErrorLogDto> implements 
                 Response createdLog = super.create(log.getData());
             }
 
-            String test = "<!DOCTYPE html><html>>head><title>Page Title</title></head><body><h1>This is a Heading</h1><p>This is a paragraph.</p></body></html>";
-
-            email.sendEmail("joakimjohansson@outlook.com", "noreply@dibbler.com", "FATAL ERROR. ", test);
+            email.sendErrorMessage(Arrays.asList("joakimjohansson@outlook.com"), dto);
 
             return Response.error(dto.getError(), dto.getExceptionMessage());
         } catch (Exception e) {
             return Response.error(GenericError.FAILURE, e.getMessage());
         }
+    }
+
+    @Override
+    public Response createLog(Response dto) {
+
+        if (dto.hasErrors) {
+
+            ErrorLogDto errorLog = new ErrorLogDto(dto.getError(), dto.getException());
+
+            if (dto.getData() != null) {
+                errorLog.setErrorMessage((String) dto.getData());
+            } else {
+                errorLog.setErrorMessage(dto.getError().getErrorText());
+            }
+
+            errorLog.setErrorCode(dto.getError().getErrorCode().toString());
+            errorLog.setErrorType(dto.getError().getErrorType());
+
+            if (dto.getException() != null) {
+
+                if (dto.getException().getMessage() != null) {
+                    errorLog.setExceptionMessage(dto.getException().getMessage());
+                } else {
+                    errorLog.setExceptionMessage("No message available");
+                }
+
+                if (dto.getException().getCause() != null) {
+                    errorLog.setExceptionMessage(dto.getException().getCause().getMessage());
+                } else {
+                    errorLog.setExceptionMessage("No message available");
+                }
+
+            }
+
+            return createLog(errorLog);
+        }
+
+        return dto;
+
     }
 
 }

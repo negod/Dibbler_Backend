@@ -5,8 +5,6 @@
  */
 package se.dibbler.backend.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Transient;
 import se.dibbler.backend.generics.BaseDto;
 import se.dibbler.backend.generics.ErrorCode;
 

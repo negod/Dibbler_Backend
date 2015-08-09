@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package se.dibbler.backend.dao;
 
 import javax.ejb.Local;
@@ -19,10 +18,11 @@ import se.dibbler.backend.generics.Response;
  * @param <E>
  * @param <D>
  */
-
 @Local
 public interface ErrorLogDao<E extends BaseEntity, D extends BaseDto> extends BaseDao<E, D> {
-    
+
     public Response createLog(ErrorLogDto dto);
+
+    public Response createLog(Response dto);
     
 }

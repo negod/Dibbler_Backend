@@ -81,7 +81,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Override
     public WsResponse getById(@PathParam("id") String id) {
         try {
-            return getDao().getEventById(id).getWsResponse();
+            return getErrorLog().createLog(getDao().getEventById(id)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -133,7 +133,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Override
     public WsResponse update(EventDto data, @PathParam("id") String id) {
         try {
-            return eventDao.update(data, id).getWsResponse();
+            return getErrorLog().createLog(eventDao.update(data, id)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -165,7 +165,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse getEventsByCompany(@PathParam("companyId") String companyId) {
         try {
-            return eventDao.getEventByCompany(companyId).getWsResponse();
+            return getErrorLog().createLog(eventDao.getEventByCompany(companyId)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -181,7 +181,7 @@ public class EventService extends BaseWs<EventDto, Event, EventDao> {
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse publishEvent(PublishEventCreateDto data) {
         try {
-            return publishEvent.publishEvent(data).getWsResponse();
+            return getErrorLog().createLog(publishEvent.publishEvent(data)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }

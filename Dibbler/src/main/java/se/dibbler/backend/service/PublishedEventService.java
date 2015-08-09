@@ -71,7 +71,7 @@ public class PublishedEventService extends BaseWs<PublishedEventSummaryDto, Publ
     @Produces({MediaType.APPLICATION_JSON})
     public WsResponse getByCompany(@PathParam("id") String id) {
         try {
-            return publishedEventDao.getPublishedEventByCompany(id).getWsResponse();
+            return getErrorLog().createLog(publishedEventDao.getPublishedEventByCompany(id)).getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
         }
@@ -99,7 +99,7 @@ public class PublishedEventService extends BaseWs<PublishedEventSummaryDto, Publ
         try {
             Response validatedInput = PublishedEventValidator.validatePublishedEventSummaryDto(data);
             if (validatedInput.hasErrors) {
-                return validatedInput.getWsResponse();
+                return getErrorLog().createLog(validatedInput).getWsResponse();
             }
             return super.update(data, id);
         } catch (Exception e) {
