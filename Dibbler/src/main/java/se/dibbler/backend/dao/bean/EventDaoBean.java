@@ -210,40 +210,69 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
             return Response.error(event.getError());
         }
 
-        if (!dto.getCompanyId().equalsIgnoreCase(event.getData().getCompany().getExtId())) {
-            Response<Company> company = companyDao.getByExtId(dto.getCompanyId());
-            if (company.hasErrors) {
-                return Response.error(company.getError());
+        if (dto.getCompanyId() != null) {
+            if (!dto.getCompanyId().equalsIgnoreCase(event.getData().getCompany().getExtId())) {
+                Response<Company> company = companyDao.getByExtId(dto.getCompanyId());
+                if (company.hasErrors) {
+                    return Response.error(company.getError());
+                }
+                event.getData().setCompany(company.getData());
             }
-            event.getData().setCompany(company.getData());
         }
 
-        if (!dto.getEventTypeId().equalsIgnoreCase(event.getData().getEventType().getExtId())) {
-            Response<EventType> eventType = eventTypeDao.getByExtId(dto.getEventTypeId());
-            if (eventType.hasErrors) {
-                return Response.error(eventType.getError());
+        if (dto.getEventTypeId() != null) {
+            if (!dto.getEventTypeId().equalsIgnoreCase(event.getData().getEventType().getExtId())) {
+                Response<EventType> eventType = eventTypeDao.getByExtId(dto.getEventTypeId());
+                if (eventType.hasErrors) {
+                    return Response.error(eventType.getError());
+                }
+                event.getData().setEventType(eventType.getData());
             }
-            event.getData().setEventType(eventType.getData());
         }
 
-        if (!dto.getCategoryId().equalsIgnoreCase(event.getData().getCategory().getExtId())) {
-            Response<Category> category = categoryDao.getByExtId(dto.getCategoryId());
-            if (category.hasErrors) {
-                return Response.error(category.getError());
+        if (dto.getCategoryId() != null) {
+            if (!dto.getCategoryId().equalsIgnoreCase(event.getData().getCategory().getExtId())) {
+                Response<Category> category = categoryDao.getByExtId(dto.getCategoryId());
+                if (category.hasErrors) {
+                    return Response.error(category.getError());
+                }
+                event.getData().setCategory(category.getData());
             }
-            event.getData().setCategory(category.getData());
         }
 
         try {
 
-            event.getData().setEndDate(dto.getEndDate());
-            event.getData().setStartDate(dto.getStartDate());
-            event.getData().setMaxRedeem(dto.getMaxRedeem());
-            event.getData().setRecipientType(dto.getRecipientType());
-            event.getData().setGenerateFollowUp(dto.getGenerateFollowUp());
-            event.getData().setPublishAtBranch(dto.getPublishAtBranch());
-            event.getData().setPublishAtCompany(dto.getPublishAtCompany());
-            event.getData().setPublishAtLocation(dto.getPublishAtLocation());
+            if (dto.getEndDate() != null) {
+                event.getData().setEndDate(dto.getEndDate());
+            }
+
+            if (dto.getStartDate() != null) {
+                event.getData().setStartDate(dto.getStartDate());
+            }
+
+            if (dto.getMaxRedeem() != null) {
+                event.getData().setMaxRedeem(dto.getMaxRedeem());
+            }
+
+            if (dto.getRecipientType() != null) {
+                event.getData().setRecipientType(dto.getRecipientType());
+            }
+
+            if (dto.getGenerateFollowUp() != null) {
+                event.getData().setGenerateFollowUp(dto.getGenerateFollowUp());
+            }
+
+            if (dto.getPublishAtBranch() != null) {
+                event.getData().setPublishAtBranch(dto.getPublishAtBranch());
+            }
+
+            if (dto.getPublishAtCompany() != null) {
+                event.getData().setPublishAtCompany(dto.getPublishAtCompany());
+            }
+
+            if (dto.getPublishAtLocation() != null) {
+                event.getData().setPublishAtLocation(dto.getPublishAtLocation());
+            }
 
             if (dto.getEventTexts() != null) {
                 for (EventTextDto eventTextDto : dto.getEventTexts()) {

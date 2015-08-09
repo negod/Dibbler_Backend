@@ -24,7 +24,8 @@ public enum BeanMapperFiles {
     eleven("publishedEventsSummaryMapper"),
     twelve("roleMapper"),
     thirteen("usersMapper"),
-    fourteen("eventTextMapper");
+    fourteen("eventTextMapper"),
+    fifteen("errorMapper");
 
     private final String value;
 

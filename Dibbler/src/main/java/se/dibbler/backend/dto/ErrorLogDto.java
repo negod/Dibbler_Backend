@@ -16,22 +16,18 @@ import se.dibbler.backend.generics.ErrorCode;
  */
 public class ErrorLogDto extends BaseDto {
 
-    @Column
-    private final String errorCode;
+    private String errorCode;
+    private String errorMessage;
+    private String exceptionMessage;
+    private String errorType;
 
-    @Column
-    private final String errorMessage;
-
-    @Column
-    private final String exceptionMessage;
-
-    @Transient
     ErrorCode error;
 
     public ErrorLogDto(ErrorCode code, Exception ex) {
         errorCode = code.getErrorCode().toString();
         errorMessage = code.getErrorText();
-        exceptionMessage = ex.getMessage();
+        errorType = code.getErrorType();
+        exceptionMessage = ex.getCause().getMessage();
         this.error = code;
     }
 
@@ -39,20 +35,40 @@ public class ErrorLogDto extends BaseDto {
         return errorCode;
     }
 
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
+    }
+
     public String getErrorMessage() {
         return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
     public String getExceptionMessage() {
         return exceptionMessage;
     }
 
-    public ErrorCode getCode() {
+    public void setExceptionMessage(String exceptionMessage) {
+        this.exceptionMessage = exceptionMessage;
+    }
+
+    public ErrorCode getError() {
         return error;
     }
 
-    public void setCode(ErrorCode code) {
-        this.error = code;
+    public void setError(ErrorCode error) {
+        this.error = error;
+    }
+
+    public String getErrorType() {
+        return errorType;
+    }
+
+    public void setErrorType(String errorType) {
+        this.errorType = errorType;
     }
 
 }
