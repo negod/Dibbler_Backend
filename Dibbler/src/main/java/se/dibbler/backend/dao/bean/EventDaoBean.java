@@ -218,41 +218,44 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
             event.getData().setMaxRedeem(dto.getMaxRedeem());
             event.getData().setRecipientType(dto.getRecipientType());
 
-            for (EventTextDto eventTextDto : dto.getEventTexts()) {
+            if (dto.getEventTexts() != null) {
+                for (EventTextDto eventTextDto : dto.getEventTexts()) {
 
-                Response<EventText> text = getEventTextByLanguage(event.getData().getEventTexts(), eventTextDto.getLanguageId());
-                if (text.hasErrors) {
-                    Response<Language> textLanguage = languageDao.getByExtId(eventTextDto.getLanguageId());
-                    if (textLanguage.hasNoErrors) {
-                        EventText eventText = new EventText();
-                        eventText.setLanguage(textLanguage.getData());
-                        eventText.setEvent(event.getData());
-                        eventText.setDescription(eventTextDto.getDescription());
-                        eventText.setHeader(eventTextDto.getHeader());
-                        event.getData().getEventTexts().add(eventText);
+                    Response<EventText> text = getEventTextByLanguage(event.getData().getEventTexts(), eventTextDto.getLanguageId());
+                    if (text.hasErrors) {
+                        Response<Language> textLanguage = languageDao.getByExtId(eventTextDto.getLanguageId());
+                        if (textLanguage.hasNoErrors) {
+                            EventText eventText = new EventText();
+                            eventText.setLanguage(textLanguage.getData());
+                            eventText.setEvent(event.getData());
+                            eventText.setDescription(eventTextDto.getDescription());
+                            eventText.setHeader(eventTextDto.getHeader());
+                            event.getData().getEventTexts().add(eventText);
+                        }
+                    } else {
+                        text.getData().setDescription(eventTextDto.getDescription());
+                        text.getData().setHeader(eventTextDto.getHeader());
                     }
-                } else {
-                    text.getData().setDescription(eventTextDto.getDescription());
-                    text.getData().setHeader(eventTextDto.getHeader());
                 }
-
             }
 
-            if (DibblerImageUtil.isStringBase64(dto.getPicture())) {
-                if (dto.getPicture() != null && !dto.getPicture().isEmpty()) {
-                    Response<Map<PictureUrl, String>> createImage = FileCreator.createFilesFromBase64String(dto.getPicture(), DibblerConstants.IMAGE_URL, 80, 40, DibblerFileType.EVENT);
-                    if (createImage.hasNoErrors) {
+            if (dto.getPicture() != null) {
+                if (DibblerImageUtil.isStringBase64(dto.getPicture())) {
+                    if (dto.getPicture() != null && !dto.getPicture().isEmpty()) {
+                        Response<Map<PictureUrl, String>> createImage = FileCreator.createFilesFromBase64String(dto.getPicture(), DibblerConstants.IMAGE_URL, 80, 40, DibblerFileType.EVENT);
+                        if (createImage.hasNoErrors) {
+                            event.getData().setImageUrl("N/A");
+                            event.getData().setImageSmallUrl("/pictures/" + createImage.getData().get(PictureUrl.PICTURE_NAME_SMALl));
+                            event.getData().setImageLargeUrl("/pictures/" + createImage.getData().get(PictureUrl.PICTURE_NAME_LARGE));
+                        }
+                    } else {
                         event.getData().setImageUrl("N/A");
-                        event.getData().setImageSmallUrl("/pictures/" + createImage.getData().get(PictureUrl.PICTURE_NAME_SMALl));
-                        event.getData().setImageLargeUrl("/pictures/" + createImage.getData().get(PictureUrl.PICTURE_NAME_LARGE));
+                        event.getData().setImageSmallUrl("N/A");
+                        event.getData().setImageLargeUrl("N/A");
                     }
                 } else {
-                    event.getData().setImageUrl("N/A");
-                    event.getData().setImageSmallUrl("N/A");
-                    event.getData().setImageLargeUrl("N/A");
+                    getLogger().debug("[ File is not Base64! ]");
                 }
-            } else {
-                getLogger().debug("[ File is not Base64! ]");
             }
 
         } catch (Exception e) {
