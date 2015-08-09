@@ -8,6 +8,7 @@ package se.dibbler.backend.constants;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import se.dibbler.backend.entity.Location;
+import se.dibbler.backend.entity.PublishedEvent;
 
 /**
  *
@@ -17,7 +18,9 @@ import se.dibbler.backend.entity.Location;
 public enum IndexingClasses {
 
     @XmlEnumValue("Location")
-    LOCATION(Location.class);
+    LOCATION(Location.class),
+    @XmlEnumValue("PublishedEvent")
+    PUBLISHED_EVENT(PublishedEvent.class);
 
     private final Class clazz;
 

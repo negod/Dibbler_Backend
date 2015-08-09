@@ -8,6 +8,7 @@ package se.dibbler.backend.dao.bean;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.hibernate.search.query.dsl.Unit;
@@ -20,6 +21,7 @@ import se.dibbler.backend.dao.CompanyDao;
 import se.dibbler.backend.dao.EventDao;
 import se.dibbler.backend.dao.EventTypeDao;
 import se.dibbler.backend.dao.LanguageDao;
+import se.dibbler.backend.dao.LocationDao;
 import se.dibbler.backend.dao.PublishedEventDao;
 import se.dibbler.backend.dto.EventDto;
 import se.dibbler.backend.dto.EventTextDto;
@@ -32,6 +34,7 @@ import se.dibbler.backend.entity.Event;
 import se.dibbler.backend.entity.EventText;
 import se.dibbler.backend.entity.EventType;
 import se.dibbler.backend.entity.Language;
+import se.dibbler.backend.entity.Location;
 import se.dibbler.backend.generics.BaseDaoBean;
 import se.dibbler.backend.generics.BaseMapper;
 import se.dibbler.backend.generics.DibblerImageUtil;
@@ -52,6 +55,8 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
     CategoryDao categoryDao;
     @EJB
     LanguageDao languageDao;
+    @EJB
+    LocationDao locationDao;
     @EJB
     CompanyDao companyDao;
     @EJB
@@ -91,6 +96,11 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
             event.setStartDate(dto.getStartDate());
             event.setMaxRedeem(dto.getMaxRedeem());
             event.setRecipientType(dto.getRecipientType());
+            event.setGenerateFollowUp(dto.getGenerateFollowUp());
+            event.setPublishAtBranch(dto.getPublishAtBranch());
+            event.setPublishAtCompany(dto.getPublishAtCompany());
+            event.setPublishAtLocation(dto.getPublishAtLocation());
+            event.setQrCode(UUID.randomUUID().toString());
 
             List<EventText> eventsTexts = new ArrayList<>();
             for (EventTextDto eventTextDto : dto.getEventTexts()) {
@@ -103,6 +113,19 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
                     text.setHeader(eventTextDto.getHeader());
                     eventsTexts.add(text);
                 }
+            }
+
+            if (dto.getLocationIds() != null) {
+                List<Location> locationList = new ArrayList<>();
+                for (String locationId : dto.getLocationIds()) {
+                    Response<Location> location = locationDao.getByExtId(locationId);
+                    if (location.hasNoErrors) {
+                        locationList.add(location.getData());
+                    } else {
+                        return Response.error(DaoError.EVENT_UPDATE_GET_LOCATION);
+                    }
+                }
+                event.setLocations(locationList);
             }
 
             //TODO set correct default language
@@ -217,6 +240,10 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
             event.getData().setStartDate(dto.getStartDate());
             event.getData().setMaxRedeem(dto.getMaxRedeem());
             event.getData().setRecipientType(dto.getRecipientType());
+            event.getData().setGenerateFollowUp(dto.getGenerateFollowUp());
+            event.getData().setPublishAtBranch(dto.getPublishAtBranch());
+            event.getData().setPublishAtCompany(dto.getPublishAtCompany());
+            event.getData().setPublishAtLocation(dto.getPublishAtLocation());
 
             if (dto.getEventTexts() != null) {
                 for (EventTextDto eventTextDto : dto.getEventTexts()) {
@@ -237,6 +264,22 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
                         text.getData().setHeader(eventTextDto.getHeader());
                     }
                 }
+            }
+
+            // Do check if the location belongs to the a company!
+            if (dto.getLocationIds() != null) {
+                List<Location> locationList = new ArrayList<>();
+                for (String locationId : dto.getLocationIds()) {
+                    Response<Location> location = locationDao.getByExtId(locationId);
+                    if (location.hasNoErrors) {
+                        locationList.add(location.getData());
+                    } else {
+                        return Response.error(DaoError.EVENT_UPDATE_GET_LOCATION);
+                    }
+                }
+
+                event.getData().getLocations().clear();
+                event.getData().setLocations(locationList);
             }
 
             if (dto.getPicture() != null) {
@@ -260,7 +303,7 @@ public class EventDaoBean extends BaseDaoBean<Event, EventDto> implements EventD
 
         } catch (Exception e) {
             getLogger().error("[ Error when creating event ] [ ERROR ]", e);
-            return Response.error(DaoError.EVENT_UPDATE);
+            return Response.error(DaoError.EVENT_UPDATE, e.getCause().toString());
         }
 
         return super.update(event.getData());

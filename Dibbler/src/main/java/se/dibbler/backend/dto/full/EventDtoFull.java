@@ -12,6 +12,7 @@ import se.dibbler.backend.constants.EventRecipientType;
 import se.dibbler.backend.dto.CategoryDto;
 import se.dibbler.backend.dto.EventTextDto;
 import se.dibbler.backend.dto.EventTypeDto;
+import se.dibbler.backend.dto.LocationDto;
 import se.dibbler.backend.generics.BaseDto;
 
 /**
@@ -52,6 +53,21 @@ public class EventDtoFull extends BaseDto {
 
     @XmlElement(type = EventRecipientType.class, required = false)
     private EventRecipientType recipientType;
+
+    @XmlElement(type = Boolean.class)
+    private Boolean generateFollowUp;
+
+    @XmlElement(type = Boolean.class)
+    private Boolean publishAtLocation;
+
+    @XmlElement(type = Boolean.class)
+    private Boolean publishAtBranch;
+
+    @XmlElement(type = Boolean.class)
+    private Boolean publishAtCompany;
+
+    @XmlElement(type = LocationDto.class)
+    List<LocationDto> locations;
 
     public CategoryDto getCategory() {
         return category;
@@ -139,6 +155,46 @@ public class EventDtoFull extends BaseDto {
 
     public void setRecipientType(EventRecipientType recipientType) {
         this.recipientType = recipientType;
+    }
+
+    public Boolean getGenerateFollowUp() {
+        return generateFollowUp;
+    }
+
+    public void setGenerateFollowUp(Boolean generateFollowUp) {
+        this.generateFollowUp = generateFollowUp;
+    }
+
+    public Boolean getPublishAtLocation() {
+        return publishAtLocation;
+    }
+
+    public void setPublishAtLocation(Boolean publishAtLocation) {
+        this.publishAtLocation = publishAtLocation;
+    }
+
+    public Boolean getPublishAtBranch() {
+        return publishAtBranch;
+    }
+
+    public void setPublishAtBranch(Boolean publishAtBranch) {
+        this.publishAtBranch = publishAtBranch;
+    }
+
+    public Boolean getPublishAtCompany() {
+        return publishAtCompany;
+    }
+
+    public void setPublishAtCompany(Boolean publishAtCompany) {
+        this.publishAtCompany = publishAtCompany;
+    }
+
+    public List<LocationDto> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<LocationDto> locations) {
+        this.locations = locations;
     }
 
 }

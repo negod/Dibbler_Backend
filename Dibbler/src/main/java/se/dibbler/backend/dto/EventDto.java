@@ -49,6 +49,21 @@ public class EventDto extends BaseDto {
     @XmlElement(type = EventRecipientType.class)
     private EventRecipientType recipientType;
 
+    @XmlElement(type = Boolean.class, nillable = false, defaultValue = "false")
+    private Boolean generateFollowUp;
+
+    @XmlElement(type = Boolean.class, nillable = false, defaultValue = "false")
+    private Boolean publishAtLocation;
+
+    @XmlElement(type = Boolean.class, nillable = false, defaultValue = "false")
+    private Boolean publishAtBranch;
+
+    @XmlElement(type = Boolean.class, nillable = false, defaultValue = "false")
+    private Boolean publishAtCompany;
+
+    @XmlElement(type = String.class, nillable = true)
+    List<String> locationIds;
+
     public List<EventTextDto> getEventTexts() {
         return eventTexts;
     }
@@ -119,6 +134,46 @@ public class EventDto extends BaseDto {
 
     public void setRecipientType(EventRecipientType recipientType) {
         this.recipientType = recipientType;
+    }
+
+    public Boolean getGenerateFollowUp() {
+        return generateFollowUp;
+    }
+
+    public void setGenerateFollowUp(Boolean generateFollowUp) {
+        this.generateFollowUp = generateFollowUp;
+    }
+
+    public Boolean getPublishAtLocation() {
+        return publishAtLocation;
+    }
+
+    public void setPublishAtLocation(Boolean publishAtLocation) {
+        this.publishAtLocation = publishAtLocation;
+    }
+
+    public Boolean getPublishAtBranch() {
+        return publishAtBranch;
+    }
+
+    public void setPublishAtBranch(Boolean publishAtBranch) {
+        this.publishAtBranch = publishAtBranch;
+    }
+
+    public Boolean getPublishAtCompany() {
+        return publishAtCompany;
+    }
+
+    public void setPublishAtCompany(Boolean publishAtCompany) {
+        this.publishAtCompany = publishAtCompany;
+    }
+
+    public List<String> getLocationIds() {
+        return locationIds;
+    }
+
+    public void setLocationIds(List<String> locationIds) {
+        this.locationIds = locationIds;
     }
 
 }

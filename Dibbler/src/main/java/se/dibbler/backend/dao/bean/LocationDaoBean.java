@@ -6,6 +6,7 @@
 package se.dibbler.backend.dao.bean;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -14,7 +15,6 @@ import se.dibbler.backend.dao.CompanyDao;
 import se.dibbler.backend.dao.LocationDao;
 import se.dibbler.backend.dao.LocationGroupDao;
 import se.dibbler.backend.dto.LocationDto;
-import se.dibbler.backend.dto.LocationGroupDto;
 import se.dibbler.backend.entity.Company;
 import se.dibbler.backend.entity.Location;
 import se.dibbler.backend.entity.LocationGroup;
@@ -83,9 +83,7 @@ public class LocationDaoBean extends BaseDaoBean<Location, LocationDto> implemen
             }
 
             if (company.getData().getLocations() == null) {
-                List<Location> companyLocations = new ArrayList<>();
-                companyLocations.add(location.getData());
-                company.getData().setLocations(companyLocations);
+                company.getData().setLocations(Arrays.asList(location.getData()));
             } else {
                 company.getData().getLocations().add(location.getData());
             }

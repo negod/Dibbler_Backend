@@ -43,10 +43,9 @@ public class IndexService {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public WsResponse reindex(@QueryParam(value = "class") String className) {
+    public WsResponse reindex(@QueryParam(value = "class") IndexingClasses className) {
         try {
-            IndexingClasses clazz = IndexingClasses.fromValue(className);
-            indexer.reIndex(clazz.getClassToIndex());
+            indexer.reIndex(className.getClassToIndex());
             return Response.success("Reindexing complete without errors").getWsResponse();
         } catch (Exception e) {
             return errorLog.createLog(new ErrorLogDto(GenericError.UNHANDELED_EXCEPTION, e)).getWsResponse();
